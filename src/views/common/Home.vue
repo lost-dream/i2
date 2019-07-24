@@ -271,10 +271,6 @@ export default {
       ctx.fill()
       ctx.restore()
 
-      ctx.save()
-      ctx.font = '30px'
-      ctx.fillText(monthStr + '-' + dayStr, 70, 3)
-      ctx.restore()
     },
     clearCanvas (ctx) {
       ctx.clearRect(-150, -150, 300, 300)
