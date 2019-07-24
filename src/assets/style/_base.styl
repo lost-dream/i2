@@ -1,0 +1,173 @@
+*, *:before, *:after
+  box-sizing border-box
+body
+  font-family 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif
+  font-size 12px
+  line-height 1.5
+  color #303133
+  background-color #fff
+a
+  color #303133
+  text-decoration none
+  &:focus, &:hover
+    color $--color-primary
+    text-decoration none
+img
+  vertical-align middle
+ul, dl, dd, dt
+  margin 0
+  padding 0
+li
+  list-style none
+/* Utils
+------------------------------ */
+.clearfix:before, .clearfix:after
+  content ' '
+  display table
+.clearfix:after
+  clear both
+/* Reset element-ui
+------------------------------ */
+.site-wrapper
+  .el-pagination
+    margin-top 15px
+    text-align right
+.el-button--success
+  color #fff
+  background-color #009688
+  border-color #009688
+  border-radius 2px
+.el-button--success:focus, .el-button--success:hover
+  background #009688
+  border-color #009688
+  opacity 0.8
+  color #FFF
+/* 响应式容器
+------------------------------ */
+.fly-container
+  position relative
+  margin 0 auto
+  padding 0 15px
+  box-sizing border-box
+@media screen and (max-width: 768px)
+  .fly-container
+    width 750px
+@media screen and (min-width: 992px)
+  .fly-container
+    width 970px
+@media screen and (min-width: 1200px)
+  .fly-container
+    width 1170px
+/* header 头部
+------------------------------ */
+.header
+  height 60px
+  border-bottom 1px solid #404553
+  background-color #393D49
+  margin-bottom 20px
+  .logo
+    position absolute
+    left 0
+    top 10px
+    img
+      height 42px
+  span
+    position absolute
+    left 200px
+    top 16px
+    color #fff
+    font-size 20px
+/* navbar 导航
+------------------------------ */
+.navbar
+  position fixed
+  top 0
+  right 0
+  left 0
+  z-index 1030
+  height 50px
+  box-shadow 0 2px 4px rgba(0, 0, 0, 0.08)
+  background-color $navbar--background-color
+  &-header
+    position relative
+    float left
+    width 230px
+    height 50px
+    overflow hidden
+  &-brand
+    display table-cell
+    vertical-align middle
+    width 230px
+    height 50px
+    margin 0
+    line-height 50px
+    font-size 20px
+    text-align center
+    text-transform uppercase
+    white-space nowrap
+    color #fff
+    &-lg, &-mini
+      margin 0 5px
+      color #fff
+      &:focus, &:hover
+        color #fff
+        text-decoration none
+    &-mini
+      display none
+  &-switch
+    font-size 18px
+    border-bottom none !important
+  &-body
+    position relative
+    margin-left 230px
+    padding-right 15px
+    background-color #fff
+  &-menu
+    float left
+    background-color transparent
+    border-bottom 0
+    .el-menu-item
+      height 50px
+      line-height 50px
+/* Sidebar
+------------------------------ */
+.sidebar
+  position fixed
+  top 121px
+  z-index 1020
+  width 160px
+  overflow hidden
+  &-green
+    background-color $sidebar--background-color-dark
+    .sidebar-menu.el-menu, >.el-menu--popup
+      background-color none
+      .el-menu-item, .el-submenu>.el-submenu__title
+        color $sidebar--color-text-dark
+        text-align center
+        &:focus, &:hover
+          color #e8eaec
+          background-color rgba(44, 239, 255, 0.3)
+    .el-menu, .el-submenu.is-opened
+      background-color transparent
+    .el-menu-item.is-active, .el-submenu.is-active>.el-submenu__title
+      color #e8eaec !important
+  &-inner
+    position relative
+    z-index 1
+    width 180px
+    padding-bottom 15px
+    overflow-y scroll
+  &-menu.el-meun
+    width 230px
+    border-right 0
+/* main
+------------------------------ */
+.app-main
+  position relative
+  padding 15px
+  &-wrapper
+    position relative
+    padding-top 50px
+    margin-left 230px
+    min-height 100%
+    background $main--background-color
