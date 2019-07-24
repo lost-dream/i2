@@ -229,7 +229,9 @@ h3
 .mod-home
   line-height 1.5
   padding 30px 66px
-  background url('../../assets/img/homeBg.png') 100% no-repeat
+  background url('../../assets/img/homeBg.png') no-repeat
+  background-size cover
+  height 100vh
 #nav
   float right
   display flex
@@ -249,6 +251,7 @@ h3
 #module
   display flex
   margin 0 40px
+  justify-content space-between
 #title
   display flex
   flex-direction column
