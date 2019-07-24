@@ -218,10 +218,7 @@ export default {
       hours = hours > 12 ? hours - 12 : hours
       let minute = minutes + secondes / 60
       let hour = hours + minutes / 60
-      let monthStr =
-        time.getMonth() + 1 > 9
-          ? time.getMonth() + 1
-          : '0' + (time.getMonth() + 1)
+      let monthStr = time.getMonth() + 1 > 9 ? time.getMonth() + 1 : '0' + (time.getMonth() + 1)
       let dayStr = time.getDay() > 9 ? time.getDay() : '0' + time.getDay()
       ctx.save()
 
@@ -236,7 +233,7 @@ export default {
         var y = 150 * 0.8 * Math.sin(theta)
         ctx.fillText(i, x, y)
       }
-      ctx.restore()
+      ctx.restore();
 
       // draw Hours
       ctx.save()
@@ -245,7 +242,7 @@ export default {
       ctx.beginPath()
       ctx.moveTo(-15, -5)
       ctx.lineTo(-15, 5)
-      ctx.lineTo(55, 1)
+      ctx.lineTo(55, 1);
       ctx.fill()
       ctx.restore()
 
@@ -270,7 +267,6 @@ export default {
       ctx.lineTo(105, 1)
       ctx.fill()
       ctx.restore()
-
     },
     clearCanvas (ctx) {
       ctx.clearRect(-150, -150, 300, 300)
