@@ -1,6 +1,7 @@
 <template>
   <div class="mod-home">
     <h3>主页</h3>
+    <div><p>111111</p></div>
   </div>
 </template>
 
