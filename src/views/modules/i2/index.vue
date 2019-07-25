@@ -586,7 +586,7 @@
 
 <script>
 import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from './SidemenuItem'
+import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
 export default {
   components: {
