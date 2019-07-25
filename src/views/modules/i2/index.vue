@@ -576,7 +576,9 @@
       </sidebar>
     </div>
     <div class="fun-sidebar">
-      <sidebar></sidebar>
+      <sidebar>
+        <sidefun></sidefun>
+      </sidebar>
     </div>
 
   </div>
@@ -585,10 +587,12 @@
 <script>
 import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from './SidemenuItem'
+import Sidefun from './Sidefun'
 export default {
   components: {
     Sidebar,
-    SidemenuItem
+    SidemenuItem,
+    Sidefun
   },
   props: {},
   data () {
@@ -695,10 +699,10 @@ ul.tab-list>li
 .menubar>.sidebar
   left 0
 .fun-sidebar >.sidebar
+  background-color: rgba(44,239,255,0.3)
   right 0
   bottom 0
   width 295px
 >>>.fun-sidebar .sidebar-inner
-    width 320px
-
+  width 312px
 </style>
