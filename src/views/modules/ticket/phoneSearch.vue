@@ -125,12 +125,12 @@
         <el-table-column prop="otherPartyPhone"
                          label="对方号码"
                          align="center"
-                         width="100">
+                         width="120">
         </el-table-column>
         <el-table-column prop="communicationMode"
                          label="主被叫类型"
                          align="center"
-                         width="180">
+                         width="100">
         </el-table-column>
         <el-table-column prop="beginTime"
                          align="center"
@@ -150,11 +150,13 @@
         </el-table-column>
         <el-table-column prop="baseStationCode"
                          align="center"
-                         label="基站号">
+                         label="基站号"
+                         width="80">
         </el-table-column>
         <el-table-column prop="housingEstateCode"
                          align="center"
-                         label="小区号">
+                         label="小区号"
+                         width="80">
         </el-table-column>
         <el-table-column prop="IMEI"
                          align="center"
@@ -193,7 +195,19 @@ export default {
           depict: '小谢发现海贼王ONE PRICE'
         }
       ],
-      converseData: []
+      converseData: [
+        {
+          otherPartyPhone: '13111111111',
+          communicationMode: '主叫',
+          beginTime: '2019-07-12 16:42:12',
+          communicationTime: '1时2分54秒',
+          location: '成都',
+          baseStationLocation: '成都青羊区',
+          baseStationCode: '73C5',
+          housingEstateCode: '528E',
+          IMEI: '868276009004130',
+          IMSI: '460028865883591'
+        }]
     };
   },
   methods: {
@@ -224,18 +238,15 @@ export default {
   }
 }
 </script>
-<style>
-.container {
-  width: 1200px;
-  margin: 0 auto;
-  padding: 60px;
-}
-.container .title {
-  position: absolute;
-  top: -20px;
-  font-size: 24px;
-}
-.container .title1 {
-  font-size: 24px;
-}
+<style lang="stylus" scoped>
+.container
+  width 1200px
+  margin 0 auto
+  padding 60px
+.container .title
+  position absolute
+  top -20px
+  font-size 24px
+.container .title1
+  font-size 24px
 </style>
