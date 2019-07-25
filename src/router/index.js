@@ -80,6 +80,32 @@ const mainRoutes = [
             meta: {
               title: 'phoneSearch'
             }
+          },
+          {
+            path: '/ticket/singlePhone',
+            component: _import('modules/ticket/singlePhone'),
+            name: 'singlePhone',
+            meta: {
+              title: 'singlePhone'
+            },
+            children: [
+              {
+                path: '/ticket/singlePhone/soonLate',
+                component: _import('modules/ticket/SinglePhone/soonLate'),
+                name: 'soonLate',
+                meta: {
+                  title: 'soonLate'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/periodAll',
+                component: _import('modules/ticket/SinglePhone/periodAll'),
+                name: 'periodAll',
+                meta: {
+                  title: 'periodAll'
+                }
+              }
+            ]
           }
         ]
       }

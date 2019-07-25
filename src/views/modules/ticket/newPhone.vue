@@ -43,6 +43,11 @@
                class="el-upload__tip">只能上传Excel文件</div>
         </el-upload>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary"
+                   @click="submitForm('ticketForm')">保存</el-button>
+        <el-button @click="resetForm('ticketForm')">重置</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -80,6 +85,9 @@ export default {
           return false;
         }
       });
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields();
     },
     submitUpload () {
       this.$refs.upload.submit();
