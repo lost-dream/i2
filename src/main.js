@@ -8,7 +8,9 @@ import '@/assets/style/index.styl'
 import VueCookie from 'vue-cookie'
 import httpRequest from './utils/httpRequest'
 import api from './api/api'
+import Validate from './utils/filter_rules';
 
+Vue.use(Validate)
 Vue.use(ElementUI)
 Vue.use(VueCookie)
 Vue.config.productionTip = false
