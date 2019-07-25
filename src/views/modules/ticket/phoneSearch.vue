@@ -125,12 +125,12 @@
         <el-table-column prop="otherPartyPhone"
                          label="对方号码"
                          align="center"
-                         width="100">
+                         width="120">
         </el-table-column>
         <el-table-column prop="communicationMode"
                          label="主被叫类型"
                          align="center"
-                         width="180">
+                         width="100">
         </el-table-column>
         <el-table-column prop="beginTime"
                          align="center"
@@ -193,7 +193,19 @@ export default {
           depict: '小谢发现海贼王ONE PRICE'
         }
       ],
-      converseData: []
+      converseData: [
+        {
+          otherPartyPhone: '13111111111',
+          communicationMode: '主叫',
+          beginTime: '2019-07-12 16:42:12',
+          communicationTime: '34秒',
+          location: '成都',
+          baseStationLocation: '成都青羊区',
+          baseStationCode: '123',
+          housingEstateCode: '321',
+          IMEI: '10000000000',
+          IMSI: '10000000000'
+        }]
     };
   },
   methods: {
