@@ -8,7 +8,8 @@ import '@/assets/style/index.styl'
 import VueCookie from 'vue-cookie'
 import httpRequest from './utils/httpRequest'
 import api from './api/api'
-import Validate from './utils/filter_rules';
+import Validate from './utils/filter_rules'
+import 'jquery'
 
 Vue.use(Validate)
 Vue.use(ElementUI)

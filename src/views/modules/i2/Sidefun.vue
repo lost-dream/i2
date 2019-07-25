@@ -51,6 +51,7 @@ export default {
   >>>.el-tabs__content
     width 100%
     height 100%
+    overflow-y scroll
   >>>.tab-title
     background-color rgba(44, 239, 255, 0.15)
     color #C58E64
