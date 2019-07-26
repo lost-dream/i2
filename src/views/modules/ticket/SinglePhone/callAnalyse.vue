@@ -14,6 +14,14 @@
         </el-time-picker>
       </el-form-item>
       <el-form-item>
+        <el-input v-model="callForm.callTimes"
+                  placeholder="通话频次"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="callForm.communicationTime"
+                  placeholder="通话时长"></el-input>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary"
                    @click="onSubmit">查询</el-button>
       </el-form-item>
@@ -22,7 +30,7 @@
                    @click="baseStation">基站查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="soonLate"
+    <el-table :data="callAnalyse"
               border
               style="width: 100%">
       <el-table-column label="序号"
@@ -30,44 +38,28 @@
                        align="center"
                        width="50">
       </el-table-column>
-      <el-table-column prop="date"
-                       label="日期"
+      <el-table-column prop="otherPartyPhone"
+                       label="对方号码"
                        align="center"
-                       width="100">
+                       width="120">
       </el-table-column>
-      <el-table-column prop="soonTime"
+      <el-table-column prop="callTimes"
+                       label="通话频次"
                        align="center"
-                       label="最早时间">
+                       width="120">
       </el-table-column>
-      <el-table-column prop="soonPhone"
+      <el-table-column prop="communicationTime"
+                       label="通话时长"
                        align="center"
-                       width="120"
-                       label="最早对方号码">
+                       width="120">
       </el-table-column>
-      <el-table-column prop="soonLocation"
+      <el-table-column label="详情"
                        align="center"
-                       label="最早归属地">
-      </el-table-column>
-      <el-table-column prop="soonBaseStation"
-                       align="center"
-                       label="最早基站">
-      </el-table-column>
-      <el-table-column prop="lateTime"
-                       align="center"
-                       label="最晚时间">
-      </el-table-column>
-      <el-table-column prop="latePhone"
-                       align="center"
-                       width="120"
-                       label="最晚对方号码">
-      </el-table-column>
-      <el-table-column prop="lateLocation"
-                       align="center"
-                       label="最晚归属地">
-      </el-table-column>
-      <el-table-column prop="lateBaseStation"
-                       align="center"
-                       label="最晚基站">
+                       width="120">
+        <template slot-scope="scope">
+          <el-button size="mini"
+                     @click="check(scope.$index, scope.row)">查看</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -81,36 +73,27 @@ export default {
     return {
       callForm: {
         startTime: '',
-        endTime: ''
+        endTime: '',
+        communicationTime: '',
+        callTimes: ''
       },
-      soonLate: [
+      callAnalyse: [
         {
-          date: '2019-07-21',
-          soonTime: '03:11:11',
-          soonPhone: '13111111111',
-          soonLocation: '成都',
-          soonBaseStation: '成都青羊',
-          lateTime: '12:11:11',
-          latePhone: '15111111111',
-          lateLocation: '自贡',
-          lateBaseStation: '自贡郊区'
+          communicationTime: ''
         }
       ]
     };
   },
   methods: {
-    onSubmit () {
-      console.log('submit!');
-    },
-    baseStation () {
-
-    }
+    onSubmit () { },
+    baseStation () { },
+    check () { }
   }
 }
 </script>
 <style lang="stylus" scoped>
 .container
-  width 1000px
+  width 1100px
   margin 0 auto
   padding 0px
 </style>
@@ -132,4 +115,6 @@ export default {
   background-color rgba(44, 239, 255, 0.4) !important
 .el-pagination__total
   color white
+.el-table__body, .el-table__footer, .el-table__header
+  width 100% !important
 </style>

@@ -1,54 +1,59 @@
 <template>
   <div class="container">
-    <el-form :model="ticketForm"
-             :rules="rules"
-             ref="ticketForm"
-             label-width="100px"
-             class="demo-ruleForm">
-      <el-form-item label="电话号码"
-                    prop="phone">
-        <el-input v-model="ticketForm.phone"></el-input>
-      </el-form-item>
-      <el-form-item label="机主姓名"
-                    prop="name">
-        <el-input v-model="ticketForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="案件名称"
-                    prop="case">
-        <el-input v-model="ticketForm.case"></el-input>
-      </el-form-item>
-      <el-form-item label="案件描述"
-                    prop="depict">
-        <el-input type="textarea"
-                  v-model="ticketForm.depict"></el-input>
-      </el-form-item>
-      <el-form-item label="上传文件单">
-        <el-upload class="upload-demo"
-                   ref="upload"
-                   action="https://jsonplaceholder.typicode.com/posts/"
-                   :on-preview="handlePreview"
-                   :on-remove="handleRemove"
-                   :before-upload="beforeUpload"
-                   :limit="1"
-                   :on-exceed="handleExceed"
-                   :auto-upload="false">
-          <el-button slot="trigger"
-                     size="small"
-                     type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px;"
-                     size="small"
-                     type="success"
-                     @click="submitUpload">上传到服务器</el-button>
-          <div slot="tip"
-               class="el-upload__tip">只能上传Excel文件</div>
-        </el-upload>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary"
-                   @click="submitForm('ticketForm')">保存</el-button>
-        <el-button @click="resetForm('ticketForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="bg">
+      <el-form :model="ticketForm"
+               :rules="rules"
+               ref="ticketForm"
+               label-width="100px"
+               class="ticket">
+        <el-form-item class="color"
+                      label="电话号码"
+                      prop="phone">
+          <el-input v-model="ticketForm.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="机主姓名"
+                      prop="name">
+          <el-input v-model="ticketForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="案件名称"
+                      prop="case">
+          <el-input v-model="ticketForm.case"></el-input>
+        </el-form-item>
+        <el-form-item label="案件描述"
+                      prop="depict">
+          <el-input type="textarea"
+                    v-model="ticketForm.depict"></el-input>
+        </el-form-item>
+        <el-form-item label="上传话单"
+                      prop="uploadPhone">
+          <el-upload class="upload-demo"
+                     ref="upload"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-upload="beforeUpload"
+                     :limit="1"
+                     :on-exceed="handleExceed"
+                     :auto-upload="false">
+            <el-button slot="trigger"
+                       size="small"
+                       type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;"
+                       size="small"
+                       type="primary"
+                       @click="submitUpload">上传到服务器</el-button>
+            <div slot="tip"
+                 class="el-upload__tip">只能上传Excel文件</div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary"
+                     @click="submitForm('ticketForm')">保存</el-button>
+          <el-button type="danger"
+                     @click="resetForm('ticketForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -62,7 +67,8 @@ export default {
         name: '',
         phone: '',
         case: '',
-        depict: ''
+        depict: '',
+        uploadPhone: ''
       },
       rules: {
         name: [
@@ -70,8 +76,8 @@ export default {
           { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
         ],
         phone: this.filter_rules({ required: true, type: 'mobile' }),
-        case: this.filter_rules({ required: true, min: 2, max: 10, type: 'caseName' })
-
+        case: this.filter_rules({ required: true, min: 2, max: 10, type: 'caseName' }),
+        uploadPhone: this.filter_rules({ required: true })
       }
     };
   },
@@ -109,10 +115,27 @@ export default {
   }
 }
 </script>
-<style>
-.container {
-  width: 800px;
-  margin: 0 auto;
-  padding: 60px;
-}
+<style lang="stylus" scoped>
+.container
+  width 1200px
+  margin 0 auto
+  padding 20px
+  background-color rgba(44, 239, 255, 0.1)
+.bg
+  background-color rgba(44, 239, 255, 0.1)
+  padding 40px
+</style>
+<style lang="stylus">
+.ticket .el-form-item__label
+  color white
+.ticket .el-input__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
+.ticket .el-textarea__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
+.ticket .el-upload__tip
+  color white
 </style>

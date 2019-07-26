@@ -1,5 +1,22 @@
 <template>
   <div class="container">
+    <el-form :inline="true"
+             :model="callForm"
+             class="demo-form-inline">
+      <el-form-item label="呼叫时间">
+        <el-time-picker v-model="callForm.startTime"
+                        placeholder="起始时间">
+        </el-time-picker>
+        <el-time-picker arrow-control
+                        v-model="callForm.endTime"
+                        placeholder="结束时间">
+        </el-time-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary"
+                   @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </el-form>
     <div id="chart">
 
     </div>
@@ -20,18 +37,62 @@ export default {
           type: 'shadow'
         }
       },
+      toolbox: {
+        show: true,
+        right: 30,
+        feature: {
+          saveAsImage: {
+            show: true,
+            excludeComponents: ['toolbox'],
+            pixelRatio: 2
+          }
+        }
+      },
       xAxis: [
         {
           type: 'category',
           data: ['00时', '01时', '02时', '03时', '04时', '05时', '06时', '07时', '08时', '09时', '10时', '11时', '12时', '13时', '14时', '15时', '16时', '17时', '18时', '19时', '20时', '21时', '22时', '23时'],
-          axisTick: {
-            alignWithLabel: true
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#fff'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              type: 'solid',
+              color: 'rgba(44, 239, 255, 0.6)',
+              width: '1'
+            }
           }
         }
       ],
       yAxis: [
         {
-          type: 'value'
+          type: 'value',
+          axisLabel: {
+            formatter: '{value}',
+            textStyle: {
+              color: '#fff'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              type: 'solid',
+              color: 'rgb(44, 239, 255)',
+              width: '1'
+            }
+          },
+          axisTick: {
+            lineStyle: { color: 'rgb(150,150,150)' }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: 'rgba(44, 239, 255,0.3)'
+            }
+          }
         }
       ],
       series: [
@@ -45,7 +106,7 @@ export default {
       emphasis: {
         itemStyle: {
           // 高亮时点的颜色。
-          color: 'red'
+          color: 'rgb(44, 239, 255)'
         }
       }
     };
@@ -54,15 +115,22 @@ export default {
   },
   data () {
     return {
+      callForm: {
+        startTime: '',
+        endTime: ''
+      }
     };
   },
   methods: {
+    onSubmit () {
+      console.log('submit!');
+    }
   }
 }
 </script>
 <style lang="stylus" scoped>
 .container
-  width 1000px
+  width 900px
   margin 0 auto
   padding 0px
   h2

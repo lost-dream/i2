@@ -30,9 +30,6 @@
       <div class="content">
         <router-view></router-view>
       </div>
-      <div class="fun-sidebar">
-        <sidebar></sidebar>
-      </div>
     </div>
 
   </div>
@@ -112,9 +109,10 @@ export default {
   display flex
 .content
   position relative
-  margin 0 295px 0 160px
-  flex 1 1 auto
-  background white
+  margin 0 auto
+  flex 0 1 auto
+.el-form-item__label
+  color white
 a
   color #909399
 a:focus, a:hover

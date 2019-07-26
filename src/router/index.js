@@ -104,6 +104,24 @@ const mainRoutes = [
                 meta: {
                   title: 'periodAll'
                 }
+              },
+              {
+                path: '/ticket/singlePhone/differentPeriod',
+                component: _import(
+                  'modules/ticket/SinglePhone/differentPeriod'
+                ),
+                name: 'differentPeriod',
+                meta: {
+                  title: 'differentPeriod'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/callAnalyse',
+                component: _import('modules/ticket/SinglePhone/callAnalyse'),
+                name: 'callAnalyse',
+                meta: {
+                  title: 'callAnalyse'
+                }
               }
             ]
           }

@@ -9,10 +9,12 @@ import VueCookie from 'vue-cookie'
 import httpRequest from './utils/httpRequest'
 import api from './api/api'
 import Validate from './utils/filter_rules';
+import InputTag from 'vue-input-tag'
 
 Vue.use(Validate)
 Vue.use(ElementUI)
 Vue.use(VueCookie)
+Vue.component('input-tag', InputTag)
 Vue.config.productionTip = false
 
 // 全局挂载
