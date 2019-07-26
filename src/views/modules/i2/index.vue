@@ -593,19 +593,17 @@
 import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
+import i2 from './js/i2.js'
 let rt
+
 $(window).resize(() => {
   window.clearTimeout(rt)
   rt = setTimeout(() => {
-    autoSetTabpanelHeight()
+    i2.autoSetTabpanelHeight()
+    i2.autoSetNetworkHeight()
   }, 10)
 })
-let autoSetTabpanelHeight = () => {
-  let height = $('.fun-sidebar .sidebar').height()
-  let title = $('.fun-sidebar .sidebar').find('.el-tabs__header').height()
-  !title && (title = 50)
-  $('.fun-sidebar .sidebar').find('.el-tabs__content').height(height - title)
-}
+
 export default {
   components: {
     Sidebar,
@@ -615,17 +613,22 @@ export default {
   props: {},
   data () {
     return {
+
     }
   },
   computed: {},
   methods: {
-    init () {
-      autoSetTabpanelHeight()
+    draw () {
+      let workbench
+      workbench = new i2.Workbench()
+      console.log(workbench)
     }
   },
   created () { },
   mounted () {
-    this.init()
+    i2.autoSetTabpanelHeight()
+    this.draw()
+    i2.autoSetNetworkHeight()
   }
 }
 </script>
