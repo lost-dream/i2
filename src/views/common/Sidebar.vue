@@ -1,12 +1,14 @@
 <template>
   <aside
+    :ref="type"
+    :id="type"
     class="sidebar"
     :class="'sidebar-'+sidebarSkin"
   >
     <div class="sidebar-inner">
-    <template>
-      <slot></slot>
-    </template>
+      <template>
+        <slot></slot>
+      </template>
     </div>
   </aside>
 </template>
@@ -15,7 +17,9 @@
 export default {
   components: {
   },
-  props: {},
+  props: {
+    type: String
+  },
   data () {
     return {
       sidebarSkin: 'green'

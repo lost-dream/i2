@@ -576,11 +576,16 @@
       </sidebar>
     </div>
     <div class="fun-sidebar">
-      <sidebar>
+      <sidebar type="tabpanel">
         <sidefun></sidefun>
       </sidebar>
     </div>
-
+    <div
+      id="mainpanel"
+      class="mainpanel"
+    >
+      <div id="mynetwork"></div>
+    </div>
   </div>
 </template>
 
@@ -588,6 +593,19 @@
 import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
+let rt
+$(window).resize(() => {
+  window.clearTimeout(rt)
+  rt = setTimeout(() => {
+    autoSetTabpanelHeight()
+  }, 10)
+})
+let autoSetTabpanelHeight = () => {
+  let height = $('.fun-sidebar .sidebar').height()
+  let title = $('.fun-sidebar .sidebar').find('.el-tabs__header').height()
+  !title && (title = 50)
+  $('.fun-sidebar .sidebar').find('.el-tabs__content').height(height - title)
+}
 export default {
   components: {
     Sidebar,
@@ -600,9 +618,15 @@ export default {
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+    init () {
+      autoSetTabpanelHeight()
+    }
+  },
   created () { },
-  mounted () { }
+  mounted () {
+    this.init()
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -699,10 +723,10 @@ ul.tab-list>li
 .menubar>.sidebar
   left 0
 .fun-sidebar >.sidebar
-  background-color: rgba(44,239,255,0.3)
+  background-color rgba(44, 239, 255, 0.3)
   right 0
   bottom 0
   width 295px
 >>>.fun-sidebar .sidebar-inner
-  width 312px
+  width 330px
 </style>
