@@ -130,6 +130,26 @@ const mainRoutes = [
                 meta: {
                   title: 'callAnalyse'
                 }
+              },
+              {
+                path: '/ticket/singlePhone/callDetailAnalyse',
+                component: _import(
+                  'modules/ticket/SinglePhone/callDetailAnalyse'
+                ),
+                name: 'callDetailAnalyse',
+                meta: {
+                  title: 'callDetailAnalyse'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/phoneHomeLocation',
+                component: _import(
+                  'modules/ticket/SinglePhone/phoneHomeLocation'
+                ),
+                name: 'phoneHomeLocation',
+                meta: {
+                  title: 'phoneHomeLocation'
+                }
               }
             ]
           }

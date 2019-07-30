@@ -3,8 +3,9 @@
 
     <el-form :inline="true"
              :model="callForm"
+             ref="callForm"
              class="demo-form-inline">
-      <el-form-item label="呼叫时间">
+      <el-form-item label="呼叫时间" prop="time">
         <el-date-picker v-model="callForm.time"
                         type="datetimerange"
                         :picker-options="pickerOptions"
@@ -14,11 +15,11 @@
                         align="right">
         </el-date-picker>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="callTimes">
         <el-input v-model="callForm.callTimes"
                   placeholder="通话频次"></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="communicationTime">
         <el-input v-model="callForm.communicationTime"
                   placeholder="通话时长"></el-input>
       </el-form-item>
@@ -27,8 +28,8 @@
                    @click="onSubmit">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click="baseStation">基站查询</el-button>
+        <el-button type="danger"
+                   @click="resetForm('callForm')">重置</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="callAnalyse"
@@ -63,11 +64,53 @@
         </template>
       </el-table-column>
     </el-table>
+    <flyDialog :show.sync='show'
+               :width='width'>
+      <el-table :data="analyseTable"
+                border
+                style="width: 100%">
+        <el-table-column label="序号"
+                         type="index"
+                         align="center"
+                         prop="index"
+                         width="50">
+        </el-table-column>
+        <el-table-column prop="otherPartyPhone"
+                         label="对方号码"
+                         align="center"
+                         width="100">
+        </el-table-column>
+        <el-table-column prop="communicationMode"
+                         label="呼叫类型"
+                         align="center"
+                         width="100">
+        </el-table-column>
+        <el-table-column prop="beginTime"
+                         label="通话时间"
+                         align="center"
+                         width="100">
+        </el-table-column>
+        <el-table-column prop="communicationTime"
+                         label="通话时长"
+                         align="center"
+                         width="100">
+        </el-table-column>
+        <el-table-column prop="baseStationLocation"
+                         label="基站地址"
+                         align="center"
+                         width="100">
+        </el-table-column>
+      </el-table>
+    </flyDialog>
   </div>
 </template>
 
 <script>
+import flyDialog from '../../../../components/fly-dialog'
 export default {
+  components: {
+    flyDialog
+  },
   mounted () {
   },
   data () {
@@ -108,13 +151,27 @@ export default {
         {
           communicationTime: ''
         }
+      ],
+      show: false,
+      width: '1200px',
+      analyseTable: [
+        {
+          index: '',
+          otherPartyPhone: '13111111111',
+          communicationMode: '被叫',
+          beginTime: '2016-07-23 00:01:02',
+          communicationTime: '14',
+          baseStationLocation: '成都'
+        }
       ]
     };
   },
   methods: {
     onSubmit () { },
     baseStation () { },
-    check () { },
+    check () {
+      this.show = true;
+    },
     timeChange (time) {
       var newTime = time.map(function (item) {
         var d = new Date(item);
@@ -122,6 +179,9 @@ export default {
         return newItem
       })
       return newTime
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields();
     }
   }
 }
