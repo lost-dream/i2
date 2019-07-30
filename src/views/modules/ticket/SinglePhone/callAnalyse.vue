@@ -5,13 +5,14 @@
              :model="callForm"
              class="demo-form-inline">
       <el-form-item label="呼叫时间">
-        <el-time-picker v-model="callForm.startTime"
-                        placeholder="起始时间">
-        </el-time-picker>
-        <el-time-picker arrow-control
-                        v-model="callForm.endTime"
-                        placeholder="结束时间">
-        </el-time-picker>
+        <el-date-picker v-model="callForm.time"
+                        type="datetimerange"
+                        :picker-options="pickerOptions"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        align="right">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-input v-model="callForm.callTimes"
@@ -71,9 +72,35 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
       callForm: {
-        startTime: '',
-        endTime: '',
+        time: '',
         communicationTime: '',
         callTimes: ''
       },
@@ -87,7 +114,15 @@ export default {
   methods: {
     onSubmit () { },
     baseStation () { },
-    check () { }
+    check () { },
+    timeChange (time) {
+      var newTime = time.map(function (item) {
+        var d = new Date(item);
+        var newItem = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+        return newItem
+      })
+      return newTime
+    }
   }
 }
 </script>
@@ -117,4 +152,9 @@ export default {
   color white
 .el-table__body, .el-table__footer, .el-table__header
   width 100% !important
+.el-range-editor .el-range-input
+  background transparent !important
+  color white !important
+.el-date-editor .el-range-separator
+  color white !important
 </style>

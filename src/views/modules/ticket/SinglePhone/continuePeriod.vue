@@ -3,6 +3,7 @@
 
     <el-form :inline="true"
              :model="callForm"
+             id="out-table"
              class="demo-form-inline">
       <el-form-item label="呼叫时间">
         <el-date-picker v-model="callForm.time"
@@ -20,55 +21,42 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary"
-                   @click="baseStation">基站查询</el-button>
+                   @click="exportExcel">导出</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="soonLate"
+    <el-table :data="continueTable"
               border
               style="width: 100%">
       <el-table-column label="序号"
                        type="index"
                        align="center"
+                       prop="index"
                        width="50">
       </el-table-column>
-      <el-table-column prop="date"
-                       label="日期"
+      <el-table-column prop="otherPartyPhone"
+                       label="对方号码"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="soonTime"
+      <el-table-column prop="communicationMode"
+                       label="呼叫类型"
                        align="center"
-                       label="最早时间">
+                       width="100">
       </el-table-column>
-      <el-table-column prop="soonPhone"
+      <el-table-column prop="beginTime"
+                       label="通话时间"
                        align="center"
-                       width="120"
-                       label="最早对方号码">
+                       width="100">
       </el-table-column>
-      <el-table-column prop="soonLocation"
+      <el-table-column prop="communicationTime"
+                       label="通话时长"
                        align="center"
-                       label="最早归属地">
+                       width="100">
       </el-table-column>
-      <el-table-column prop="soonBaseStation"
+      <el-table-column prop="baseStationLocation"
+                       label="基站地址"
                        align="center"
-                       label="最早基站">
-      </el-table-column>
-      <el-table-column prop="lateTime"
-                       align="center"
-                       label="最晚时间">
-      </el-table-column>
-      <el-table-column prop="latePhone"
-                       align="center"
-                       width="120"
-                       label="最晚对方号码">
-      </el-table-column>
-      <el-table-column prop="lateLocation"
-                       align="center"
-                       label="最晚归属地">
-      </el-table-column>
-      <el-table-column prop="lateBaseStation"
-                       align="center"
-                       label="最晚基站">
+                       width="100">
       </el-table-column>
     </el-table>
   </div>
@@ -110,17 +98,14 @@ export default {
       callForm: {
         time: ''
       },
-      soonLate: [
+      continueTable: [
         {
-          date: '2019-07-21',
-          soonTime: '03:11:11',
-          soonPhone: '13111111111',
-          soonLocation: '成都',
-          soonBaseStation: '成都青羊',
-          lateTime: '12:11:11',
-          latePhone: '15111111111',
-          lateLocation: '自贡',
-          lateBaseStation: '自贡郊区'
+          index: '',
+          otherPartyPhone: '13111111111',
+          communicationMode: '被叫',
+          beginTime: '2016-07-23 00:01:02',
+          communicationTime: '14',
+          baseStationLocation: '成都'
         }
       ]
     };
@@ -129,8 +114,18 @@ export default {
     onSubmit () {
       console.log('submit!');
     },
-    baseStation () {
-
+    exportExcel () {
+      require.ensure([], () => {
+        const { exportJsonToExcel } = require('../../../../utils/Export2Excel');
+        const tHeader = ['序号', '对方号码', '呼叫类型', '通话时间', '通话时长', '基站地址'];
+        const filterVal = ['index', 'otherPartyPhone', 'communicationMode', 'beginTime', 'communicationTime', 'baseStationLocation'];
+        const list = this.continueTable;
+        const data = this.formatJson(filterVal, list);
+        exportJsonToExcel(tHeader, data, '列表excel');
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
     },
     timeChange (time) {
       var newTime = time.map(function (item) {

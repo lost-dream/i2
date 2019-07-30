@@ -92,12 +92,14 @@
                  ref="converseForm"
                  class="converseSearch">
           <el-form-item>
-            <el-time-picker placeholder="起始时间"
-                            v-model="converseForm.startTime">
-            </el-time-picker>
-            <el-time-picker placeholder="结束时间"
-                            v-model="converseForm.endTime">
-            </el-time-picker>
+            <el-date-picker v-model="converseForm.time"
+                            type="datetimerange"
+                            :picker-options="pickerOptions"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            align="right">
+            </el-date-picker>
           </el-form-item>
           <el-form-item label="手机号码">
             <el-input v-model="converseForm.phone"
@@ -105,7 +107,7 @@
           </el-form-item>
           <el-form-item label="通话时长">
             <el-input v-model="converseForm.callTime"
-                      placeholder="姓名"></el-input>
+                      placeholder="通话时长"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary"
@@ -179,13 +181,41 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
       phoneForm: {
         phone: '',
         name: ''
       },
       converseForm: {
         phone: '',
-        callTime: ''
+        callTime: '',
+        time: ''
       },
       currentPage: 1,
       phoneData: [
@@ -217,7 +247,16 @@ export default {
       console.log('submit!');
     },
     onSubmit1 () {
+      console.log(this.timeChange(this.converseForm.time));
       console.log('submit!');
+    },
+    timeChange (time) {
+      var newTime = time.map(function (item) {
+        var d = new Date(item);
+        var newItem = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+        return newItem
+      })
+      return newTime
     },
     resetForm (formName) {
       this.$refs[formName].resetFields();
@@ -307,5 +346,10 @@ export default {
 .converseSearch .el-textarea__inner
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
+.converseSearch .el-range-editor .el-range-input
+  background transparent
+  color white
+.converseSearch .el-date-editor .el-range-separator
   color white
 </style>

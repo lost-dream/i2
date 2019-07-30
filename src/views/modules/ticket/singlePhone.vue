@@ -37,7 +37,7 @@
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">连续时段分析</router-link>
+              <router-link to="/ticket/singlePhone/continuePeriod">连续时段分析</router-link>
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>

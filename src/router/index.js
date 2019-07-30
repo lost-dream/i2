@@ -106,6 +106,14 @@ const mainRoutes = [
                 }
               },
               {
+                path: '/ticket/singlePhone/continuePeriod',
+                component: _import('modules/ticket/SinglePhone/continuePeriod'),
+                name: 'continuePeriod',
+                meta: {
+                  title: 'continuePeriod'
+                }
+              },
+              {
                 path: '/ticket/singlePhone/differentPeriod',
                 component: _import(
                   'modules/ticket/SinglePhone/differentPeriod'

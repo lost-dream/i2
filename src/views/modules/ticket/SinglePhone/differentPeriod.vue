@@ -6,15 +6,15 @@
              ref="callForm"
              class="demo-form-inline">
       <el-form-item label="呼叫时间"
-                    prop="startTime">
-        <el-time-picker v-model="callForm.startTime"
-                        placeholder="起始时间">
-        </el-time-picker>
-      </el-form-item>
-      <el-form-item prop="endTime">
-        <el-time-picker v-model="callForm.endTime"
-                        placeholder="结束时间">
-        </el-time-picker>
+                    prop="time">
+        <el-date-picker v-model="callForm.time"
+                        type="datetimerange"
+                        :picker-options="pickerOptions"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        align="right">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary"
@@ -60,10 +60,36 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
       arr: [],
       callForm: {
-        startTime: '',
-        endTime: '',
+        time: '',
         timeList: []
       },
       differentPeriod: [
@@ -85,14 +111,17 @@ export default {
       this.tableDataHandle();
     },
     addTime () {
-      if (this.callForm.startTime && this.callForm.endTime) {
-        let obj = { startTime: this.callForm.startTime.toString().slice(11, 24), endTime: this.callForm.endTime.toString().slice(11, 24) }
-        this.arr.push(obj);
-        this.callForm.timeList = this.arr.map(function (item) {
-          return `${item.startTime}` + '至' + `${item.endTime}`
-        })
+      console.log('xzh', this.callForm)
+      if (this.callForm.time) {
+        let newTime = this.timeChange(this.callForm.time)
+        let obj = newTime.map(function (item, index) { return item }).join('至')
+        this.arr.push(obj)
+        this.callForm.timeList.push(obj)
       } else {
-        !this.callForm.startTime ? this.message('开始时间未选择', 'warning') : this.message('结束时间未选择', 'warning')
+        this.$message({
+          message: '请输入需要查询的时间范围',
+          type: 'warning'
+        });
       }
     },
     message (message, type) {
@@ -103,7 +132,7 @@ export default {
     },
     tableDataHandle () {
       this.tableDataReset();
-      this.tableData = this.tableData.concat(this.arr.map(function (item, index) { return { propName: `perior+${item.index}`, label: `${item.startTime + '至' + item.endTime}`, width: '180' } }))
+      this.tableData = this.tableData.concat(this.arr.map(function (item, index) { return { propName: `perior+${item.index}`, label: `${item}`, width: '180' } }))
     },
     tableDataReset () {
       this.tableData = this.tableData.slice(0, 3);
@@ -118,7 +147,15 @@ export default {
       this.arrReset();
     },
     remove (innerTags) {
-      this.arr = innerTags.map(function (item, index) { return { startTime: item.slice(0, 13), endTime: item.slice(14, 27) } });
+      this.arr = innerTags.map(function (item, index) { return { time: item } });
+    },
+    timeChange (time) {
+      var newTime = time.map(function (item) {
+        var d = new Date(item);
+        var newItem = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+        return newItem
+      })
+      return newTime
     }
   }
 }
