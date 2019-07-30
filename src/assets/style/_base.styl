@@ -19,7 +19,6 @@ ul, dl, dd, dt
   padding 0
 li
   list-style none
-
 /* Utils
 ------------------------------ */
 .clearfix:before, .clearfix:after
@@ -33,6 +32,35 @@ li
   float right
 /* Reset element-ui
 ------------------------------ */
+.el-dialog
+  position absolute
+  top 50%
+  left 50%
+  margin 0 !important
+  transform translate(-50%, -30%)
+  max-height calc(100% - 30px)
+  max-width calc(100% - 30px)
+  background rgba(44, 239, 255, 0.1)
+  display flex
+  flex-direction column
+  .el-dialog__header
+    padding 0
+  .el-dialog__body
+    padding 10px
+    overflow auto
+    .body-content
+      width 100%
+      min-height 200px
+      padding 10px 25px 25px 25px
+      border 1px solid #2cefff
+      .fly-dialog-title
+        color #fff
+        height 35px
+        line-height 25px
+      .fly-dialog-body
+        border 1px solid #2cefff
+        min-height 120px
+        background rgba(44, 239, 255, 0.2)
 .site-wrapper
   .el-pagination
     margin-top 15px

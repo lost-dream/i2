@@ -11,6 +11,7 @@
                   <dl
                     id="btnBatchAddNode"
                     class="tab-li"
+                    @click="addNodesHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">添加节点</dd>
@@ -586,6 +587,12 @@
     >
       <div id="mynetwork"></div>
     </div>
+    <!-- 弹窗, 新增节点 -->
+    <add-nodes
+      v-if="addNodesVisible"
+      ref="addNodes"
+    >
+    </add-nodes>
   </div>
 </template>
 
@@ -593,9 +600,9 @@
 import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
+import AddNodes from './i2-nodes-add'
 import i2 from './js/i2.js'
 let rt
-
 $(window).resize(() => {
   window.clearTimeout(rt)
   rt = setTimeout(() => {
@@ -608,26 +615,30 @@ export default {
   components: {
     Sidebar,
     SidemenuItem,
-    Sidefun
+    Sidefun,
+    AddNodes
   },
   props: {},
   data () {
     return {
-
+      addNodesVisible: false
     }
   },
   computed: {},
   methods: {
-    draw () {
-      let workbench
-      workbench = new i2.Workbench()
-      console.log(workbench)
+    addNodesHandle () {
+      this.addNodesVisible = true
+      this.$nextTick(() => {
+        this.$refs.addNodes.init()
+      })
     }
   },
   created () { },
   mounted () {
     i2.autoSetTabpanelHeight()
-    this.draw()
+    // 初始化画布
+    /* eslint-disable no-new */
+    new i2.Workbench()
     i2.autoSetNetworkHeight()
   }
 }

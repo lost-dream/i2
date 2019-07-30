@@ -12,6 +12,7 @@ let Workbench = function () {
 Workbench.prototype.init = function () {
   var defaultId = 'mynetwork'
   this.createNewSheet(defaultId)
+  binkNetwork()
 }
 Workbench.prototype.createNewSheet = function (id) {
   var container = document.getElementById(id)
@@ -36,7 +37,54 @@ let Sheet = function (container) {
     edges: edges
   }, options)
 }
+/**
+ * 绑定事件
+ */
+function bindEvent () {
+  // 单击事件
+  network.on('click', clickEvent)
+  // 双击事件
+  network.on('doubleClick', doubleclickEvent)
+  // 右键菜单
+  network.on('oncontext', oncontextEvent)
+  // 选中节点时
+  network.on('selectNode', selectNodeEvent)
+}
+/**
+ * 绑定network事件
+ */
+function binkNetwork () {
+  bindEvent()
+}
 
+/**
+ * 单击事件
+ * @param {*} params
+ */
+function clickEvent (params) {
+  alert('单击事件')
+}
+/**
+ * 双击事件
+ * @param {*} params
+ */
+function doubleclickEvent (params) {
+  alert('双击事件')
+}
+/**
+ * 右键菜单
+ * @param {*} params
+ */
+function oncontextEvent (params) {
+  alert('右键菜单')
+}
+/**
+ * 节点被选中时触发
+ * @param {*} params
+ */
+function selectNodeEvent (params) {
+  alert('节点被选中时触发')
+}
 /**
  * 自动获取tab-panel高度
  */
