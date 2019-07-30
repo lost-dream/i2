@@ -20,7 +20,6 @@
         <el-button type="primary"
                    @click="addTime">添加</el-button>
       </el-form-item>
-      <input-tag v-model="callForm.timeList"></input-tag>
       <el-form-item>
         <el-button type="primary"
                    @click="searchData">查询</el-button>
@@ -29,6 +28,8 @@
         <el-button type="danger"
                    @click="resetForm('callForm')">重置</el-button>
       </el-form-item>
+      <input-tag v-on:remove="remove"
+                 v-model="callForm.timeList"></input-tag>
     </el-form>
     <el-table :data="differentPeriod"
               border
@@ -49,8 +50,13 @@
 </template>
 
 <script>
+import InputTag from '../comments/inputTag'
 export default {
+  components: {
+    InputTag
+  },
   mounted () {
+    console.log(this)
   },
   data () {
     return {
@@ -83,7 +89,7 @@ export default {
         let obj = { startTime: this.callForm.startTime.toString().slice(11, 24), endTime: this.callForm.endTime.toString().slice(11, 24) }
         this.arr.push(obj);
         this.callForm.timeList = this.arr.map(function (item) {
-          return `${item.startTime}` + '至' + `${item.endTime}` + ','
+          return `${item.startTime}` + '至' + `${item.endTime}`
         })
       } else {
         !this.callForm.startTime ? this.message('开始时间未选择', 'warning') : this.message('结束时间未选择', 'warning')
@@ -110,6 +116,9 @@ export default {
       this.$refs[formName].resetFields();
       this.tableDataReset();
       this.arrReset();
+    },
+    remove (innerTags) {
+      this.arr = innerTags.map(function (item, index) { return { startTime: item.slice(0, 13), endTime: item.slice(14, 27) } });
     }
   }
 }
