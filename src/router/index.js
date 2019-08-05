@@ -150,6 +150,14 @@ const mainRoutes = [
                 meta: {
                   title: 'phoneHomeLocation'
                 }
+              },
+              {
+                path: '/ticket/singlePhone/phoneTravel',
+                component: _import('modules/ticket/SinglePhone/phoneTravel'),
+                name: 'phoneTravel',
+                meta: {
+                  title: 'phoneTravel'
+                }
               }
             ]
           }

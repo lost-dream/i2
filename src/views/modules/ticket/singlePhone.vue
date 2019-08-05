@@ -57,7 +57,7 @@
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">手机轨迹</router-link>
+              <router-link to="/ticket/singlePhone/phoneTravel">手机轨迹</router-link>
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>

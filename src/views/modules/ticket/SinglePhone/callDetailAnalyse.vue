@@ -275,7 +275,7 @@ export default {
           {
             name: '通话次数',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: '20%',
             data: [1, 2, 3, 4]
           }
         ],
@@ -374,7 +374,7 @@ export default {
           {
             name: '通话次数',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: '20%',
             data: [1, 2, 3, 4]
           }
         ],
@@ -473,7 +473,7 @@ export default {
           {
             name: '通话次数',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: '20%',
             data: [1, 2, 3, 4]
           }
         ],

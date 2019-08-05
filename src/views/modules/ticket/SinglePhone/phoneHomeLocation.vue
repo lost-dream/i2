@@ -243,7 +243,7 @@ export default {
         visualMap: {
           type: 'continuous',
           min: 0,
-          max: 2500,
+          max: 500,
           left: 'left',
           top: 'bottom',
           text: ['高', '低'],
