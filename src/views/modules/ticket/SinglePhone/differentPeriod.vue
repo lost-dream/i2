@@ -167,31 +167,32 @@ export default {
   padding 0px
 </style>
 <style lang="stylus">
-.el-input__inner
-  color white !important
-.el-table--border
-  border 1px solid rgba(0, 0, 0, 0.3) !important
-.el-table th, .el-table tr, .el-table--border td
-  background-color transparent !important
-  border 1px solid rgba(0, 0, 0, 0.3) !important
-.el-table--border::after, .el-table--group::after
-  width 0px !important
-.el-table::before
-  height 0px !important
-.el-button--primary
-  color #FFF !important
-  background-color rgba(130, 200, 75, 0.5) !important
-  border-color rgba(130, 200, 75, 0.5) !important
-  border-radius 2px !important
-.el-button--danger
-  color #FFF !important
-  background-color rgba(223, 108, 97, 0.5) !important
-  border-color rgba(223, 108, 97, 0.5) !important
-  border-radius 2px !important
-.el-textarea__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color #fff !important
-.el-table tbody tr:hover>td
-  background-color rgba(44, 239, 255, 0.3) !important
+.container
+  .el-input__inner
+    color white !important
+  .el-table--border
+    border 1px solid rgba(0, 0, 0, 0.3) !important
+  .el-table th, .el-table tr, .el-table--border td
+    background-color transparent !important
+    border 1px solid rgba(0, 0, 0, 0.3) !important
+  .el-table--border::after, .el-table--group::after
+    width 0px !important
+  .el-table::before
+    height 0px !important
+  .el-button--primary
+    color #FFF !important
+    background-color rgba(130, 200, 75, 0.5) !important
+    border-color rgba(130, 200, 75, 0.5) !important
+    border-radius 2px !important
+  .el-button--danger
+    color #FFF !important
+    background-color rgba(223, 108, 97, 0.5) !important
+    border-color rgba(223, 108, 97, 0.5) !important
+    border-radius 2px !important
+  .el-textarea__inner
+    background-color rgba(44, 239, 255, 0.3) !important
+    border 1px solid rgba(44, 239, 255, 0.4) !important
+    color #fff !important
+  .el-table tbody tr:hover>td
+    background-color rgba(44, 239, 255, 0.3) !important
 </style>

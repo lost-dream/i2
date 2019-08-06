@@ -162,7 +162,68 @@ const mainRoutes = [
             ]
           }
         ]
+      },
+      {
+        path: '/usercenter',
+        component: _import('modules/usercenter/index'),
+        name: 'usercenter',
+        redirect: { name: 'personCenter' },
+        meta: { title: 'usercenter' },
+        children: [
+          {
+            path: '/personCenter',
+            component: _import('modules/usercenter/personCenter'),
+            name: 'personCenter',
+            meta: { title: 'personCenter' }
+          },
+          {
+            path: '/modifyInfo',
+            component: _import('modules/usercenter/modifyInfo'),
+            name: 'modifyInfo',
+            meta: { title: 'modifyInfo' }
+          },
+          {
+            path: '/accountManage',
+            component: _import('modules/usercenter/accountManage'),
+            name: 'accountManage',
+            meta: { title: 'accountManage' }
+          }
+        ]
+      },
+      {
+        path: '/sys',
+        component: _import('modules/sys/index'),
+        name: 'sys',
+        redirect: { name: 'userManage' },
+        meta: { title: 'sys' },
+        children: [
+          {
+            path: '/userManage',
+            component: _import('modules/sys/userManage'),
+            name: 'userManage',
+            meta: { title: 'userManage' }
+          },
+          {
+            path: '/menuManage',
+            component: _import('modules/sys/menuManage'),
+            name: 'menuManage',
+            meta: { title: 'menuManage' }
+          },
+          {
+            path: '/roleManage',
+            component: _import('modules/sys/roleManage'),
+            name: 'roleManage',
+            meta: { title: 'roleManage' }
+          },
+          {
+            path: '/organManage',
+            component: _import('modules/sys/organManage'),
+            name: 'organManage',
+            meta: { title: 'organManage' }
+          }
+        ]
       }
+
     ]
   }
 ]

@@ -193,28 +193,29 @@ export default {
   padding 0px
 </style>
 <style lang="stylus">
-.el-input__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color white
-.el-form-item__label
-  color white !important
-.el-table
-  background-color rgba(44, 239, 255, 0.3) !important
-  color white !important
-.el-table th, .el-table tr
-  background-color transparent !important
-.el-table thead
-  color white !important
-.el-table tbody tr:hover>td
-  background-color rgba(44, 239, 255, 0.4) !important
-.el-pagination__total
-  color white
-.el-table__body, .el-table__footer, .el-table__header
-  width 100% !important
-.el-range-editor .el-range-input
-  background transparent !important
-  color white !important
-.el-date-editor .el-range-separator
-  color white !important
+ .container
+  .el-input__inner
+    background-color rgba(44, 239, 255, 0.3) !important
+    border 1px solid rgba(44, 239, 255, 0.4) !important
+    color white
+  .el-form-item__label
+    color white !important
+  .el-table
+    background-color rgba(44, 239, 255, 0.3) !important
+    color white !important
+  .el-table th, .el-table tr
+    background-color transparent !important
+  .el-table thead
+    color white !important
+  .el-table tbody tr:hover>td
+    background-color rgba(44, 239, 255, 0.4) !important
+  .el-pagination__total
+    color white
+  .el-table__body, .el-table__footer, .el-table__header
+    width 100% !important
+  .el-range-editor .el-range-input
+    background transparent !important
+    color white !important
+  .el-date-editor .el-range-separator
+    color white !important
 </style>
