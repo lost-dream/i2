@@ -1,8 +1,8 @@
 <template>
     <div class="menuManage">
       <div class="leftMenu">
-        <el-button class="addBut" type="primary">添加</el-button>
-        <el-button class="delBut" type="primary">删除</el-button>
+        <el-button class="addBut" type="primary" @click="addDialog = true">添加</el-button>
+        <el-button class="delBut" type="primary" @click="pitchOn2() && (deleteDialog = true)">删除</el-button>
         <div class="menuList">
           <!--<el-select v-model="backEnd" popper-class='leftselect' placeholder="后端">
             <el-option
@@ -152,15 +152,77 @@
           </div>
         </div>
       </div>
+      <div class="dialog">
+        <!--添加-->
+        <fly-dialog title="添加用户" :show.sync="addDialog" :width="'660px'">
+          <div class="from">
+            <el-form ref="form" :model="form" status-icon :rules="rules" :hide-required-asterisk = 'asterisk' label-width="50%" class="demo-ruleForm">
+              <el-form-item label="名称" prop="name">
+                <el-input v-model="form.name"></el-input>
+              </el-form-item>
+              <el-form-item label="上级" prop="higherUp">
+                <el-input v-model="form.higherUp"></el-input>
+              </el-form-item>
+              <el-form-item label="所属模块" prop="isModule">
+                <el-select v-model="form.isModule" popper-class='fromselect'>
+                  <el-option v-for="item in isModuleList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="后台样式" prop="backStyle">
+                <el-input v-model="form.backStyle"></el-input>
+              </el-form-item>
+              <el-form-item label="前台样式" prop="frontStyle">
+                <el-input v-model="form.frontStyle"></el-input>
+              </el-form-item>
+              <el-form-item label="链接地址" prop="chainedAddress">
+                <el-input v-model="form.chainedAddress"></el-input>
+              </el-form-item>
+              <el-form-item label="权限跟路径" prop="powerPath">
+                <el-input v-model="form.powerPath"></el-input>
+              </el-form-item>
+              <el-form-item label="排序下级" prop="sortSubordinate">
+                <el-button type="primary">为下级设置编号</el-button>
+              </el-form-item>
+              <el-form-item label="调整顺序" prop="adjustSort">
+                <el-button type="primary">上移</el-button><el-button type="primary">下移</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary">确定</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <span slot="ft" class="dialog-footer">
+              <el-button class="canBut" @click="addDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="addMenu('form')">确 定</el-button>
+             </span>
+        </fly-dialog>
+        <!--删除-->
+        <fly-dialog title="删除" :show.sync="deleteDialog">
+          <span class="content">确定删除？</span>
+          <span slot="ft" class="dialog-footer">
+              <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="deleteMenu()">确 定</el-button>
+             </span>
+        </fly-dialog>
+      </div>
     </div>
 </template>
 
 <script>
+  import FlyDialog from '@/components/fly-dialog'
 export default {
   name: 'menuManage',
+  components: {
+    FlyDialog
+  },
   data () {
     return {
       asterisk: true, // 影响*号
+      addDialog: false,
+      deleteDialog: false,
       form: {
         name: '',
         higherUp: '',
@@ -649,7 +711,30 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath);
-    }
+    },
+    // 判断是否选择菜单
+    pitchOn2 () {
+      // let isPitchOn = false
+      let isPitchOn = true
+      // this.multipleSelection.length > 0 ? isPitchOn = true : this.$message.error('请至少选择一条数据!')
+      return isPitchOn
+    },
+    // 添加菜单
+    addMenu (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+          this.addDialog = false
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    // 删除菜单
+    deleteMenu () {
+      this.deleteDialog = false
+    },
   }
 }
 </script>
@@ -722,6 +807,84 @@ export default {
     width 600px
     height auto
     margin 0 auto
+  .menuManage
+     .dialog
+       .el-form-item
+         width 180px
+         display inline-block
+         margin-right 8px
+       >>>.el-input__inner {
+         border-radius: 0px;
+         background-color: rgba(44, 239, 255, 0.2);
+         border: 1px none #DCDFE6;
+         color: #ffffff;
+       }
+       .content
+         min-width 50px
+         display block
+         color #ffffff
+         text-align center
+
+     .dialog
+       .el-button {
+         background-color: rgba(44, 239, 255, 0.3);
+         border: 1px solid rgba(44, 239, 255, 0.3);
+         color: #ffffff;
+         padding: 9px 20px;
+         margin-left: 1px;
+       }
+       .canBut,
+       .okBut
+         color: #ffffff
+         margin 20px 14px
+         padding: 9px 15px
+
+       .okBut
+         background-color: rgba(70, 125, 68, 1)
+         border: 1px solid rgba(70, 125, 68, 1)
+
+       .canBut
+         background-color: #7f3237
+         border: 1px solid #7f3237
+       >>> .el-dialog
+         /*background: rgba(44, 239, 255, 0.5)!important*/
+         background: #187b87 !important
+         top 30%
+
+       .el-form
+         width 300px
+         height auto
+         margin 30px auto
+
+       >>> .el-form-item__label
+         background-color rgba(44, 239, 255, 0.4)
+         color: #ffffff;
+
+       >>> .el-input__inner {
+         border-radius: 0px;
+         background-color: rgba(44, 239, 255, 0.2);
+         border: 1px none #DCDFE6;
+         color: #ffffff;
+         margin-left: 1px;
+       }
+
+       .el-form-item {
+         margin 0 auto
+         margin-bottom: 1px;
+         width 295px
+       }
+
+       >>> .el-form-item__error {
+         color: #F56C6C;
+         font-size: 12px;
+         width: 100px;
+         text-align: initial;
+         line-height: 1;
+         padding-top: 4px;
+         position: absolute;
+         top: 25%;
+         left: 105%;
+       }
 
 </style>
 <style lang="stylus">
@@ -762,7 +925,7 @@ export default {
   .menuManage .coat2 .el-select {
     width 100%
   }
-  .fromselect {
+ /* .fromselect {
        background-color: rgba(19, 81, 93, 1)!important;
        border: 1px solid rgba(19, 81, 93, 1);
        border-radius: 5px;
@@ -797,5 +960,5 @@ export default {
        .el-select-dropdown__item.selected {
          color: #ffffff;
        }
-     }
+     }*/
 </style>

@@ -50,7 +50,7 @@ li
     overflow auto
     .body-content
       width 100%
-      min-height 200px
+      min-height 130px
       padding 10px 25px 25px 25px
       border 1px solid #2cefff
       .fly-dialog-title
@@ -59,7 +59,7 @@ li
         line-height 25px
       .fly-dialog-body
         border 1px solid #2cefff
-        min-height 120px
+        min-height 50px
         background rgba(44, 239, 255, 0.2)
 .site-wrapper
   .el-pagination
@@ -204,3 +204,41 @@ li
     margin-left 230px
     min-height 100%
     background $main--background-color
+    /* select
+    ------------------------------ */
+    .fromselect {
+      background-color: rgba(19, 81, 93, 1)!important;
+      border: 1px solid rgba(19, 81, 93, 1);
+      border-radius: 5px;
+      .el-select-dropdown {
+      }
+      .el-select-dropdown__item {
+        background-color: rgba(19, 81, 93, 1);
+        color: #ffffff;
+      }
+      .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+        background-color: rgba(24, 123, 135, 1);
+        color: #ffffff;
+      }
+      .el-select-dropdown__item.selected {
+        color: #ffffff;
+      }
+    }
+  .leftselect {
+    background-color: rgba(19, 81, 93, 1)!important;
+    border: 1px solid rgba(19, 81, 93, 1);
+    border-radius: 5px;
+    .el-select-dropdown {
+    }
+    .el-select-dropdown__item {
+      background-color: rgba(19, 81, 93, 1);
+      color: #ffffff;
+    }
+    .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+      background-color: rgba(24, 123, 135, 1);
+      color: #ffffff;
+    }
+    .el-select-dropdown__item.selected {
+      color: #ffffff;
+    }
+  }

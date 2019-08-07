@@ -2,6 +2,8 @@
   <el-dialog :visible.sync="visible"
              @close="$emit('update:show', false)"
              :width="width"
+             :close-on-click-modal="flag"
+             :modal-append-to-body="flag"
              :modal="modal">
     <div class="body-content">
       <div class="fly-dialog-title">
@@ -41,6 +43,7 @@ export default {
   },
   data () {
     return {
+      flag: false,
       visible: this.show
     }
   },

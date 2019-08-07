@@ -115,7 +115,7 @@
         </div>
         <div class="dialog">
           <!--添加-->
-          <el-dialog
+          <!--<el-dialog
                   title="添加用户"
                   :visible.sync="addDialog"
                   width="35%"
@@ -180,12 +180,83 @@
     <el-button @click="addDialog = false">取 消</el-button>
     <el-button type="primary" @click="addUser('form')">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog
+                  title="添加用户"
+                  :show.sync="addDialog"
+          >
+            <el-form ref="form" :model="form" status-icon :rules="rules" :hide-required-asterisk='asterisk'
+                     label-width="49%" class="demo-ruleForm">
+              <el-form-item label="登陆账号" prop="user">
+                <el-input v-model="form.user"></el-input>
+              </el-form-item>
+              <el-form-item label="姓名" prop="name">
+                <el-input v-model="form.name"></el-input>
+              </el-form-item>
+              <el-form-item label="部门" prop="section">
+                <el-select v-model="form.section" popper-class='fromselect' placeholder="请选择部门">
+                  <el-option v-for="item in sectionList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="用户组" prop="userGroup">
+                <el-select v-model="form.userGroup" popper-class='fromselect' placeholder="请选择用户组">
+                  <el-option v-for="item in userGroupList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="登录类型" prop="loginType">
+                <el-select v-model="form.loginType" popper-class='fromselect' placeholder="请选择登录类型">
+                  <el-option v-for="item in loginTypeList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="状态" prop="status">
+                <el-select v-model="form.status" popper-class='fromselect' placeholder="请选择状态">
+                  <el-option v-for="item in statusList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="警种类别" prop="policeKind">
+                <el-select v-model="form.policeKind" popper-class='fromselect' placeholder="请选择警种类别">
+                  <el-option v-for="item in policeKindList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="上报部门" prop="reportedSection">
+                <el-select v-model="form.reportedSection" popper-class='fromselect' placeholder="请选择上报部门">
+                  <el-option v-for="item in reportedSectionList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <span
+                    slot="ft"
+                    class="dialog-footer"
+            >
+    <el-button class="canBut" @click="addDialog = false">取 消</el-button>
+    <el-button class="okBut" type="primary" @click="addUser('form')">确 定</el-button>
+    </span>
+          </fly-dialog>
           <!--编辑-->
-          <el-dialog
+          <!--<el-dialog
                   title="编辑用户"
                   :visible.sync="editDialog"
                   width="35%"
+                  :close-on-click-modal="modal"
+                  :modal-append-to-body="modal"
                   :before-close="handleClose">
             <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
               <el-form-item label="登陆账号" prop="user">
@@ -244,12 +315,77 @@
               </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-    <el-button @click="editDialog = false">取 消</el-button>
-    <el-button type="primary" @click="editUser('form')">确 定</el-button>
+    <el-button class="canBut" @click="editDialog = false">取 消</el-button>
+    <el-button class="okBut" type="primary" @click="editUser('form')">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog
+                  title="编辑用户"
+                  :show.sync="editDialog"
+          >
+            <el-form ref="form" :model="form" status-icon :hide-required-asterisk='asterisk' :rules="rules" label-width="120px" class="demo-ruleForm">
+              <el-form-item label="登陆账号" prop="user">
+                <el-input v-model="form.user"></el-input>
+              </el-form-item>
+              <el-form-item label="姓名" prop="name">
+                <el-input v-model="form.name"></el-input>
+              </el-form-item>
+              <el-form-item label="部门" prop="section">
+                <el-select v-model="form.section" popper-class='fromselect' placeholder="请选择部门">
+                  <el-option v-for="item in sectionList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="用户组" prop="userGroup">
+                <el-select v-model="form.userGroup" popper-class='fromselect' placeholder="请选择用户组">
+                  <el-option v-for="item in userGroupList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="登录类型" prop="loginType">
+                <el-select v-model="form.loginType" popper-class='fromselect' placeholder="请选择登录类型">
+                  <el-option v-for="item in loginTypeList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="状态" prop="status">
+                <el-select v-model="form.status" popper-class='fromselect' placeholder="请选择状态">
+                  <el-option v-for="item in statusList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="警种类别" prop="policeKind">
+                <el-select v-model="form.policeKind" popper-class='fromselect' placeholder="请选择警种类别">
+                  <el-option v-for="item in policeKindList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="上报部门" prop="reportedSection">
+                <el-select v-model="form.reportedSection" popper-class='fromselect' placeholder="请选择上报部门">
+                  <el-option v-for="item in reportedSectionList"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <span slot="ft" class="dialog-footer">
+              <el-button class="canBut" @click="editDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="editUser('form')">确 定</el-button>
+            </span>
+          </fly-dialog>
           <!--查看-->
-          <el-dialog
+          <!--<el-dialog
                   title="查看用户详情"
                   :visible.sync="lookDialog"
                   width="35%"
@@ -293,9 +429,50 @@
             <span slot="footer" class="dialog-footer">
     <el-button @click="lookDialog = false">关   闭</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="查看用户详情" :show.sync="lookDialog">
+            <div>
+              <span>登陆账号:</span>
+              <span>{{lookInfo.user}}</span>
+            </div>
+            <div>
+              <span>姓名:</span>
+              <span>{{lookInfo.name}}</span>
+            </div>
+            <div>
+              <span>部门:</span>
+              <span>{{lookInfo.section}}</span>
+            </div>
+            <div>
+              <span>用户组:</span>
+              <span>{{lookInfo.userGroup}}</span>
+            </div>
+            <div>
+              <span>登录类型:</span>
+              <span>{{lookInfo.loginType}}</span>
+            </div>
+            <div>
+              <span>状态:</span>
+              <span>{{lookInfo.status}}</span>
+            </div>
+            <div>
+              <span>警种类别:</span>
+              <span>{{lookInfo.policeKind}}</span>
+            </div>
+            <div>
+              <span>登陆账号:</span>
+              <span>{{lookInfo.user}}</span>
+            </div>
+            <div>
+              <span>上报部门:</span>
+              <span>{{lookInfo.reportedSection}}</span>
+            </div>
+             <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="lookDialog = false">取 消</el-button>
+             </span>
+          </fly-dialog>
           <!--删除-->
-          <el-dialog
+          <!--<el-dialog
                   title="删除"
                   :visible.sync="deleteDialog"
                   width="30%"
@@ -305,14 +482,39 @@
     <el-button @click="deleteDialog = false">取 消</el-button>
     <el-button type="primary" @click="deleteUser()">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="删除" :show.sync="deleteDialog">
+              <span class="content">确定删除？</span>
+            <span slot="ft" class="dialog-footer">
+              <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="deleteUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
           <!--导入-->
-          <el-dialog
-                  title="导入"
-                  :visible.sync="importDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>导入</span>
+          <!-- <el-dialog
+                   title="导入"
+                   :visible.sync="importDialog"
+                   width="30%"
+                   :before-close="handleClose">
+             <span>导入</span>
+             <el-upload
+                     class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :file-list="fileList2"
+                     accept=".xls, .xlsx"
+                     list-type="picture">
+               <el-button size="small" type="primary">点击上传</el-button>
+               <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
+             </el-upload>
+             <span slot="footer" class="dialog-footer">
+     <el-button @click="importDialog = false">取 消</el-button>
+     <el-button type="primary" @click="importUser()">确 定</el-button>
+   </span>
+           </el-dialog>-->
+          <fly-dialog title="导入" :show.sync="importDialog">
+            <span class="content">导入</span>
             <el-upload
                     class="upload-demo"
                     action="https://jsonplaceholder.typicode.com/posts/"
@@ -321,16 +523,16 @@
                     :file-list="fileList2"
                     accept=".xls, .xlsx"
                     list-type="picture">
-              <el-button size="small" type="primary">点击上传</el-button>
+              <el-button class="impBut" size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
             </el-upload>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="importDialog = false">取 消</el-button>
-    <el-button type="primary" @click="importUser()">确 定</el-button>
-  </span>
-          </el-dialog>
+            <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="importDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="importUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
           <!--导出-->
-          <el-dialog
+          <!--<el-dialog
                   title="导出"
                   :visible.sync="exportDialog"
                   width="30%"
@@ -340,9 +542,16 @@
     <el-button @click="exportDialog = false">取 消</el-button>
     <el-button type="primary" @click="exportUser()">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="导出" :show.sync="exportDialog">
+            <span class="content">导出</span>
+            <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="exportDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="exportUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
           <!--启用-->
-          <el-dialog
+          <!--<el-dialog
                   title="启用"
                   :visible.sync="startDialog"
                   width="30%"
@@ -352,9 +561,16 @@
     <el-button @click="startDialog = false">取 消</el-button>
     <el-button type="primary" @click="startUser()">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="启用" :show.sync="startDialog">
+            <span class="content">确定启用该用户？</span>
+            <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="startDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="startUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
           <!--停用-->
-          <el-dialog
+          <!--<el-dialog
                   title="停用"
                   :visible.sync="stopDialog"
                   width="30%"
@@ -364,9 +580,16 @@
     <el-button @click="stopDialog = false">取 消</el-button>
     <el-button type="primary" @click="stopUser()">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="停用" :show.sync="stopDialog">
+            <span class="content">确定停用该用户？</span>
+            <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="stopDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="stopUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
           <!--重置密码-->
-          <el-dialog
+          <!--<el-dialog
                   title="重置密码"
                   :visible.sync="resetPassDialog"
                   width="30%"
@@ -376,9 +599,16 @@
     <el-button @click="resetPassDialog = false">取 消</el-button>
     <el-button type="primary" @click="resetPassUser()">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="重置密码" :show.sync="resetPassDialog">
+            <span class="content">确定重置该用户密码？</span>
+            <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="resetPassDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="resetPassUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
           <!--重置回答-->
-          <el-dialog
+          <!--<el-dialog
                   title="重置回答"
                   :visible.sync="resetAnswerDialog"
                   width="30%"
@@ -388,7 +618,14 @@
     <el-button @click="resetAnswerDialog = false">取 消</el-button>
     <el-button type="primary" @click="resetAnswerUser()">确 定</el-button>
   </span>
-          </el-dialog>
+          </el-dialog>-->
+          <fly-dialog title="重置回答" :show.sync="resetAnswerDialog">
+            <span class="content">确定重置该用户回答？</span>
+            <span slot="ft" class="dialog-footer">
+               <el-button class="canBut" @click="resetAnswerDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="resetAnswerUser()">确 定</el-button>
+             </span>
+          </fly-dialog>
         </div>
       </div>
     </div>
@@ -396,10 +633,17 @@
 </template>
 
 <script>
-export default {
+  import FlyDialog from '@/components/fly-dialog'
+
+  export default {
   name: 'userManage',
+    components: {
+      FlyDialog
+    },
   data () {
     return {
+      modal: false,
+      asterisk: true,
       addDialog: false,
       editDialog: false,
       lookDialog: false,
@@ -762,7 +1006,9 @@ export default {
       width 95%
       margin 10px auto
       border-bottom 2px solid rgba(44, 239, 255, 0.4)
-    .criteria
+
+    .criteria,
+    .dialog
       .el-form-item
         width 180px
         display inline-block
@@ -778,6 +1024,72 @@ export default {
         background-color: rgba(44, 239, 255, 0.2);
         border: 1px none #DCDFE6;
         color: #ffffff;
+      }
+      .content
+        min-width 50px
+        display block
+        color #ffffff
+        text-align center
+
+    .dialog
+      >>> .el-dialog
+        /*background: rgba(44, 239, 255, 0.5)!important*/
+        background: #187b87 !important
+        top 30%
+      .impBut {
+        background-color: rgba(44, 239, 255, 0.3);
+        border: 1px solid rgba(44, 239, 255, 0.3);
+        color: #ffffff;
+        padding: 9px 20px;
+        margin-left: 1px;
+      }
+      .canBut,
+      .okBut
+        color: #ffffff
+        margin 20px 14px
+        padding: 9px 15px
+
+      .okBut
+        background-color: rgba(70, 125, 68, 1)
+        border: 1px solid rgba(70, 125, 68, 1)
+
+      .canBut
+        background-color: #7f3237
+        border: 1px solid #7f3237
+
+      .el-form
+        width 300px
+        height auto
+        margin 30px auto
+
+      >>> .el-form-item__label
+        background-color rgba(44, 239, 255, 0.4)
+        color: #ffffff;
+
+      >>> .el-input__inner {
+        border-radius: 0px;
+        background-color: rgba(44, 239, 255, 0.2);
+        border: 1px none #DCDFE6;
+        color: #ffffff;
+        margin-left: 1px;
+      }
+
+      .el-form-item {
+        margin 0 auto
+        margin-bottom: 1px;
+        width 295px
+      }
+
+      >>> .el-form-item__error {
+        color: #F56C6C;
+        font-size: 12px;
+        width: 100px;
+        text-align: initial;
+        line-height: 1;
+        padding-top: 4px;
+        position: absolute;
+        top: 25%;
+        left: 105%;
       }
     .userList >>>
       .el-table th,
