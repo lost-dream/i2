@@ -22,10 +22,8 @@
             <el-form-item label="邮箱" prop="Email">
               <el-input v-model="form.Email"></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit('form')">确定</el-button>
-            </el-form-item>
           </el-form>
+          <el-button class="sureBut" type="primary" @click="onSubmit('form')">确定</el-button>
         </div>
       </div>
     </div>
@@ -126,28 +124,6 @@ export default {
   .organManage
       margin 0 auto
       position relative
-     .coat1
-      width 1200px
-      position relative
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin 0 auto
-      background-color rgba(44, 239, 255, 0.1)
-      padding 20px
-    .coat2
-      width 1160px
-      margin-top 18px
-      margin-bottom 20px
-      padding 20px 15px 20px 15px
-      position relative
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin 0 auto
-      background-color rgba(44, 239, 255, 0.1)
   .from
     width 600px
     height auto

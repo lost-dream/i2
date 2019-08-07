@@ -222,8 +222,34 @@ const mainRoutes = [
             meta: { title: 'organManage' }
           }
         ]
-      }
-
+      },,
+      {
+        path: '/timespace',
+        component: _import('modules/timespace/index'),
+        name: 'timespace',
+        redirect: { name: 'timespace' },
+        meta: { title: 'timespace' },
+        children: [
+          {
+            path: '/timespace',
+            component: _import('modules/timespace/timespace'),
+            name: 'timespace',
+            meta: { title: 'timespace' }
+          },
+          {
+            path: '/timespacelist',
+            component: _import('modules/timespace/timespacelist'),
+            name: 'timespacelist',
+            meta: { title: 'timespacelist' }
+          },
+          {
+            path: '/timespaceinfo',
+            component: _import('modules/timespace/timespaceinfo'),
+            name: 'timespaceinfo',
+            meta: { title: 'timespaceinfo' }
+          }
+        ]
+      },
     ]
   }
 ]

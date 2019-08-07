@@ -1,45 +1,45 @@
 <template>
   <div class="userManage">
-    <div class="coat1"></div>
-    <div class="coat2">
-      <div class="from" v-show="see=='pass'">
-        <el-form ref="form" :model="form" status-icon :rules="rules" class="demo-ruleForm">
-          <el-form-item prop="oldPass">
-            <el-input v-model="form.oldPass" placeholder="请输入原密码"></el-input>
-          </el-form-item>
-          <el-form-item prop="newPass">
-            <el-input v-model="form.newPass" placeholder="请输入新密码"></el-input>
-          </el-form-item>
-          <el-form-item prop="checkPass">
-            <el-input v-model="form.checkPass" placeholder="请再次输入新密码"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit('form');see='depict'">确定</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div class="from2" v-show="see=='depict'">
-        <div class="depict">
-         <span class="c_align">什么是超级问答认证？</span>
-          <p>超级问答认证是用于校验用户合法身份的二次认证方式<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、每个用户均须设置自己的超级问答认证的问题和答案；<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、用户每次登录系统后，只有进行超级问答认证才能正常<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用系统功能；</p>
-          <span class="c_align">答案由字母或数字组成的六位字符</span>
+    <div class="coat1">
+      <div class="coat2">
+        <div class="from" v-show="see=='pass'">
+          <el-form ref="form" :model="form" status-icon :rules="rules" class="demo-ruleForm">
+            <el-form-item prop="oldPass">
+              <el-input v-model="form.oldPass" placeholder="请输入原密码"></el-input>
+            </el-form-item>
+            <el-form-item prop="newPass">
+              <el-input v-model="form.newPass" placeholder="请输入新密码"></el-input>
+            </el-form-item>
+            <el-form-item prop="checkPass">
+              <el-input v-model="form.checkPass" placeholder="请再次输入新密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button class="sureBut" type="primary" @click="onSubmit('form');see='depict'">确定</el-button>
+            </el-form-item>
+          </el-form>
         </div>
-        <el-form ref="form2" :model="form2" status-icon :rules="rules" class="demo-ruleForm">
-          <el-form-item prop="question">
-            <el-input v-model="form2.question" placeholder="请输入问题"></el-input>
-          </el-form-item>
-          <el-form-item prop="answer">
-            <el-input v-model="form2.answer" placeholder="请输入答案"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit('form2')">确定</el-button>
-          </el-form-item>
-        </el-form>
+        <div class="from2" v-show="see=='depict'">
+          <div class="depict">
+            <span class="c_align">什么是超级问答认证？</span>
+            <p>超级问答认证是用于校验用户合法身份的二次认证方式<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、每个用户均须设置自己的超级问答认证的问题和答案；<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、用户每次登录系统后，只有进行超级问答认证才能正常<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用系统功能；</p>
+            <span class="c_align">答案由字母或数字组成的六位字符</span>
+          </div>
+          <el-form ref="form2" :model="form2" status-icon :rules="rules" class="demo-ruleForm">
+            <el-form-item prop="question">
+              <el-input v-model="form2.question" placeholder="请输入问题"></el-input>
+            </el-form-item>
+            <el-form-item prop="answer">
+              <el-input v-model="form2.answer" placeholder="请输入答案"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button class="sureBut" type="primary" @click="onSubmit('form2')">确定</el-button>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -145,26 +145,6 @@ export default {
 <style lang="stylus" scoped>
   .userManage
     position relative
-
-  .coat1, .coat2
-    position absolute
-    top 0
-    left 0
-    right 0
-    bottom 0
-    margin 0 auto
-    background-color rgba(44, 239, 255, 0.1)
-
-  .coat1
-    width 1200px
-    min-height 379px
-
-  .coat2
-    width 1160px
-    min-height 341px
-    margin-top 18px
-    margin-bottom 20px
-    padding 20px 15px 0px 15px
 
   .from, .from2 .el-form
     width 20%

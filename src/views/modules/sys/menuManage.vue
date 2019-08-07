@@ -144,10 +144,8 @@
                 <el-form-item label="调整顺序" prop="adjustSort">
                   <el-button type="primary">上移</el-button><el-button type="primary">下移</el-button>
                 </el-form-item>
-                <el-form-item>
-                  <el-button type="primary">确定</el-button>
-                </el-form-item>
               </el-form>
+              <el-button class="sureBut" type="primary">确定</el-button>
             </div>
           </div>
         </div>
@@ -194,18 +192,18 @@
               </el-form-item>
             </el-form>
           </div>
-          <span slot="ft" class="dialog-footer">
-              <el-button class="canBut" @click="addDialog = false">取 消</el-button>
-              <el-button class="okBut" type="primary" @click="addMenu('form')">确 定</el-button>
-             </span>
+          <div class="butCoat">
+            <el-button class="canBut" @click="addDialog = false">取 消</el-button>
+            <el-button class="okBut" type="primary" @click="addMenu('form')">确 定</el-button>
+          </div>
         </fly-dialog>
         <!--删除-->
         <fly-dialog title="删除" :show.sync="deleteDialog">
           <span class="content">确定删除？</span>
-          <span slot="ft" class="dialog-footer">
-              <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
-              <el-button class="okBut" type="primary" @click="deleteMenu()">确 定</el-button>
-             </span>
+          <div class="butCoat">
+            <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
+            <el-button class="okBut" type="primary" @click="deleteMenu()">确 定</el-button>
+          </div>
         </fly-dialog>
       </div>
     </div>
@@ -780,34 +778,13 @@ export default {
    width 1200px
    margin 0 auto
    position relative
-  .right .coat1
-   width 1200px
-   min-height 489px
-   position absolute
-   top 0
-   left 0
-   right 0
-   bottom 0
-   margin 0 auto
-   background-color rgba(44, 239, 255, 0.1)
-   padding 20px
-  .right .coat2
-    width 1160px
-    margin-top 18px
-    margin-bottom 20px
-    padding 20px 15px 20px 15px
-    position relative
-    top 0
-    left 0
-    right 0
-    bottom 0
-    margin 0 auto
-    background-color rgba(44, 239, 255, 0.1)
   .from
     width 600px
     height auto
     margin 0 auto
   .menuManage
+     .el-form-item
+       height 40px
      .dialog
        .el-form-item
          width 180px
@@ -833,59 +810,6 @@ export default {
          padding: 9px 20px;
          margin-left: 1px;
        }
-       .canBut,
-       .okBut
-         color: #ffffff
-         margin 20px 14px
-         padding: 9px 15px
-
-       .okBut
-         background-color: rgba(70, 125, 68, 1)
-         border: 1px solid rgba(70, 125, 68, 1)
-
-       .canBut
-         background-color: #7f3237
-         border: 1px solid #7f3237
-       >>> .el-dialog
-         /*background: rgba(44, 239, 255, 0.5)!important*/
-         background: #187b87 !important
-         top 30%
-
-       .el-form
-         width 300px
-         height auto
-         margin 30px auto
-
-       >>> .el-form-item__label
-         background-color rgba(44, 239, 255, 0.4)
-         color: #ffffff;
-
-       >>> .el-input__inner {
-         border-radius: 0px;
-         background-color: rgba(44, 239, 255, 0.2);
-         border: 1px none #DCDFE6;
-         color: #ffffff;
-         margin-left: 1px;
-       }
-
-       .el-form-item {
-         margin 0 auto
-         margin-bottom: 1px;
-         width 295px
-       }
-
-       >>> .el-form-item__error {
-         color: #F56C6C;
-         font-size: 12px;
-         width: 100px;
-         text-align: initial;
-         line-height: 1;
-         padding-top: 4px;
-         position: absolute;
-         top: 25%;
-         left: 105%;
-       }
-
 </style>
 <style lang="stylus">
   .menuManage .coat2 .el-form-item__label
@@ -925,6 +849,10 @@ export default {
   .menuManage .coat2 .el-select {
     width 100%
   }
+  .sureBut
+    display block!important
+    margin 30px auto!important
+    text-align center!important
  /* .fromselect {
        background-color: rgba(19, 81, 93, 1)!important;
        border: 1px solid rgba(19, 81, 93, 1);

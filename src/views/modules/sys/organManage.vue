@@ -66,10 +66,10 @@
                   </el-form-item>
                 </el-form>
               </div>
-              <span slot="ft" class="dialog-footer">
-              <el-button class="canBut" @click="addDialog = false">取 消</el-button>
-              <el-button class="okBut" type="primary" @click="addOrgan('form')">确 定</el-button>
-             </span>
+              <div class="butCoat">
+                <el-button class="canBut" @click="addDialog = false">取 消</el-button>
+                <el-button class="okBut" type="primary" @click="addOrgan('form')">确 定</el-button>
+              </div>
             </fly-dialog>
             <!--编辑-->
             <fly-dialog title="编辑机构" :show.sync="editDialog">
@@ -98,10 +98,10 @@
                   </el-form-item>
                 </el-form>
               </div>
-              <span slot="ft" class="dialog-footer">
-              <el-button class="canBut" @click="editDialog = false">取 消</el-button>
-              <el-button class="okBut" type="primary" @click="editOrgan('form')">确 定</el-button>
-             </span>
+              <div class="butCoat">
+                <el-button class="canBut" @click="editDialog = false">取 消</el-button>
+                <el-button class="okBut" type="primary" @click="editOrgan('form')">确 定</el-button>
+              </div>
             </fly-dialog>
             <!--导入-->
             <fly-dialog title="导入机构" :show.sync="importDialog">
@@ -117,18 +117,18 @@
                 <el-button class="impBut" size="small" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
               </el-upload>
-              <span slot="ft" class="dialog-footer">
-              <el-button class="canBut" @click="importDialog = false">取 消</el-button>
-              <el-button class="okBut" type="primary" @click="importOrgan('form')">确 定</el-button>
-             </span>
+              <div class="butCoat">
+                <el-button class="canBut" @click="importDialog = false">取 消</el-button>
+                <el-button class="okBut" type="primary" @click="importOrgan('form')">确 定</el-button>
+              </div>
             </fly-dialog>
             <!--删除-->
             <fly-dialog title="删除" :show.sync="deleteDialog">
               <span class="content">确定删除？</span>
-              <span slot="ft" class="dialog-footer">
-              <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
-              <el-button class="okBut" type="primary" @click="deleteOrgan()">确 定</el-button>
-             </span>
+              <div class="butCoat">
+                <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
+                <el-button class="okBut" type="primary" @click="deleteOrgan()">确 定</el-button>
+              </div>
             </fly-dialog>
           </div>
         </div>
@@ -295,28 +295,6 @@ export default {
   .organManage
     margin 0 auto
     position relative
-  .organManage .coat1
-    width 1200px
-    position relative
-    top 0
-    left 0
-    right 0
-    bottom 0
-    margin 0 auto
-    background-color rgba(44, 239, 255, 0.1)
-    padding 20px
-  .organManage .coat2
-    width 1160px
-    margin-top 18px
-    margin-bottom 20px
-    padding 20px 15px 20px 15px
-    position relative
-    top 0
-    left 0
-    right 0
-    bottom 0
-    margin 0 auto
-    background-color rgba(44, 239, 255, 0.1)
   .organManage ul
     display inline-block
   .organManage ul li
@@ -370,67 +348,6 @@ export default {
         display block
         color #ffffff
         text-align center
-
-    .dialog
-      .impBut {
-        background-color: rgba(44, 239, 255, 0.3);
-        border: 1px solid rgba(44, 239, 255, 0.3);
-        color: #ffffff;
-        padding: 9px 20px;
-        margin-left: 1px;
-      }
-      .canBut,
-      .okBut
-        color: #ffffff
-        margin 20px 14px
-        padding: 9px 15px
-
-      .okBut
-        background-color: rgba(70, 125, 68, 1)
-        border: 1px solid rgba(70, 125, 68, 1)
-
-      .canBut
-        background-color: #7f3237
-        border: 1px solid #7f3237
-      >>> .el-dialog
-        /*background: rgba(44, 239, 255, 0.5)!important*/
-        background: #187b87 !important
-        top 30%
-
-      .el-form
-        width 300px
-        height auto
-        margin 30px auto
-
-      >>> .el-form-item__label
-        background-color rgba(44, 239, 255, 0.4)
-        color: #ffffff;
-
-      >>> .el-input__inner {
-        border-radius: 0px;
-        background-color: rgba(44, 239, 255, 0.2);
-        border: 1px none #DCDFE6;
-        color: #ffffff;
-        margin-left: 1px;
-      }
-
-      .el-form-item {
-        margin 0 auto
-        margin-bottom: 1px;
-        width 295px
-      }
-
-      >>> .el-form-item__error {
-        color: #F56C6C;
-        font-size: 12px;
-        width: 100px;
-        text-align: initial;
-        line-height: 1;
-        padding-top: 4px;
-        position: absolute;
-        top: 25%;
-        left: 105%;
-      }
 </style>
 <style lang="stylus">
 

@@ -56,62 +56,65 @@
           </el-form>
         </div>
         <div class="userList">
-          <el-table
-                  ref="multipleTable"
-                  :data="userList"
-                  tooltip-effect="dark"
-                  style="width: 100%"
-                  @selection-change="handleSelectionChange">
-            <el-table-column
-                    type="selection"
-                    width="50">
-            </el-table-column>
-            <el-table-column
-                    prop="user"
-                    label="登录名"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="user"
-                    label="姓名"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="section"
-                    label="部门"
-                    width="110">
-            </el-table-column>
-            <el-table-column
-                    prop="userGroup"
-                    label="用户组"
-                    width="120">
-            </el-table-column>
-            <el-table-column
-                    prop="lastLoginDate"
-                    label="最后登录时间"
-                    width="180"
-                    show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column
-                    prop="loginType"
-                    label="登录类型"
-                    width="120">
-            </el-table-column>
-            <el-table-column
-                    prop="status"
-                    label="状态"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="policeKind"
-                    label="警种类别"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="reportedSection"
-                    label="上报部门">
-            </el-table-column>
-          </el-table>
+          <div class="organTable">
+            <el-table
+                    ref="multipleTable"
+                    :data="userList"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange">
+              <el-table-column
+                      type="selection"
+                      width="50">
+              </el-table-column>
+              <el-table-column
+                      prop="user"
+                      label="登录名"
+                      width="100">
+              </el-table-column>
+              <el-table-column
+                      prop="user"
+                      label="姓名"
+                      width="100">
+              </el-table-column>
+              <el-table-column
+                      prop="section"
+                      label="部门"
+                      width="110">
+              </el-table-column>
+              <el-table-column
+                      prop="userGroup"
+                      label="用户组"
+                      width="120">
+              </el-table-column>
+              <el-table-column
+                      prop="lastLoginDate"
+                      label="最后登录时间"
+                      width="180"
+                      show-overflow-tooltip>
+              </el-table-column>
+              <el-table-column
+                      prop="loginType"
+                      label="登录类型"
+                      width="120">
+              </el-table-column>
+              <el-table-column
+                      prop="status"
+                      label="状态"
+                      width="100">
+              </el-table-column>
+              <el-table-column
+                      prop="policeKind"
+                      label="警种类别"
+                      width="100">
+              </el-table-column>
+              <el-table-column
+                      prop="reportedSection"
+                      label="上报部门">
+              </el-table-column>
+            </el-table>
+          </div>
+
         </div>
         <div class="dialog">
           <!--添加-->
@@ -242,13 +245,17 @@
                 </el-select>
               </el-form-item>
             </el-form>
-            <span
+            <div class="butCoat">
+              <el-button class="canBut" @click="addDialog = false">取 消</el-button>
+              <el-button class="okBut" type="primary" @click="addUser('form')">确 定</el-button>
+            </div>
+           <!-- <span
                     slot="ft"
                     class="dialog-footer"
             >
     <el-button class="canBut" @click="addDialog = false">取 消</el-button>
     <el-button class="okBut" type="primary" @click="addUser('form')">确 定</el-button>
-    </span>
+    </span>-->
           </fly-dialog>
           <!--编辑-->
           <!--<el-dialog
@@ -379,10 +386,10 @@
                 </el-select>
               </el-form-item>
             </el-form>
-            <span slot="ft" class="dialog-footer">
+            <div class="butCoat">
               <el-button class="canBut" @click="editDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="editUser('form')">确 定</el-button>
-            </span>
+            </div>
           </fly-dialog>
           <!--查看-->
           <!--<el-dialog
@@ -467,9 +474,9 @@
               <span>上报部门:</span>
               <span>{{lookInfo.reportedSection}}</span>
             </div>
-             <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="lookDialog = false">取 消</el-button>
-             </span>
+            <div class="butCoat">
+              <el-button class="canBut" @click="lookDialog = false">取 消</el-button>
+            </div>
           </fly-dialog>
           <!--删除-->
           <!--<el-dialog
@@ -485,10 +492,10 @@
           </el-dialog>-->
           <fly-dialog title="删除" :show.sync="deleteDialog">
               <span class="content">确定删除？</span>
-            <span slot="ft" class="dialog-footer">
+            <div class="butCoat">
               <el-button class="canBut" @click="deleteDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="deleteUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
           <!--导入-->
           <!-- <el-dialog
@@ -526,10 +533,10 @@
               <el-button class="impBut" size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
             </el-upload>
-            <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="importDialog = false">取 消</el-button>
+            <div class="butCoat">
+              <el-button class="canBut" @click="importDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="importUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
           <!--导出-->
           <!--<el-dialog
@@ -545,10 +552,10 @@
           </el-dialog>-->
           <fly-dialog title="导出" :show.sync="exportDialog">
             <span class="content">导出</span>
-            <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="exportDialog = false">取 消</el-button>
+            <div class="butCoat">
+              <el-button class="canBut" @click="exportDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="exportUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
           <!--启用-->
           <!--<el-dialog
@@ -564,10 +571,10 @@
           </el-dialog>-->
           <fly-dialog title="启用" :show.sync="startDialog">
             <span class="content">确定启用该用户？</span>
-            <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="startDialog = false">取 消</el-button>
+            <div class="butCoat">
+              <el-button class="canBut" @click="startDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="startUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
           <!--停用-->
           <!--<el-dialog
@@ -583,10 +590,10 @@
           </el-dialog>-->
           <fly-dialog title="停用" :show.sync="stopDialog">
             <span class="content">确定停用该用户？</span>
-            <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="stopDialog = false">取 消</el-button>
+            <div class="butCoat">
+              <el-button class="canBut" @click="stopDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="stopUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
           <!--重置密码-->
           <!--<el-dialog
@@ -602,10 +609,10 @@
           </el-dialog>-->
           <fly-dialog title="重置密码" :show.sync="resetPassDialog">
             <span class="content">确定重置该用户密码？</span>
-            <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="resetPassDialog = false">取 消</el-button>
+            <div class="butCoat">
+              <el-button class="canBut" @click="resetPassDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="resetPassUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
           <!--重置回答-->
           <!--<el-dialog
@@ -621,10 +628,10 @@
           </el-dialog>-->
           <fly-dialog title="重置回答" :show.sync="resetAnswerDialog">
             <span class="content">确定重置该用户回答？</span>
-            <span slot="ft" class="dialog-footer">
-               <el-button class="canBut" @click="resetAnswerDialog = false">取 消</el-button>
+            <div class="butCoat">
+              <el-button class="canBut" @click="resetAnswerDialog = false">取 消</el-button>
               <el-button class="okBut" type="primary" @click="resetAnswerUser()">确 定</el-button>
-             </span>
+            </div>
           </fly-dialog>
         </div>
       </div>
@@ -968,28 +975,6 @@
   #userManage
     margin 0 auto
     position relative
-    .coat1
-      width 1200px
-      position relative
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin 0 auto
-      background-color rgba(44, 239, 255, 0.1)
-      padding 20px
-    .coat2
-      width 1160px
-      margin-top 18px
-      margin-bottom 20px
-      padding 20px 15px 20px 15px
-      position relative
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin 0 auto
-      background-color rgba(44, 239, 255, 0.1)
     ul
       display inline-block
     ul li
@@ -1010,7 +995,7 @@
     .criteria,
     .dialog
       .el-form-item
-        width 180px
+        /*width 180px*/
         display inline-block
         margin-right 8px
       .seekBut
@@ -1031,66 +1016,6 @@
         color #ffffff
         text-align center
 
-    .dialog
-      >>> .el-dialog
-        /*background: rgba(44, 239, 255, 0.5)!important*/
-        background: #187b87 !important
-        top 30%
-      .impBut {
-        background-color: rgba(44, 239, 255, 0.3);
-        border: 1px solid rgba(44, 239, 255, 0.3);
-        color: #ffffff;
-        padding: 9px 20px;
-        margin-left: 1px;
-      }
-      .canBut,
-      .okBut
-        color: #ffffff
-        margin 20px 14px
-        padding: 9px 15px
-
-      .okBut
-        background-color: rgba(70, 125, 68, 1)
-        border: 1px solid rgba(70, 125, 68, 1)
-
-      .canBut
-        background-color: #7f3237
-        border: 1px solid #7f3237
-
-      .el-form
-        width 300px
-        height auto
-        margin 30px auto
-
-      >>> .el-form-item__label
-        background-color rgba(44, 239, 255, 0.4)
-        color: #ffffff;
-
-      >>> .el-input__inner {
-        border-radius: 0px;
-        background-color: rgba(44, 239, 255, 0.2);
-        border: 1px none #DCDFE6;
-        color: #ffffff;
-        margin-left: 1px;
-      }
-
-      .el-form-item {
-        margin 0 auto
-        margin-bottom: 1px;
-        width 295px
-      }
-
-      >>> .el-form-item__error {
-        color: #F56C6C;
-        font-size: 12px;
-        width: 100px;
-        text-align: initial;
-        line-height: 1;
-        padding-top: 4px;
-        position: absolute;
-        top: 25%;
-        left: 105%;
-      }
     .userList >>>
       .el-table th,
       .el-table tr
@@ -1103,13 +1028,101 @@
         background-color rgba(44, 239, 255, 0.2)!important
       .el-table thead
         color #ffffff
-      .organTable >>>
-      .el-table td,
-      .el-table th.is-leaf
-        border: 1px solid #143d4b!important;
-      .el-table--border::after,
-      .el-table--group::after,
-      .el-table::before
-        background-color transparent;
+      .organTable
+       .el-table td,
+       .el-table th.is-leaf
+         border: 1px solid #143d4b!important;
+       .el-table--border::after,
+       .el-table--group::after,
+       .el-table::before
+         background-color transparent;
 
+</style>
+<style lang="stylus">
+  .coat1
+    width 1200px
+    position relative
+    top 0
+    left 0
+    right 0
+    bottom 0
+    margin 0 auto
+    background-color rgba(44, 239, 255, 0.1)
+    padding 20px
+  .coat2
+    width 1160px
+    margin-top 18px
+    margin-bottom 20px
+    padding 20px 15px 20px 15px
+    position relative
+    top 0
+    left 0
+    right 0
+    bottom 0
+    margin 0 auto
+    background-color rgba(44, 239, 255, 0.1)
+  .dialog
+    .el-dialog
+      /*background: rgba(44, 239, 255, 0.5)!important*/
+      background: #083438 !important
+      top 30%
+    .butCoat
+      text-align center
+    .impBut {
+      background-color: rgba(44, 239, 255, 0.3);
+      border: 1px solid rgba(44, 239, 255, 0.3);
+      color: #ffffff;
+      padding: 9px 20px;
+      margin-left: 1px;
+    }
+    .canBut,
+    .okBut
+      color: #ffffff
+      margin 20px 14px
+      padding: 9px 15px
+
+    .okBut
+      background-color: rgba(70, 125, 68, 1)
+      border: 1px solid rgba(70, 125, 68, 1)
+
+    .canBut
+      background-color: #7f3237
+      border: 1px solid #7f3237
+
+    .el-form
+      width 300px
+      height auto
+      margin 30px auto
+    .el-dialog .el-dialog__body .body-content
+      background-color rgba(44, 239, 255, 0.2)
+
+    .el-form-item__label
+      background-color rgba(44, 239, 255, 0.4)
+      color: #ffffff;
+
+    .el-input__inner {
+      border-radius: 0px;
+      background-color: rgba(44, 239, 255, 0.2);
+      border: 1px none #DCDFE6;
+      color: #ffffff;
+      margin-left: 1px;
+    }
+
+    .el-form-item {
+      margin 0 auto
+      margin-bottom: 1px;
+      width 295px!important
+    }
+
+    .el-form-item__error {
+      color: #F56C6C;
+      font-size: 12px;
+      width: 100px;
+      text-align: initial;
+      line-height: 1;
+      padding-top: 4px;
+      position: absolute;
+      top: 25%;
+      left: 105%;
+    }
 </style>
