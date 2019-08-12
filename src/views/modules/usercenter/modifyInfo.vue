@@ -31,39 +31,11 @@
 </template>
 
 <script>
-import { isMobile, isIdNumber, isEmail } from '../../../utils/validate.js'
 export default {
   name: 'modifyInfo',
   components: {},
   props: {},
   data () {
-    var validateIdNumber = (rule, value, callback) => {
-      if (!isIdNumber(value)) {
-        callback(new Error('请输入正确身份证号'))
-      } else {
-        if (this.form.phone !== '') {
-          this.$refs.form.validateField('phone')
-        }
-        callback()
-      }
-    }
-    var validatePhone = (rule, value, callback) => {
-      if (!isMobile(value)) {
-        callback(new Error('请输入正确手机号'))
-      } else {
-        if (this.form.Email !== '') {
-          this.$refs.form.validateField('Email')
-        }
-        callback()
-      }
-    }
-    var validateEmail = (rule, value, callback) => {
-      if (!isEmail(value)) {
-        callback(new Error('请输入正确邮箱'))
-      } else {
-        callback()
-      }
-    }
     return {
       asterisk: true, // 影响*号
       form: {
@@ -85,17 +57,10 @@ export default {
           { required: true, message: '请输入警号', trigger: 'blur' },
           { type: 'number', message: '警号必须为数字值' }
         ],
-        idNumber: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' },
-          { validator: validateIdNumber, trigger: 'blur' }
-        ],
-        phone: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          { validator: validatePhone, trigger: 'blur' }
-        ],
+        idNumber: this.filter_rules({ required: true, type: 'idCard' }),
+        phone: this.filter_rules({ required: true, type: 'mobile' }),
         Email: [
-          { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { validator: validateEmail, trigger: 'blur' }
+          { required: true, type: 'email', message: '请输入邮箱', trigger: 'blur' }
         ]
       }
     }

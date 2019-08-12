@@ -222,13 +222,13 @@ const mainRoutes = [
             meta: { title: 'organManage' }
           }
         ]
-      },,
+      },
       {
-        path: '/timespace',
+        path: '/timespaceindex',
         component: _import('modules/timespace/index'),
-        name: 'timespace',
+        name: 'timespaceindex',
         redirect: { name: 'timespace' },
-        meta: { title: 'timespace' },
+        meta: { title: 'timespaceindex' },
         children: [
           {
             path: '/timespace',
@@ -249,7 +249,7 @@ const mainRoutes = [
             meta: { title: 'timespaceinfo' }
           }
         ]
-      },
+      }
     ]
   }
 ]

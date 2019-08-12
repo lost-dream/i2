@@ -210,7 +210,7 @@
 </template>
 
 <script>
-  import FlyDialog from '@/components/fly-dialog'
+import FlyDialog from '@/components/fly-dialog'
 export default {
   name: 'menuManage',
   components: {
@@ -732,7 +732,7 @@ export default {
     // 删除菜单
     deleteMenu () {
       this.deleteDialog = false
-    },
+    }
   }
 }
 </script>

@@ -640,13 +640,13 @@
 </template>
 
 <script>
-  import FlyDialog from '@/components/fly-dialog'
+import FlyDialog from '@/components/fly-dialog'
 
-  export default {
+export default {
   name: 'userManage',
-    components: {
-      FlyDialog
-    },
+  components: {
+    FlyDialog
+  },
   data () {
     return {
       modal: false,
