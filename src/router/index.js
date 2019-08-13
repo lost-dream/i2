@@ -158,6 +158,90 @@ const mainRoutes = [
                 meta: {
                   title: 'phoneTravel'
                 }
+              },
+              {
+                path: '/ticket/singlePhone/mobileAnalyse',
+                component: _import('modules/ticket/SinglePhone/mobileAnalyse'),
+                name: 'mobileAnalyse',
+                meta: {
+                  title: 'mobileAnalyse'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/weekPhone',
+                component: _import('modules/ticket/SinglePhone/weekPhone'),
+                name: 'weekPhone',
+                meta: {
+                  title: 'weekPhone'
+                }
+              }
+            ]
+          },
+          {
+            path: '/ticket/morePhone',
+            component: _import('modules/ticket/morePhone'),
+            name: 'morePhone',
+            meta: {
+              title: 'morePhone'
+            },
+            children: [
+              {
+                path: '/ticket/morePhone/sameTime',
+                component: _import('modules/ticket/MorePhone/sameTime'),
+                name: 'sameTime',
+                meta: {
+                  title: 'sameTime'
+                }
+              },
+              {
+                path: '/ticket/morePhone/assignTime',
+                component: _import('modules/ticket/MorePhone/assignTime'),
+                name: 'assignTime',
+                meta: {
+                  title: 'assignTime'
+                }
+              },
+              {
+                path: '/ticket/morePhone/morePhoneTrail',
+                component: _import('modules/ticket/MorePhone/morePhoneTrail'),
+                name: 'morePhoneTrail',
+                meta: {
+                  title: 'morePhoneTrail'
+                }
+              },
+              {
+                path: '/ticket/morePhone/commonPhone',
+                component: _import('modules/ticket/MorePhone/commonPhone'),
+                name: 'commonPhone',
+                meta: {
+                  title: 'commonPhone'
+                }
+              }
+            ]
+          },
+          {
+            path: '/ticket/allNetwork',
+            component: _import('modules/ticket/allNetwork'),
+            name: 'allNetwork',
+            meta: {
+              title: 'allNetwork'
+            },
+            children: [
+              {
+                path: '/ticket/allNetwork/phoneSearch',
+                component: _import('modules/ticket/AllNetwork/phoneSearch'),
+                name: 'phoneSearch',
+                meta: {
+                  title: 'phoneSearch'
+                }
+              },
+              {
+                path: '/ticket/allNetwork/IMEISearch',
+                component: _import('modules/ticket/AllNetwork/IMEISearch'),
+                name: 'IMEISearch',
+                meta: {
+                  title: 'IMEISearch'
+                }
               }
             ]
           }
