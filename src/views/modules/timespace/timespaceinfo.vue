@@ -17,10 +17,10 @@
                     <span class="el-icon-time">&nbsp;&nbsp;2015年6月25日11:41</span>
                   </div>
                   <div class="infoItem" style="width: 25%">
-                    <span class="el-icon-time">&nbsp;&nbsp;D5172次</span>
+                    <span class="icon-zdy-facheshikebiao">&nbsp;&nbsp;D5172次</span>
                   </div>
                   <div class="infoItem" style="width: 25%">
-                    <span class="el-icon-time">&nbsp;&nbsp;05车11F</span>
+                    <!--<span class="icon-zdy-yizi">&nbsp;&nbsp;05车11F</span>-->
                   </div>
                 </div>
                 <div class="seatDesc clearfix">
@@ -28,17 +28,17 @@
                     <span style="font-size: 14px">&nbsp;&nbsp;第5车厢</span>
                   </div>
                   <div class="infoItem2" style="width: 20%">
-                    <span><span class="el-icon-time noOne"></span>&nbsp;&nbsp;无乘客</span>
+                    <span><span class="icon-zdy-yizi noOne"></span>&nbsp;&nbsp;无乘客</span>
                   </div>
                   <div class="infoItem2" style="width: 20%">
-                    <span><span class="el-icon-time exist"></span>&nbsp;&nbsp;固定乘客</span>
+                    <span><span class="icon-zdy-yizi exist"></span>&nbsp;&nbsp;固定乘客</span>
                   </div>
                   <div class="infoItem2" style="width: 20%">
-                    <span><span class="el-icon-time parties"></span>&nbsp;&nbsp;当事人</span>
+                    <span><span class="icon-zdy-yizi parties"></span>&nbsp;&nbsp;当事人</span>
                   </div>
                 </div>
                 <div class="seatLayout">
-                  <div class="hc_seatLayout">
+                  <div v-if="tooltype=='hc'" class="hc_seatLayout">
                     <div class="columnName clearfix">
                       <div class="list">
                         <span></span>
@@ -49,7 +49,7 @@
                       <div class="list">
                         <span>B</span>
                       </div>
-                      <div class="list">
+                      <div class="list aisle">
                         <span> 过道</span>
                       </div>
                       <div class="list">
@@ -59,30 +59,183 @@
                         <span>D</span>
                       </div>
                       <div class="list">
-                        <span>E</span>
+                        <span>F</span>
                       </div>
                     </div>
-                    <div class="seatList clearfix" @click.stop v-for="(item, index) in 18" :key="index">
+                    <div class="seatList clearfix" @click.stop v-for="(item, index) in 11" :key="index">
                       <div class="list">
                         <span>{{item}}</span>
                       </div>
                       <div class="list">
-                        <span class="el-icon-time" @click="showInfo(item,'A')" :class="seatType(item,'A')"></span>
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'A'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'A')" :class="seatType(item,'A')"></span>
+                        </el-tooltip>
                       </div>
                       <div class="list">
-                        <span class="el-icon-time" @click="showInfo(item,'B')" :class="seatType(item,'B')"></span>
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'B'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'B')" :class="seatType(item,'B')"></span>
+                        </el-tooltip>
                       </div>
+                      <div class="list aisle">
+                        <span></span>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'C'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'C')" :class="seatType(item,'C')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'D'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'D')" :class="seatType(item,'D')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'F'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'F')" :class="seatType(item,'F')"></span>
+                        </el-tooltip>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else-if="tooltype=='fj'" class="fj_seatLayout">
+                    <div class="columnName clearfix">
                       <div class="list">
                         <span></span>
                       </div>
                       <div class="list">
-                        <span class="el-icon-time" @click="showInfo(item,'C')" :class="seatType(item,'C')"></span>
+                        <span>A</span>
                       </div>
                       <div class="list">
-                        <span class="el-icon-time" @click="showInfo(item,'D')" :class="seatType(item,'D')"></span>
+                        <span>C</span>
+                      </div>
+                      <div class="list aisle">
+                        <span> 过道</span>
                       </div>
                       <div class="list">
-                        <span class="el-icon-time" @click="showInfo(item,'E')" :class="seatType(item,'E')"></span>
+                        <span>D</span>
+                      </div>
+                      <div class="list">
+                        <span>E</span>
+                      </div>
+                      <div class="list">
+                        <span>F</span>
+                      </div>
+                      <div class="list">
+                        <span>G</span>
+                      </div>
+                      <div class="list aisle">
+                        <span> 过道</span>
+                      </div>
+                      <div class="list">
+                        <span>H</span>
+                      </div>
+                      <div class="list">
+                        <span>K</span>
+                      </div>
+                    </div>
+                    <div class="seatList clearfix" @click.stop v-for="(item, index) in 11" :key="index">
+                      <div class="list">
+                        <span>{{item}}</span>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'A'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'A')" :class="seatType(item,'A')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'B'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'B')" :class="seatType(item,'B')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list aisle">
+                        <span></span>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'C'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'C')" :class="seatType(item,'C')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'D'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'D')" :class="seatType(item,'D')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'E'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'E')" :class="seatType(item,'E')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'G'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'G')" :class="seatType(item,'G')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list aisle">
+                        <span></span>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'H'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'H')" :class="seatType(item,'H')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item+'K'" placement="top">
+                          <span class="icon-zdy-yizi" @click="showInfo(item,'K')" :class="seatType(item,'K')"></span>
+                        </el-tooltip>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else-if="tooltype=='qc'"  class="qc_seatLayout">
+                    <div class="columnName clearfix">
+                      <div class="list">
+                        <span></span>
+                      </div>
+                      <div class="list">
+                        <span>A</span>
+                      </div>
+                      <div class="list">
+                        <span>B</span>
+                      </div>
+                      <div class="list aisle">
+                        <span> 过道</span>
+                      </div>
+                      <div class="list">
+                        <span>C</span>
+                      </div>
+                      <div class="list">
+                        <span>D</span>
+                      </div>
+                    </div>
+                    <div class="seatList clearfix" @click.stop v-for="(item, index) in 11" :key="index">
+                      <div class="list">
+                        <span>{{item}}</span>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="(item-1)*4+1" placement="top">
+                          <span class="icon-zdy-yizi" @click="showQcInfo((item-1)*4+1)" :class="seatType(item,'A')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="(item-1)*4+2" placement="top">
+                          <span class="icon-zdy-yizi" @click="showQcInfo((item-1)*4+2)" :class="seatType(item,'B')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list aisle" v-if="item!==11">
+                        <span></span>
+                      </div>
+                      <div class="list aisle" v-else>
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="(item-1)*4+3" placement="top">
+                          <span class="icon-zdy-yizi" @click="showQcInfo((item-1)*4+3)" :class="seatType(item,' ')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="(item!==11)?(item-1)*4+3:(item-1)*4+4" placement="top">
+                          <span class="icon-zdy-yizi" @click="showQcInfo((item!==11)?(item-1)*4+3:(item-1)*4+4)" :class="seatType(item,'C')"></span>
+                        </el-tooltip>
+                      </div>
+                      <div class="list">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="(item!==11)?(item-1)*4+4:(item-1)*4+5" placement="top">
+                          <span class="icon-zdy-yizi" @click="showQcInfo((item!==11)?(item-1)*4+4:(item-1)*4+5)" :class="seatType(item,'D')"></span>
+                        </el-tooltip>
                       </div>
                     </div>
                   </div>
@@ -91,6 +244,11 @@
             </div>
         </div>
         </div>
+      <div>
+        <el-button type="primary" @click="tooltype='fj'">飞机</el-button>
+        <el-button type="primary" @click="tooltype='hc'">火车</el-button>
+        <el-button type="primary" @click="tooltype='qc'">汽车</el-button>
+      </div>
       <div class="infoCard">
         <personal-info-card></personal-info-card>
       </div>
@@ -110,6 +268,8 @@ export default {
   data () {
     return {
       passengerInfoShow: false,
+      tooltype: 'qc',
+      zwnum: '11a',
       partiesInfo: {}
     }
   },
@@ -128,7 +288,7 @@ export default {
     }
   },
   mounted () {
-    this.receiveRouter()
+    this.$route.params.form !== undefined && this.receiveRouter()
     document.addEventListener('click', this.handleDocumentClick);
   },
   methods: {
@@ -138,6 +298,10 @@ export default {
     },
     // 显示座位乘客信息 x,y为座位信息
     showInfo (x, y) {
+      this.passengerInfoShow = true
+    },
+    // 显示汽车座位乘客信息 x为座位信息
+    showQcInfo (x) {
       this.passengerInfoShow = true
     },
     // 点击空白地方隐藏乘客信息
@@ -162,20 +326,18 @@ export default {
       background-color rgba(44, 239, 255, 0.1)
     .seatInfoCoat1
       width 680px
-      height 830px
       position relative
       left 189px
     .seatInfoCoat2
       width 660px
-      height 810px
       border 1px solid rgba(44, 239, 255, 0.2)
     .seatInfoCoat3
       width 640px
-      height 790px
+      height auto
       overflow hidden
     .seatInfo
         width: 660px;
-        height: 790px;
+        min-height: 640px;
         background-color rgba(44, 239, 255, 0.2)
         overflow-y  scroll
       .noOne
@@ -187,6 +349,7 @@ export default {
       .parties
         display inline!important
         color #e22929!important
+        font-weight 900
       .journeyInfo
           width 100%
           height 90px
@@ -232,25 +395,40 @@ export default {
         .infoItem2:nth-child(1) span
           text-align initial
     .seatInfoCoat3 .seatInfo .seatLayout
-      .hc_seatLayout
-         .columnName
-           width 100%
-           height 40px
-         .list
-           float left
-           display inline-block
+      .columnName
+        width 100%
+        height 40px
+      .list
+        float left
+        display inline-block
+        width 14%
+        height 50px
+        padding 10px 0
+        text-align center
+        border-bottom 1px solid #143d4b
+      .list span
+        color #ffffff
+        font-size 18px
+      .hc_seatLayout .list
            width 14%
-           height 40px
-           padding 10px 0
-           text-align center
-           border-bottom 1px solid #143d4b
-         .list:nth-child(4n)
+      .hc_seatLayout .aisle
            width 16%
-         .list span
-           color #ffffff
-           font-size 18px
+      .fj_seatLayout .list
+           width 9%
+      .qc_seatLayout .list
+           width 16%
+      .qc_seatLayout .aisle
+           width 20%
     .passengerInfo
       position absolute
       left 905px
       top 120px
+</style>
+<style lang="stylus">
+  .atooltip[x-placement^=top] .popper__arrow
+    border-top-color #59bec6!important
+  .atooltip[x-placement^=top] .popper__arrow:after
+    border-top-color #59bec6!important
+  .atooltip
+    background: #59bec6 !important;
 </style>

@@ -36,5 +36,18 @@ export default {
    */
   queryNode (key) {
     return [{ id: 3, label: 'Node 3', x: -400, y: -50, shape: 'image', image: './nodeImg/person.png' }]
+  },
+  // ------------------------------------timespace---------------------------------------------//
+  /**
+   * 通过用户和密码登录
+   * @param {*} username 用户名
+   * @param {*} password 密码
+   */
+  spacequery (from) {
+    return http({
+      url: http.adornUrl('/spacequery'),
+      method: 'post',
+      data: http.adornData(from)
+    })
   }
 }

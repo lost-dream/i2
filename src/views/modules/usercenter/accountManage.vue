@@ -14,7 +14,7 @@
               <el-input v-model="form.checkPass" placeholder="请再次输入新密码"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button class="sureBut" type="primary" @click="onSubmit('form');see='depict'">确定</el-button>
+              <el-button class="sureBut" type="primary" @click="onSubmit('form')">确定</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -126,8 +126,7 @@ export default {
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
-          console.log(this.form.oldPass, this.form.newPass, this.form.checkPass)
+          formName === 'form' && (this.see = 'depict')
         } else {
           console.log('error submit!!')
           return false

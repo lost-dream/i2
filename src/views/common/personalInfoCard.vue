@@ -40,6 +40,9 @@
             <span>四川省成都市青羊区清江东路锦绣花苑5栋2单元1120室</span>
           </div>
         </div>
+        <div class="timespaceBut">
+          <el-button class="sureBut" size="mini" type="primary">添加到关系分析</el-button>
+        </div>
       </el-card>
     </div>
   </div>
@@ -97,10 +100,14 @@ export default {
       border solid 1px rgba(44, 239, 255, 1)
     >>>.el-button
       color #ffffff!important
-      font-size 20px
+      font-size 14px
     .cardInfo
       .list
         margin 9px
         color #ffffff
         font-size 14px
+  .timespaceBut
+    .el-button--primary
+      background-color rgba(70, 111, 50, 1)
+      border-color: rgba(70, 111, 50, 1)
 </style>

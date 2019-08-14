@@ -8,12 +8,14 @@
           <el-form-item prop="startDate">
             <el-date-picker
               v-model="form.startDate"
+              popper-class="datePicker"
               type="date"
               placeholder="选择开始日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item prop="endDate">
             <el-date-picker
+              popper-class="datePicker"
               v-model="form.endDate"
               type="date"
               placeholder="选择结束日期">
@@ -32,22 +34,24 @@
               :timestamp="activity.timestamp">
               <div class="listCoat1">
                 <div class="listCoat2">
-                  <div class="infoItem" style="width: 17%">
-                    <span><img src="../../../assets/img/huoche.png" alt=""></span>
-                    <span style="font-size: 14px">火车出行信息</span>
-                  </div>
-                  <div class="infoItem" style="width: 32%">
-                    <span style="font-size: 18px">成都东  to  广安南</span>
-                    <span class="el-icon-time">2015年6月25日11:41</span>
-                  </div>
-                  <div class="infoItem" style="width: 23%">
-                    <span class="el-icon-time">D5172次</span>
-                  </div>
-                  <div class="infoItem" style="width: 23%">
-                    <span class="el-icon-time">05车11F</span>
-                  </div>
-                  <div class="infoItem" style="width: 5%">
-                    <span @click="gotoInfo" class="el-icon-d-arrow-right"></span>
+                  <div v-if="tooltype=='hc'">
+                    <div class="infoItem" style="width: 17%">
+                      <span><img src="../../../assets/img/huoche.png" alt=""></span>
+                      <span style="font-size: 14px">&nbsp;火车出行信息</span>
+                    </div>
+                    <div class="infoItem" style="width: 32%">
+                      <span style="font-size: 18px">成都东  to  广安南</span>
+                      <span class="el-icon-time">&nbsp;2015年6月25日11:41</span>
+                    </div>
+                    <div class="infoItem" style="width: 23%">
+                      <span class="icon-zdy-facheshikebiao">&nbsp;D5172次</span>
+                    </div>
+                    <div class="infoItem" style="width: 23%">
+                      <span class="icon-zdy-yizi">&nbsp;05车11F</span>
+                    </div>
+                    <div class="infoItem" style="width: 5%">
+                      <span @click="gotoInfo" class="el-icon-d-arrow-right"></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -76,6 +80,7 @@ export default {
         startDate: '',
         endDate: ''
       },
+      tooltype: 'hc',
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
         startDate: [
@@ -134,6 +139,24 @@ export default {
       ]
     }
   },
+  created () {
+    var _self = this
+    document.onkeydown = function (e) {
+      var key = window.event.keyCode
+      if (key === 13) {
+        _self.onSubmit('form')
+      }
+    }
+  },
+  beforeDestroy () {
+    document.onkeydown = function (e) {
+      var key = window.event.keyCode
+
+      if (key === 13) {
+
+      }
+    }
+  },
   mounted () {
     this.$route.params.form !== undefined && this.receiveRouter()
     document.addEventListener('click', this.handleDocumentClick);
@@ -145,13 +168,21 @@ export default {
     },
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
+        console.log(this.form)
+        console.log(valid)
         if (valid) {
           alert('submit!')
           console.log(this.form.oldPass, this.form.newPass, this.form.checkPass)
+          this.getTimespaceList()
         } else {
           console.log('error submit!!')
           return false
         }
+      })
+    },
+    getTimespaceList () {
+      this.$api.spacequery(this.from).then(({ data }) => {
+        console.log(data)
       })
     },
     gotoInfo () {

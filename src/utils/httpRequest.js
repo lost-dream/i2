@@ -12,7 +12,9 @@ const http = axios.create({
     'Content-Type': 'application/json; charset=utf-8'
   }
 })
-
+window.SITE_CONFIG = {
+  baseUrl: 'http://192.168.1.121:8088/spacetime/'
+}
 /**
  * 请求拦截
  */
@@ -40,6 +42,7 @@ http.interceptors.response.use(response => {
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
+  console.log(window.SITE_CONFIG.baseUrl)
   return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
 }
 /**

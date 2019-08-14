@@ -2,49 +2,69 @@
   <div class="timespaceindex">
     <div class="title"><span class="title_a">时空分析</span></div>
     <div class="dir">
-      <div class="list" @click="isClick = 1">
-        <!--<el-button class="el-icon-circle-check" type="text">全部</el-button>-->
-        <span style="font-size: 20px;" class="el-icon-circle-check"></span><span>全部</span>
+      <router-link to="/timespacelist">
+        <div class="list" @click="isClick = 1">
+          <!--<el-button class="el-icon-circle-check" type="text">全部</el-button>-->
+          <span style="font-size: 20px;" class="el-icon-circle-check"></span><span>全部</span>
 
-      </div>
+        </div>
+      </router-link>
       <span style="display: inline-block">
       <div class="or-spacer-vertical clearfix">
           <div class="mask"></div>
         </div>
     </span>
-      <div class="list" @click="isClick = 1">
-        <!--<el-button class="el-icon-user" type="text">飞机</el-button>-->
-        <span style="font-size: 20px;" class="el-icon-user"></span><span>飞机</span>
+      <router-link to="/timespacelist">
+        <div class="list" @click="isClick = 1">
+          <!--<el-button class="el-icon-user" type="text">飞机</el-button>-->
+          <span style="font-size: 20px;" class="icon-zdy-feiji"></span><span>飞机</span>
 
-      </div>
+        </div>
+      </router-link>
       <span style="display: inline-block">
       <div class="or-spacer-vertical clearfix">
           <div class="mask"></div>
         </div>
     </span>
-      <div class="list" @click="isClick = 1">
-        <!--<el-button class="el-icon-user" type="text">火车</el-button>-->
-        <span style="font-size: 20px;" class="el-icon-user"></span><span>火车</span>
-
-      </div>
+      <router-link to="/timespacelist">
+        <div class="list" @click="isClick = 1">
+          <!--<el-button class="el-icon-user" type="text">火车</el-button>-->
+          <span style="font-size: 20px;" class="icon-zdy-huoche"></span><span>火车</span>
+        </div>
+      </router-link>
       <span style="display: inline-block">
       <div class="or-spacer-vertical clearfix">
           <div class="mask"></div>
         </div>
     </span>
-      <div class="list" @click="isClick = 1">
-        <!--<el-button class="el-icon-user" type="text">旅馆</el-button>-->
-        <span style="font-size: 20px;" class="el-icon-user"></span><span>旅馆</span>
-      </div>
+      <router-link to="/timespacelist">
+        <div class="list" @click="isClick = 1">
+          <!--<el-button class="el-icon-user" type="text">火车</el-button>-->
+          <span style="font-size: 20px;" class="icon-zdy-daba"></span><span>汽车</span>
+        </div>
+      </router-link>
       <span style="display: inline-block">
       <div class="or-spacer-vertical clearfix">
           <div class="mask"></div>
         </div>
     </span>
-      <div class="list" @click="isClick = 1">
-      <!--<el-button class="el-icon-monitor" type="text">网吧</el-button>-->
-      <span style="font-size: 20px;" class="el-icon-user"></span><span>网吧</span>
-      </div>
+      <router-link to="/timespacelist">
+        <div class="list" @click="isClick = 1">
+          <!--<el-button class="el-icon-user" type="text">旅馆</el-button>-->
+          <span style="font-size: 20px;" class="icon-zdy-fangzidichan"></span><span>旅馆</span>
+        </div>
+      </router-link>
+      <span style="display: inline-block">
+      <div class="or-spacer-vertical clearfix">
+          <div class="mask"></div>
+        </div>
+    </span>
+      <router-link to="/timespacelist">
+        <div class="list" @click="isClick = 1">
+          <!--<el-button class="el-icon-monitor" type="text">网吧</el-button>-->
+          <span style="font-size: 20px;" class="icon-zdy-qitaleixianshiqi"></span><span>网吧</span>
+        </div>
+      </router-link>
       <span style="display: inline-block">
       <div class="or-spacer-vertical clearfix">
           <div class="mask"></div>
