@@ -137,7 +137,7 @@
 </template>
 
 <script>
-  import FlyDialog from '@/components/fly-dialog'
+import FlyDialog from '@/components/fly-dialog'
 export default {
   name: 'organManage',
   components: {

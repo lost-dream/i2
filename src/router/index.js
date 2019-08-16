@@ -224,6 +224,12 @@ const mainRoutes = [
         ]
       },
       {
+        path: '/archives',
+        component: _import('modules/archives/archives'),
+        name: 'archives',
+        meta: { title: '人员档案' }
+      },
+      {
         path: '/timespaceindex',
         component: _import('modules/timespace/index'),
         name: 'timespaceindex',
