@@ -1,7 +1,7 @@
 /* eslint-disable */
 require('script-loader!file-saver');
 // require('script-loader!src/vendor/Blob');
-require('script-loader!../../assets/js/Blob');
+require('script-loader!./Blob');
 require('script-loader!xlsx/dist/xlsx.core.min');
 
 function generateArray(table) {
@@ -123,7 +123,7 @@ function formatJson(jsonData) {
   console.log(jsonData)
 }
 
-export function export_json_to_excel(th, jsonData, defaultTitle) {
+export function exportJsonToExcel(th, jsonData, defaultTitle) {
 
   /* original data */
 

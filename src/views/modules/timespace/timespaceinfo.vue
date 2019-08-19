@@ -7,7 +7,12 @@
                 <!--<div v-for="item in 100" :key="item">
                   {{item}}
                 </div>-->
-                <div class="journeyInfo clearfix">
+                <div v-if="tooltype=='lg'||tooltype=='wb'" class="journeyInfo clearfix">
+                  <div class="infoItem" style="width: 100%;height: auto!important;">
+                    <span style="font-size: 14px;text-align: initial;padding: 0 30px;height: auto;font-size: 18px;">{{tooltype=='lg'?'旅馆名称':'网吧名称'}}：背包十年</span>
+                  </div>
+                </div>
+                <div v-else class="journeyInfo clearfix">
                   <div class="infoItem" style="width: 20%">
                     <span><img src="../../../assets/img/huoche.png" alt=""></span>
                     <span style="font-size: 14px">火车出行信息</span>
@@ -23,7 +28,35 @@
                     <!--<span class="icon-zdy-yizi">&nbsp;&nbsp;05车11F</span>-->
                   </div>
                 </div>
-                <div class="seatDesc clearfix">
+                <div v-if="tooltype=='lg'" class="seatDesc clearfix">
+                  <div class="infoItem2" style="width: 40%">
+                    <span style="font-size: 14px">&nbsp;&nbsp;2015年6月25日11:41</span>
+                  </div>
+                  <div class="infoItem2" style="width: 20%">
+                    <span><span class="el-icon-place noOne"></span>&nbsp;&nbsp;无住户</span>
+                  </div>
+                  <div class="infoItem2" style="width: 20%">
+                    <span><span class="el-icon-place exist"></span>&nbsp;&nbsp;已有住户</span>
+                  </div>
+                  <div class="infoItem2" style="width: 20%">
+                    <span><span class="el-icon-place parties"></span>&nbsp;&nbsp;当事人</span>
+                  </div>
+                </div>
+                <div v-else-if="tooltype=='wb'" class="seatDesc clearfix">
+                  <div class="infoItem2" style="width: 40%">
+                    <span style="font-size: 14px">&nbsp;&nbsp;2015年6月25日11:41</span>
+                  </div>
+                  <div class="infoItem2" style="width: 20%">
+                    <span><span class="icon-zdy-yizi noOne"></span>&nbsp;&nbsp;无人</span>
+                  </div>
+                  <div class="infoItem2" style="width: 20%">
+                    <span><span class="icon-zdy-yizi exist"></span>&nbsp;&nbsp;有人</span>
+                  </div>
+                  <div class="infoItem2" style="width: 20%">
+                    <span><span class="icon-zdy-yizi parties"></span>&nbsp;&nbsp;当事人</span>
+                  </div>
+                </div>
+                <div v-else class="seatDesc clearfix">
                   <div class="infoItem2" style="width: 40%">
                     <span style="font-size: 14px">&nbsp;&nbsp;第5车厢</span>
                   </div>
@@ -239,6 +272,30 @@
                       </div>
                     </div>
                   </div>
+                  <div v-else-if="tooltype=='lg'"  class="lg_seatLayout">
+                    <div class="seatList clearfix" @click.stop v-for="(item, index) in 5" :key="index">
+                      <div class="list" style="height: 100px">
+                        <span>{{item}}F</span>
+                      </div>
+                      <div class="list lgList" v-for="(item2, index2) in 26" :key="index2">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item2+''" placement="top">
+                          <span class="el-icon-place" @click="showLgInfo(item,item2)" :class="seatType(item,item2)"></span>
+                        </el-tooltip>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else-if="tooltype=='wb'"  class="wb_seatLayout">
+                    <div class="seatList clearfix" @click.stop v-for="(item, index) in 5" :key="index">
+                      <div class="list" style="height: 100px">
+                        <span>{{wbArea(item)}}&nbsp;区域</span>
+                      </div>
+                      <div class="list lgList" v-for="(item2, index2) in 26" :key="index2">
+                        <el-tooltip popper-class="atooltip" class="item" effect="dark" :content="item2+(item-1)*26" placement="top">
+                          <span class="el-icon-place" @click="showWbInfo(item,item2+(item-1)*26)" :class="seatType(item,item2+(item-1)*26)"></span>
+                        </el-tooltip>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -246,13 +303,20 @@
         </div>
       <div>
         <el-button type="primary" @click="tooltype='fj'">飞机</el-button>
+        <el-button type="primary" @click="tooltype='lg'">旅馆</el-button>
         <el-button type="primary" @click="tooltype='hc'">火车</el-button>
         <el-button type="primary" @click="tooltype='qc'">汽车</el-button>
+        <el-button type="primary" @click="tooltype='wb'">网吧</el-button>
       </div>
       <div class="infoCard">
         <personal-info-card></personal-info-card>
       </div>
       <div id="passengerInfo" class="passengerInfo" v-show="passengerInfoShow">
+        <div v-if="personCard.length>1">
+          <span  @click="okCard=item" v-for="(item,index) in personCard.length" :key="index">
+            <span :class="{'okCard':okCard==item}" class="cardList">旅客{{item}}</span>
+          </span>
+        </div>
           <personal-info-card></personal-info-card>
         </div>
     </div>
@@ -268,8 +332,9 @@ export default {
   data () {
     return {
       passengerInfoShow: false,
-      tooltype: 'qc',
-      zwnum: '11a',
+      tooltype: 'lg',
+      okCard: 1,
+      personCard: [],
       partiesInfo: {}
     }
   },
@@ -285,6 +350,12 @@ export default {
           parties: parties
         }
       }
+    },
+    wbArea (x) {
+      return (x) => {
+        let a = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        return a[x - 1]
+      }
     }
   },
   mounted () {
@@ -298,10 +369,22 @@ export default {
     },
     // 显示座位乘客信息 x,y为座位信息
     showInfo (x, y) {
+      this.personCard = [1]
       this.passengerInfoShow = true
     },
     // 显示汽车座位乘客信息 x为座位信息
     showQcInfo (x) {
+      this.personCard = [1]
+      this.passengerInfoShow = true
+    },
+    // 显示旅馆房间人员信息 x,y为房间坐标
+    showLgInfo (x, y) {
+      this.personCard = [1, 2, 3]
+      this.passengerInfoShow = true
+    },
+    // 显示网吧人员信息 x,y为位置坐标
+    showWbInfo (x, y) {
+      this.personCard = [1]
       this.passengerInfoShow = true
     },
     // 点击空白地方隐藏乘客信息
@@ -325,19 +408,19 @@ export default {
       padding 10px
       background-color rgba(44, 239, 255, 0.1)
     .seatInfoCoat1
-      width 680px
+      width 840px
       position relative
       left 189px
     .seatInfoCoat2
-      width 660px
+      width 820px
       border 1px solid rgba(44, 239, 255, 0.2)
     .seatInfoCoat3
-      width 640px
+      width 800px
       height auto
       overflow hidden
     .seatInfo
-        width: 660px;
-        min-height: 640px;
+        width: 820px;
+        min-height: 100px;
         background-color rgba(44, 239, 255, 0.2)
         overflow-y  scroll
       .noOne
@@ -352,7 +435,6 @@ export default {
         font-weight 900
       .journeyInfo
           width 100%
-          height 90px
         .infoItem
           float left
           display inline-block
@@ -417,12 +499,25 @@ export default {
            width 9%
       .qc_seatLayout .list
            width 16%
+      .lg_seatLayout .list,
+      .wb_seatLayout .list
+           width 7%
+      .wb_seatLayout .list:nth-child(27n+1) span
+           font-size 14px
       .qc_seatLayout .aisle
            width 20%
     .passengerInfo
-      position absolute
-      left 905px
-      top 120px
+        position absolute
+        left 1060px
+        top 120px
+      .cardList
+        display inline-block
+        margin 0px 10px 10px 0
+        padding 5px 10px
+        background-color rgba(44, 239, 255, 0.2)
+        color #ffffff
+      .okCard
+        background-color rgba(44, 239, 255, 0.4)
 </style>
 <style lang="stylus">
   .atooltip[x-placement^=top] .popper__arrow

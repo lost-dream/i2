@@ -38,11 +38,11 @@
                         </div>
                         <div @click.stop style="float: right;">
                           <i class="el-icon-setting"
-                             @click="isUnfold=!isUnfold"
+                             @click="item.isUnfold=!item.isUnfold"
                              style="float: right;margin-right: 20px;font-size: 16px;line-height: 56px"></i>
                         </div>
                       </template>
-                      <div class="toolbar" :class="{unfold:isUnfold}">
+                      <div class="toolbar" :class="{unfold:item.isUnfold}">
                         <div class="from">
                           <el-form :inline="true" :model="formInline" class="demo-form-inline">
                             <el-form-item>
@@ -83,34 +83,6 @@
                             </template>
                           </el-table-column>
                         </el-table>
-                        <!--<el-table
-                        :data="organData"
-                        style="width: 100%">
-                        <el-table-column
-                          prop="name"
-                          label="机构名称"
-                          width="225">
-                        </el-table-column>
-                        <el-table-column
-                          prop="code"
-                          label="机构编码"
-                          width="225">
-                        </el-table-column>
-                        <el-table-column
-                          prop="status"
-                          label="状态"
-                          width="225">
-                        </el-table-column>
-                        <el-table-column
-                          prop="describe"
-                          label="描述">
-                        </el-table-column>
-                        <el-table-column
-                          prop="createDate"
-                          label="创建时间"
-                          width="225">
-                        </el-table-column>
-                        </el-table>-->
                       </div>
                       <div class="paging">
                         <el-pagination
@@ -142,7 +114,29 @@
                       <template slot="title">
                         <i class="el-icon-location"></i>
                         <span>{{item.name}}</span>
+                        <div class="messageCoT">
+                          <span>{{item.tabledara.length>10?10+'+':item.tabledara.length}}</span>
+                        </div>
+                        <div @click.stop style="float: right;">
+                          <i class="el-icon-setting"
+                             @click="item.isUnfold=!item.isUnfold"
+                             style="float: right;margin-right: 20px;font-size: 16px;line-height: 56px"></i>
+                        </div>
                       </template>
+                      <div class="toolbar" :class="{unfold:item.isUnfold}">
+                        <div class="from">
+                          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                            <el-form-item>
+                              <el-input size="mini" v-model="formInline.seek" placeholder="请输入搜索内容"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                              <el-button class="okBut" size="mini" type="primary" @click="onSubmit">查询</el-button>
+                            </el-form-item>
+                          </el-form>
+                        </div>
+                        <el-button class="toolBut" size="mini" type="primary" @click="exportToExcel(item)">导出Excel</el-button>
+                        <el-button class="toolBut" size="mini" type="primary" @click="flush">刷新</el-button>
+                      </div>
                       <div class="archives_table">
                         <el-table
                           :data="item.tabledara"
@@ -155,7 +149,7 @@
                           fit
                         >
                           <el-table-column
-                            v-for="(item2,index2) in item.tableCN"
+                            v-for="(item2,index2) in showTableCN(item.tableCN)"
                             :key="index2"
                             :prop="item2.prop"
                             :width="item2.width"
@@ -171,34 +165,6 @@
                             </template>
                           </el-table-column>
                         </el-table>
-                        <!--<el-table
-                        :data="organData"
-                        style="width: 100%">
-                        <el-table-column
-                          prop="name"
-                          label="机构名称"
-                          width="225">
-                        </el-table-column>
-                        <el-table-column
-                          prop="code"
-                          label="机构编码"
-                          width="225">
-                        </el-table-column>
-                        <el-table-column
-                          prop="status"
-                          label="状态"
-                          width="225">
-                        </el-table-column>
-                        <el-table-column
-                          prop="describe"
-                          label="描述">
-                        </el-table-column>
-                        <el-table-column
-                          prop="createDate"
-                          label="创建时间"
-                          width="225">
-                        </el-table-column>
-                        </el-table>-->
                       </div>
                       <div class="paging">
                         <el-pagination
@@ -206,7 +172,7 @@
                           @current-change="handleCurrentChange"
                           :current-page="item.paging.currentPage"
                           :page-size="10"
-                          layout="total, sizes, prev, pager, next, jumper"
+                          layout="total, prev, pager, next, jumper"
                           :total="100">
                         </el-pagination>
                       </div>
@@ -241,7 +207,7 @@
 <script>
 import FlyDialog from '@/components/fly-dialog'
 // import { export_json_to_excel } from '@/assets/js/Export2Excel'
-import { exportJsonToExcel } from '@/aassets/js/Export2Excel'
+import { exportJsonToExcel } from '../../../assets/js/Export2Excel'
 export default {
   components: {
     FlyDialog
@@ -306,6 +272,7 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
@@ -365,6 +332,7 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
@@ -424,6 +392,7 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
@@ -483,6 +452,7 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
@@ -542,6 +512,7 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
@@ -601,6 +572,7 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
@@ -662,13 +634,13 @@ export default {
               originalSerial: 2759133524
             }
           ],
+          isUnfold: false,
           paging: {
             currentPage: 1
           }
         }
       ],
       showDialog: false,
-      isUnfold: false,
       formInline: {
         seek: ''
       },
@@ -726,7 +698,7 @@ export default {
         })
         const list = Archives.tabledara;
         const data = this.formatJson(filterVal, list);
-        exportJsonToExcel(tHeader, data, '列表excel');
+        exportJsonToExcel(tHeader, data, Archives.name + '表');
       })
     },
     formatJson (filterVal, jsonData) {
