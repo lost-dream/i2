@@ -601,16 +601,7 @@ import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
 import AddNodes from './i2-nodes-add'
-import i2 from './js/i2.js'
-let rt
-$(window).resize(() => {
-  window.clearTimeout(rt)
-  rt = setTimeout(() => {
-    i2.autoSetTabpanelHeight()
-    i2.autoSetNetworkHeight()
-  }, 10)
-})
-
+import { Workbench } from './js/workbench'
 export default {
   components: {
     Sidebar,
@@ -621,25 +612,32 @@ export default {
   props: {},
   data () {
     return {
-      addNodesVisible: false
+      addNodesVisible: false,
+      workbench: null,
+      nodes: [],
+      edges: [
+        { from: 1, to: 2, label: '同行', title: 'hello' },
+        { from: 1, to: 3, label: '同住' },
+        { from: 1, to: 4, label: '子女' }
+      ]
     }
   },
-  computed: {},
+  computed: {
+    511302199010143015
+  },
   methods: {
     addNodesHandle () {
       this.addNodesVisible = true
       this.$nextTick(() => {
-        this.$refs.addNodes.init()
+        this.$refs.addNodes.init(this.workbench)
       })
     }
   },
   created () { },
   mounted () {
-    i2.autoSetTabpanelHeight()
     // 初始化画布
     /* eslint-disable no-new */
-    new i2.Workbench()
-    i2.autoSetNetworkHeight()
+    this.workbench = new Workbench(this.nodes, this.edges)
   }
 }
 </script>

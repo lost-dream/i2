@@ -39,6 +39,7 @@ export default {
   data () {
     return {
       show: false,
+      workbench: null,
       dataForm: {
         kw: ''
       },
@@ -49,13 +50,14 @@ export default {
 
   },
   methods: {
-    init () {
+    init (workbench) {
+      this.workbench = workbench
       this.show = true
     },
     dataFormSubmit () {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          addNodes(this.dataForm.kw)
+          this.workbench.addNodes(this.dataForm.kw)
         }
       })
     }
