@@ -19,10 +19,6 @@
         <el-button type="primary"
                    @click="onSubmit">查询</el-button>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary"
-                   @click="exportExcel">导出</el-button>
-      </el-form-item>
     </el-form>
     <el-table :data="continueTable"
               border
@@ -33,28 +29,23 @@
                        prop="index"
                        width="50">
       </el-table-column>
-      <el-table-column prop="otherPartyPhone"
-                       label="对方号码"
+      <el-table-column prop="IMEI"
+                       label="手机串号(IMEI)"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="communicationMode"
-                       label="呼叫类型"
+      <el-table-column prop="phoneNumber"
+                       label="使用号码"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="beginTime"
-                       label="通话时间"
+      <el-table-column prop="callTimes"
+                       label="通话次数"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="communicationTime"
-                       label="通话时长"
-                       align="center"
-                       width="100">
-      </el-table-column>
-      <el-table-column prop="baseStationLocation"
-                       label="基站地址"
+      <el-table-column prop="lastTime"
+                       label="最后使用时间"
                        align="center"
                        width="100">
       </el-table-column>
@@ -101,11 +92,10 @@ export default {
       continueTable: [
         {
           index: '',
-          otherPartyPhone: '13111111111',
-          communicationMode: '被叫',
-          beginTime: '2016-07-23 00:01:02',
-          communicationTime: '14',
-          baseStationLocation: '成都'
+          IMEI: '868276009004130',
+          phoneNumber: '13111111111',
+          callTimes: '124',
+          lastTime: '2019-07-31 10:12:11'
         }
       ]
     };
@@ -113,19 +103,6 @@ export default {
   methods: {
     onSubmit () {
       console.log('submit!');
-    },
-    exportExcel () {
-      require.ensure([], () => {
-        const { exportJsonToExcel } = require('../../../../utils/Export2Excel');
-        const tHeader = ['序号', '对方号码', '呼叫类型', '通话时间', '通话时长', '基站地址'];
-        const filterVal = ['index', 'otherPartyPhone', 'communicationMode', 'beginTime', 'communicationTime', 'baseStationLocation'];
-        const list = this.continueTable;
-        const data = this.formatJson(filterVal, list);
-        exportJsonToExcel(tHeader, data, '列表excel');
-      })
-    },
-    formatJson (filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]))
     },
     timeChange (time) {
       var newTime = time.map(function (item) {
@@ -145,22 +122,21 @@ export default {
   padding 0px
 </style>
 <style lang="stylus">
- .container
-   .el-input__inner
-     background-color rgba(44, 239, 255, 0.3) !important
-     border 1px solid rgba(44, 239, 255, 0.4) !important
-     color white
-   .el-form-item__label
-     color white !important
-   .el-table
-     background-color rgba(44, 239, 255, 0.3) !important
-     color white !important
-   .el-table th, .el-table tr
-     background-color transparent !important
-   .el-table thead
-     color white !important
-   .el-table tbody tr:hover>td
-     background-color rgba(44, 239, 255, 0.4) !important
-   .el-pagination__total
-     color white
+.el-input__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
+.el-form-item__label
+  color white !important
+.el-table
+  background-color rgba(44, 239, 255, 0.3) !important
+  color white !important
+.el-table th, .el-table tr
+  background-color transparent !important
+.el-table thead
+  color white !important
+.el-table tbody tr:hover>td
+  background-color rgba(44, 239, 255, 0.4) !important
+.el-pagination__total
+  color white
 </style>

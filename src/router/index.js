@@ -130,8 +130,129 @@ const mainRoutes = [
                 meta: {
                   title: 'callAnalyse'
                 }
+              },
+              {
+                path: '/ticket/singlePhone/callDetailAnalyse',
+                component: _import(
+                  'modules/ticket/SinglePhone/callDetailAnalyse'
+                ),
+                name: 'callDetailAnalyse',
+                meta: {
+                  title: 'callDetailAnalyse'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/phoneHomeLocation',
+                component: _import(
+                  'modules/ticket/SinglePhone/phoneHomeLocation'
+                ),
+                name: 'phoneHomeLocation',
+                meta: {
+                  title: 'phoneHomeLocation'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/phoneTravel',
+                component: _import('modules/ticket/SinglePhone/phoneTravel'),
+                name: 'phoneTravel',
+                meta: {
+                  title: 'phoneTravel'
+                }
               }
             ]
+          }
+        ]
+      },
+      {
+        path: '/usercenter',
+        component: _import('modules/usercenter/index'),
+        name: 'usercenter',
+        redirect: { name: 'personCenter' },
+        meta: { title: 'usercenter' },
+        children: [
+          {
+            path: '/personCenter',
+            component: _import('modules/usercenter/personCenter'),
+            name: 'personCenter',
+            meta: { title: 'personCenter' }
+          },
+          {
+            path: '/modifyInfo',
+            component: _import('modules/usercenter/modifyInfo'),
+            name: 'modifyInfo',
+            meta: { title: 'modifyInfo' }
+          },
+          {
+            path: '/accountManage',
+            component: _import('modules/usercenter/accountManage'),
+            name: 'accountManage',
+            meta: { title: 'accountManage' }
+          }
+        ]
+      },
+      {
+        path: '/sys',
+        component: _import('modules/sys/index'),
+        name: 'sys',
+        redirect: { name: 'userManage' },
+        meta: { title: 'sys' },
+        children: [
+          {
+            path: '/userManage',
+            component: _import('modules/sys/userManage'),
+            name: 'userManage',
+            meta: { title: 'userManage' }
+          },
+          {
+            path: '/menuManage',
+            component: _import('modules/sys/menuManage'),
+            name: 'menuManage',
+            meta: { title: 'menuManage' }
+          },
+          {
+            path: '/roleManage',
+            component: _import('modules/sys/roleManage'),
+            name: 'roleManage',
+            meta: { title: 'roleManage' }
+          },
+          {
+            path: '/organManage',
+            component: _import('modules/sys/organManage'),
+            name: 'organManage',
+            meta: { title: 'organManage' }
+          }
+        ]
+      },
+      {
+        path: '/archives',
+        component: _import('modules/archives/archives'),
+        name: 'archives',
+        meta: { title: '人员档案' }
+      },
+      {
+        path: '/timespaceindex',
+        component: _import('modules/timespace/index'),
+        name: 'timespaceindex',
+        redirect: { name: 'timespace' },
+        meta: { title: 'timespaceindex' },
+        children: [
+          {
+            path: '/timespace',
+            component: _import('modules/timespace/timespace'),
+            name: 'timespace',
+            meta: { title: 'timespace' }
+          },
+          {
+            path: '/timespacelist',
+            component: _import('modules/timespace/timespacelist'),
+            name: 'timespacelist',
+            meta: { title: 'timespacelist' }
+          },
+          {
+            path: '/timespaceinfo',
+            component: _import('modules/timespace/timespaceinfo'),
+            name: 'timespaceinfo',
+            meta: { title: 'timespaceinfo' }
           }
         ]
       }

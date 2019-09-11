@@ -26,6 +26,7 @@
     </el-form>
     <el-table :data="continueTable"
               border
+              :cell-style="cellStyle"
               style="width: 100%">
       <el-table-column label="序号"
                        type="index"
@@ -38,23 +39,38 @@
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="communicationMode"
-                       label="呼叫类型"
+      <el-table-column prop="sunD"
+                       label="星期天"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="beginTime"
-                       label="通话时间"
+      <el-table-column prop="monD"
+                       label="星期一"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="communicationTime"
-                       label="通话时长"
+      <el-table-column prop="tuesD"
+                       label="星期二"
                        align="center"
                        width="100">
       </el-table-column>
-      <el-table-column prop="baseStationLocation"
-                       label="基站地址"
+      <el-table-column prop="wesD"
+                       label="星期三"
+                       align="center"
+                       width="100">
+      </el-table-column>
+      <el-table-column prop="thurD"
+                       label="星期四"
+                       align="center"
+                       width="100">
+      </el-table-column>
+      <el-table-column prop="friD"
+                       label="星期五"
+                       align="center"
+                       width="100">
+      </el-table-column>
+      <el-table-column prop="satD"
+                       label="星期六"
                        align="center"
                        width="100">
       </el-table-column>
@@ -102,10 +118,13 @@ export default {
         {
           index: '',
           otherPartyPhone: '13111111111',
-          communicationMode: '被叫',
-          beginTime: '2016-07-23 00:01:02',
-          communicationTime: '14',
-          baseStationLocation: '成都'
+          sunD: '1',
+          monD: '2',
+          tuesD: '3',
+          wesD: '4',
+          thurD: '5',
+          friD: '0',
+          satD: '13'
         }
       ]
     };
@@ -117,8 +136,8 @@ export default {
     exportExcel () {
       require.ensure([], () => {
         const { exportJsonToExcel } = require('../../../../utils/Export2Excel');
-        const tHeader = ['序号', '对方号码', '呼叫类型', '通话时间', '通话时长', '基站地址'];
-        const filterVal = ['index', 'otherPartyPhone', 'communicationMode', 'beginTime', 'communicationTime', 'baseStationLocation'];
+        const tHeader = ['序号', '对方号码', '星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        const filterVal = ['index', 'otherPartyPhone', 'sunD', 'monD', 'tuesD', 'wesD', 'thurD', 'friD', 'satD'];
         const list = this.continueTable;
         const data = this.formatJson(filterVal, list);
         exportJsonToExcel(tHeader, data, '列表excel');
@@ -134,6 +153,11 @@ export default {
         return newItem
       })
       return newTime
+    },
+    cellStyle (row) {
+      if (row.columnIndex >= 2) {
+        console.log(row)
+      }
     }
   }
 }
@@ -145,22 +169,21 @@ export default {
   padding 0px
 </style>
 <style lang="stylus">
- .container
-   .el-input__inner
-     background-color rgba(44, 239, 255, 0.3) !important
-     border 1px solid rgba(44, 239, 255, 0.4) !important
-     color white
-   .el-form-item__label
-     color white !important
-   .el-table
-     background-color rgba(44, 239, 255, 0.3) !important
-     color white !important
-   .el-table th, .el-table tr
-     background-color transparent !important
-   .el-table thead
-     color white !important
-   .el-table tbody tr:hover>td
-     background-color rgba(44, 239, 255, 0.4) !important
-   .el-pagination__total
-     color white
+.el-input__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
+.el-form-item__label
+  color white !important
+.el-table
+  background-color rgba(44, 239, 255, 0.3) !important
+  color white !important
+.el-table th, .el-table tr
+  background-color transparent !important
+.el-table thead
+  color white !important
+.el-table tbody tr:hover>td
+  background-color rgba(44, 239, 255, 0.4) !important
+.el-pagination__total
+  color white
 </style>

@@ -1,9 +1,10 @@
 <template>
-  <el-dialog
-    :visible.sync="visible"
-    @close="$emit('update:show', false)"
-    width="620px"
-  >
+  <el-dialog :visible.sync="visible"
+             @close="$emit('update:show', false)"
+             :width="width"
+             :close-on-click-modal="flag"
+             :modal-append-to-body="flag"
+             :modal="modal">
     <div class="body-content">
       <div class="fly-dialog-title">
         <span>{{title}}</span>
@@ -14,7 +15,8 @@
         </template>
       </div>
     </div>
-     <slot name="ft" slot="footer"></slot>
+    <slot name="ft"
+          slot="footer"></slot>
   </el-dialog>
 </template>
 
@@ -29,10 +31,19 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    width: {
+      type: String,
+      default: '620px'
+    },
+    modal: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
     return {
+      flag: false,
       visible: this.show
     }
   },

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="bg">
       <div class="title">
-        <h3>单话单分析</h3>
+        <h3>多话单分析</h3>
       </div>
       <div class="select">
         <el-select v-model="select.caseName"
@@ -16,6 +16,7 @@
         </el-select>
         <el-select v-model="select.phone"
                    filterable
+                   multiple
                    placeholder="电话号码">
           <el-option v-for="item in phoneList"
                      :key="item.value"
@@ -29,47 +30,22 @@
                  type="card"
                  @tab-click="handleClick">
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/soonLate">最早最晚分析</router-link>
+              <router-link to="/ticket/morePhone/sameTime">同时同基站</router-link>
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/periodAll">分时段分析</router-link>
+              <router-link to="/ticket/morePhone/assignTime">指定时间内新出或消失号码</router-link>
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/continuePeriod">连续时段分析</router-link>
+              <router-link to="/ticket/morePhone/morePhoneTrail">多手机轨迹</router-link>
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/differentPeriod">不同时段分析</router-link>
-            </span>
-          </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/callAnalyse">通话分析</router-link>
-            </span>
-          </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/callDetailAnalyse">通话详情分析</router-link>
-            </span>
-          </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/phoneHomeLocation">号码归属分析</router-link>
-            </span>
-          </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/phoneTravel">手机轨迹</router-link>
-            </span>
-          </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">移动设备分析</router-link>
-            </span>
-          </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">一周号码频次</router-link>
+              <router-link to="/ticket/morePhone/commonPhone">共同联系人分析</router-link>
             </span>
           </el-tab-pane>
         </el-tabs>
-
       </div>
       <div class="mainContent">
         <router-view></router-view>
@@ -99,6 +75,12 @@ export default {
         }, {
           value: '15111111111',
           label: '15111111111'
+        }, {
+          value: '13111111112',
+          label: '13111111112'
+        }, {
+          value: '15111111112',
+          label: '15111111112'
         }
       ],
       select: {
@@ -130,6 +112,8 @@ export default {
 .select
   margin 10px 0
   margin-left 20px
+>>>.select .el-select:nth-of-type(2)
+  width 501px
 a
   color #909399
 a:focus, a:hover
