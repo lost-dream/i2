@@ -10,12 +10,8 @@ import 'vis/dist/vis.css'
 import VueCookie from 'vue-cookie'
 import httpRequest from './utils/httpRequest'
 import api from './api/api'
-<<<<<<< HEAD
-import Validate from './utils/filter_rules'
-=======
 import Validate from './utils/filter_rules';
 import './assets/icon/iconfont.css';
->>>>>>> 6128a22e5f0b5e741050c3dd9e1e7102610adb9a
 import 'jquery'
 
 Vue.use(Validate)
