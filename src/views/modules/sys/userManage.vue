@@ -4,8 +4,8 @@
       <div class="coat2">
         <div class="operateMenu">
           <ul class="clearfix">
-            <li @click="addDialog = true">添加</li>
-            <li @click="editDialog = true">编辑</li>
+            <li @click="clearValue ();addDialog = true">添加</li>
+            <li @click="pitchOn () && (addValue (),editDialog = true)">编辑</li>
             <li @click="lookUser()">查看</li>
             <li @click="pitchOn2() && (deleteDialog = true)">删除</li>
             <li @click="importDialog = true">导入</li>
@@ -73,9 +73,9 @@
                       width="100">
               </el-table-column>
               <el-table-column
-                      prop="user"
-                      label="姓名"
-                      width="100">
+                prop="name"
+                label="姓名"
+                width="100">
               </el-table-column>
               <el-table-column
                       prop="section"
@@ -114,7 +114,6 @@
               </el-table-column>
             </el-table>
           </div>
-
         </div>
         <div class="dialog">
           <!--添加-->
@@ -332,10 +331,10 @@
           >
             <el-form ref="form" :model="form" status-icon :hide-required-asterisk='asterisk' :rules="rules" label-width="120px" class="demo-ruleForm">
               <el-form-item label="登陆账号" prop="user">
-                <el-input v-model="form.user"></el-input>
+                <el-input v-model="form.user" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name"></el-input>
+                <el-input v-model="form.name" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="部门" prop="section">
                 <el-select v-model="form.section" popper-class='fromselect' placeholder="请选择部门">
@@ -438,44 +437,42 @@
   </span>
           </el-dialog>-->
           <fly-dialog title="查看用户详情" :show.sync="lookDialog">
-            <div>
-              <span>登陆账号:</span>
-              <span>{{lookInfo.user}}</span>
-            </div>
-            <div>
-              <span>姓名:</span>
-              <span>{{lookInfo.name}}</span>
-            </div>
-            <div>
-              <span>部门:</span>
-              <span>{{lookInfo.section}}</span>
-            </div>
-            <div>
-              <span>用户组:</span>
-              <span>{{lookInfo.userGroup}}</span>
-            </div>
-            <div>
-              <span>登录类型:</span>
-              <span>{{lookInfo.loginType}}</span>
-            </div>
-            <div>
-              <span>状态:</span>
-              <span>{{lookInfo.status}}</span>
-            </div>
-            <div>
-              <span>警种类别:</span>
-              <span>{{lookInfo.policeKind}}</span>
-            </div>
-            <div>
-              <span>登陆账号:</span>
-              <span>{{lookInfo.user}}</span>
-            </div>
-            <div>
-              <span>上报部门:</span>
-              <span>{{lookInfo.reportedSection}}</span>
-            </div>
-            <div class="butCoat">
-              <el-button class="canBut" @click="lookDialog = false">取 消</el-button>
+            <div id="uesrInfo">
+              <div>
+                <span>登陆账号:</span>
+                <span>{{lookInfo.user}}</span>
+              </div>
+              <div>
+                <span>姓名:</span>
+                <span>{{lookInfo.name}}</span>
+              </div>
+              <div>
+                <span>部门:</span>
+                <span>{{lookInfo.section}}</span>
+              </div>
+              <div>
+                <span>用户组:</span>
+                <span>{{lookInfo.userGroup}}</span>
+              </div>
+              <div>
+                <span>登录类型:</span>
+                <span>{{lookInfo.loginType}}</span>
+              </div>
+              <div>
+                <span>状态:</span>
+                <span>{{lookInfo.status}}</span>
+              </div>
+              <div>
+                <span>警种类别:</span>
+                <span>{{lookInfo.policeKind}}</span>
+              </div>
+              <div>
+                <span>上报部门:</span>
+                <span>{{lookInfo.reportedSection==''||lookInfo.reportedSection== null ? "暂无数据":lookInfo.reportedSection}}</span>
+              </div>
+              <div class="butCoat">
+                <el-button class="canBut" @click="lookDialog = false">取 消</el-button>
+              </div>
             </div>
           </fly-dialog>
           <!--删除-->
@@ -641,7 +638,6 @@
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
-
 export default {
   name: 'userManage',
   components: {
@@ -698,7 +694,7 @@ export default {
           loginType: '账号登录',
           status: '启用',
           policeKind: '刑侦',
-          reportedSection: ''
+          reportedSection: '1111'
         }, {
           user: 'admin',
           name: '王国维',
@@ -875,6 +871,16 @@ export default {
         .catch(_ => {
         });
     },
+    // 清空属性值
+    clearValue () {
+      for (let key in this.form) {
+        this.form[key] = ''
+      }
+    },
+    // 添加选择值
+    addValue () {
+      this.form = this.multipleSelection[0]
+    },
     // 添加用户
     addUser (formName) {
       this.$refs[formName].validate((valid) => {
@@ -916,6 +922,9 @@ export default {
       if (this.pitchOn()) {
         this.lookInfo = this.multipleSelection[0]
         this.lookDialog = true
+        console.log(11)
+        console.log(this.lookInfo.reportedSection)
+        console.log(22222)
       }
     },
     // 删除用户
@@ -991,9 +1000,24 @@ export default {
       width 95%
       margin 10px auto
       border-bottom 2px solid rgba(44, 239, 255, 0.4)
-
     .criteria,
     .dialog
+      >>>#uesrInfo
+          width 70%
+          margin 0 auto
+          padding 30px
+          color #ffffff
+          & div>span
+            margin 1px
+            display inline-block
+            width 65%
+            height 34px
+            line-height 34px
+            padding 0 15px
+          & div>span:nth-child(1)
+            width 30%
+            text-align right
+            background-color rgba(44, 239, 255, 0.4)
       .el-form-item
         /*width 180px*/
         display inline-block

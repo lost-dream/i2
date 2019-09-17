@@ -23,21 +23,23 @@
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
+            active-text-color="#ffd04b"
+            :unique-opened= "uniqueOpened"
             @open="handleOpen"
             @close="handleClose">
-            <label v-for="(item,index) in leftMenu" :key="index">
-              <el-submenu :index="item.menuId">
+            <label v-for="(item,index) in leftMenu"  @click="addInfo(item);menuActive=index" :key="index">
+              <el-submenu :index="item.menuId" :class="{'active':menuActive==index}">
                 <template slot="title">
                   <i class="el-icon-location"></i>
                   <span>{{item.name}}</span>
                 </template>
-                <label v-for="(item2,index) in item.items" :key="index">
+                <label v-for="(item2,index2) in item.items" @click="addInfo(item2,item)" @click.stop :key="index2">
                   <el-menu-item :index="item2.menuId">{{item2.name}}</el-menu-item>
                 </label>
               </el-submenu>
             </label>
           </el-menu>
-        <!--  <el-menu
+          <!--<el-menu
             default-active="2"
             class="el-menu-vertical-demo"
             @open="handleOpen"
@@ -218,9 +220,11 @@ export default {
   },
   data () {
     return {
+      uniqueOpened: true,
       asterisk: true, // 影响*号
       addDialog: false,
       deleteDialog: false,
+      menuActive: 0,
       form: {
         name: '',
         higherUp: '',
@@ -294,10 +298,32 @@ export default {
         {
           name: '前台',
           menuId: '1',
+          info: {
+            name: '5555555555555555555',
+            higherUp: '444',
+            isModule: '2',
+            backStyle: '',
+            frontStyle: '',
+            chainedAddress: '#',
+            powerPath: '#',
+            sortSubordinate: '111',
+            adjustSort: '111'
+          },
           items: [
             {
               name: 'i2',
               menuId: '1-1',
+              info: {
+                name: '111',
+                higherUp: '444',
+                isModule: '2',
+                backStyle: '',
+                frontStyle: '',
+                chainedAddress: '#',
+                powerPath: '#',
+                sortSubordinate: '111',
+                adjustSort: '111'
+              },
               items: []
             },
             {
@@ -710,6 +736,13 @@ export default {
     handleClose (key, keyPath) {
       console.log(key, keyPath);
     },
+    // 点击菜单添加信息
+    addInfo (info, ...args) {
+      // console.log(JSON.parse(JSON.stringify(info)));
+      console.log(JSON.parse(JSON.stringify(args)));
+      this.form = JSON.parse(JSON.stringify(info)).info
+      args.length > 0 && (this.form.higherUp = JSON.parse(JSON.stringify(args[0])).name)
+    },
     // 判断是否选择菜单
     pitchOn2 () {
       // let isPitchOn = false
@@ -749,9 +782,9 @@ export default {
    padding 0 30px
   .menuManage .leftMenu .addBut,
   .menuManage .leftMenu .delBut
-    color: #ffffff;
+    color #ffffff
     margin 20px 14px
-    padding: 9px 15px;
+    padding 9px 15px
   .menuManage .leftMenu .addBut
     background-color: rgba(70, 125, 68, 1);
     border: 1px solid rgba(70, 125, 68, 1);
@@ -761,9 +794,13 @@ export default {
   .menuList
    width 180px
    overflow hidden
+  .menuList >>>.active
+   background-color rgba(44, 239, 255, 0.4)
   .menuList >>>.el-submenu__title
    color #ffffff
    border-bottom 1px solid #0d3644
+  .menuList >>>.el-submenu__title i
+   color #ffffff
   .menuList >>>.el-submenu__title:hover,
   .menuList >>>.el-submenu .el-menu-item:hover
    background-color rgba(44, 239, 255, 0.4)
