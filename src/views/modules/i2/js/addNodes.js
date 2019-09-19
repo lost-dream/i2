@@ -1,11 +1,7 @@
 import api from '@/api/api'
 export function addNodes (kw, nodes) {
   let key = kw
-<<<<<<< HEAD
   let primaryKey = {}
-=======
-  // let primaryKey = {}
->>>>>>> 6128a22e5f0b5e741050c3dd9e1e7102610adb9a
   let ns = []
   let ns1 = generateSystemNode(key)
   if (ns1 && ns1.length > 0) {

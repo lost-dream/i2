@@ -158,103 +158,102 @@ const mainRoutes = [
                 meta: {
                   title: 'phoneTravel'
                 }
+              },
+              {
+                path: '/ticket/singlePhone/mobileAnalyse',
+                component: _import('modules/ticket/SinglePhone/mobileAnalyse'),
+                name: 'mobileAnalyse',
+                meta: {
+                  title: 'mobileAnalyse'
+                }
+              },
+              {
+                path: '/ticket/singlePhone/weekPhone',
+                component: _import('modules/ticket/SinglePhone/weekPhone'),
+                name: 'weekPhone',
+                meta: {
+                  title: 'weekPhone'
+                }
+              }
+            ]
+          },
+          {
+            path: '/ticket/morePhone',
+            component: _import('modules/ticket/morePhone'),
+            name: 'morePhone',
+            meta: {
+              title: 'morePhone'
+            },
+            children: [
+              {
+                path: '/ticket/morePhone/sameTime',
+                component: _import('modules/ticket/MorePhone/sameTime'),
+                name: 'sameTime',
+                meta: {
+                  title: 'sameTime'
+                }
+              },
+              {
+                path: '/ticket/morePhone/assignTime',
+                component: _import('modules/ticket/MorePhone/assignTime'),
+                name: 'assignTime',
+                meta: {
+                  title: 'assignTime'
+                }
+              },
+              {
+                path: '/ticket/morePhone/morePhoneTrail',
+                component: _import('modules/ticket/MorePhone/morePhoneTrail'),
+                name: 'morePhoneTrail',
+                meta: {
+                  title: 'morePhoneTrail'
+                }
+              },
+              {
+                path: '/ticket/morePhone/commonPhone',
+                component: _import('modules/ticket/MorePhone/commonPhone'),
+                name: 'commonPhone',
+                meta: {
+                  title: 'commonPhone'
+                }
+              }
+            ]
+          },
+          {
+            path: '/ticket/allNetwork',
+            component: _import('modules/ticket/allNetwork'),
+            name: 'allNetwork',
+            meta: {
+              title: 'allNetwork'
+            },
+            children: [
+              {
+                path: '/ticket/allNetwork/phoneSearch',
+                component: _import('modules/ticket/AllNetwork/phoneSearch'),
+                name: 'phoneSearch',
+                meta: {
+                  title: 'phoneSearch'
+                }
+              },
+              {
+                path: '/ticket/allNetwork/IMEISearch',
+                component: _import('modules/ticket/AllNetwork/IMEISearch'),
+                name: 'IMEISearch',
+                meta: {
+                  title: 'IMEISearch'
+                }
               }
             ]
           }
         ]
       },
       {
-        path: '/usercenter',
-        component: _import('modules/usercenter/index'),
-        name: 'usercenter',
-        redirect: { name: 'personCenter' },
-        meta: { title: 'usercenter' },
-        children: [
-          {
-            path: '/personCenter',
-            component: _import('modules/usercenter/personCenter'),
-            name: 'personCenter',
-            meta: { title: 'personCenter' }
-          },
-          {
-            path: '/modifyInfo',
-            component: _import('modules/usercenter/modifyInfo'),
-            name: 'modifyInfo',
-            meta: { title: 'modifyInfo' }
-          },
-          {
-            path: '/accountManage',
-            component: _import('modules/usercenter/accountManage'),
-            name: 'accountManage',
-            meta: { title: 'accountManage' }
-          }
-        ]
-      },
-      {
-        path: '/sys',
-        component: _import('modules/sys/index'),
-        name: 'sys',
-        redirect: { name: 'userManage' },
-        meta: { title: 'sys' },
-        children: [
-          {
-            path: '/userManage',
-            component: _import('modules/sys/userManage'),
-            name: 'userManage',
-            meta: { title: 'userManage' }
-          },
-          {
-            path: '/menuManage',
-            component: _import('modules/sys/menuManage'),
-            name: 'menuManage',
-            meta: { title: 'menuManage' }
-          },
-          {
-            path: '/roleManage',
-            component: _import('modules/sys/roleManage'),
-            name: 'roleManage',
-            meta: { title: 'roleManage' }
-          },
-          {
-            path: '/organManage',
-            component: _import('modules/sys/organManage'),
-            name: 'organManage',
-            meta: { title: 'organManage' }
-          }
-        ]
-      },
-      {
-        path: '/archives',
-        component: _import('modules/archives/archives'),
-        name: 'archives',
-        meta: { title: '人员档案' }
-      },
-      {
-        path: '/timespaceindex',
-        component: _import('modules/timespace/index'),
-        name: 'timespaceindex',
-        redirect: { name: 'timespace' },
-        meta: { title: 'timespaceindex' },
-        children: [
-          {
-            path: '/timespace',
-            component: _import('modules/timespace/timespace'),
-            name: 'timespace',
-            meta: { title: 'timespace' }
-          },
-          {
-            path: '/timespacelist',
-            component: _import('modules/timespace/timespacelist'),
-            name: 'timespacelist',
-            meta: { title: 'timespacelist' }
-          },
-          {
-            path: '/timespaceinfo',
-            component: _import('modules/timespace/timespaceinfo'),
-            name: 'timespaceinfo',
-            meta: { title: 'timespaceinfo' }
-          }
-        ]
+        path: '/unioncase',
+        component: _import('modules/unioncase/index'),
+        name: 'unioncase',
+        meta: {
+          title: 'unioncase'
+        }
       }
     ]
   }
