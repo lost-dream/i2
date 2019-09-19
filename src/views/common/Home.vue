@@ -1,62 +1,93 @@
 <template>
   <div class="mod-home">
     <ul id="nav">
-      <li class="nav">
-        <img src="../../assets/img/xiazai.png"
-             alt />
+      <li
+        class="nav"
+        @click="$router.push({ name: 'usercenter' })"
+      >
+        <img
+          src="../../assets/img/xiazai.png"
+          alt
+        />
         <p>个人中心</p>
       </li>
       <li class="nav">
-        <img src="../../assets/img/shezhi.png"
-             alt />
+        <img
+          src="../../assets/img/shezhi.png"
+          alt
+        />
         <p>设置</p>
       </li>
       <li class="nav">
-        <img src="../../assets/img/tuichu.png"
-             alt />
+        <img
+          src="../../assets/img/tuichu.png"
+          alt
+        />
         <p>退出</p>
       </li>
     </ul>
     <div id="title">
       <h1>情报智能分析系统</h1>
-      <img src="../../assets/img/titleDown.png"
-           alt />
+      <img
+        src="../../assets/img/titleDown.png"
+        alt
+      />
     </div>
     <div id="content">
       <ul class="content">
-        <li>
-          <img src="../../assets/img/i2.png"
-               alt />
-          <img src="../../assets/img/itemBg.png"
-               alt />
+        <li @click="$router.push({ name: 'i2' })">
+          <img
+            src="../../assets/img/i2.png"
+            alt
+          />
+          <img
+            src="../../assets/img/itemBg.png"
+            alt
+          />
           <p>i2</p>
         </li>
-        <li>
-          <img src="../../assets/img/phone.png"
-               alt />
-          <img src="../../assets/img/itemBg.png"
-               alt />
+        <li @click="$router.push({ name: 'ticket' })">
+          <img
+            src="../../assets/img/phone.png"
+            alt
+          />
+          <img
+            src="../../assets/img/itemBg.png"
+            alt
+          />
           <p>话单分析</p>
         </li>
-        <li>
-          <img src="../../assets/img/relation.png"
-               alt />
-          <img src="../../assets/img/itemBg.png"
-               alt />
+        <li @click="$router.push({ name: 'relation' })">
+          <img
+            src="../../assets/img/relation.png"
+            alt
+          />
+          <img
+            src="../../assets/img/itemBg.png"
+            alt
+          />
           <p>关系分析</p>
         </li>
-        <li>
-          <img src="../../assets/img/timeSky.png"
-               alt />
-          <img src="../../assets/img/itemBg.png"
-               alt />
+        <li @click="$router.push({ name: 'timespace' })">
+          <img
+            src="../../assets/img/timeSky.png"
+            alt
+          />
+          <img
+            src="../../assets/img/itemBg.png"
+            alt
+          />
           <p>时空分析</p>
         </li>
-        <li>
-          <img src="../../assets/img/sanjiao.png"
-               alt />
-          <img src="../../assets/img/itemBg.png"
-               alt />
+        <li @click="$router.push({ name: 'unioncase' })">
+          <img
+            src="../../assets/img/sanjiao.png"
+            alt
+          />
+          <img
+            src="../../assets/img/itemBg.png"
+            alt
+          />
           <p>联案分析</p>
         </li>
       </ul>
@@ -69,31 +100,47 @@
         <div>
           <ul class="content">
             <li>
-              <img src="../../assets/img/i2.png"
-                   alt />
-              <img src="../../assets/img/itemBg.png"
-                   alt />
+              <img
+                src="../../assets/img/i2.png"
+                alt
+              />
+              <img
+                src="../../assets/img/itemBg.png"
+                alt
+              />
               <p>i2</p>
             </li>
             <li>
-              <img src="../../assets/img/phone.png"
-                   alt />
-              <img src="../../assets/img/itemBg.png"
-                   alt />
+              <img
+                src="../../assets/img/phone.png"
+                alt
+              />
+              <img
+                src="../../assets/img/itemBg.png"
+                alt
+              />
               <p>话单分析</p>
             </li>
             <li>
-              <img src="../../assets/img/relation.png"
-                   alt />
-              <img src="../../assets/img/itemBg.png"
-                   alt />
+              <img
+                src="../../assets/img/relation.png"
+                alt
+              />
+              <img
+                src="../../assets/img/itemBg.png"
+                alt
+              />
               <p>关系分析</p>
             </li>
             <li>
-              <img src="../../assets/img/timeSky.png"
-                   alt />
-              <img src="../../assets/img/itemBg.png"
-                   alt />
+              <img
+                src="../../assets/img/timeSky.png"
+                alt
+              />
+              <img
+                src="../../assets/img/itemBg.png"
+                alt
+              />
               <p>时空分析</p>
             </li>
           </ul>
@@ -106,29 +153,37 @@
         <div>
           <ul class="content">
             <li>
-              <img src="../../assets/img/person.png"
-                   alt />
+              <img
+                src="../../assets/img/person.png"
+                alt
+              />
               <p>在线用户数</p>
               <p>67人</p>
             </li>
             <li>
-              <img src="../../assets/img/fangwen.png"
-                   alt />
+              <img
+                src="../../assets/img/fangwen.png"
+                alt
+              />
               <p>今日访问量</p>
               <p>178次</p>
             </li>
             <li>
-              <img src="../../assets/img/date.png"
-                   alt />
+              <img
+                src="../../assets/img/date.png"
+                alt
+              />
               <p>历史访问量</p>
               <p>1.1万次</p>
             </li>
           </ul>
         </div>
       </div>
-      <canvas id="can"
-              width="262"
-              height="262"></canvas>
+      <canvas
+        id="can"
+        width="262"
+        height="262"
+      ></canvas>
     </div>
   </div>
 </template>
@@ -136,7 +191,8 @@
 <script>
 export default {
   data () {
-    return {};
+    return {
+    };
   },
   mounted () {
     this.initPage();
@@ -291,6 +347,7 @@ h3
   display flex
   flex-direction column
   align-items center
+  cursor pointer
 .content li img:nth-of-type(1)
   height 150px
 .content li img:nth-of-type(2)

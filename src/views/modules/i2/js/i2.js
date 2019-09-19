@@ -32,6 +32,7 @@ let Sheet = function (container) {
     { from: 1, to: 3, label: '同住' },
     { from: 1, to: 4, label: '子女' }
   ]) // 所有边
+  nodes.add([{ id: 5, label: '测试' }])
   network = new vis.Network(container, {
     nodes: nodes,
     edges: edges

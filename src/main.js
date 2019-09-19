@@ -11,6 +11,7 @@ import VueCookie from 'vue-cookie'
 import httpRequest from './utils/httpRequest'
 import api from './api/api'
 import Validate from './utils/filter_rules';
+import * as filters from './filters'
 import './assets/icon/iconfont.css';
 import 'jquery'
 
@@ -22,6 +23,10 @@ Vue.config.productionTip = false
 // 全局挂载
 Vue.prototype.$http = httpRequest // ajax请求方法
 Vue.prototype.$api = api // api 接口
+// 全局过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 new Vue({
   router,
