@@ -16,8 +16,12 @@
           <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
               <router-link to="/ticket/singlePhone">单话单分析</router-link>
             </span></el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i> 多话单分析</span></el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i> 全网通查询</span></el-tab-pane>
+          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
+            <router-link to="/ticket/morePhone">多话单分析</router-link>
+            </span></el-tab-pane>
+          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
+            <router-link to="/ticket/allNetwork">全网通查询</router-link>
+            </span></el-tab-pane>
         </el-tabs>
       </div>
     </nav>

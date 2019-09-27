@@ -43,6 +43,13 @@ export default {
    * @param {*} username 用户名
    * @param {*} password 密码
    */
+  newly (from) {
+    return http({
+      url: http.adornUrl('/statement/newly'),
+      method: 'post',
+      data: http.adornData(from)
+    })
+  },
   // ------------------------------------relation---------------------------------------------//
   /**
    * 通过用户和密码登录

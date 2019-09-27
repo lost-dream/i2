@@ -13,7 +13,7 @@ const http = axios.create({
   }
 })
 window.SITE_CONFIG = {
-  baseUrl: 'http://192.168.1.121:8088/spacetime/'
+  baseUrl: 'http://192.168.1.186:8087'
 }
 /**
  * 请求拦截
