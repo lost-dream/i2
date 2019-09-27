@@ -45,7 +45,7 @@ export default {
    */
   newly (from) {
     return http({
-      url: http.adornUrl('/statement/newly'),
+      url: http.adornUrl('/ticket/statement/newly'),
       method: 'post',
       data: http.adornData(from)
     })

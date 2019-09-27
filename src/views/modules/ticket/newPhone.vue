@@ -28,7 +28,7 @@
                       prop="uploadPhone">
           <el-upload class="upload-demo"
                      ref="upload"
-                     action="https://jsonplaceholder.typicode.com/posts/"
+                     action="http://192.168.1.186:8087/ticket/statement/importEmp"
                      :on-preview="handlePreview"
                      :on-remove="handleRemove"
                      :before-upload="beforeUpload"
