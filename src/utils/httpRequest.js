@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
 import qs from 'qs'
@@ -7,19 +6,19 @@ import merge from 'lodash/merge'
 const http = axios.create({
   timeout: 1000 * 30,
   // 是否携带cookie信息
-  withCredentials: true,
+  // withCredentials: true,
   headers: {
     'Content-Type': 'application/json; charset=utf-8'
   }
 })
 window.SITE_CONFIG = {
-  baseUrl: 'http://192.168.1.186:8087'
+  baseUrl: 'http://192.168.1.129:8080/'
 }
 /**
  * 请求拦截
  */
 http.interceptors.request.use(config => {
-  config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
+  // config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
   return config
 }, error => {
   return Promise.reject(error)
@@ -42,7 +41,7 @@ http.interceptors.response.use(response => {
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
-  console.log(window.SITE_CONFIG.baseUrl)
+  // console.log(window.SITE_CONFIG.baseUrl)
   return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
 }
 /**

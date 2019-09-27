@@ -1,3 +1,5 @@
+import global from '@/utils/global'
+import { getEdgesZjgxConnectings, createZjgxEdge } from '../common'
 /**
  * 操作
  */
@@ -17,15 +19,24 @@ export default {
     },
     // 添加连线
     addEdge: function (data, callback) {
-      console.log('添加连线')
-      if (data.from === data.to) {
-        var r = confirm('Do you want to connect the node to itself?');
-        if (r === true) {
-          callback(data);
+      if (data.from === data.to || global.edge_adding === false) {
+        return;
+      }
+      // 首先根据两个节点获取之间的连线
+      var edge = {};
+      var edgeId = getEdgesZjgxConnectings(data.from, data.to);
+      if (!edgeId) {
+        edgeId = getEdgesZjgxConnectings(data.to, data.from);
+        if (!edgeId) {
+          // 建立新关系
+          edge = createZjgxEdge(data.from, data.to)
+        } else {
+          edge = global.edges.get(edgeId);
         }
       } else {
-        callback(data);
+        edge = global.edges.get(edgeId);
       }
+      callback(edge);
     }
   }
 }
