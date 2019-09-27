@@ -73,14 +73,14 @@ const mainRoutes = [
               title: 'newPhone'
             }
           },
-          {
-            path: '/ticket/phoneSearch',
-            component: _import('modules/ticket/phoneSearch'),
-            name: 'phoneSearch',
-            meta: {
-              title: 'phoneSearch'
-            }
-          },
+          // {
+          //   path: '/ticket/phoneSearch',
+          //   component: _import('modules/ticket/phoneSearch'),
+          //   name: 'phoneSearch',
+          //   meta: {
+          //     title: 'phoneSearch'
+          //   }
+          // },
           {
             path: '/ticket/singlePhone',
             component: _import('modules/ticket/singlePhone'),

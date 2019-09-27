@@ -3,7 +3,7 @@
  */
 export default {
   physics: {
-    enabled: false,
+    // enabled: false,
     stabilization: false,
     barnesHut: {
       gravitationalConstant: -4000,

@@ -1,13 +1,27 @@
 <template>
   <div class="mod-sidefun">
-    <el-tabs type="card">
-      <el-tab-pane label="基本信息">
-        <basic-info></basic-info>
+    <el-tabs
+      type="card"
+      v-model="activeName"
+    >
+      <el-tab-pane
+        label="基本信息"
+        name="0"
+      >
+        <basic-info :basicInfo='detail'></basic-info>
       </el-tab-pane>
-      <el-tab-pane label="统计信息">
+      <el-tab-pane
+        label="统计信息"
+        name="1"
+      >
         <count-info></count-info>
       </el-tab-pane>
-      <el-tab-pane label="数据筛选">角色管理</el-tab-pane>
+      <el-tab-pane
+        :label="dynamicTab"
+        name="2"
+      >
+
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -20,13 +34,30 @@ export default {
     BasicInfo,
     CountInfo
   },
-  props: {},
+  props: {
+    detail: {
+      type: Object
+    }
+  },
   data () {
     return {
+      activeName: '0',
+      dynamicTab: ''
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+    init (name, lable) {
+      this.activeName = name;
+      this.dynamicTab = lable;
+    },
+    /**
+     * 判断侧边栏是否打开
+     */
+    isSidebarOpening (num) {
+
+    }
+  },
   created () { },
   mounted () { }
 }
@@ -45,6 +76,7 @@ export default {
         border-left none
         border-top none
         border-right 2px solid rgba(44, 239, 255, 0.2) !important
+        vertical-align middle
   >>>.el-tab-pane
     background transparent !important
     padding-left 0

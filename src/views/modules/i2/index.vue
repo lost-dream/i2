@@ -22,8 +22,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnImportNode"
                     class="tab-li"
+                    @click="importNodeHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">导入节点</dd>
@@ -34,8 +35,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnCacheData"
                     class="tab-li"
+                    @click="cacheDataHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">数据缓存器</dd>
@@ -46,8 +48,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnAddEdge"
                     class="tab-li"
+                    @click="addEdgeHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">添加关系</dd>
@@ -187,7 +190,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加节点</dd>
+                    <dd class="operate-desc">自动</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -199,7 +202,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">导入节点</dd>
+                    <dd class="operate-desc">矩形</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -211,68 +214,11 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存器</dd>
+                    <dd class="operate-desc">环形</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
                   </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加关系</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">锁定</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">解锁</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">选择</dd>
-                  </dl>
                 </li>
               </ul>
             </el-tab-pane>
@@ -284,7 +230,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加节点</dd>
+                    <dd class="operate-desc">关系挖掘</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -296,7 +242,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">导入节点</dd>
+                    <dd class="operate-desc">两两分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -308,7 +254,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存器</dd>
+                    <dd class="operate-desc">全局分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -320,7 +266,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加关系</dd>
+                    <dd class="operate-desc">亲密度分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -332,7 +278,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存</dd>
+                    <dd class="operate-desc">定向分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -344,7 +290,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">锁定</dd>
+                    <dd class="operate-desc">档案</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -356,7 +302,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">解锁</dd>
+                    <dd class="operate-desc">轨迹</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -368,7 +314,19 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">选择</dd>
+                    <dd class="operate-desc">案件串并</dd>
+                  </dl>
+                  <div class="or-spacer-vertical">
+                    <div class="mask"></div>
+                  </div>
+                </li>
+                <li>
+                  <dl
+                    id="btnBatchAddNode"
+                    class="tab-li"
+                  >
+                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dd class="operate-desc">碰撞对比分析</dd>
                   </dl>
                 </li>
               </ul>
@@ -381,7 +339,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加节点</dd>
+                    <dd class="operate-desc">中心性</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -393,80 +351,11 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">导入节点</dd>
+                    <dd class="operate-desc">六度空间</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
                   </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存器</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加关系</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">锁定</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">解锁</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">选择</dd>
-                  </dl>
                 </li>
               </ul>
             </el-tab-pane>
@@ -478,7 +367,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加节点</dd>
+                    <dd class="operate-desc">导入(JSON)</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -490,7 +379,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">导入节点</dd>
+                    <dd class="operate-desc">导出</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -502,7 +391,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存器</dd>
+                    <dd class="operate-desc">保存</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -514,7 +403,7 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">添加关系</dd>
+                    <dd class="operate-desc">共享</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -526,44 +415,11 @@
                     class="tab-li"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存</dd>
+                    <dd class="operate-desc">管理</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
                   </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">锁定</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">解锁</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">选择</dd>
-                  </dl>
                 </li>
               </ul>
             </el-tab-pane>
@@ -572,13 +428,16 @@
       </div>
     </nav>
     <div class="menubar">
-      <sidebar>
+      <!-- <sidebar>
         <sidemenu-item></sidemenu-item>
-      </sidebar>
+      </sidebar> -->
     </div>
     <div class="fun-sidebar">
       <sidebar type="tabpanel">
-        <sidefun></sidefun>
+        <sidefun
+          :detail='basicInfo'
+          ref="sidebarControl"
+        ></sidefun>
       </sidebar>
     </div>
     <div
@@ -593,6 +452,11 @@
       ref="addNodes"
     >
     </add-nodes>
+    <!-- 弹窗，数据缓存器 -->
+    <cache-data
+      v-if="cacheDataVisible"
+      ref="cacheData"
+    ></cache-data>
   </div>
 </template>
 
@@ -600,43 +464,150 @@
 import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
-import AddNodes from './i2-nodes-add'
+import AddNodes from './AddNodes'
+import CacheData from './CacheData'
 import { Workbench } from './js/workbench'
+import { expandNode } from './js/expandNode'
+
 export default {
   components: {
     Sidebar,
     SidemenuItem,
     Sidefun,
-    AddNodes
+    AddNodes,
+    CacheData
   },
-  props: {},
   data () {
     return {
       addNodesVisible: false,
-      workbench: null,
-      nodes: [],
-      edges: [
-        { from: 1, to: 2, label: '同行', title: 'hello' },
-        { from: 1, to: 3, label: '同住' },
-        { from: 1, to: 4, label: '子女' }
-      ]
+      cacheDataVisible: false,
+      basicInfo: {
+        idNumber: '',
+        name: '',
+        nation: '',
+        sex: '',
+        birthday: '',
+        cellphone: '',
+        currentAddress: ''
+      }
     }
   },
   computed: {
+    network () {
+      return this.global.network;
+    }
   },
   methods: {
+
+    // 显示添加节点面板
     addNodesHandle () {
       this.addNodesVisible = true
       this.$nextTick(() => {
-        this.$refs.addNodes.init(this.workbench)
+        this.$refs.addNodes.init();
       })
+    },
+    // 点击导入节点
+    importNodeHandle () {
+      this.$nextTick(() => {
+        this.$refs.sidebarControl.init('2', '导入节点');
+      })
+    },
+    // 点击数据缓存器
+    cacheDataHandle () {
+      this.cacheDataVisible = true;
+      this.$nextTick(() => {
+        this.$refs.cacheData.init();
+      })
+    },
+    // 点击添加关系
+    addEdgeHandle () {
+      this.unbindEvent();// 解绑事件，不然会导致添加关系失效
+      this.global.edge_adding = true
+      this.network.addEdgeMode();
+    },
+    // network绑定事件
+    bindEvent () {
+      // 单击节点查看详情
+      this.network.on('click', this.clickEvent);
+      // 双击节点展开关系
+      this.network.on('doubleClick', this.doubleclickEvent);
+    },
+    // 解绑事件
+    unbindEvent () {
+      this.network.off('click', this.clickEvent);
+      this.network.off('doubleClick', this.doubleclickEvent);
+    },
+    /**
+     * 单击事件
+     */
+    clickEvent (params) {
+      // 框选时，不执行单击操作
+      if (params.event.changedPointers[0].shiftKey === true || this.global.mutilSelectStatus === true) {
+        return;
+      }
+
+      if (params.nodes.length === 1) {
+        // 点击的是节点
+
+        // 查看节点详情
+        this.showBasicInfo(params);
+        // 刷新定向分析窗体
+        // refreshDxAnalysisWind();
+      } else if (params.edges.length === 1) {
+        // 点击的是连线
+        var edge = this.global.edges.get(params.edges[0]);
+
+        /** 在dark状态时，点击连线，节点无法恢复正常状态的 bug处理 start */
+        // nomalNodes([edge.from, edge.to]);
+        // nomalNodes([edge.from, edge.to]);
+        /** 在dark状态时，点击连线，节点无法恢复正常状态的 bug处理 end */
+      }
+    },
+    /**
+     * 双击事件
+     * @param {*} params
+     */
+    doubleclickEvent (params) {
+      if (params.nodes.length === 1) {
+        var curNode = this.global.nodes.get(params.nodes[0]);
+        expandNode(this, curNode);
+      }
+    },
+    /**
+     * 查看人节点基本信息
+     */
+    showBasicInfo (params) {
+      try {
+        let { nodeType, keyword } = this.global.nodes.get(params.nodes[0]);
+        if (this.isSideBarOpening()) {
+          if (nodeType === 'Person') {
+            this.$api.nodeFindDetail({ nodeType, keyword }).then(({ data }) => {
+              if (data && data.code === 200) {
+                this.basicInfo = data.result;
+              }
+            })
+          }
+        }
+      } catch (e) {
+        console.info(e);
+      }
+    },
+    /**
+     *  判断sidebar 是否展开
+     */
+    isSideBarOpening () {
+      return true;
     }
   },
-  created () { },
+  created () {
+
+  },
   mounted () {
     // 初始化画布
     /* eslint-disable no-new */
-    this.workbench = new Workbench(this.nodes, this.edges)
+    new Workbench('mynetwork', this);
+    // 绑定network事件
+    this.bindEvent();
   }
 }
 </script>
