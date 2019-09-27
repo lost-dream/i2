@@ -77,7 +77,7 @@ export default {
         ],
         phone: this.filter_rules({ required: true, type: 'mobile' }),
         case: this.filter_rules({ required: true, min: 2, max: 10, type: 'caseName' }),
-        uploadPhone: this.filter_rules({ required: true })
+        uploadPhone: this.filter_rules({ required: false })
       }
     };
   },
@@ -85,7 +85,25 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          console.log(this.ticketForm)
+          this.$api.newly(
+            {
+              name: this.ticketForm.name,
+              phone: this.ticketForm.phone,
+              caseName: this.ticketForm.case,
+              desc: this.ticketForm.depict
+
+
+              /*flag: this.ticketForm.name,
+              id: this.ticketForm.name,
+              recordId: this.ticketForm.name,
+              time: this.ticketForm.name,
+              name: this.ticketForm.name*/
+            }
+          ).then(({ data }) => {
+            console.log("新建话单")
+            console.log(data)
+          })
         } else {
           console.log('error submit!!');
           return false;

@@ -11,7 +11,9 @@
         />
         <p>个人中心</p>
       </li>
-      <li class="nav">
+      <li class="nav"
+          @click="$router.push({ name: 'sys' })"
+      >
         <img
           src="../../assets/img/shezhi.png"
           alt
@@ -68,7 +70,7 @@
           />
           <p>关系分析</p>
         </li>
-        <li @click="$router.push({ name: 'timespace' })">
+        <li @click="$router.push({ name: 'timespaceindex' })">
           <img
             src="../../assets/img/timeSky.png"
             alt

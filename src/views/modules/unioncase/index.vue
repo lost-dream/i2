@@ -23,7 +23,7 @@
                  slot="label">
               <img src="../../../assets/img/caseguanxitu.png"
                    alt="">
-              <p>添加椭圆</p>
+              <p>添加描圆</p>
             </div>
           </el-tab-pane>
           <el-tab-pane>
@@ -35,7 +35,8 @@
             </div>
           </el-tab-pane>
           <el-tab-pane>
-            <div slot="label">
+            <div @click = "trackShow = true"
+              slot="label">
               <img src="../../../assets/img/casedizhi.png"
                    alt="">
               <p>轨迹点</p>
@@ -140,28 +141,108 @@
           </div>
         </sidebar>
       </div>
-      <flyDialog :show.sync='show'
-                 class="caseMap"
-                 :width='width'>
-        <el-button type="success"
-                   @click="addCaseNum">添加案件编号</el-button>
-        <div v-for="(item,index) in inputList"
-             :key="index">
-          <el-input style="margin:10px;"
-                    v-model="item.caseNum">
-            <el-button slot="append"
-                       :disabled="inputList.length==1?true:false"
-                       @click="delectCase(index)"
-                       icon="el-icon-close"></el-button>
-          </el-input>
-        </div>
-        <div class="caseButton">
-          <el-button @click="search"
-                     type="success">查询</el-button>
-          <el-button @click="cancel"
-                     type="warning">取消</el-button>
-        </div>
-      </flyDialog>
+      <div class="dialog">
+        <flyDialog :show.sync='show'
+                   class="caseMap"
+                   :width='width'>
+          <el-button type="success"
+                     @click="addCaseNum">添加案件编号</el-button>
+          <div v-for="(item,index) in inputList"
+               :key="index">
+            <el-input style="margin:10px;"
+                      v-model="item.caseNum">
+              <el-button slot="append"
+                         :disabled="inputList.length==1?true:false"
+                         @click="delectCase(index)"
+                         icon="el-icon-close"></el-button>
+            </el-input>
+          </div>
+          <div class="caseButton">
+            <el-button @click="search"
+                       type="success">查询</el-button>
+            <el-button @click="cancel"
+                       type="warning">取消</el-button>
+          </div>
+        </flyDialog>
+        <flyDialog :show.sync='trackShow'
+                   title="人员轨迹条件"
+                   class="caseMap"
+                   :width='width2'>
+          <div class="form">
+            <el-form
+              :model="trackForm"
+              label-width = "0px"
+              :rules="trackRule"
+              ref="trackForm"
+            >
+              <el-form-item prop="nameId">
+                <el-input
+                  v-model="trackForm.nameId"
+                  rows="6"
+                  placeholder="请输入身份证号码"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="trackDate">
+                <el-date-picker
+                  v-model="trackForm.startDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+                <el-date-picker
+                  v-model="trackForm.endDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+            </el-form>
+          </div>
+
+          <div class="caseButton">
+            <el-button @click="trackSearch('trackForm')"
+                       type="success">查询</el-button>
+            <el-button @click="trackClear"
+                       type="warning">清空</el-button>
+          </div>
+        </flyDialog>
+        <flyDialog :show.sync='trackShow2'
+                   title="选择地图点位"
+                   class="caseMap"
+                   :width='width2'>
+          <div class="form">
+            <el-table :data="trackList"
+                      height='245px'
+                      :row-key="getRowKey"
+                      @selection-change="handleSelectionChange"
+                      style="width: 100%">
+              <el-table-column width="100"
+                               align="center"
+                               prop="organName"
+                               label="机构名称">
+              </el-table-column>
+              <el-table-column prop="area"
+                               align="center"
+                               width="200"
+                               label="所在区域">
+              </el-table-column>
+              <el-table-column prop="geographic_position"
+                               align="center"
+                               label="地图位置">
+              </el-table-column>
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+            </el-table>
+          </div>
+          <div class="caseButton">
+            <el-button @click="affirmLabel"
+                       type="success">确认标注</el-button>
+            <el-button @click="trackClear"
+                       type="warning">清空</el-button>
+          </div>
+        </flyDialog>
+      </div>
+
       <div style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
            class="mapTable">
         <el-table :data="mapTableData"
@@ -215,12 +296,63 @@ export default {
   },
   props: {},
   data () {
+    var trackDate = (rule, value, callback) => {
+      if (this.trackForm.startDate === ''|| this.trackForm.endDate == '') {
+        callback(new Error('请输入始末时间'))
+      }
+        callback()
+    }
     return {
       activeName: 'Second',
       show: false,
+      trackShow: false,
+      trackShow2: false,
       width: '400px',
+      width2: 'auto',
       inputList: [
         { caseNum: '' }
+      ],
+      trackForm: {
+        nameId: '',
+        startDate: '',
+        endDate: '',
+        value1: '',
+        checkedBox: []
+      },
+      trackRule: {
+        nameId: [
+          { required: true, message: '请输入身份证号', trigger: 'blur' }
+        ],
+        trackDate: [
+          { validator: trackDate, trigger: 'blur' }
+        ]
+      },
+      trackList: [
+        {
+          organName: "未来旅馆",
+          area: "成都市青羊区中坝",
+          geographic_position: "有"
+        }, {
+          organName: "未来旅馆",
+          area: "成都市青羊区中坝",
+          geographic_position: "有"
+        }, {
+          organName: "未来旅馆",
+          area: "成都市青羊区中坝",
+          geographic_position: "有"
+        }, {
+          organName: "未来旅馆",
+          area: "成都市青羊区中坝",
+          geographic_position: "有"
+        }, {
+          organName: "未来旅馆",
+          area: "成都市青羊区中坝",
+          geographic_position: "有"
+        }, {
+          organName: "未来旅馆",
+          area: "成都市青羊区中坝",
+          geographic_position: "有"
+        }
       ],
       mapTableData: [],
       graphicItemS: [],
@@ -243,8 +375,10 @@ export default {
     mapDraw () {
       var _this = this;
       const options = {
-        css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
-        url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'
+        // css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
+        // url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'
+        css: 'https://js.arcgis.com/3.29/esri/css/esri.css',
+        url: 'https://js.arcgis.com/3.29/init.js'
       };
       loadModules([
         'esri/basemaps', 'esri/map', 'esri/dijit/Scalebar',
@@ -279,8 +413,11 @@ export default {
             map.infoWindow.resize(250, 200);
           });
           var drawTool = new Draw(map);
+          // 绘制点
           drawTool.markerSymbol = new SimpleMarkerSymbol();
+          // 绘制几何
           drawTool.fillSymbol = new SimpleFillSymbol();
+
           on(dom.byId('circle'), 'click', function () {
             drawTool.activate(Draw['CIRCLE']);
           })
@@ -293,7 +430,7 @@ export default {
             console.log(evt);
             if (evt.target._geometryType === 'circle') {
               var length = geometryEngine.geodesicLength(evt.geometry, 'meters') / Math.PI;// 长度公式
-              console.log(length);
+              _this.range = length/2
               var a = evt.geometry.cache._extent;
               var newX = (a.xmin + a.xmax) / 2;
               var newY = (a.ymax + a.ymin) / 2;
@@ -302,6 +439,8 @@ export default {
               id++;
               _this.mapTableData.push(newObj);
             }
+            var symbol;
+            // 添加图形
             if (evt.geometry.type === 'point') {
               var a1 = evt.geometry;
               var newX1 = a1.x;
@@ -310,7 +449,6 @@ export default {
               var newObj1 = { longitude: center1[0].toFixed(6), latitude: center1[1].toFixed(6), type: '描点', id };
               id++
               _this.mapTableData.push(newObj1);
-              var symbol;
               symbol = drawTool.markerSymbol;
             } else {
               symbol = drawTool.fillSymbol;
@@ -319,7 +457,10 @@ export default {
             let graphicItem = new Graphic(evt.geometry, symbol);
             _this.graphicItemS.push(graphicItem);
             map.graphics.add(graphicItem)
+
+            // 删除图形
             setTimeout(() => {
+              // off()click操作中的累积效果
               $('.removeLayer').off('click').on('click', (e) => {
                 let id = Number(e.target.dataset.index);
                 map.graphics.remove(_this.graphicItemS[id]);
@@ -347,13 +488,34 @@ export default {
       this.inputList.splice(index, 1);
     },
     search () {
+
     },
     cancel () {
       this.show = false;
     },
+    // 轨迹点搜索
+    trackSearch(formName){
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.trackShow = false
+          this.trackShow2 = true
+          console.log(this.trackForm.value1)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    // 清空轨迹点信息
+    trackClear(){},
+    // 确认标注
+    affirmLabel(){
+      this.trackShow2 = false
+    },
     getRowKey (row) {
       console.log(row)
-    }
+    },
+    handleSelectionChange(){}
   }
 }
 </script>
@@ -468,4 +630,93 @@ a:focus, a:hover
   margin-right 20px
   width 30px
   flex 0 0 auto
+</style>
+<style lang="stylus">
+.mod-ticket .box
+  .dialog .form
+    padding 10px 20px
+.mod-ticket .dialog .el-form
+  margin 0 auto
+.mod-ticket .dialog .el-form-item
+  margin 20px auto
+.mod-ticket .dialog .el-form-item__error
+  top 40px
+  left 0px
+
+.mod-ticket .dialog .el-dialog
+  background: rgba(8,52,56,0.6)!important
+
+.mod-ticket .el-dialog .el-dialog__body .body-content .fly-dialog-body
+  padding 20px 0
+
+.mod-ticket .dialog .el-date-editor.el-input
+  margin-left 0px
+  display: inline-block;
+  width: 49%;
+
+.mod-ticket .dialog .el-date-editor.el-input:nth-child(2)
+  margin-left 2%
+
+
+  /*隐藏进度条*/
+.dialog .el-table__body-wrapper::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.dialog .el-table__body-wrapper::-webkit-scrollbar-button {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-webkit-scrollbar-corner {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-webkit-scrollbar-resizer {
+  background-color: rgba(0, 0, 0, 0);
+}
+/*o内核*/
+.dialog .el-table__body-wrapper .-o-scrollbar {
+  width: 0px;
+  height: 0px;
+  -moz-appearance: none !important;
+  background: rgba(0, 255, 0, 0) !important;
+}
+.dialog .el-table__body-wrapper::-o-scrollbar-button {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-o-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-o-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-o-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-o-scrollbar-corner {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dialog .el-table__body-wrapper::-o-scrollbar-resizer {
+  background-color: rgba(0, 0, 0, 0);
+}
+/*IE10,IE11,IE12*/
+.dialog .el-table__body-wrapper {
+  -ms-scroll-chaining: chained;
+  -ms-overflow-style: none;
+  -ms-content-zooming: zoom;
+  -ms-scroll-rails: none;
+  -ms-content-zoom-limit-min: 100%;
+  -ms-content-zoom-limit-max: 500%;
+  -ms-scroll-snap-type: proximity;
+  -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+  -ms-overflow-style: none;
+  overflow: auto;
+}
 </style>

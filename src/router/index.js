@@ -61,6 +61,7 @@ const mainRoutes = [
         path: '/ticket',
         component: _import('modules/ticket/index'),
         name: 'ticket',
+        redirect: { name: 'newPhone' },
         meta: {
           title: 'ticket'
         },
@@ -248,12 +249,126 @@ const mainRoutes = [
         ]
       },
       {
+        path: '/usercenter',
+        component: _import('modules/usercenter/index'),
+        name: 'usercenter',
+        redirect: { name: 'personCenter' },
+        meta: { title: 'usercenter' },
+        children: [
+          {
+            path: '/personCenter',
+            component: _import('modules/usercenter/personCenter'),
+            name: 'personCenter',
+            meta: { title: 'personCenter' }
+          },
+          {
+            path: '/modifyInfo',
+            component: _import('modules/usercenter/modifyInfo'),
+            name: 'modifyInfo',
+            meta: { title: 'modifyInfo' }
+          },
+          {
+            path: '/accountManage',
+            component: _import('modules/usercenter/accountManage'),
+            name: 'accountManage',
+            meta: { title: 'accountManage' }
+          }
+        ]
+      },
+      {
+        path: '/sys',
+        component: _import('modules/sys/index'),
+        name: 'sys',
+        redirect: { name: 'userManage' },
+        meta: { title: 'sys' },
+        children: [
+          {
+            path: '/userManage',
+            component: _import('modules/sys/userManage'),
+            name: 'userManage',
+            meta: { title: 'userManage' }
+          },
+          {
+            path: '/menuManage',
+            component: _import('modules/sys/menuManage'),
+            name: 'menuManage',
+            meta: { title: 'menuManage' }
+          },
+          {
+            path: '/roleManage',
+            component: _import('modules/sys/roleManage'),
+            name: 'roleManage',
+            meta: { title: 'roleManage' }
+          },
+          {
+            path: '/organManage',
+            component: _import('modules/sys/organManage'),
+            name: 'organManage',
+            meta: { title: 'organManage' }
+          }
+        ]
+      },
+      {
         path: '/unioncase',
         component: _import('modules/unioncase/index'),
         name: 'unioncase',
         meta: {
           title: 'unioncase'
         }
+      },
+
+
+      {
+        path: '/taskManage',
+        component: _import('modules/unioncase/taskManage'),
+        name: 'taskManage',
+        meta: { title: 'taskManage' }
+      },
+
+      {
+        path: '/taskAnalysisResults',
+        component: _import('modules/unioncase/taskAnalysisResults'),
+        name: 'taskAnalysisResults',
+        meta: { title: 'taskAnalysisResults' }
+      },
+
+
+
+
+      {
+        path: '/relation',
+        component: _import('modules/relation/index'),
+        name: 'relation',
+        meta: {
+          title: 'relation'
+        }
+      },
+      {
+        path: '/timespaceindex',
+        component: _import('modules/timespace/index'),
+        name: 'timespaceindex',
+        redirect: { name: 'timespace' },
+        meta: { title: 'timespaceindex' },
+        children: [
+          {
+            path: '/timespace',
+            component: _import('modules/timespace/timespace'),
+            name: 'timespace',
+            meta: { title: 'timespace' }
+          },
+          {
+            path: '/timespacelist',
+            component: _import('modules/timespace/timespacelist'),
+            name: 'timespacelist',
+            meta: { title: 'timespacelist' }
+          },
+          {
+            path: '/timespaceinfo',
+            component: _import('modules/timespace/timespaceinfo'),
+            name: 'timespaceinfo',
+            meta: { title: 'timespaceinfo' }
+          }
+        ]
       }
     ]
   }
