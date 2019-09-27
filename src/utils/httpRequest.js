@@ -12,11 +12,7 @@ const http = axios.create({
   }
 })
 window.SITE_CONFIG = {
-<<<<<<< HEAD
   baseUrl: 'http://192.168.1.129:8080/'
-=======
-  baseUrl: 'http://192.168.1.186:8087'
->>>>>>> 62b6423843d19ba0218a29de8d34f5a0718621da
 }
 /**
  * 请求拦截
