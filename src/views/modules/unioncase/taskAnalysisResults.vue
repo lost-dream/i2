@@ -184,78 +184,78 @@
 
 <script>
 export default {
-  name: "taskAnalysisResults",
+  name: 'taskAnalysisResults',
   data() {
     return {
       pagination: {
         page: 1,
         size: 10,
-        total: 100
+        total: 100,
       },
-      taskType: "查人",
-      taskName: "123",
-      date1: "",
-      date2: "",
-      date3: "1992-08-04 12:00:11",
-      date4: "",
-      range: "",
-      checkedBox: ["旅馆", "网吧"],
-      boxs: [{ name: "旅馆" }, { name: "网吧" }],
+      taskType: '查人',
+      taskName: '123',
+      date1: '',
+      date2: '',
+      date3: '1992-08-04 12:00:11',
+      date4: '',
+      range: '',
+      checkedBox: ['旅馆', '网吧'],
+      boxs: [{ name: '旅馆' }, { name: '网吧' }],
       infoData: [
         {
-          a: "1324679846546464654",
+          a: '1324679846546464654',
           b: 2,
-          c: "cirde_123456"
+          c: 'cirde_123456',
         },
         {
-          a: "1324679846546464654",
+          a: '1324679846546464654',
           b: 2,
-          c: "cirde_123456"
+          c: 'cirde_123456',
         },
         {
-          a: "1324679846546464654",
+          a: '1324679846546464654',
           b: 2,
-          c: "cirde_123456"
-        }
+          c: 'cirde_123456',
+        },
       ],
       infoData2: [
         {
-          a: "A1324679846546464654",
-          b: "青羊工业园偷盗",
-          c: "2019-07-07  14：30：00"
+          a: 'A1324679846546464654',
+          b: '青羊工业园偷盗',
+          c: '2019-07-07  14：30：00',
         },
         {
-          a: "A1324679846546464654",
-          b: "青羊工业园偷盗",
-          c: "2019-07-07  14：30：00"
+          a: 'A1324679846546464654',
+          b: '青羊工业园偷盗',
+          c: '2019-07-07  14：30：00',
         },
         {
-          a: "A1324679846546464654",
-          b: "青羊工业园偷盗",
-          c: "2019-07-07  14：30：00"
-        }
-      ]
-    };
+          a: 'A1324679846546464654',
+          b: '青羊工业园偷盗',
+          c: '2019-07-07  14：30：00',
+        },
+      ],
+    }
   },
   methods: {
     // 导出
     exportData() {},
     handleSizeChange(val) {
-      this.pagination.size = val;
+      this.pagination.size = val
       /*var newArr = this.idList.map(function (item) {
           return item
         }).join(',')
         this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr);*/
     },
     handleCurrentChange(val) {
-      this.pagination.page = val;
+      this.pagination.page = val
       /* var newArr = this.idList.map(function (item) {
            return item
          }).join(',')
          this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr);*/
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

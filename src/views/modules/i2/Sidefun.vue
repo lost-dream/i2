@@ -13,38 +13,38 @@
 </template>
 
 <script>
-import BasicInfo from "./BasicInfo";
-import CountInfo from "./CountInfo";
+import BasicInfo from './BasicInfo'
+import CountInfo from './CountInfo'
 export default {
   components: {
     BasicInfo,
-    CountInfo
+    CountInfo,
   },
   props: {
     detail: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      activeName: "0",
-      dynamicTab: ""
-    };
+      activeName: '0',
+      dynamicTab: '',
+    }
   },
   computed: {},
   methods: {
     init(name, lable) {
-      this.activeName = name;
-      this.dynamicTab = lable;
+      this.activeName = name
+      this.dynamicTab = lable
     },
     /**
      * 判断侧边栏是否打开
      */
-    isSidebarOpening(num) {}
+    isSidebarOpening(num) {},
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped>
 .mod-sidefun

@@ -81,149 +81,145 @@
 </template>
 
 <script>
-import personalInfoCard from "@/views/common/personalInfoCard";
+import personalInfoCard from '@/views/common/personalInfoCard'
 export default {
-  name: "timespacelist",
+  name: 'timespacelist',
   components: {
-    personalInfoCard
+    personalInfoCard,
   },
   data() {
     return {
       form: {
-        idNumber: "",
-        startDate: "",
-        endDate: ""
+        idNumber: '',
+        startDate: '',
+        endDate: '',
       },
-      tooltype: "hc",
+      tooltype: 'hc',
       rules: {
-        idNumber: this.filter_rules({ required: true, type: "idCard" }),
+        idNumber: this.filter_rules({ required: true, type: 'idCard' }),
         startDate: [
-          { required: true, message: "请选择开始日期", trigger: "blur" }
+          { required: true, message: '请选择开始日期', trigger: 'blur' },
         ],
         endDate: [
-          { required: true, message: "请选择结束日期", trigger: "blur" }
-        ]
+          { required: true, message: '请选择结束日期', trigger: 'blur' },
+        ],
       },
       reverse: false,
       showCard: true,
       partiesInfo: {
-        name: "fffff"
+        name: 'fffff',
       },
       activities: [
         {
-          content: "活动按期开始",
-          timestamp: "2018-04-15"
+          content: '活动按期开始',
+          timestamp: '2018-04-15',
         },
         {
-          content: "通过审核",
-          timestamp: "2018-04-13"
+          content: '通过审核',
+          timestamp: '2018-04-13',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
+          content: '创建成功',
+          timestamp: '2018-04-11',
         },
         {
-          content: "创建成功",
-          timestamp: "2018-04-11"
-        }
-      ]
-    };
+          content: '创建成功',
+          timestamp: '2018-04-11',
+        },
+      ],
+    }
   },
   created() {
-    var _self = this;
+    var _self = this
     document.onkeydown = function(e) {
-      var key = window.event.keyCode;
+      var key = window.event.keyCode
       if (key === 13) {
-        _self.onSubmit("form");
+        _self.onSubmit('form')
       }
-    };
+    }
   },
   beforeDestroy() {
     document.onkeydown = function(e) {
-      var key = window.event.keyCode;
+      var key = window.event.keyCode
 
       if (key === 13) {
       }
-    };
+    }
   },
   mounted() {
-    this.$route.params.form !== undefined && this.receiveRouter();
-    document.addEventListener("click", this.handleDocumentClick);
+    this.$route.params.form !== undefined && this.receiveRouter()
+    document.addEventListener('click', this.handleDocumentClick)
   },
   methods: {
     // 获取路由参数
     receiveRouter() {
-      this.form = JSON.parse(JSON.stringify(this.$route.params.form));
+      this.form = JSON.parse(JSON.stringify(this.$route.params.form))
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        console.log(this.form);
-        console.log(valid);
+        console.log(this.form)
+        console.log(valid)
         if (valid) {
-          alert("submit!");
-          console.log(
-            this.form.oldPass,
-            this.form.newPass,
-            this.form.checkPass
-          );
-          this.getTimespaceList();
+          alert('submit!')
+          console.log(this.form.oldPass, this.form.newPass, this.form.checkPass)
+          this.getTimespaceList()
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     getTimespaceList() {
       this.$api.spacequery(this.from).then(({ data }) => {
-        console.log(data);
-      });
+        console.log(data)
+      })
     },
     gotoInfo() {
       this.$router.push({
-        name: "timespaceinfo",
+        name: 'timespaceinfo',
         params: {
-          partiesInfo: this.partiesInfo
-        }
-      });
-    }
-  }
-};
+          partiesInfo: this.partiesInfo,
+        },
+      })
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

@@ -114,11 +114,11 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 export default {
-  name: "roleManage",
+  name: 'roleManage',
   components: {
-    FlyDialog
+    FlyDialog,
   },
   data() {
     return {
@@ -126,109 +126,109 @@ export default {
       addDialog: false,
       editDialog: false,
       deleteDialog: false,
-      roleList: [{ name: "管理员" }, { name: "超级管理员" }, { name: "游客" }],
+      roleList: [{ name: '管理员' }, { name: '超级管理员' }, { name: '游客' }],
       data: [
         {
           id: 1,
-          label: "前端",
+          label: '前端',
           children: [
             {
               id: 2,
-              label: "i2"
+              label: 'i2',
             },
             {
               id: 3,
-              label: "话单分析"
+              label: '话单分析',
             },
             {
               id: 4,
-              label: "关系分析"
+              label: '关系分析',
             },
             {
               id: 5,
-              label: "时空分析"
+              label: '时空分析',
             },
             {
               id: 6,
-              label: "联案分析"
-            }
-          ]
+              label: '联案分析',
+            },
+          ],
         },
         {
           id: 2,
-          label: "后端",
+          label: '后端',
           children: [
             {
               id: 7,
-              label: "用户管理"
+              label: '用户管理',
             },
             {
               id: 8,
-              label: "菜单管理"
+              label: '菜单管理',
             },
             {
               id: 9,
-              label: "角色管理"
+              label: '角色管理',
             },
             {
               id: 10,
-              label: "机构管理"
-            }
-          ]
-        }
+              label: '机构管理',
+            },
+          ],
+        },
       ],
       form: {
-        name: "",
-        desc: ""
+        name: '',
+        desc: '',
       },
       rules: {
-        name: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
-        desc: [{ required: true, message: "请输入角色描述", trigger: "blur" }]
+        name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
+        desc: [{ required: true, message: '请输入角色描述', trigger: 'blur' }],
       },
       defaultProps: {
-        children: "children",
-        label: "label"
-      }
-    };
+        children: 'children',
+        label: 'label',
+      },
+    }
   },
   methods: {
     // 判断是否选择角色
     pitchOn2() {
       // let isPitchOn = false
-      let isPitchOn = true;
+      let isPitchOn = true
       // this.multipleSelection.length > 0 ? isPitchOn = true : this.$message.error('请至少选择一条数据!')
-      return isPitchOn;
+      return isPitchOn
     },
     // 添加角色
     addRole(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-          this.addDialog = false;
+          alert('submit!')
+          this.addDialog = false
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 编辑角色
     editRole(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-          this.addDialog = false;
+          alert('submit!')
+          this.addDialog = false
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 删除角色
     deleteRole() {
-      this.deleteDialog = false;
-    }
-  }
-};
+      this.deleteDialog = false
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

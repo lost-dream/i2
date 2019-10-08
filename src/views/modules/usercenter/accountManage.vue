@@ -80,88 +80,88 @@
 
 <script>
 export default {
-  name: "userManage",
+  name: 'userManage',
   components: {},
   props: {},
   data() {
     var validateOldPass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入旧密码"));
+      if (value === '') {
+        callback(new Error('请输入旧密码'))
       } else {
-        if (value !== "111") {
-          callback(new Error("请输入正确密码"));
+        if (value !== '111') {
+          callback(new Error('请输入正确密码'))
         } else {
-          if (this.form.newPass !== "") {
-            this.$refs.form.validateField("newPass");
+          if (this.form.newPass !== '') {
+            this.$refs.form.validateField('newPass')
           }
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.form.checkPass !== "") {
-          this.$refs.form.validateField("checkPass");
+        if (this.form.checkPass !== '') {
+          this.$refs.form.validateField('checkPass')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.form.newPass) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var validateanswer = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入问题答案"));
+      if (value === '') {
+        callback(new Error('请输入问题答案'))
       } else if (!/^[a-zA-Z0-9]{6,6}$/.test(value)) {
-        callback(new Error("答案输入格式错误！!"));
+        callback(new Error('答案输入格式错误！!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       form: {
-        oldPass: "",
-        newPass: "",
-        checkPass: ""
+        oldPass: '',
+        newPass: '',
+        checkPass: '',
       },
       form2: {
-        question: "",
-        answer: ""
+        question: '',
+        answer: '',
       },
-      see: "pass",
+      see: 'pass',
       rules: {
-        oldPass: [{ validator: validateOldPass, trigger: "blur" }],
-        newPass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        question: [{ required: true, message: "请输入问题", trigger: "blur" }],
-        answer: [{ validator: validateanswer, trigger: "blur" }]
-      }
-    };
+        oldPass: [{ validator: validateOldPass, trigger: 'blur' }],
+        newPass: [{ validator: validatePass, trigger: 'blur' }],
+        checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+        question: [{ required: true, message: '请输入问题', trigger: 'blur' }],
+        answer: [{ validator: validateanswer, trigger: 'blur' }],
+      },
+    }
   },
   computed: {},
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          formName === "form" && (this.see = "depict");
+          formName === 'form' && (this.see = 'depict')
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-    }
+      })
+    },
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 
 <style lang="stylus" scoped>

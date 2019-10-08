@@ -38,8 +38,8 @@
           <label
             v-for="(item, index) in leftMenu"
             @click="
-              addInfo(item);
-              menuActive = index;
+              addInfo(item)
+              menuActive = index
             "
             :key="index"
           >
@@ -265,11 +265,11 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 export default {
-  name: "menuManage",
+  name: 'menuManage',
   components: {
-    FlyDialog
+    FlyDialog,
   },
   data() {
     return {
@@ -279,559 +279,559 @@ export default {
       deleteDialog: false,
       menuActive: 0,
       form: {
-        name: "",
-        higherUp: "",
-        isModule: "2",
-        backStyle: "",
-        frontStyle: "",
-        chainedAddress: "",
-        powerPath: "",
-        sortSubordinate: "",
-        adjustSort: ""
+        name: '',
+        higherUp: '',
+        isModule: '2',
+        backStyle: '',
+        frontStyle: '',
+        chainedAddress: '',
+        powerPath: '',
+        sortSubordinate: '',
+        adjustSort: '',
       },
-      backEnd: "1",
-      frontEnd: "1",
+      backEnd: '1',
+      frontEnd: '1',
       rules: {
-        name: [{ required: true, message: "请输入名称", trigger: "blur" }],
-        higherUp: [{ required: true, message: "上级", trigger: "blur" }],
+        name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+        higherUp: [{ required: true, message: '上级', trigger: 'blur' }],
         isModule: [
-          { required: true, message: "请选择所属模块", trigger: "blur" }
+          { required: true, message: '请选择所属模块', trigger: 'blur' },
         ],
         chainedAddress: [
-          { required: true, message: "请输入链接地址", trigger: "blur" }
+          { required: true, message: '请输入链接地址', trigger: 'blur' },
         ],
         powerPath: [
-          { required: true, message: "请输入权限跟路径", trigger: "blur" }
-        ]
+          { required: true, message: '请输入权限跟路径', trigger: 'blur' },
+        ],
       },
       backEndList: [
         {
-          value: "1",
-          label: "后台"
+          value: '1',
+          label: '后台',
         },
         {
-          value: "2",
-          label: "用户管理"
+          value: '2',
+          label: '用户管理',
         },
         {
-          value: "3",
-          label: "菜单管理"
+          value: '3',
+          label: '菜单管理',
         },
         {
-          value: "4",
-          label: "角色管理"
+          value: '4',
+          label: '角色管理',
         },
         {
-          value: "5",
-          label: "机构管理"
-        }
+          value: '5',
+          label: '机构管理',
+        },
       ],
       frontEndList: [
         {
-          value: "1",
-          label: "前台"
+          value: '1',
+          label: '前台',
         },
         {
-          value: "2",
-          label: "i2"
+          value: '2',
+          label: 'i2',
         },
         {
-          value: "3",
-          label: "话单分析"
+          value: '3',
+          label: '话单分析',
         },
         {
-          value: "4",
-          label: "关系分析"
+          value: '4',
+          label: '关系分析',
         },
         {
-          value: "5",
-          label: "时空分析"
+          value: '5',
+          label: '时空分析',
         },
         {
-          value: "6",
-          label: "联案分析"
-        }
+          value: '6',
+          label: '联案分析',
+        },
       ],
       leftMenu: [
         {
-          name: "前台",
-          menuId: "1",
+          name: '前台',
+          menuId: '1',
           info: {
-            name: "5555555555555555555",
-            higherUp: "444",
-            isModule: "2",
-            backStyle: "",
-            frontStyle: "",
-            chainedAddress: "#",
-            powerPath: "#",
-            sortSubordinate: "111",
-            adjustSort: "111"
+            name: '5555555555555555555',
+            higherUp: '444',
+            isModule: '2',
+            backStyle: '',
+            frontStyle: '',
+            chainedAddress: '#',
+            powerPath: '#',
+            sortSubordinate: '111',
+            adjustSort: '111',
           },
           items: [
             {
-              name: "i2",
-              menuId: "1-1",
+              name: 'i2',
+              menuId: '1-1',
               info: {
-                name: "111",
-                higherUp: "444",
-                isModule: "2",
-                backStyle: "",
-                frontStyle: "",
-                chainedAddress: "#",
-                powerPath: "#",
-                sortSubordinate: "111",
-                adjustSort: "111"
+                name: '111',
+                higherUp: '444',
+                isModule: '2',
+                backStyle: '',
+                frontStyle: '',
+                chainedAddress: '#',
+                powerPath: '#',
+                sortSubordinate: '111',
+                adjustSort: '111',
               },
-              items: []
+              items: [],
             },
             {
-              name: "话单分析",
-              menuId: "1-2",
-              items: []
+              name: '话单分析',
+              menuId: '1-2',
+              items: [],
             },
             {
-              name: "关系分析",
-              menuId: "1-3",
-              items: []
+              name: '关系分析',
+              menuId: '1-3',
+              items: [],
             },
             {
-              name: "时空分析",
-              menuId: "1-4",
-              items: []
+              name: '时空分析',
+              menuId: '1-4',
+              items: [],
             },
             {
-              name: "联案分析",
-              menuId: "1-5",
-              items: []
-            }
-          ]
+              name: '联案分析',
+              menuId: '1-5',
+              items: [],
+            },
+          ],
         },
         {
-          name: "后台",
-          menuId: "2",
+          name: '后台',
+          menuId: '2',
           items: [
             {
-              name: "用户管理",
-              menuId: "2-1",
-              items: []
+              name: '用户管理',
+              menuId: '2-1',
+              items: [],
             },
             {
-              name: "菜单管理",
-              menuId: "2-2",
-              items: []
+              name: '菜单管理',
+              menuId: '2-2',
+              items: [],
             },
             {
-              name: "角色管理",
-              menuId: "2-3",
-              items: []
+              name: '角色管理',
+              menuId: '2-3',
+              items: [],
             },
             {
-              name: "机构管理",
-              menuId: "2-4",
-              items: []
-            }
-          ]
-        }
+              name: '机构管理',
+              menuId: '2-4',
+              items: [],
+            },
+          ],
+        },
       ],
       listNav: [
         {
-          name: "dldt",
-          text: "地理地图",
-          url: "http://10.156.121.38:9000/gwUap",
-          extopts: { "/dldt@@el-icon-location": "" },
+          name: 'dldt',
+          text: '地理地图',
+          url: 'http://10.156.121.38:9000/gwUap',
+          extopts: { '/dldt@@el-icon-location': '' },
           items: [],
-          outter: false
+          outter: false,
         },
         {
-          name: "jccx",
-          text: "基础查询",
-          url: "http://10.156.121.38:9000/gwUap",
-          extopts: { "/jccx@@el-icon-search": "" },
+          name: 'jccx',
+          text: '基础查询',
+          url: 'http://10.156.121.38:9000/gwUap',
+          extopts: { '/jccx@@el-icon-search': '' },
           items: [
             {
-              name: "cxdw",
-              text: "查询定位",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/cxdw": "" },
+              name: 'cxdw',
+              text: '查询定位',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/cxdw': '' },
               items: [
                 {
-                  name: "dwcx",
-                  text: "定位查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/dwcx": "" },
+                  name: 'dwcx',
+                  text: '定位查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/dwcx': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "dlzhcx",
-                  text: "电缆综合查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/dlzhcx": "" },
+                  name: 'dlzhcx',
+                  text: '电缆综合查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/dlzhcx': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "scfzsszhcx",
-                  text: "生产辅助设施综合查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/scfzsszhcx": "" },
+                  name: 'scfzsszhcx',
+                  text: '生产辅助设施综合查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/scfzsszhcx': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "tdzhcx",
-                  text: "通道综合查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/tdzhcx": "" },
+                  name: 'tdzhcx',
+                  text: '通道综合查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/tdzhcx': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "tdnxcx",
-                  text: "通道年限查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/tdnxcx": "" },
+                  name: 'tdnxcx',
+                  text: '通道年限查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/tdnxcx': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "jhcx",
-                  text: "几何查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/jhcx": "" },
+                  name: 'jhcx',
+                  text: '几何查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/jhcx': '' },
                   items: [],
-                  outter: false
-                }
+                  outter: false,
+                },
               ],
-              outter: false
+              outter: false,
             },
             {
-              name: "dlzycxfx",
-              text: "电缆资源查询分析",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/dlzycxfx": "" },
+              name: 'dlzycxfx',
+              text: '电缆资源查询分析',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/dlzycxfx': '' },
               items: [
                 {
-                  name: "dlmspmcx",
-                  text: "电缆埋设剖面查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/dlmspmcx": "" },
+                  name: 'dlmspmcx',
+                  text: '电缆埋设剖面查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/dlmspmcx': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "dljpmtcx",
-                  text: "电缆井剖面图查询",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/dljpmtcx": "" },
+                  name: 'dljpmtcx',
+                  text: '电缆井剖面图查询',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/dljpmtcx': '' },
                   items: [],
-                  outter: false
-                }
+                  outter: false,
+                },
               ],
-              outter: false
+              outter: false,
             },
             {
-              name: "txsc",
-              text: "图形输出",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/txsc": "" },
+              name: 'txsc',
+              text: '图形输出',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/txsc': '' },
               items: [
                 {
-                  name: "dqtfdy",
-                  text: "当前图幅打印",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/dqtfdy": "" },
+                  name: 'dqtfdy',
+                  text: '当前图幅打印',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/dqtfdy': '' },
                   items: [],
-                  outter: false
+                  outter: false,
                 },
                 {
-                  name: "lkdy",
-                  text: "拉框打印",
-                  url: "http://10.156.121.38:9000/gwUap",
-                  extopts: { "/lkdy": "" },
+                  name: 'lkdy',
+                  text: '拉框打印',
+                  url: 'http://10.156.121.38:9000/gwUap',
+                  extopts: { '/lkdy': '' },
                   items: [],
-                  outter: false
-                }
+                  outter: false,
+                },
               ],
-              outter: false
-            }
+              outter: false,
+            },
           ],
-          outter: false
+          outter: false,
         },
         {
-          name: "ywgl",
-          text: "业务管理",
-          url: "http://10.156.121.38:9000/gwUap",
-          extopts: { "/ywgl@@el-icon-tickets": "" },
+          name: 'ywgl',
+          text: '业务管理',
+          url: 'http://10.156.121.38:9000/gwUap',
+          extopts: { '/ywgl@@el-icon-tickets': '' },
           items: [
             {
-              name: "zzbd",
-              text: "政治保电",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/zzbd": "" },
+              name: 'zzbd',
+              text: '政治保电',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/zzbd': '' },
               items: [
                 {
-                  name: "bdrwd",
-                  text: "保电任务单",
-                  url: "http://10.156.121.38:9000/gwUap",
+                  name: 'bdrwd',
+                  text: '保电任务单',
+                  url: 'http://10.156.121.38:9000/gwUap',
                   extopts: {
-                    "/BusinessManagement/politicalProtection/protectTacks/protectTack":
-                      ""
+                    '/BusinessManagement/politicalProtection/protectTacks/protectTack':
+                      '',
                   },
                   items: [],
-                  outter: false
-                }
+                  outter: false,
+                },
               ],
-              outter: false
+              outter: false,
             },
             {
-              name: "gzt",
-              text: "工作台",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/gzt": "" },
+              name: 'gzt',
+              text: '工作台',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/gzt': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "dmgl",
-              text: "断面管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/dmgl": "" },
+              name: 'dmgl',
+              text: '断面管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/dmgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "jhgl",
-              text: "计划管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/jhgl": "" },
+              name: 'jhgl',
+              text: '计划管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/jhgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "xsjcgl",
-              text: "巡视检测管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/xsjcgl": "" },
+              name: 'xsjcgl',
+              text: '巡视检测管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/xsjcgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "yhgl",
-              text: "隐患管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/yhgl": "" },
+              name: 'yhgl',
+              text: '隐患管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/yhgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "fxgk",
-              text: "风险管控",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/fxgk": "" },
+              name: 'fxgk',
+              text: '风险管控',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/fxgk': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "qxgl",
-              text: "缺陷管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/qxgl": "" },
+              name: 'qxgl',
+              text: '缺陷管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/qxgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "gzgl",
-              text: "故障管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/gzgl": "" },
+              name: 'gzgl',
+              text: '故障管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/gzgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "yxztpj",
-              text: "运行状态评价",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/yxztpj": "" },
+              name: 'yxztpj',
+              text: '运行状态评价',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/yxztpj': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "gcjsgl",
-              text: "工程建设管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/gcjsgl": "" },
+              name: 'gcjsgl',
+              text: '工程建设管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/gcjsgl': '' },
               items: [],
-              outter: false
-            }
+              outter: false,
+            },
           ],
-          outter: false
+          outter: false,
         },
         {
-          name: "jkzz",
-          text: "监控主站",
-          url: "http://10.156.121.38:9000/gwUap/Monitoring",
-          extopts: { "/jkzz@@el-icon-view": "" },
+          name: 'jkzz',
+          text: '监控主站',
+          url: 'http://10.156.121.38:9000/gwUap/Monitoring',
+          extopts: { '/jkzz@@el-icon-view': '' },
           items: [],
-          outter: false
+          outter: false,
         },
         {
-          name: "znxj",
-          text: "智能巡检",
-          url: "http://10.156.121.38:9000/gwUap",
-          extopts: { "/Polling@@el-icon-sort": "" },
+          name: 'znxj',
+          text: '智能巡检',
+          url: 'http://10.156.121.38:9000/gwUap',
+          extopts: { '/Polling@@el-icon-sort': '' },
           items: [],
-          outter: false
+          outter: false,
         },
         {
-          name: "tjfx",
-          text: "统计分析",
-          url: "http://10.156.121.38:9000/gwUap/Statistics",
-          extopts: { "/tjfx@@el-icon-edit": "" },
+          name: 'tjfx',
+          text: '统计分析',
+          url: 'http://10.156.121.38:9000/gwUap/Statistics',
+          extopts: { '/tjfx@@el-icon-edit': '' },
           items: [],
-          outter: false
+          outter: false,
         },
         {
-          name: "zhxx",
-          text: "综合信息",
-          url: "http://10.156.121.38:9000/gwUap/Synthesize",
-          extopts: { "/zhxx@@el-icon-document": "" },
+          name: 'zhxx',
+          text: '综合信息',
+          url: 'http://10.156.121.38:9000/gwUap/Synthesize',
+          extopts: { '/zhxx@@el-icon-document': '' },
           items: [],
-          outter: false
+          outter: false,
         },
         {
-          name: "zbkb",
-          text: "指标看板",
-          url: "http://10.156.121.38:9000/gwUap/Board",
-          extopts: { "/zbkb@@el-icon-news": "" },
+          name: 'zbkb',
+          text: '指标看板',
+          url: 'http://10.156.121.38:9000/gwUap/Board',
+          extopts: { '/zbkb@@el-icon-news': '' },
           items: [],
-          outter: false
+          outter: false,
         },
         {
-          name: "ztt",
-          text: "专题图",
-          url: "http://10.156.121.38:9000/gwUap",
-          extopts: { "/ztt@@el-icon-picture-outline": "" },
+          name: 'ztt',
+          text: '专题图',
+          url: 'http://10.156.121.38:9000/gwUap',
+          extopts: { '/ztt@@el-icon-picture-outline': '' },
           items: [
             {
-              name: "jkfb",
-              text: "监控分布",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/jkfb": "" },
+              name: 'jkfb',
+              text: '监控分布',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/jkfb': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "jkgj",
-              text: "监控警告",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/jkgj": "" },
+              name: 'jkgj',
+              text: '监控警告',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/jkgj': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "tdzyl",
-              text: "通道占用率",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/tdzyl": "" },
+              name: 'tdzyl',
+              text: '通道占用率',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/tdzyl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "tdfj",
-              text: "通道分级",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/tdfj": "" },
+              name: 'tdfj',
+              text: '通道分级',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/tdfj': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "gcjsgl",
-              text: "工程建设管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/gcjsgl": "" },
+              name: 'gcjsgl',
+              text: '工程建设管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/gcjsgl': '' },
               items: [],
-              outter: false
+              outter: false,
             },
             {
-              name: "yhgl",
-              text: "隐患管理",
-              url: "http://10.156.121.38:9000/gwUap",
-              extopts: { "/yhgl": "" },
+              name: 'yhgl',
+              text: '隐患管理',
+              url: 'http://10.156.121.38:9000/gwUap',
+              extopts: { '/yhgl': '' },
               items: [],
-              outter: false
-            }
-          ]
-        }
+              outter: false,
+            },
+          ],
+        },
       ],
       isModuleList: [
         {
-          value: "1",
-          label: "前台"
+          value: '1',
+          label: '前台',
         },
         {
-          value: "2",
-          label: "i2"
+          value: '2',
+          label: 'i2',
         },
         {
-          value: "3",
-          label: "话单分析"
+          value: '3',
+          label: '话单分析',
         },
         {
-          value: "4",
-          label: "关系分析"
+          value: '4',
+          label: '关系分析',
         },
         {
-          value: "5",
-          label: "时空分析"
+          value: '5',
+          label: '时空分析',
         },
         {
-          value: "6",
-          label: "联案分析"
-        }
-      ]
-    };
+          value: '6',
+          label: '联案分析',
+        },
+      ],
+    }
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     // 点击菜单添加信息
     addInfo(info, ...args) {
       // console.log(JSON.parse(JSON.stringify(info)));
-      console.log(JSON.parse(JSON.stringify(args)));
-      this.form = JSON.parse(JSON.stringify(info)).info;
+      console.log(JSON.parse(JSON.stringify(args)))
+      this.form = JSON.parse(JSON.stringify(info)).info
       args.length > 0 &&
-        (this.form.higherUp = JSON.parse(JSON.stringify(args[0])).name);
+        (this.form.higherUp = JSON.parse(JSON.stringify(args[0])).name)
     },
     // 判断是否选择菜单
     pitchOn2() {
       // let isPitchOn = false
-      let isPitchOn = true;
+      let isPitchOn = true
       // this.multipleSelection.length > 0 ? isPitchOn = true : this.$message.error('请至少选择一条数据!')
-      return isPitchOn;
+      return isPitchOn
     },
     // 添加菜单
     addMenu(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-          this.addDialog = false;
+          alert('submit!')
+          this.addDialog = false
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 删除菜单
     deleteMenu() {
-      this.deleteDialog = false;
-    }
-  }
-};
+      this.deleteDialog = false
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

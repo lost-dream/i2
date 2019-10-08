@@ -63,78 +63,78 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       callForm: {
-        time: ""
+        time: '',
       },
       soonLate: [
         {
-          date: "2019-07-21",
-          soonTime: "03:11:11",
-          soonPhone: "13111111111",
-          soonLocation: "成都",
-          soonBaseStation: "成都青羊",
-          lateTime: "12:11:11",
-          latePhone: "15111111111",
-          lateLocation: "自贡",
-          lateBaseStation: "自贡郊区"
-        }
-      ]
-    };
+          date: '2019-07-21',
+          soonTime: '03:11:11',
+          soonPhone: '13111111111',
+          soonLocation: '成都',
+          soonBaseStation: '成都青羊',
+          lateTime: '12:11:11',
+          latePhone: '15111111111',
+          lateLocation: '自贡',
+          lateBaseStation: '自贡郊区',
+        },
+      ],
+    }
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+      console.log('submit!')
     },
     baseStation() {},
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
-    }
-  }
-};
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

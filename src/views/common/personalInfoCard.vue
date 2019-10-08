@@ -57,8 +57,8 @@
 
 <script>
 export default {
-  name: "personalInfoCard"
-};
+  name: 'personalInfoCard',
+}
 </script>
 
 <style lang="stylus" scoped>

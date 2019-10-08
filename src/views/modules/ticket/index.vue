@@ -53,22 +53,22 @@
 </template>
 
 <script>
-import Sidebar from "@/views/common/Sidebar";
-import SidemenuItem from "@/views/common/SidemenuItem";
+import Sidebar from '@/views/common/Sidebar'
+import SidemenuItem from '@/views/common/SidemenuItem'
 export default {
   components: {
     Sidebar,
-    SidemenuItem
+    SidemenuItem,
   },
   props: {},
   data() {
-    return {};
+    return {}
   },
   computed: {},
   methods: {},
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped>
 .mod-ticket.ticket-bg

@@ -46,7 +46,7 @@
                             <div class="messageCoT">
                               <span>{{
                                 item.tabledara.length > 10
-                                  ? 10 + "+"
+                                  ? 10 + '+'
                                   : item.tabledara.length
                               }}</span>
                             </div>
@@ -114,7 +114,7 @@
                             >
                               <el-table-column
                                 v-for="(item2, index2) in showTableCN(
-                                  item.tableCN
+                                  item.tableCN,
                                 )"
                                 :key="index2"
                                 :prop="item2.prop"
@@ -133,7 +133,7 @@
                                       handleClick(
                                         item.name,
                                         item.tableCN,
-                                        scope.row
+                                        scope.row,
                                       )
                                     "
                                     class="el-icon-circle-plus"
@@ -177,7 +177,7 @@
                             <div class="messageCoT">
                               <span>{{
                                 item.tabledara.length > 10
-                                  ? 10 + "+"
+                                  ? 10 + '+'
                                   : item.tabledara.length
                               }}</span>
                             </div>
@@ -245,7 +245,7 @@
                             >
                               <el-table-column
                                 v-for="(item2, index2) in showTableCN(
-                                  item.tableCN
+                                  item.tableCN,
                                 )"
                                 :key="index2"
                                 :prop="item2.prop"
@@ -314,12 +314,12 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 // import { export_json_to_excel } from '@/assets/js/Export2Excel'
-import { exportJsonToExcel } from "../../../assets/js/Export2Excel";
+import { exportJsonToExcel } from '../../../assets/js/Export2Excel'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
   data() {
@@ -327,449 +327,449 @@ export default {
       isClick: 1,
       personArchives: [
         {
-          name: "吸毒人员",
-          menuId: "1-1",
+          name: '吸毒人员',
+          menuId: '1-1',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
+            currentPage: 1,
+          },
         },
         {
-          name: "看守所",
-          menuId: "1-2",
+          name: '看守所',
+          menuId: '1-2',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
+            currentPage: 1,
+          },
         },
         {
-          name: "机动车",
-          menuId: "1-3",
+          name: '机动车',
+          menuId: '1-3',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
+            currentPage: 1,
+          },
         },
         {
-          name: "驾驶证",
-          menuId: "1-4",
+          name: '驾驶证',
+          menuId: '1-4',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
+            currentPage: 1,
+          },
         },
         {
-          name: "吸毒人员登记",
-          menuId: "1-5",
+          name: '吸毒人员登记',
+          menuId: '1-5',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
+            currentPage: 1,
+          },
         },
         {
-          name: "常住人口",
-          menuId: "1-6",
+          name: '常住人口',
+          menuId: '1-6',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
-        }
+            currentPage: 1,
+          },
+        },
       ],
       carArchives: [
         {
-          name: "机动车",
-          menuId: "2-1",
+          name: '机动车',
+          menuId: '2-1',
           tableCN: [
-            { label: "证件号码", width: "145", prop: "idNumber" },
-            { label: "姓名", width: "", prop: "name" },
-            { label: "性别", width: "", prop: "sex" },
-            { label: "民族", width: "", prop: "nation" },
-            { label: "出生日期", width: "", prop: "birthdate" },
-            { label: "简要案情", width: "", prop: "briefCase" },
-            { label: "文化程序", width: "", prop: "literacyLevels" },
-            { label: "原序号", width: "", prop: "originalSerial" }
+            { label: '证件号码', width: '145', prop: 'idNumber' },
+            { label: '姓名', width: '', prop: 'name' },
+            { label: '性别', width: '', prop: 'sex' },
+            { label: '民族', width: '', prop: 'nation' },
+            { label: '出生日期', width: '', prop: 'birthdate' },
+            { label: '简要案情', width: '', prop: 'briefCase' },
+            { label: '文化程序', width: '', prop: 'literacyLevels' },
+            { label: '原序号', width: '', prop: 'originalSerial' },
           ],
           tabledara: [
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
             },
             {
               idNumber: 360721196306101779,
-              name: "白景哲",
-              sex: "男",
-              nation: "民族",
-              birthdate: "1963-06-10",
-              briefCase: "证件类型",
-              literacyLevels: "本科",
-              originalSerial: 2759133524
-            }
+              name: '白景哲',
+              sex: '男',
+              nation: '民族',
+              birthdate: '1963-06-10',
+              briefCase: '证件类型',
+              literacyLevels: '本科',
+              originalSerial: 2759133524,
+            },
           ],
           isUnfold: false,
           paging: {
-            currentPage: 1
-          }
-        }
+            currentPage: 1,
+          },
+        },
       ],
       showDialog: false,
       formInline: {
-        seek: ""
+        seek: '',
       },
       dialogInfo: {
-        title: "",
+        title: '',
         showList: {
           tableCN: [],
-          tableValue: []
-        }
-      }
-    };
+          tableValue: [],
+        },
+      },
+    }
   },
   computed: {
     // 截取前8列
     showTableCN(val) {
       return val => {
-        let showTable = JSON.parse(JSON.stringify(val)).slice(0, 4);
-        return showTable;
-      };
-    }
+        let showTable = JSON.parse(JSON.stringify(val)).slice(0, 4)
+        return showTable
+      }
+    },
   },
   methods: {
     // 刷新路由选择不变
@@ -778,54 +778,54 @@ export default {
       a === 'timespace' ? (this.showCard = false) : (this.showCard = true)
     } */
     onSubmit() {
-      console.log(22222222);
+      console.log(22222222)
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      console.log(`当前页: ${val}`)
     },
     // 刷新
     flush() {
-      console.log("刷新");
+      console.log('刷新')
     },
     // 导出Excel
     exportToExcel(Archives) {
       require.ensure([], () => {
-        const tHeader = [];
-        const filterVal = [];
+        const tHeader = []
+        const filterVal = []
         Archives.tableCN.forEach(val => {
-          tHeader.push(val.label);
-          filterVal.push(val.prop);
-        });
-        const list = Archives.tabledara;
-        const data = this.formatJson(filterVal, list);
-        exportJsonToExcel(tHeader, data, Archives.name + "表");
-      });
+          tHeader.push(val.label)
+          filterVal.push(val.prop)
+        })
+        const list = Archives.tabledara
+        const data = this.formatJson(filterVal, list)
+        exportJsonToExcel(tHeader, data, Archives.name + '表')
+      })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]));
+      return jsonData.map(v => filterVal.map(j => v[j]))
     },
     // 打开弹窗
     handleClick(name, tableCN, row) {
-      this.dialogInfo.title = JSON.parse(JSON.stringify(name));
-      this.dialogInfo.showList.tableCN = JSON.parse(JSON.stringify(tableCN));
-      this.dialogInfo.showList.tableValue = JSON.parse(JSON.stringify(row));
-      this.showDialog = true;
-    }
+      this.dialogInfo.title = JSON.parse(JSON.stringify(name))
+      this.dialogInfo.showList.tableCN = JSON.parse(JSON.stringify(tableCN))
+      this.dialogInfo.showList.tableValue = JSON.parse(JSON.stringify(row))
+      this.showDialog = true
+    },
   },
   created() {},
   mounted() {
     // this.refCli()
-  }
-};
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .archives

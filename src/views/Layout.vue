@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name: "layout",
+  name: 'layout',
 
-  components: {}
-};
+  components: {},
+}
 </script>

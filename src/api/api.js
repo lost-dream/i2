@@ -1,4 +1,4 @@
-import http from "@/utils/httpRequest";
+import http from '@/utils/httpRequest'
 
 export default {
   /**
@@ -8,13 +8,13 @@ export default {
    */
   login(username, password) {
     return http({
-      url: http.adornUrl("login"),
-      method: "post",
+      url: http.adornUrl('login'),
+      method: 'post',
       data: http.adornData({
         username: username,
-        password: password
-      })
-    });
+        password: password,
+      }),
+    })
   },
   /**
    * 通过token获取用户信息
@@ -22,12 +22,12 @@ export default {
    */
   getUserInfo(token) {
     return http({
-      url: http.adornUrl("/user/info"),
-      method: "get",
+      url: http.adornUrl('/user/info'),
+      method: 'get',
       params: http.adornParams({
-        token
-      })
-    });
+        token,
+      }),
+    })
   },
   // ------------------------------------I2---------------------------------------------//
   /**
@@ -41,10 +41,10 @@ export default {
    */
   dataCacheGetById(id) {
     return http({
-      url: http.adornUrl("i2/cacheDataCtlr/get/" + id),
-      method: "get",
-      params: http.adornParams()
-    });
+      url: http.adornUrl('i2/cacheDataCtlr/get/' + id),
+      method: 'get',
+      params: http.adornParams(),
+    })
   },
   /**
    * 数据缓存--获取全部数据
@@ -57,10 +57,10 @@ export default {
    */
   getAllCacheDataByUserName(data) {
     return http({
-      url: http.adornUrl("i2/cacheDataCtlr/getAllCacheDataByUsername"),
-      method: "get",
-      params: http.adornParams(data)
-    });
+      url: http.adornUrl('i2/cacheDataCtlr/getAllCacheDataByUsername'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
   },
   /**
    * 数据缓存--分页获取
@@ -78,10 +78,10 @@ export default {
    */
   dataCacheMoveOrCopy(data) {
     return http({
-      url: http.adornUrl("i2/cacheDataCtlr/moveOrCopy"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('i2/cacheDataCtlr/moveOrCopy'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
   /**
    * 数据缓存--缓存数据新增接口
@@ -89,13 +89,13 @@ export default {
    */
   dataCacheSaveOrUpdate(addr, data) {
     if (addr) {
-      addr = addr === "save" ? "saveCacheData" : "update";
+      addr = addr === 'save' ? 'saveCacheData' : 'update'
     }
     return http({
-      url: http.adornUrl("i2/cacheDataCtlr/" + addr),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('i2/cacheDataCtlr/' + addr),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
   /**
    * 数据缓存--缓存数据筛选接口
@@ -103,10 +103,10 @@ export default {
    */
   dataCacheSearch(data) {
     return http({
-      url: http.adornUrl("i2/cacheDataCtlr/searchCacheData"),
-      method: "get",
-      params: http.adornParams(data)
-    });
+      url: http.adornUrl('i2/cacheDataCtlr/searchCacheData'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
   },
   /**
    * 数据缓存--缓存数据筛选接口
@@ -129,10 +129,10 @@ export default {
    */
   getAllFolder() {
     return http({
-      url: http.adornUrl("i2/folderCtlr/getAllFolderByUsername"),
-      method: "get",
-      params: http.adornParams()
-    });
+      url: http.adornUrl('i2/folderCtlr/getAllFolderByUsername'),
+      method: 'get',
+      params: http.adornParams(),
+    })
   },
   /**
    * 数据缓存文件夹--；获取用户所有文件夹接口
@@ -140,12 +140,12 @@ export default {
    */
   getAllFolderByUserName(username) {
     return http({
-      url: http.adornUrl("i2/folderCtlr/getAllFolderByUsername"),
-      method: "get",
+      url: http.adornUrl('i2/folderCtlr/getAllFolderByUsername'),
+      method: 'get',
       params: http.adornParams({
-        username: username
-      })
-    });
+        username: username,
+      }),
+    })
   },
   /**
    * 数据缓存文件夹--文件夹保存
@@ -168,12 +168,12 @@ export default {
    */
   queryNodeOrAdd(data) {
     return http({
-      url: http.adornUrl("i2/nodeAndRelationCtlr/findNode"),
-      method: "get",
+      url: http.adornUrl('i2/nodeAndRelationCtlr/findNode'),
+      method: 'get',
       params: http.adornParams({
-        param: data
-      })
-    });
+        param: data,
+      }),
+    })
   },
   /**
    * 节点与关系操作--图谱分析单击节点展开关系
@@ -191,13 +191,13 @@ export default {
    */
   nodeFindDetail({ nodeType, keyword }) {
     return http({
-      url: http.adornUrl("i2/nodeDetailCtlr/findNodeDetail"),
-      method: "get",
+      url: http.adornUrl('i2/nodeDetailCtlr/findNodeDetail'),
+      method: 'get',
       params: http.adornParams({
         nodeType,
-        keyword
-      })
-    });
+        keyword,
+      }),
+    })
   },
   /**
    * 节点详情--人员标签添加接口
@@ -205,10 +205,10 @@ export default {
    */
   savePersonTag(data) {
     return http({
-      url: http.adornUrl("i2/nodeDetailCtlr/saveTag"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('i2/nodeDetailCtlr/saveTag'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
   // ------------------------------------ticket---------------------------------------------//
   /**
@@ -216,50 +216,50 @@ export default {
    */
   newly(data) {
     return http({
-      url: http.adornUrl("ticket/statement/newly"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('ticket/statement/newly'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
   /**
    * 话单查询
    */
   ticketQuery(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketQuery"),
-      method: "post",
-      data: http.adornData(data, false)
-    });
+      url: http.adornUrl('ticket/statement/ticketQuery'),
+      method: 'post',
+      data: http.adornData(data, false),
+    })
   },
   /**
    * (单/多)话单查询展示
    */
   ticketOneAnalyze(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketOneAnalyze"),
-      method: "post",
-      data: http.adornData(data, false)
-    });
+      url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
+      method: 'post',
+      data: http.adornData(data, false),
+    })
   },
   /**
    * 全网通查询展示
    */
   ticketNoteQuery(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketNoteQuery"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('ticket/statement/ticketNoteQuery'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
   /**
    * 话单删除
    */
   ticketDelete(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketDelete"),
-      method: "get",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      data: http.adornData(data),
+    })
   },
 
   /**
@@ -267,10 +267,10 @@ export default {
    */
   ticketCallQuery(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketCallQuery"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('ticket/statement/ticketCallQuery'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
 
   /**
@@ -278,10 +278,10 @@ export default {
    */
   ticketAlter(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketAlter"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('ticket/statement/ticketAlter'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
 
   /**
@@ -289,10 +289,10 @@ export default {
    */
   ticketAddTo(data) {
     return http({
-      url: http.adornUrl("ticket/statement/ticketAddTo"),
-      method: "post",
-      data: http.adornData(data)
-    });
+      url: http.adornUrl('ticket/statement/ticketAddTo'),
+      method: 'post',
+      data: http.adornData(data),
+    })
   },
   // ------------------------------------relation---------------------------------------------//
   /**
@@ -308,15 +308,15 @@ export default {
    */
   spacequery(from) {
     return http({
-      url: http.adornUrl("/spacequery"),
-      method: "post",
-      data: http.adornData(from)
-    });
-  }
+      url: http.adornUrl('/spacequery'),
+      method: 'post',
+      data: http.adornData(from),
+    })
+  },
   // ------------------------------------unioncase---------------------------------------------//
   /**
    * 通过用户和密码登录
    * @param {*} username 用户名
    * @param {*} password 密码
    */
-};
+}

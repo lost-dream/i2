@@ -44,24 +44,24 @@ export default {
   props: {},
   data() {
     return {
-      isClick: 1
-    };
+      isClick: 1,
+    }
   },
   computed: {},
   methods: {
     // 刷新路由选择不变
     refCli() {
-      let a = this.$route.name;
-      a === "personCenter" && (this.isClick = 1);
-      a === "modifyInfo" && (this.isClick = 2);
-      a === "accountManage" && (this.isClick = 3);
-    }
+      let a = this.$route.name
+      a === 'personCenter' && (this.isClick = 1)
+      a === 'modifyInfo' && (this.isClick = 2)
+      a === 'accountManage' && (this.isClick = 3)
+    },
   },
   created() {},
   mounted() {
-    this.refCli();
-  }
-};
+    this.refCli()
+  },
+}
 </script>
 <style lang="stylus" scoped>
 #user

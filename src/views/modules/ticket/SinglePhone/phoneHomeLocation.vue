@@ -130,182 +130,182 @@
 </template>
 
 <script>
-import echarts from "echarts";
-import flyDialog from "../../../../components/fly-dialog";
-require("echarts/map/js/china.js");
+import echarts from 'echarts'
+import flyDialog from '../../../../components/fly-dialog'
+require('echarts/map/js/china.js')
 export default {
   components: {
-    flyDialog
+    flyDialog,
   },
   mounted() {
-    this.map();
+    this.map()
   },
   data() {
     return {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       callForm: {
-        time: ""
+        time: '',
       },
       show: false,
-      width: "300px",
+      width: '300px',
       show1: false,
-      width1: "1100px",
+      width1: '1100px',
       modal: false,
       mapData: [
-        { name: "北京", value: Math.round(Math.random() * 500) },
-        { name: "天津", value: Math.round(Math.random() * 500) },
-        { name: "上海", value: Math.round(Math.random() * 500) },
-        { name: "重庆", value: Math.round(Math.random() * 500) },
-        { name: "河北", value: Math.round(Math.random() * 500) },
-        { name: "河南", value: Math.round(Math.random() * 500) },
-        { name: "云南", value: Math.round(Math.random() * 500) },
-        { name: "辽宁", value: Math.round(Math.random() * 500) },
-        { name: "黑龙江", value: Math.round(Math.random() * 500) },
-        { name: "湖南", value: Math.round(Math.random() * 500) },
-        { name: "安徽", value: Math.round(Math.random() * 500) },
-        { name: "山东", value: Math.round(Math.random() * 500) },
-        { name: "新疆", value: Math.round(Math.random() * 500) },
-        { name: "江苏", value: Math.round(Math.random() * 500) },
-        { name: "浙江", value: Math.round(Math.random() * 500) },
-        { name: "江西", value: Math.round(Math.random() * 500) },
-        { name: "湖北", value: Math.round(Math.random() * 500) },
-        { name: "广西", value: Math.round(Math.random() * 500) },
-        { name: "甘肃", value: Math.round(Math.random() * 500) },
-        { name: "山西", value: Math.round(Math.random() * 500) },
-        { name: "内蒙古", value: Math.round(Math.random() * 500) },
-        { name: "陕西", value: Math.round(Math.random() * 500) },
-        { name: "吉林", value: Math.round(Math.random() * 500) },
-        { name: "福建", value: Math.round(Math.random() * 500) },
-        { name: "贵州", value: Math.round(Math.random() * 500) },
-        { name: "广东", value: Math.round(Math.random() * 500) },
-        { name: "青海", value: Math.round(Math.random() * 500) },
-        { name: "西藏", value: Math.round(Math.random() * 500) },
-        { name: "四川", value: Math.round(Math.random() * 500) },
-        { name: "宁夏", value: Math.round(Math.random() * 500) },
-        { name: "海南", value: Math.round(Math.random() * 500) },
-        { name: "台湾", value: Math.round(Math.random() * 500) },
-        { name: "香港", value: Math.round(Math.random() * 500) },
-        { name: "澳门", value: Math.round(Math.random() * 500) }
+        { name: '北京', value: Math.round(Math.random() * 500) },
+        { name: '天津', value: Math.round(Math.random() * 500) },
+        { name: '上海', value: Math.round(Math.random() * 500) },
+        { name: '重庆', value: Math.round(Math.random() * 500) },
+        { name: '河北', value: Math.round(Math.random() * 500) },
+        { name: '河南', value: Math.round(Math.random() * 500) },
+        { name: '云南', value: Math.round(Math.random() * 500) },
+        { name: '辽宁', value: Math.round(Math.random() * 500) },
+        { name: '黑龙江', value: Math.round(Math.random() * 500) },
+        { name: '湖南', value: Math.round(Math.random() * 500) },
+        { name: '安徽', value: Math.round(Math.random() * 500) },
+        { name: '山东', value: Math.round(Math.random() * 500) },
+        { name: '新疆', value: Math.round(Math.random() * 500) },
+        { name: '江苏', value: Math.round(Math.random() * 500) },
+        { name: '浙江', value: Math.round(Math.random() * 500) },
+        { name: '江西', value: Math.round(Math.random() * 500) },
+        { name: '湖北', value: Math.round(Math.random() * 500) },
+        { name: '广西', value: Math.round(Math.random() * 500) },
+        { name: '甘肃', value: Math.round(Math.random() * 500) },
+        { name: '山西', value: Math.round(Math.random() * 500) },
+        { name: '内蒙古', value: Math.round(Math.random() * 500) },
+        { name: '陕西', value: Math.round(Math.random() * 500) },
+        { name: '吉林', value: Math.round(Math.random() * 500) },
+        { name: '福建', value: Math.round(Math.random() * 500) },
+        { name: '贵州', value: Math.round(Math.random() * 500) },
+        { name: '广东', value: Math.round(Math.random() * 500) },
+        { name: '青海', value: Math.round(Math.random() * 500) },
+        { name: '西藏', value: Math.round(Math.random() * 500) },
+        { name: '四川', value: Math.round(Math.random() * 500) },
+        { name: '宁夏', value: Math.round(Math.random() * 500) },
+        { name: '海南', value: Math.round(Math.random() * 500) },
+        { name: '台湾', value: Math.round(Math.random() * 500) },
+        { name: '香港', value: Math.round(Math.random() * 500) },
+        { name: '澳门', value: Math.round(Math.random() * 500) },
       ],
       clickTable: [],
       detailTable: [
         {
-          index: "",
-          otherPartyPhone: "13111111111",
-          communicationMode: "被叫",
-          beginTime: "2016-07-23 00:01:02",
-          communicationTime: "14",
-          baseStationCode: "121E",
-          baseStationLocation: "成都"
-        }
-      ]
-    };
+          index: '',
+          otherPartyPhone: '13111111111',
+          communicationMode: '被叫',
+          beginTime: '2016-07-23 00:01:02',
+          communicationTime: '14',
+          baseStationCode: '121E',
+          baseStationLocation: '成都',
+        },
+      ],
+    }
   },
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time));
-      console.log("submit!");
+      console.log(this.timeChange(this.callForm.time))
+      console.log('submit!')
     },
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
     },
     map() {
-      let _this = this;
-      let myChart = echarts.init(document.getElementById("myMap"));
+      let _this = this
+      let myChart = echarts.init(document.getElementById('myMap'))
       let option = {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
         tooltip: {
-          trigger: "item"
+          trigger: 'item',
         },
         visualMap: {
-          type: "continuous",
+          type: 'continuous',
           min: 0,
           max: 500,
-          left: "left",
-          top: "bottom",
-          text: ["高", "低"],
+          left: 'left',
+          top: 'bottom',
+          text: ['高', '低'],
           calculable: true,
           textStyle: {
-            color: "white"
-          }
+            color: 'white',
+          },
         },
         series: [
           {
-            name: "数据",
-            type: "map",
-            mapType: "china",
+            name: '数据',
+            type: 'map',
+            mapType: 'china',
             roam: true,
             label: {
               show: true,
-              fontWeight: "bold",
-              align: "center"
+              fontWeight: 'bold',
+              align: 'center',
             },
-            data: this.mapData
-          }
-        ]
-      };
-      myChart.setOption(option);
-      myChart.on("click", function(param) {
-        _this.clickTable = [];
-        _this.clickTable.push(param.data);
-        _this.show = true;
-      });
-      window.addEventListener("resize", function() {
-        myChart.resize();
-      });
+            data: this.mapData,
+          },
+        ],
+      }
+      myChart.setOption(option)
+      myChart.on('click', function(param) {
+        _this.clickTable = []
+        _this.clickTable.push(param.data)
+        _this.show = true
+      })
+      window.addEventListener('resize', function() {
+        myChart.resize()
+      })
     },
     handleClick(row) {
-      console.log(row);
-      this.show1 = true;
-    }
-  }
-};
+      console.log(row)
+      this.show1 = true
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

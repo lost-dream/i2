@@ -94,18 +94,18 @@
 </template>
 
 <script>
-import Sidebar from "@/views/common/Sidebar";
-import SidemenuItem from "@/views/common/SidemenuItem";
+import Sidebar from '@/views/common/Sidebar'
+import SidemenuItem from '@/views/common/SidemenuItem'
 export default {
   components: {
     Sidebar,
-    SidemenuItem
+    SidemenuItem,
   },
   props: {},
   data() {
     return {
-      isClick: 1
-    };
+      isClick: 1,
+    }
   },
   computed: {},
   methods: {
@@ -118,8 +118,8 @@ export default {
   created() {},
   mounted() {
     // this.refCli()
-  }
-};
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .timespaceindex

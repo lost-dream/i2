@@ -36,45 +36,45 @@ export default {
   mounted() {},
   data() {
     return {
-      activeName: "first",
+      activeName: 'first',
       cases: [
         {
-          value: "双十一",
-          label: "双十一"
+          value: '双十一',
+          label: '双十一',
         },
         {
-          value: "双十二",
-          label: "双十二"
-        }
+          value: '双十二',
+          label: '双十二',
+        },
       ],
       phoneList: [
         {
-          value: "13111111111",
-          label: "13111111111"
+          value: '13111111111',
+          label: '13111111111',
         },
         {
-          value: "15111111111",
-          label: "15111111111"
+          value: '15111111111',
+          label: '15111111111',
         },
         {
-          value: "13111111112",
-          label: "13111111112"
+          value: '13111111112',
+          label: '13111111112',
         },
         {
-          value: "15111111112",
-          label: "15111111112"
-        }
+          value: '15111111112',
+          label: '15111111112',
+        },
       ],
       select: {
-        phone: "",
-        caseName: ""
-      }
-    };
+        phone: '',
+        caseName: '',
+      },
+    }
   },
   methods: {
-    handleClick(tab, event) {}
-  }
-};
+    handleClick(tab, event) {},
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

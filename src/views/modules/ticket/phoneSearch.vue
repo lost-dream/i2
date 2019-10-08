@@ -193,116 +193,116 @@
 </template>
 
 <script>
-import { formatDate } from "../../../utils/dateFormat.js";
+import { formatDate } from '../../../utils/dateFormat.js'
 
 export default {
   filters: {
     formatDate(time) {
-      var date = new Date(time);
-      return formatDate(date, "yyyy-MM-dd");
-    }
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd')
+    },
   },
   data() {
     return {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       page: {
         currentPage: 1,
         size: 5,
-        total: 10
+        total: 10,
       },
       phoneForm: {
-        phone: "",
-        name: ""
+        phone: '',
+        name: '',
       },
       converseForm: {
         id: 0,
-        phone: "",
-        callTime: "",
-        time: ""
+        phone: '',
+        callTime: '',
+        time: '',
       },
 
       phoneData: [
         {
-          name: "小谢",
-          phone: "13111111111",
-          uploadTime: "2019-7-21",
-          caseName: "赚钱大事件",
-          depict: "小谢发现海贼王ONE PRICE"
-        }
+          name: '小谢',
+          phone: '13111111111',
+          uploadTime: '2019-7-21',
+          caseName: '赚钱大事件',
+          depict: '小谢发现海贼王ONE PRICE',
+        },
       ],
       converseData: [
         {
-          otherPartyPhone: "13111111111",
-          communicationMode: "主叫",
-          beginTime: "2019-07-12 16:42:12",
-          communicationTime: "1时2分54秒",
-          location: "成都",
-          baseStationLocation: "成都青羊区",
-          baseStationCode: "73C5",
-          housingEstateCode: "528E",
-          IMEI: "868276009004130",
-          IMSI: "460028865883591"
-        }
-      ]
-    };
+          otherPartyPhone: '13111111111',
+          communicationMode: '主叫',
+          beginTime: '2019-07-12 16:42:12',
+          communicationTime: '1时2分54秒',
+          location: '成都',
+          baseStationLocation: '成都青羊区',
+          baseStationCode: '73C5',
+          housingEstateCode: '528E',
+          IMEI: '868276009004130',
+          IMSI: '460028865883591',
+        },
+      ],
+    }
   },
   computed: {
     phoneDataPage() {
-      let startKey = this.page.size * (this.page.currentPage - 1);
-      let endKey = startKey + this.page.size;
-      console.log(this.phoneData);
-      let PageData = this.phoneData.slice(startKey, endKey);
-      console.log(PageData);
-      console.log(this.phoneData);
-      return PageData;
-    }
+      let startKey = this.page.size * (this.page.currentPage - 1)
+      let endKey = startKey + this.page.size
+      console.log(this.phoneData)
+      let PageData = this.phoneData.slice(startKey, endKey)
+      console.log(PageData)
+      console.log(this.phoneData)
+      return PageData
+    },
   },
   mounted() {
-    this.onSubmit();
+    this.onSubmit()
   },
   methods: {
     onSubmit() {
-      var _this = this;
+      var _this = this
       let obj = {
         name: this.phoneForm.name,
-        phone: this.phoneForm.phone
-      };
-      console.log("获取话单!");
+        phone: this.phoneForm.phone,
+      }
+      console.log('获取话单!')
       this.$api.ticketQuery(obj).then(({ data }) => {
-        console.log(data);
+        console.log(data)
         if (data.success) {
-          let phoneDataArr = [];
-          let phoneDataInfo = {};
+          let phoneDataArr = []
+          let phoneDataInfo = {}
           data.result.tickBackList.forEach(item => {
             phoneDataInfo = {
               name: item.ticketRelevanceDTO.phoneOwner,
@@ -310,113 +310,113 @@ export default {
               uploadTime: item.ticketDTO.createTime,
               caseName: item.ticketDTO.caseName,
               depict: item.ticketDTO.description,
-              recordId: item.ticketRelevanceDTO.recordId
-            };
-            phoneDataArr.push(phoneDataInfo);
-          });
-          console.log(phoneDataArr);
-          console.log(phoneDataArr.length);
-          _this.phoneData = phoneDataArr;
-          _this.page.total = phoneDataArr.length;
+              recordId: item.ticketRelevanceDTO.recordId,
+            }
+            phoneDataArr.push(phoneDataInfo)
+          })
+          console.log(phoneDataArr)
+          console.log(phoneDataArr.length)
+          _this.phoneData = phoneDataArr
+          _this.page.total = phoneDataArr.length
           // _this.converseData = data.result.ticketDetailsDTOList
           // _this.converseData = data.result.ticketDetailsDTOList
           _this.$message({
-            message: "获取话单成功!",
-            type: "success"
-          });
+            message: '获取话单成功!',
+            type: 'success',
+          })
         } else {
           this.$message({
-            message: "获取话单失败!",
-            type: "error"
-          });
+            message: '获取话单失败!',
+            type: 'error',
+          })
         }
-      });
+      })
     },
 
     onSubmit1() {
-      var _this = this;
+      var _this = this
       // console.log(this.timeChange(this.converseForm.time));
-      console.log(this.converseForm.time);
-      console.log(this.timeChange(this.converseForm.time));
-      console.log(this.timeChange(this.converseForm.time)[1]);
-      console.log(this.timeChange(this.converseForm.time)[0]);
-      console.log(this.converseForm.phone);
-      console.log(this.converseForm.callTime);
-      console.log("submit!");
-      console.log("submit!");
+      console.log(this.converseForm.time)
+      console.log(this.timeChange(this.converseForm.time))
+      console.log(this.timeChange(this.converseForm.time)[1])
+      console.log(this.timeChange(this.converseForm.time)[0])
+      console.log(this.converseForm.phone)
+      console.log(this.converseForm.callTime)
+      console.log('submit!')
+      console.log('submit!')
       let obj = {
         id: this.converseForm.id,
         duration: this.converseForm.callTime,
         // overTime: this.timeChange(this.converseForm.time)[1],
         overTime: this.converseForm.time[1],
         phone: this.converseForm.phone,
-        time: this.converseForm.time[0]
+        time: this.converseForm.time[0],
         // time: this.timeChange(this.converseForm.time)[0]
-      };
+      }
       this.$api.ticketCallQuery(obj).then(({ data }) => {
         _this.$message({
-          message: "通话查询成功!",
-          type: "success"
-        });
-        console.log(data);
-      });
+          message: '通话查询成功!',
+          type: 'success',
+        })
+        console.log(data)
+      })
     },
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
     },
 
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
     Delete(index, row) {
-      console.log(index, row);
+      console.log(index, row)
     },
     // 话单编辑
     edit(index, row) {
-      console.log(index, row);
+      console.log(index, row)
       this.$router.push({
-        name: "newPhone",
+        name: 'newPhone',
         query: {
           phoneDataList: JSON.stringify(row),
-          oper: "编辑话单"
-        }
-      });
+          oper: '编辑话单',
+        },
+      })
     },
     // 话单追加
     addMore(index, row) {
-      console.log(index, row);
+      console.log(index, row)
       this.$router.push({
-        name: "newPhone",
+        name: 'newPhone',
         query: {
           phoneDataList: JSON.stringify(row),
-          oper: "追加话单"
-        }
-      });
+          oper: '追加话单',
+        },
+      })
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    }
-  }
-};
+      console.log(`当前页: ${val}`)
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

@@ -64,83 +64,83 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {
     basicInfo: {
       type: Object,
       default: function() {
         return {
-          idNumber: "",
-          name: "",
-          nation: "",
-          sex: "",
-          birthday: "",
-          cellphone: "",
-          currentAddress: ""
-        };
-      }
-    }
+          idNumber: '',
+          name: '',
+          nation: '',
+          sex: '',
+          birthday: '',
+          cellphone: '',
+          currentAddress: '',
+        }
+      },
+    },
   },
   data() {
     return {
       visible: false,
       dataForm: {
-        content: ""
+        content: '',
       },
-      dataRule: {}
-    };
+      dataRule: {},
+    }
   },
   computed: {
     tagList: {
       set(value) {
-        this.basicInfo.tagList.push(value);
+        this.basicInfo.tagList.push(value)
       },
       get() {
-        return this.basicInfo.tagList;
-      }
-    }
+        return this.basicInfo.tagList
+      },
+    },
   },
   methods: {
     // 新增标签
     addTagHandle() {
-      this.visible = true;
+      this.visible = true
     },
     // 删除标签
     handleCloseTag(tag) {
-      this.tagList.splice(this.tagList.indexOf(tag), 1);
+      this.tagList.splice(this.tagList.indexOf(tag), 1)
     },
     // 表单提交
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           let param = {
             idNumber: this.basicInfo.idNumber,
-            content: this.dataForm.content
-          };
+            content: this.dataForm.content,
+          }
           this.$api.savePersonTag(param).then(({ data }) => {
             if (data && data.code === 200) {
-              this.tagList.push({ content: this.dataForm.content });
+              this.tagList.push({ content: this.dataForm.content })
               this.$message({
-                message: "操作成功",
-                type: "success",
+                message: '操作成功',
+                type: 'success',
                 duration: 1500,
                 onClose: () => {
-                  this.visible = false;
-                }
-              });
+                  this.visible = false
+                },
+              })
             }
-          });
+          })
         }
-      });
-    }
+      })
+    },
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped>
 >>>.el-input__inner

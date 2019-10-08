@@ -54,12 +54,12 @@
           <el-button
             type="primary"
             @click="
-              submitUpload;
+              submitUpload
               oper == '新建话单'
                 ? submitForm('ticketForm')
                 : oper == '编辑话单'
                 ? ticketAlter('ticketForm')
-                : ticketAddTo('ticketForm');
+                : ticketAddTo('ticketForm')
             "
             >保存
           </el-button>
@@ -74,54 +74,59 @@
 
 <script>
 export default {
-  inject: ["reload"],
+  inject: ['reload'],
   data() {
     return {
       ticketForm: {
-        name: "",
-        phone: "",
-        case: "",
-        depict: "",
-        uploadPhone: "",
-        flag: "",
-        id: "",
-        recordId: "",
-        time: "",
-        name: ""
+        name: '',
+        phone: '',
+        case: '',
+        depict: '',
+        uploadPhone: '',
+        flag: '',
+        id: '',
+        recordId: '',
+        time: '',
+        name: '',
       },
-      oper: "新建话单",
+      oper: '新建话单',
       rules: {
         name: [
-          { required: true, message: "请输入机主姓名", trigger: "blur" },
-          { min: 2, max: 10, message: "长度在 2 到 10 个字符", trigger: "blur" }
+          { required: true, message: '请输入机主姓名', trigger: 'blur' },
+          {
+            min: 2,
+            max: 10,
+            message: '长度在 2 到 10 个字符',
+            trigger: 'blur',
+          },
         ],
-        phone: this.filter_rules({ required: true, type: "mobile" }),
+        phone: this.filter_rules({ required: true, type: 'mobile' }),
         case: this.filter_rules({
           required: true,
           min: 2,
           max: 10,
-          type: "caseName"
+          type: 'caseName',
         }),
-        uploadPhone: this.filter_rules({ required: true })
-      }
-    };
+        uploadPhone: this.filter_rules({ required: true }),
+      },
+    }
   },
   mounted() {
-    this.$route.query.phoneDataList != undefined && this.getRoute();
+    this.$route.query.phoneDataList != undefined && this.getRoute()
   },
   methods: {
     // 获取路由
     getRoute() {
-      let phoneData = JSON.parse(this.$route.query.phoneDataList);
-      this.ticketForm.name = phoneData.name;
-      this.ticketForm.phone = phoneData.phone;
-      this.ticketForm.case = phoneData.caseName;
-      this.ticketForm.recordId = phoneData.recordId;
-      this.ticketForm.depict = phoneData.depict;
-      this.oper = this.$route.query.oper;
+      let phoneData = JSON.parse(this.$route.query.phoneDataList)
+      this.ticketForm.name = phoneData.name
+      this.ticketForm.phone = phoneData.phone
+      this.ticketForm.case = phoneData.caseName
+      this.ticketForm.recordId = phoneData.recordId
+      this.ticketForm.depict = phoneData.depict
+      this.oper = this.$route.query.oper
     },
     submitForm(formName) {
-      var _this = this;
+      var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
@@ -133,31 +138,31 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name
-          };
+            name: this.ticketForm.name,
+          }
           this.$api.newly(obj).then(({ data }) => {
             if (data.success) {
-              _this.reload();
+              _this.reload()
               _this.$message({
-                message: "创建话单成功！!",
-                type: "success"
-              });
+                message: '创建话单成功！!',
+                type: 'success',
+              })
             } else {
               this.$message({
-                message: "创建话单失败!",
-                type: "error"
-              });
+                message: '创建话单失败!',
+                type: 'error',
+              })
             }
-          });
+          })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 新建
     submitForm(formName) {
-      var _this = this;
+      var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
@@ -169,31 +174,31 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name
-          };
+            name: this.ticketForm.name,
+          }
           this.$api.newly(obj).then(({ data }) => {
             if (data.success) {
-              _this.reload();
+              _this.reload()
               _this.$message({
-                message: "创建话单成功！!",
-                type: "success"
-              });
+                message: '创建话单成功！!',
+                type: 'success',
+              })
             } else {
               this.$message({
-                message: "创建话单失败!",
-                type: "error"
-              });
+                message: '创建话单失败!',
+                type: 'error',
+              })
             }
-          });
+          })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 编辑
     ticketAlter(formName) {
-      var _this = this;
+      var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
@@ -205,31 +210,31 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name
-          };
+            name: this.ticketForm.name,
+          }
           this.$api.ticketAlter(obj).then(({ data }) => {
             if (data.success) {
-              _this.reload();
+              _this.reload()
               _this.$message({
-                message: "编辑话单成功！!",
-                type: "success"
-              });
+                message: '编辑话单成功！!',
+                type: 'success',
+              })
             } else {
               this.$message({
-                message: "编辑话单失败!",
-                type: "error"
-              });
+                message: '编辑话单失败!',
+                type: 'error',
+              })
             }
-          });
+          })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 追加
     ticketAddTo(formName) {
-      var _this = this;
+      var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
@@ -241,70 +246,70 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name
-          };
+            name: this.ticketForm.name,
+          }
           this.$api.ticketAddTo(obj).then(({ data }) => {
             if (data.success) {
-              _this.reload();
+              _this.reload()
               _this.$message({
-                message: "追加话单成功！!",
-                type: "success"
-              });
+                message: '追加话单成功！!',
+                type: 'success',
+              })
             } else {
               this.$message({
-                message: "追加话单失败!",
-                type: "error"
-              });
+                message: '追加话单失败!',
+                type: 'error',
+              })
             }
-          });
+          })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
 
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
 
     submitUpload() {
-      this.$refs.upload.submit();
+      this.$refs.upload.submit()
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      console.log(file, fileList)
     },
     handlePreview(file) {
-      console.log(file);
+      console.log(file)
     },
     beforeUpload(file) {
-      const isText = file.type === "application/vnd.ms-excel";
+      const isText = file.type === 'application/vnd.ms-excel'
       const isTextComputer =
         file.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-      return isText | isTextComputer;
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      return isText | isTextComputer
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`);
+      this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`)
     },
     uploadError(err, file, fileList) {
-      console.log("上传失败");
+      console.log('上传失败')
       this.$message({
-        message: "文件上传失败!",
-        type: "error"
-      });
+        message: '文件上传失败!',
+        type: 'error',
+      })
     },
     uploadSuccess(response, file, fileList) {
-      this.ticketForm.uploadPhone = response.result;
-      this.ticketForm.time = response.timestamp;
-      this.ticketForm.recordId = file.uid;
+      this.ticketForm.uploadPhone = response.result
+      this.ticketForm.time = response.timestamp
+      this.ticketForm.recordId = file.uid
       this.$message({
-        message: "文件上传成功!",
-        type: "success"
-      });
-    }
-  }
-};
+        message: '文件上传成功!',
+        type: 'success',
+      })
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

@@ -83,100 +83,100 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       assignForm: {
-        time: "",
-        event: ""
+        time: '',
+        event: '',
       },
       events: [
         {
-          value: "1",
-          label: "指定时间段内没有出现，其他时间段出现对方号码"
+          value: '1',
+          label: '指定时间段内没有出现，其他时间段出现对方号码',
         },
         {
-          value: "2",
-          label: "指定时间段内出现，其他时间段内没有出现对方号码"
-        }
+          value: '2',
+          label: '指定时间段内出现，其他时间段内没有出现对方号码',
+        },
       ],
       assign: [
         {
-          baseStationLocation: "",
-          phoneTimes: "",
-          housingEstateCode: ""
-        }
+          baseStationLocation: '',
+          phoneTimes: '',
+          housingEstateCode: '',
+        },
       ],
       tableHead: [
         {
-          propName: "phoneNum",
-          label: "13111111111",
+          propName: 'phoneNum',
+          label: '13111111111',
           fixed: true,
-          width: "200"
+          width: '200',
         },
         {
-          propName: "phoneNum",
-          label: "15111111111",
+          propName: 'phoneNum',
+          label: '15111111111',
           fixed: true,
-          width: "200"
-        }
-      ]
-    };
+          width: '200',
+        },
+      ],
+    }
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+      console.log('submit!')
     },
     baseStation() {},
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-    }
-  }
-};
+      this.$refs[formName].resetFields()
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

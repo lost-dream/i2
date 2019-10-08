@@ -176,11 +176,11 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 export default {
-  name: "organManage",
+  name: 'organManage',
   components: {
-    FlyDialog
+    FlyDialog,
   },
   data() {
     return {
@@ -190,149 +190,149 @@ export default {
       deleteDialog: false,
       importDialog: false,
       form: {
-        name: "",
-        code: "",
-        superior: "",
-        authNum: ""
+        name: '',
+        code: '',
+        superior: '',
+        authNum: '',
       },
       organInfo: {
-        name: "",
-        code: "",
-        hierarchy: "",
+        name: '',
+        code: '',
+        hierarchy: '',
         state: 1,
-        authNum: ""
+        authNum: '',
       },
       stateList: [
         {
           value: 1,
-          label: "正常"
+          label: '正常',
         },
         {
           value: 2,
-          label: "失效"
-        }
+          label: '失效',
+        },
       ],
       rules: {
-        name: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
-        desc: [{ required: true, message: "请输入角色描述", trigger: "blur" }]
+        name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
+        desc: [{ required: true, message: '请输入角色描述', trigger: 'blur' }],
       },
       superiorList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       organData: [
         {
-          name: "四川省公安厅",
+          name: '四川省公安厅',
           code: 510000000000,
-          status: "有效",
-          describe: "客户讲几句话急急急",
-          createDate: "2019-07-08 15:57:40"
+          status: '有效',
+          describe: '客户讲几句话急急急',
+          createDate: '2019-07-08 15:57:40',
         },
         {
-          name: "四川省公安厅",
+          name: '四川省公安厅',
           code: 510000000000,
-          status: "有效",
-          describe: "客户讲几句话急急急",
-          createDate: "2019-07-08 15:57:40"
+          status: '有效',
+          describe: '客户讲几句话急急急',
+          createDate: '2019-07-08 15:57:40',
         },
         {
-          name: "四川省公安厅",
+          name: '四川省公安厅',
           code: 510000000000,
-          status: "有效",
-          describe: "客户讲几句话急急急",
-          createDate: "2019-07-08 15:57:40"
+          status: '有效',
+          describe: '客户讲几句话急急急',
+          createDate: '2019-07-08 15:57:40',
         },
         {
-          name: "四川省公安厅",
+          name: '四川省公安厅',
           code: 510000000000,
-          status: "有效",
-          describe: "客户讲几句话急急急",
-          createDate: "2019-07-08 15:57:40"
+          status: '有效',
+          describe: '客户讲几句话急急急',
+          createDate: '2019-07-08 15:57:40',
         },
         {
-          name: "四川省公安厅",
+          name: '四川省公安厅',
           code: 510000000000,
-          status: "有效",
-          describe: "客户讲几句话急急急",
-          createDate: "2019-07-08 15:57:40"
-        }
-      ]
-    };
+          status: '有效',
+          describe: '客户讲几句话急急急',
+          createDate: '2019-07-08 15:57:40',
+        },
+      ],
+    }
   },
   methods: {
     // 判断是否只选择一个机构
     pitchOn() {
       // let isPitchOn = false
-      let isPitchOn = true;
+      let isPitchOn = true
       // this.multipleSelection.length === 1 ? isPitchOn = true : this.$message.error('请选择一条数据!')
-      return isPitchOn;
+      return isPitchOn
     },
     // 判断是否选择机构
     pitchOn2() {
       // let isPitchOn = false
-      let isPitchOn = true;
+      let isPitchOn = true
       // this.multipleSelection.length > 0 ? isPitchOn = true : this.$message.error('请至少选择一条数据!')
-      return isPitchOn;
+      return isPitchOn
     },
     // 添加机构
     addOrgan(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          alert('submit!')
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-        this.addDialog = false;
-      });
+        this.addDialog = false
+      })
     },
     // 编辑机构
     editOrgan(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-          this.addDialog = false;
+          alert('submit!')
+          this.addDialog = false
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 删除机构
     deleteOrgan() {
-      this.deleteDialog = false;
+      this.deleteDialog = false
     },
     // 刷新
     flush() {
       this.$message({
-        message: "刷新成功",
-        type: "success"
-      });
+        message: '刷新成功',
+        type: 'success',
+      })
     },
     // 导入
     importOrgan() {
-      this.importDialog = false;
-    }
-  }
-};
+      this.importDialog = false
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

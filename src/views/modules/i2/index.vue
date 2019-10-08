@@ -353,13 +353,13 @@
 </template>
 
 <script>
-import Sidebar from "@/views/common/Sidebar";
-import SidemenuItem from "@/views/common/SidemenuItem";
-import Sidefun from "./Sidefun";
-import AddNodes from "./AddNodes";
-import CacheData from "./CacheData";
-import { Workbench } from "./js/workbench";
-import { expandNode } from "./js/expandNode";
+import Sidebar from '@/views/common/Sidebar'
+import SidemenuItem from '@/views/common/SidemenuItem'
+import Sidefun from './Sidefun'
+import AddNodes from './AddNodes'
+import CacheData from './CacheData'
+import { Workbench } from './js/workbench'
+import { expandNode } from './js/expandNode'
 
 export default {
   components: {
@@ -367,66 +367,66 @@ export default {
     SidemenuItem,
     Sidefun,
     AddNodes,
-    CacheData
+    CacheData,
   },
   data() {
     return {
       addNodesVisible: false,
       cacheDataVisible: false,
       basicInfo: {
-        idNumber: "",
-        name: "",
-        nation: "",
-        sex: "",
-        birthday: "",
-        cellphone: "",
-        currentAddress: ""
-      }
-    };
+        idNumber: '',
+        name: '',
+        nation: '',
+        sex: '',
+        birthday: '',
+        cellphone: '',
+        currentAddress: '',
+      },
+    }
   },
   computed: {
     network() {
-      return this.global.network;
-    }
+      return this.global.network
+    },
   },
   methods: {
     // 显示添加节点面板
     addNodesHandle() {
-      this.addNodesVisible = true;
+      this.addNodesVisible = true
       this.$nextTick(() => {
-        this.$refs.addNodes.init();
-      });
+        this.$refs.addNodes.init()
+      })
     },
     // 点击导入节点
     importNodeHandle() {
       this.$nextTick(() => {
-        this.$refs.sidebarControl.init("2", "导入节点");
-      });
+        this.$refs.sidebarControl.init('2', '导入节点')
+      })
     },
     // 点击数据缓存器
     cacheDataHandle() {
-      this.cacheDataVisible = true;
+      this.cacheDataVisible = true
       this.$nextTick(() => {
-        this.$refs.cacheData.init();
-      });
+        this.$refs.cacheData.init()
+      })
     },
     // 点击添加关系
     addEdgeHandle() {
-      this.unbindEvent(); // 解绑事件，不然会导致添加关系失效
-      this.global.edge_adding = true;
-      this.network.addEdgeMode();
+      this.unbindEvent() // 解绑事件，不然会导致添加关系失效
+      this.global.edge_adding = true
+      this.network.addEdgeMode()
     },
     // network绑定事件
     bindEvent() {
       // 单击节点查看详情
-      this.network.on("click", this.clickEvent);
+      this.network.on('click', this.clickEvent)
       // 双击节点展开关系
-      this.network.on("doubleClick", this.doubleclickEvent);
+      this.network.on('doubleClick', this.doubleclickEvent)
     },
     // 解绑事件
     unbindEvent() {
-      this.network.off("click", this.clickEvent);
-      this.network.off("doubleClick", this.doubleclickEvent);
+      this.network.off('click', this.clickEvent)
+      this.network.off('doubleClick', this.doubleclickEvent)
     },
     /**
      * 单击事件
@@ -437,19 +437,19 @@ export default {
         params.event.changedPointers[0].shiftKey === true ||
         this.global.mutilSelectStatus === true
       ) {
-        return;
+        return
       }
 
       if (params.nodes.length === 1) {
         // 点击的是节点
 
         // 查看节点详情
-        this.showBasicInfo(params);
+        this.showBasicInfo(params)
         // 刷新定向分析窗体
         // refreshDxAnalysisWind();
       } else if (params.edges.length === 1) {
         // 点击的是连线
-        var edge = this.global.edges.get(params.edges[0]);
+        var edge = this.global.edges.get(params.edges[0])
 
         /** 在dark状态时，点击连线，节点无法恢复正常状态的 bug处理 start */
         // nomalNodes([edge.from, edge.to]);
@@ -463,8 +463,8 @@ export default {
      */
     doubleclickEvent(params) {
       if (params.nodes.length === 1) {
-        var curNode = this.global.nodes.get(params.nodes[0]);
-        expandNode(this, curNode);
+        var curNode = this.global.nodes.get(params.nodes[0])
+        expandNode(this, curNode)
       }
     },
     /**
@@ -472,36 +472,36 @@ export default {
      */
     showBasicInfo(params) {
       try {
-        let { nodeType, keyword } = this.global.nodes.get(params.nodes[0]);
+        let { nodeType, keyword } = this.global.nodes.get(params.nodes[0])
         if (this.isSideBarOpening()) {
-          if (nodeType === "Person") {
+          if (nodeType === 'Person') {
             this.$api.nodeFindDetail({ nodeType, keyword }).then(({ data }) => {
               if (data && data.code === 200) {
-                this.basicInfo = data.result;
+                this.basicInfo = data.result
               }
-            });
+            })
           }
         }
       } catch (e) {
-        console.info(e);
+        console.info(e)
       }
     },
     /**
      *  判断sidebar 是否展开
      */
     isSideBarOpening() {
-      return true;
-    }
+      return true
+    },
   },
   created() {},
   mounted() {
     // 初始化画布
     /* eslint-disable no-new */
-    new Workbench("mynetwork", this);
+    new Workbench('mynetwork', this)
     // 绑定network事件
-    this.bindEvent();
-  }
-};
+    this.bindEvent()
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .mod-i2.i2-bg

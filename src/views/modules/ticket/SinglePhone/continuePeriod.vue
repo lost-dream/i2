@@ -81,101 +81,101 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       callForm: {
-        time: ""
+        time: '',
       },
       continueTable: [
         {
-          index: "",
-          otherPartyPhone: "13111111111",
-          communicationMode: "被叫",
-          beginTime: "2016-07-23 00:01:02",
-          communicationTime: "14",
-          baseStationLocation: "成都"
-        }
-      ]
-    };
+          index: '',
+          otherPartyPhone: '13111111111',
+          communicationMode: '被叫',
+          beginTime: '2016-07-23 00:01:02',
+          communicationTime: '14',
+          baseStationLocation: '成都',
+        },
+      ],
+    }
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+      console.log('submit!')
     },
     exportExcel() {
       require.ensure([], () => {
-        const { exportJsonToExcel } = require("../../../../utils/Export2Excel");
+        const { exportJsonToExcel } = require('../../../../utils/Export2Excel')
         const tHeader = [
-          "序号",
-          "对方号码",
-          "呼叫类型",
-          "通话时间",
-          "通话时长",
-          "基站地址"
-        ];
+          '序号',
+          '对方号码',
+          '呼叫类型',
+          '通话时间',
+          '通话时长',
+          '基站地址',
+        ]
         const filterVal = [
-          "index",
-          "otherPartyPhone",
-          "communicationMode",
-          "beginTime",
-          "communicationTime",
-          "baseStationLocation"
-        ];
-        const list = this.continueTable;
-        const data = this.formatJson(filterVal, list);
-        exportJsonToExcel(tHeader, data, "列表excel");
-      });
+          'index',
+          'otherPartyPhone',
+          'communicationMode',
+          'beginTime',
+          'communicationTime',
+          'baseStationLocation',
+        ]
+        const list = this.continueTable
+        const data = this.formatJson(filterVal, list)
+        exportJsonToExcel(tHeader, data, '列表excel')
+      })
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]));
+      return jsonData.map(v => filterVal.map(j => v[j]))
     },
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
-    }
-  }
-};
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

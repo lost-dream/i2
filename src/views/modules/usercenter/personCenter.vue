@@ -43,17 +43,17 @@
 
 <script>
 export default {
-  name: "personCenter",
+  name: 'personCenter',
   components: {},
   props: {},
   data() {
-    return {};
+    return {}
   },
   computed: {},
   methods: {},
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 
 <style lang="stylus" scoped>

@@ -3,6 +3,6 @@ export default {
     useDefaultGroups: true,
     myGroupId: {
       /* node options */
-    }
-  }
-};
+    },
+  },
+}

@@ -32,160 +32,160 @@
 </template>
 
 <script>
-import echarts from "echarts";
+import echarts from 'echarts'
 export default {
   mounted() {
-    this.comPhone();
+    this.comPhone()
   },
   data() {
     return {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       morePhoneForm: {
-        time: ""
+        time: '',
       },
       data: [
         {
-          name: "15111111111",
+          name: '15111111111',
           x: 300,
-          y: 300
+          y: 300,
         },
         {
-          name: "15122222222",
+          name: '15122222222',
           x: 550,
-          y: 250
+          y: 250,
         },
         {
-          name: "15311111111",
+          name: '15311111111',
           x: 800,
-          y: 300
+          y: 300,
         },
         {
-          name: "15411111111",
+          name: '15411111111',
           x: 550,
-          y: 300
+          y: 300,
         },
         {
-          name: "15611111111",
+          name: '15611111111',
           x: 550,
-          y: 350
-        }
+          y: 350,
+        },
       ],
       links: [
         {
-          source: "15111111111",
-          target: "15122222222",
+          source: '15111111111',
+          target: '15122222222',
           label: {
             normal: {
               show: true,
-              formatter: "12121"
-            }
-          }
+              formatter: '12121',
+            },
+          },
         },
         {
-          source: "15122222222",
-          target: "15311111111"
+          source: '15122222222',
+          target: '15311111111',
         },
         {
-          source: "15111111111",
-          target: "15411111111"
+          source: '15111111111',
+          target: '15411111111',
         },
         {
-          source: "15411111111",
-          target: "15311111111"
+          source: '15411111111',
+          target: '15311111111',
         },
         {
-          source: "15111111111",
-          target: "15611111111"
+          source: '15111111111',
+          target: '15611111111',
         },
         {
-          source: "15611111111",
-          target: "15311111111"
-        }
-      ]
-    };
+          source: '15611111111',
+          target: '15311111111',
+        },
+      ],
+    }
   },
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time));
-      console.log("submit!");
+      console.log(this.timeChange(this.callForm.time))
+      console.log('submit!')
     },
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
     comPhone() {
-      var _this = this;
-      let myChart = echarts.init(document.getElementById("comPhone"));
+      var _this = this
+      let myChart = echarts.init(document.getElementById('comPhone'))
       let option = {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
         series: [
           {
-            name: "数据",
-            type: "graph",
-            layout: "none",
+            name: '数据',
+            type: 'graph',
+            layout: 'none',
             roam: true,
             label: {
               show: true,
-              fontWeight: "bold",
-              align: "center"
+              fontWeight: 'bold',
+              align: 'center',
             },
             links: _this.links,
-            data: _this.data
-          }
-        ]
-      };
-      myChart.setOption(option);
-    }
-  }
-};
+            data: _this.data,
+          },
+        ],
+      }
+      myChart.setOption(option)
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

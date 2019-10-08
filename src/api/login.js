@@ -1,4 +1,4 @@
-import http from "@/utils/httpRequest";
+import http from '@/utils/httpRequest'
 
 /**
  * 通过用户和密码登录
@@ -7,13 +7,13 @@ import http from "@/utils/httpRequest";
  */
 export function loginByUserName(username, password) {
   return http({
-    url: http.adornUrl("/sys/login"),
-    method: "post",
+    url: http.adornUrl('/sys/login'),
+    method: 'post',
     data: http.adornData({
       username: username,
-      password: password
-    })
-  });
+      password: password,
+    }),
+  })
 }
 /**
  * 通过token获取用户信息
@@ -21,8 +21,8 @@ export function loginByUserName(username, password) {
  */
 export function getUserInfo(token) {
   return http({
-    url: http.adornUrl("/user/info"),
-    method: "get",
-    params: http.adornParams({ token })
-  });
+    url: http.adornUrl('/user/info'),
+    method: 'get',
+    params: http.adornParams({ token }),
+  })
 }

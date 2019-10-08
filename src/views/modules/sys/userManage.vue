@@ -6,8 +6,8 @@
           <ul class="clearfix">
             <li
               @click="
-                clearValue();
-                addDialog = true;
+                clearValue()
+                addDialog = true
               "
             >
               添加
@@ -574,9 +574,9 @@
               <div>
                 <span>上报部门:</span>
                 <span>{{
-                  lookInfo.reportedSection == "" ||
+                  lookInfo.reportedSection == '' ||
                   lookInfo.reportedSection == null
-                    ? "暂无数据"
+                    ? '暂无数据'
                     : lookInfo.reportedSection
                 }}</span>
               </div>
@@ -780,11 +780,11 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 export default {
-  name: "userManage",
+  name: 'userManage',
   components: {
-    FlyDialog
+    FlyDialog,
   },
   data() {
     return {
@@ -801,354 +801,354 @@ export default {
       resetPassDialog: false,
       resetAnswerDialog: false,
       form: {
-        user: "",
-        name: "",
-        section: "",
-        userGroup: "",
-        loginType: "",
-        status: "",
-        policeKind: "",
-        reportedSection: ""
+        user: '',
+        name: '',
+        section: '',
+        userGroup: '',
+        loginType: '',
+        status: '',
+        policeKind: '',
+        reportedSection: '',
       },
       criteria: {
-        user: "",
-        name: "",
-        section: "",
-        userGroup: "",
-        status: ""
+        user: '',
+        name: '',
+        section: '',
+        userGroup: '',
+        status: '',
       },
       lookInfo: {
-        user: "6666",
-        name: "",
-        section: "",
-        userGroup: "",
-        loginType: "",
-        status: "",
-        policeKind: "",
-        reportedSection: ""
+        user: '6666',
+        name: '',
+        section: '',
+        userGroup: '',
+        loginType: '',
+        status: '',
+        policeKind: '',
+        reportedSection: '',
       },
       userList: [
         {
-          user: "admin",
-          name: "王国维",
-          section: "四川省公安厅",
-          userGroup: "管理员",
-          lastLoginDate: "2019-07-08 15:57:40",
-          loginType: "账号登录",
-          status: "启用",
-          policeKind: "刑侦",
-          reportedSection: "1111"
+          user: 'admin',
+          name: '王国维',
+          section: '四川省公安厅',
+          userGroup: '管理员',
+          lastLoginDate: '2019-07-08 15:57:40',
+          loginType: '账号登录',
+          status: '启用',
+          policeKind: '刑侦',
+          reportedSection: '1111',
         },
         {
-          user: "admin",
-          name: "王国维",
-          section: "四川省公安厅",
-          userGroup: "管理员",
-          lastLoginDate: "2019-07-08 15:57:40",
-          loginType: "账号登录",
-          status: "启用",
-          policeKind: "刑侦",
-          reportedSection: ""
+          user: 'admin',
+          name: '王国维',
+          section: '四川省公安厅',
+          userGroup: '管理员',
+          lastLoginDate: '2019-07-08 15:57:40',
+          loginType: '账号登录',
+          status: '启用',
+          policeKind: '刑侦',
+          reportedSection: '',
         },
         {
-          user: "admin",
-          name: "王国维",
-          section: "四川省公安厅",
-          userGroup: "管理员",
-          lastLoginDate: "2019-07-08 15:57:40",
-          loginType: "账号登录",
-          status: "启用",
-          policeKind: "刑侦",
-          reportedSection: ""
+          user: 'admin',
+          name: '王国维',
+          section: '四川省公安厅',
+          userGroup: '管理员',
+          lastLoginDate: '2019-07-08 15:57:40',
+          loginType: '账号登录',
+          status: '启用',
+          policeKind: '刑侦',
+          reportedSection: '',
         },
         {
-          user: "admin",
-          name: "王国维",
-          section: "四川省公安厅",
-          userGroup: "管理员",
-          lastLoginDate: "2019-07-08 15:57:40",
-          loginType: "账号登录",
-          status: "启用",
-          policeKind: "刑侦",
-          reportedSection: ""
-        }
+          user: 'admin',
+          name: '王国维',
+          section: '四川省公安厅',
+          userGroup: '管理员',
+          lastLoginDate: '2019-07-08 15:57:40',
+          loginType: '账号登录',
+          status: '启用',
+          policeKind: '刑侦',
+          reportedSection: '',
+        },
       ],
       fileList2: [],
       rules: {
-        user: [{ required: true, message: "请输入登陆账号", trigger: "blur" }],
-        name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],
-        section: [{ required: true, message: "请选择部门", trigger: "blur" }],
+        user: [{ required: true, message: '请输入登陆账号', trigger: 'blur' }],
+        name: [{ required: true, message: '请输入用户姓名', trigger: 'blur' }],
+        section: [{ required: true, message: '请选择部门', trigger: 'blur' }],
         userGroup: [
-          { required: true, message: "请选择用户组", trigger: "blur" }
+          { required: true, message: '请选择用户组', trigger: 'blur' },
         ],
         lastLoginDate: [
-          { required: true, message: "请选择最后登录时间", trigger: "blur" }
+          { required: true, message: '请选择最后登录时间', trigger: 'blur' },
         ],
         loginType: [
-          { required: true, message: "请选择登录类型", trigger: "blur" }
+          { required: true, message: '请选择登录类型', trigger: 'blur' },
         ],
         status: [
-          { required: true, message: "请选择登录状态", trigger: "blur" }
+          { required: true, message: '请选择登录状态', trigger: 'blur' },
         ],
         policeKind: [
-          { required: true, message: "请选择警种类别", trigger: "blur" }
+          { required: true, message: '请选择警种类别', trigger: 'blur' },
         ],
         reportedSection: [
-          { required: true, message: "请选择上报部门", trigger: "blur" }
-        ]
+          { required: true, message: '请选择上报部门', trigger: 'blur' },
+        ],
       },
       sectionList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       userGroupList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       loginTypeList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       statusList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       policeKindList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       reportedSectionList: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
-      multipleSelection: []
-    };
+      multipleSelection: [],
+    }
   },
   methods: {
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     // 清空属性值
     clearValue() {
       for (let key in this.form) {
-        this.form[key] = "";
+        this.form[key] = ''
       }
     },
     // 添加选择值
     addValue() {
-      this.form = this.multipleSelection[0];
+      this.form = this.multipleSelection[0]
     },
     // 添加用户
     addUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-          this.addDialog = false;
+          alert('submit!')
+          this.addDialog = false
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 编辑用户
     editUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-          this.editDialog = false;
+          alert('submit!')
+          this.editDialog = false
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 判断是否只选择一个用户
     pitchOn() {
-      let isPitchOn = false;
+      let isPitchOn = false
       this.multipleSelection.length === 1
         ? (isPitchOn = true)
-        : this.$message.error("请选择一条数据!");
-      return isPitchOn;
+        : this.$message.error('请选择一条数据!')
+      return isPitchOn
     },
     // 判断是否选择用户
     pitchOn2() {
-      let isPitchOn = false;
+      let isPitchOn = false
       this.multipleSelection.length > 0
         ? (isPitchOn = true)
-        : this.$message.error("请至少选择一条数据!");
-      return isPitchOn;
+        : this.$message.error('请至少选择一条数据!')
+      return isPitchOn
     },
     // 查看用户
     lookUser() {
       if (this.pitchOn()) {
-        this.lookInfo = this.multipleSelection[0];
-        this.lookDialog = true;
-        console.log(11);
-        console.log(this.lookInfo.reportedSection);
-        console.log(22222);
+        this.lookInfo = this.multipleSelection[0]
+        this.lookDialog = true
+        console.log(11)
+        console.log(this.lookInfo.reportedSection)
+        console.log(22222)
       }
     },
     // 删除用户
     deleteUser() {
-      this.deleteDialog = false;
+      this.deleteDialog = false
     },
     // 刷新
     flush() {
       this.$message({
-        message: "刷新成功",
-        type: "success"
-      });
+        message: '刷新成功',
+        type: 'success',
+      })
     },
     // 导入
     importUser() {
-      this.importDialog = false;
+      this.importDialog = false
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      console.log(file, fileList)
     },
     handlePreview(file) {
-      console.log(file);
+      console.log(file)
     },
     // 导出
     exportUser() {
-      this.exportDialog = false;
+      this.exportDialog = false
     },
     // 启用
     startUser() {
-      this.startDialog = false;
+      this.startDialog = false
     },
     // 停用
     stopUser() {
-      this.stopDialog = false;
+      this.stopDialog = false
     },
     // 重置密码
     resetPassUser() {
-      this.resetPassDialog = false;
+      this.resetPassDialog = false
     },
     // 重置回答
     resetAnswerUser() {
-      this.resetAnswerDialog = false;
+      this.resetAnswerDialog = false
     },
     // 搜索
     isSeek() {},
     handleSelectionChange(val) {
-      this.multipleSelection = val;
-      console.log(val);
-    }
-  }
-};
+      this.multipleSelection = val
+      console.log(val)
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

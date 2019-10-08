@@ -56,25 +56,25 @@ export default {
   props: {},
   data() {
     return {
-      isClick: 1
-    };
+      isClick: 1,
+    }
   },
   computed: {},
   methods: {
     // 刷新路由选择不变
     refCli() {
-      let a = this.$route.name;
-      a === "userManage" && (this.isClick = 1);
-      a === "menuManage" && (this.isClick = 2);
-      a === "roleManage" && (this.isClick = 3);
-      a === "organManage" && (this.isClick = 4);
-    }
+      let a = this.$route.name
+      a === 'userManage' && (this.isClick = 1)
+      a === 'menuManage' && (this.isClick = 2)
+      a === 'roleManage' && (this.isClick = 3)
+      a === 'organManage' && (this.isClick = 4)
+    },
   },
   created() {},
   mounted() {
-    this.refCli();
-  }
-};
+    this.refCli()
+  },
+}
 </script>
 <style lang="stylus" scoped>
 #sys

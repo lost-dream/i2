@@ -28,40 +28,40 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      default: ""
+      default: '',
     },
     width: {
       type: String,
-      default: "620px"
+      default: '620px',
     },
     modal: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       flag: false,
-      visible: this.show
-    };
+      visible: this.show,
+    }
   },
   computed: {},
   watch: {
     show() {
-      this.visible = this.show;
-    }
+      this.visible = this.show
+    },
   },
   methods: {
     handleClose() {
-      this.$emit("beforeCloseDialog");
-    }
+      this.$emit('beforeCloseDialog')
+    },
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped></style>

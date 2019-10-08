@@ -40,10 +40,10 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
+import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
   data() {
@@ -53,69 +53,69 @@ export default {
       dataForm: {
         type: 0,
         ids: [],
-        foder: ""
+        foder: '',
       },
-      dataRule: {}
-    };
+      dataRule: {},
+    }
   },
   computed: {},
   methods: {
     init(type, ids) {
-      this.dataForm.type = type || 0;
-      this.dataForm.ids = ids;
+      this.dataForm.type = type || 0
+      this.dataForm.ids = ids
       this.$api
-        .getAllFolderByUserName("10011")
+        .getAllFolderByUserName('10011')
         .then(({ data }) => {
-          let list = data && data.code === 200 ? data.result : [];
-          let arr = [];
+          let list = data && data.code === 200 ? data.result : []
+          let arr = []
           for (let i in list) {
             arr.push({
               value: list[i].id,
-              label: list[i].folderName
-            });
+              label: list[i].folderName,
+            })
           }
-          this.folderList = arr;
+          this.folderList = arr
         })
         .then(() => {
-          this.visible = true;
+          this.visible = true
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields();
-          });
-        });
+            this.$refs['dataForm'].resetFields()
+          })
+        })
     },
     // 表单提交
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           let obj = {
             cacheIds: this.dataForm.ids,
             targetFolderId: this.dataForm.foder,
-            operateFlag: !this.dataForm.type ? "dataMove" : "dataCopy"
-          };
+            operateFlag: !this.dataForm.type ? 'dataMove' : 'dataCopy',
+          }
           this.$api.dataCacheMoveOrCopy(obj).then(({ data }) => {
             if (data && data.code === 200) {
               this.$message({
-                message: "操作成功",
-                type: "success",
+                message: '操作成功',
+                type: 'success',
                 duration: 1500,
                 onClose: () => {
-                  this.visible = false;
-                  this.$emit("refreshDataList");
-                }
-              });
+                  this.visible = false
+                  this.$emit('refreshDataList')
+                },
+              })
             }
-          });
+          })
         }
-      });
+      })
     },
     beforeClose() {
-      this.$emit("refreshDataList");
-      this.visible = false;
-    }
+      this.$emit('refreshDataList')
+      this.visible = false
+    },
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped>
 .mode-add-update

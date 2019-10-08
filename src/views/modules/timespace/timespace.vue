@@ -44,27 +44,27 @@
 
 <script>
 export default {
-  name: "timespace",
+  name: 'timespace',
   data() {
     return {
       form: {
-        idNumber: "",
-        startDate: "",
-        endDate: ""
+        idNumber: '',
+        startDate: '',
+        endDate: '',
       },
       rules: {
-        idNumber: this.filter_rules({ required: true, type: "idCard" }),
+        idNumber: this.filter_rules({ required: true, type: 'idCard' }),
         startDate: [
-          { required: true, message: "请选择开始日期", trigger: "blur" }
+          { required: true, message: '请选择开始日期', trigger: 'blur' },
         ],
         endDate: [
-          { required: true, message: "请选择结束日期", trigger: "blur" }
-        ]
-      }
-    };
+          { required: true, message: '请选择结束日期', trigger: 'blur' },
+        ],
+      },
+    }
   },
   mounted() {
-    this.testapi();
+    this.testapi()
   },
   methods: {
     testapi() {
@@ -73,25 +73,25 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log("submit!");
-          this.gotoList();
+          console.log('submit!')
+          this.gotoList()
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 跳转页面
     gotoList() {
       this.$router.push({
-        name: "timespacelist",
+        name: 'timespacelist',
         params: {
-          form: this.form
-        }
-      });
-    }
-  }
-};
+          form: this.form,
+        },
+      })
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

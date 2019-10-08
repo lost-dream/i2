@@ -291,133 +291,133 @@
 </template>
 
 <script>
-import { loadModules } from "esri-loader";
-import Sidebar from "@/views/common/Sidebar";
-import SidemenuItem from "@/views/common/SidemenuItem";
-import flyDialog from "@/components/fly-dialog";
+import { loadModules } from 'esri-loader'
+import Sidebar from '@/views/common/Sidebar'
+import SidemenuItem from '@/views/common/SidemenuItem'
+import flyDialog from '@/components/fly-dialog'
 export default {
   components: {
     Sidebar,
     SidemenuItem,
-    flyDialog
+    flyDialog,
   },
   props: {},
   data() {
     var trackDate = (rule, value, callback) => {
-      if (this.trackForm.startDate === "" || this.trackForm.endDate == "") {
-        callback(new Error("请输入始末时间"));
+      if (this.trackForm.startDate === '' || this.trackForm.endDate == '') {
+        callback(new Error('请输入始末时间'))
       }
-      callback();
-    };
+      callback()
+    }
     return {
-      activeName: "Second",
+      activeName: 'Second',
       show: false,
       trackShow: false,
       trackShow2: false,
-      width: "400px",
-      width2: "auto",
-      inputList: [{ caseNum: "" }],
+      width: '400px',
+      width2: 'auto',
+      inputList: [{ caseNum: '' }],
       trackForm: {
-        nameId: "",
-        startDate: "",
-        endDate: "",
-        value1: "",
-        checkedBox: []
+        nameId: '',
+        startDate: '',
+        endDate: '',
+        value1: '',
+        checkedBox: [],
       },
       trackRule: {
         nameId: [
-          { required: true, message: "请输入身份证号", trigger: "blur" }
+          { required: true, message: '请输入身份证号', trigger: 'blur' },
         ],
-        trackDate: [{ validator: trackDate, trigger: "blur" }]
+        trackDate: [{ validator: trackDate, trigger: 'blur' }],
       },
       trackList: [
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有',
         },
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有',
         },
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有',
         },
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有',
         },
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有',
         },
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
-        }
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有',
+        },
       ],
       mapTableData: [],
       graphicItemS: [],
-      taskName: "",
-      date1: "",
-      date2: "",
-      date3: "",
-      date4: "",
-      range: "",
-      checkedBox: ["旅馆", "网吧"],
-      boxs: [{ name: "旅馆" }, { name: "网吧" }]
-    };
+      taskName: '',
+      date1: '',
+      date2: '',
+      date3: '',
+      date4: '',
+      range: '',
+      checkedBox: ['旅馆', '网吧'],
+      boxs: [{ name: '旅馆' }, { name: '网吧' }],
+    }
   },
   computed: {},
   created() {},
   mounted() {
-    this.mapDraw();
+    this.mapDraw()
   },
   methods: {
     mapDraw() {
-      var _this = this;
+      var _this = this
       const options = {
         // css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
         // url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'
-        css: "https://js.arcgis.com/3.29/esri/css/esri.css",
-        url: "https://js.arcgis.com/3.29/init.js"
-      };
+        css: 'https://js.arcgis.com/3.29/esri/css/esri.css',
+        url: 'https://js.arcgis.com/3.29/init.js',
+      }
       loadModules(
         [
-          "esri/basemaps",
-          "esri/map",
-          "esri/dijit/Scalebar",
-          "esri/layers/ArcGISTiledMapServiceLayer",
-          "esri/dijit/HomeButton",
-          "esri/dijit/LocateButton",
-          "esri/dijit/BasemapToggle",
-          "esri/dijit/OverviewMap",
-          "dijit/registry",
-          "esri/symbols/PictureMarkerSymbol",
-          "esri/geometry/Point",
-          "esri/graphic",
-          "esri/geometry/webMercatorUtils",
-          "esri/InfoTemplate",
-          "esri/SpatialReference",
-          "esri/dijit/InfoWindow",
-          "dojo/dom-construct",
-          "dojo/dom",
-          "dojo/on",
-          "esri/toolbars/draw",
-          "esri/symbols/SimpleMarkerSymbol",
-          "esri/symbols/SimpleFillSymbol",
-          "esri/geometry/geometryEngine",
-          "esri/geometry/Extent",
-          "esri/geometry/Geometry",
-          "dojo/domReady"
+          'esri/basemaps',
+          'esri/map',
+          'esri/dijit/Scalebar',
+          'esri/layers/ArcGISTiledMapServiceLayer',
+          'esri/dijit/HomeButton',
+          'esri/dijit/LocateButton',
+          'esri/dijit/BasemapToggle',
+          'esri/dijit/OverviewMap',
+          'dijit/registry',
+          'esri/symbols/PictureMarkerSymbol',
+          'esri/geometry/Point',
+          'esri/graphic',
+          'esri/geometry/webMercatorUtils',
+          'esri/InfoTemplate',
+          'esri/SpatialReference',
+          'esri/dijit/InfoWindow',
+          'dojo/dom-construct',
+          'dojo/dom',
+          'dojo/on',
+          'esri/toolbars/draw',
+          'esri/symbols/SimpleMarkerSymbol',
+          'esri/symbols/SimpleFillSymbol',
+          'esri/geometry/geometryEngine',
+          'esri/geometry/Extent',
+          'esri/geometry/Geometry',
+          'dojo/domReady',
         ],
-        options
+        options,
       )
         .then(
           ([
@@ -445,157 +445,157 @@ export default {
             SimpleFillSymbol,
             geometryEngine,
             Extent,
-            Geometry
+            Geometry,
           ]) => {
             esriBasemaps.delorme = {
               baseMapLayers: [
                 {
                   url:
-                    "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer"
-                }
-              ]
-            };
-            var infoWindow = new InfoWindow({}, domConstruct.create("div"));
-            infoWindow.startup();
-            var map = new Map("map", {
-              basemap: "delorme",
+                    'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer',
+                },
+              ],
+            }
+            var infoWindow = new InfoWindow({}, domConstruct.create('div'))
+            infoWindow.startup()
+            var map = new Map('map', {
+              basemap: 'delorme',
               center: [104.06667, 30.66667],
               infoWindow: infoWindow,
               zoom: 15,
-              logo: false
-            });
-            map.on("Load", function() {
-              console.log("地图加载完毕");
-              map.infoWindow.resize(250, 200);
-            });
-            var drawTool = new Draw(map);
+              logo: false,
+            })
+            map.on('Load', function() {
+              console.log('地图加载完毕')
+              map.infoWindow.resize(250, 200)
+            })
+            var drawTool = new Draw(map)
             // 绘制点
-            drawTool.markerSymbol = new SimpleMarkerSymbol();
+            drawTool.markerSymbol = new SimpleMarkerSymbol()
             // 绘制几何
-            drawTool.fillSymbol = new SimpleFillSymbol();
+            drawTool.fillSymbol = new SimpleFillSymbol()
 
-            on(dom.byId("circle"), "click", function() {
-              drawTool.activate(Draw["CIRCLE"]);
-            });
-            on(dom.byId("point"), "click", function() {
-              drawTool.activate(Draw["POINT"]);
-            });
-            var id = 0;
-            drawTool.on("draw-complete", drawEndEvent);
+            on(dom.byId('circle'), 'click', function() {
+              drawTool.activate(Draw['CIRCLE'])
+            })
+            on(dom.byId('point'), 'click', function() {
+              drawTool.activate(Draw['POINT'])
+            })
+            var id = 0
+            drawTool.on('draw-complete', drawEndEvent)
             function drawEndEvent(evt) {
-              console.log(evt);
-              if (evt.target._geometryType === "circle") {
+              console.log(evt)
+              if (evt.target._geometryType === 'circle') {
                 var length =
-                  geometryEngine.geodesicLength(evt.geometry, "meters") /
-                  Math.PI; // 长度公式
-                _this.range = length / 2;
-                var a = evt.geometry.cache._extent;
-                var newX = (a.xmin + a.xmax) / 2;
-                var newY = (a.ymax + a.ymin) / 2;
-                var center = webMercatorUtils.xyToLngLat(newX, newY);
+                  geometryEngine.geodesicLength(evt.geometry, 'meters') /
+                  Math.PI // 长度公式
+                _this.range = length / 2
+                var a = evt.geometry.cache._extent
+                var newX = (a.xmin + a.xmax) / 2
+                var newY = (a.ymax + a.ymin) / 2
+                var center = webMercatorUtils.xyToLngLat(newX, newY)
                 var newObj = {
                   longitude: center[0].toFixed(6),
                   latitude: center[1].toFixed(6),
-                  type: "描圆",
-                  id
-                };
-                id++;
-                _this.mapTableData.push(newObj);
+                  type: '描圆',
+                  id,
+                }
+                id++
+                _this.mapTableData.push(newObj)
               }
-              var symbol;
+              var symbol
               // 添加图形
-              if (evt.geometry.type === "point") {
-                var a1 = evt.geometry;
-                var newX1 = a1.x;
-                var newY1 = a1.y;
-                var center1 = webMercatorUtils.xyToLngLat(newX1, newY1);
+              if (evt.geometry.type === 'point') {
+                var a1 = evt.geometry
+                var newX1 = a1.x
+                var newY1 = a1.y
+                var center1 = webMercatorUtils.xyToLngLat(newX1, newY1)
                 var newObj1 = {
                   longitude: center1[0].toFixed(6),
                   latitude: center1[1].toFixed(6),
-                  type: "描点",
-                  id
-                };
-                id++;
-                _this.mapTableData.push(newObj1);
-                symbol = drawTool.markerSymbol;
+                  type: '描点',
+                  id,
+                }
+                id++
+                _this.mapTableData.push(newObj1)
+                symbol = drawTool.markerSymbol
               } else {
-                symbol = drawTool.fillSymbol;
+                symbol = drawTool.fillSymbol
               }
-              drawTool.deactivate();
-              let graphicItem = new Graphic(evt.geometry, symbol);
-              _this.graphicItemS.push(graphicItem);
-              map.graphics.add(graphicItem);
+              drawTool.deactivate()
+              let graphicItem = new Graphic(evt.geometry, symbol)
+              _this.graphicItemS.push(graphicItem)
+              map.graphics.add(graphicItem)
 
               // 删除图形
               setTimeout(
                 () => {
                   // off()click操作中的累积效果
-                  $(".removeLayer")
-                    .off("click")
-                    .on("click", e => {
-                      let id = Number(e.target.dataset.index);
-                      map.graphics.remove(_this.graphicItemS[id]);
+                  $('.removeLayer')
+                    .off('click')
+                    .on('click', e => {
+                      let id = Number(e.target.dataset.index)
+                      map.graphics.remove(_this.graphicItemS[id])
                       _this.mapTableData.splice(
                         _this.mapTableData.findIndex(fn),
-                        1
-                      );
+                        1,
+                      )
                       function fn(num, numIndex, nums) {
-                        console.log(nums, num, id);
-                        return num.id === id;
+                        console.log(nums, num, id)
+                        return num.id === id
                       }
-                      console.log(evt.geometry, map);
-                    });
+                      console.log(evt.geometry, map)
+                    })
                 },
                 500,
                 evt,
                 map,
-                graphicItem
-              );
+                graphicItem,
+              )
             }
-          }
+          },
         )
         .catch(err => {
-          console.log(err.message);
-        });
+          console.log(err.message)
+        })
     },
     addCase() {
-      this.show = true;
+      this.show = true
     },
     addCaseNum() {
-      this.inputList.push({ caseNum: "" });
+      this.inputList.push({ caseNum: '' })
     },
     delectCase(index) {
-      this.inputList.splice(index, 1);
+      this.inputList.splice(index, 1)
     },
     search() {},
     cancel() {
-      this.show = false;
+      this.show = false
     },
     // 轨迹点搜索
     trackSearch(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.trackShow = false;
-          this.trackShow2 = true;
-          console.log(this.trackForm.value1);
+          this.trackShow = false
+          this.trackShow2 = true
+          console.log(this.trackForm.value1)
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     // 清空轨迹点信息
     trackClear() {},
     // 确认标注
     affirmLabel() {
-      this.trackShow2 = false;
+      this.trackShow2 = false
     },
     getRowKey(row) {
-      console.log(row);
+      console.log(row)
     },
-    handleSelectionChange() {}
-  }
-};
+    handleSelectionChange() {},
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .mod-ticket.ticket-bg

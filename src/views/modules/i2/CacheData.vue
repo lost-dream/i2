@@ -165,14 +165,14 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
-import AddOrUpdate from "./CacheDataAddOrUpdate";
-import MoveOrCopy from "./MoveOrCopy";
+import FlyDialog from '@/components/fly-dialog'
+import AddOrUpdate from './CacheDataAddOrUpdate'
+import MoveOrCopy from './MoveOrCopy'
 export default {
   components: {
     FlyDialog,
     AddOrUpdate,
-    MoveOrCopy
+    MoveOrCopy,
   },
   props: {},
   data() {
@@ -182,104 +182,104 @@ export default {
       moveOrCopyVisible: false,
       folderList: [],
       dataForm: {
-        keywords: "",
-        name: "",
-        folderId: ""
+        keywords: '',
+        name: '',
+        folderId: '',
       },
       dataList: [],
       pageIndex: 1,
       pageSize: 10,
       totalPage: 0,
       dataListSelections: [],
-      dataListLoading: false
-    };
+      dataListLoading: false,
+    }
   },
   computed: {},
   methods: {
     init() {
       this.$api
-        .getAllFolderByUserName("10011")
+        .getAllFolderByUserName('10011')
         .then(({ data }) => {
-          let list = data && data.code === 200 ? data.result : [];
-          let arr = [];
+          let list = data && data.code === 200 ? data.result : []
+          let arr = []
           for (let i in list) {
             arr.push({
               value: list[i].id,
-              label: list[i].folderName
-            });
+              label: list[i].folderName,
+            })
           }
-          this.folderList = arr;
+          this.folderList = arr
         })
         .then(() => {
-          this.visible = true;
+          this.visible = true
           this.$nextTick(() => {
-            this.$refs["dataForm"].resetFields();
-          });
-          this.getDataList();
-        });
+            this.$refs['dataForm'].resetFields()
+          })
+          this.getDataList()
+        })
     },
     getDataList() {
-      this.dataListLoading = true;
+      this.dataListLoading = true
       let params = {
-        username: "10011"
-      };
+        username: '10011',
+      }
       this.$api.getAllCacheDataByUserName(params).then(({ data }) => {
         if (data && data.code === 200) {
-          this.dataList = data.result;
+          this.dataList = data.result
         } else {
-          this.dataList = [];
-          this.totalPage = 0;
+          this.dataList = []
+          this.totalPage = 0
         }
-        this.dataListLoading = false;
-      });
+        this.dataListLoading = false
+      })
     },
     searchDataList() {
-      this.dataListLoading = true;
+      this.dataListLoading = true
       let params = {
-        username: "10011",
-        ...this.dataForm
-      };
+        username: '10011',
+        ...this.dataForm,
+      }
       this.$api.dataCacheSearch(params).then(({ data }) => {
         if (data && data.code === 200) {
-          this.dataList = data.result.records;
+          this.dataList = data.result.records
         } else {
-          this.dataList = [];
-          this.totalPage = 0;
+          this.dataList = []
+          this.totalPage = 0
         }
-        this.dataListLoading = false;
-      });
+        this.dataListLoading = false
+      })
     },
     // 多选
     selectionChangeHandle(val) {
-      this.dataListSelections = val;
+      this.dataListSelections = val
     },
     // 新增  /  修改
     addOrUpdateHandle(id) {
-      this.addOrUpdateVisible = true;
-      this.visible = false;
+      this.addOrUpdateVisible = true
+      this.visible = false
       this.$nextTick(() => {
-        this.$refs.cacheDataAddOrUpdate.init(id);
-      });
+        this.$refs.cacheDataAddOrUpdate.init(id)
+      })
     },
     // 添加至画布
     addToCanvasHandle() {},
     // 移动 或 复制至文件夹
     moveOrCopyToFoder(type) {
-      this.moveOrCopyVisible = true;
-      this.visible = false;
+      this.moveOrCopyVisible = true
+      this.visible = false
       this.$nextTick(() => {
         let ids = this.dataListSelections.map(item => {
-          return item.id;
-        });
-        this.$refs.moveOrCopy.init(type, ids);
-      });
+          return item.id
+        })
+        this.$refs.moveOrCopy.init(type, ids)
+      })
     },
     // 批量删除
-    deleteHandle() {}
+    deleteHandle() {},
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped>
 >>>.el-input__inner

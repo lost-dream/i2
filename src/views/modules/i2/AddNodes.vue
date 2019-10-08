@@ -20,59 +20,59 @@
 </template>
 
 <script>
-import FlyDialog from "@/components/fly-dialog";
-import { renderNodes } from "./js/renderNodes";
+import FlyDialog from '@/components/fly-dialog'
+import { renderNodes } from './js/renderNodes'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
   data() {
     return {
       visible: false,
       dataForm: {
-        kw: ""
+        kw: '',
       },
-      dataRule: {}
-    };
+      dataRule: {},
+    }
   },
   computed: {},
   methods: {
     bc() {
-      alert(1);
+      alert(1)
     },
     init() {
-      this.visible = true;
+      this.visible = true
     },
     // 表单提交
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
-        let { kw } = this.dataForm;
+      this.$refs['dataForm'].validate(valid => {
+        let { kw } = this.dataForm
         if (valid) {
           // addNodes(this, this.dataForm.kw);
           this.$api.queryNodeOrAdd(kw).then(({ data }) => {
             if (data && data.code === 200) {
-              let ns = [];
-              let ns1 = data.result.nodes;
+              let ns = []
+              let ns1 = data.result.nodes
               if (ns1 && ns1.length > 0) {
-                ns = ns.concat(ns1);
+                ns = ns.concat(ns1)
               }
               ns.map(function(e) {
-                e.isRoot = true;
-              });
+                e.isRoot = true
+              })
               // 渲染节点
-              renderNodes(this, ns);
-              this.visible = false;
+              renderNodes(this, ns)
+              this.visible = false
             } else {
-              console.log(data.message);
+              console.log(data.message)
             }
-          });
+          })
         }
-      });
-    }
+      })
+    },
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped></style>

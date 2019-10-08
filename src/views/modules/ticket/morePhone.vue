@@ -82,75 +82,75 @@
 export default {
   data() {
     return {
-      activeName: "first",
+      activeName: 'first',
       cases: [
         {
-          value: "双十一",
-          label: "双十一"
+          value: '双十一',
+          label: '双十一',
         },
         {
-          value: "双十二",
-          label: "双十二"
-        }
+          value: '双十二',
+          label: '双十二',
+        },
       ],
       phoneList: [
         {
-          value: "13111111111",
-          label: "13111111111"
+          value: '13111111111',
+          label: '13111111111',
         },
         {
-          value: "15111111111",
-          label: "15111111111"
+          value: '15111111111',
+          label: '15111111111',
         },
         {
-          value: "13111111112",
-          label: "13111111112"
+          value: '13111111112',
+          label: '13111111112',
         },
         {
-          value: "15111111112",
-          label: "15111111112"
-        }
+          value: '15111111112',
+          label: '15111111112',
+        },
       ],
       select: {
-        phone: "",
-        caseName: ""
-      }
-    };
+        phone: '',
+        caseName: '',
+      },
+    }
   },
   mounted() {
-    this.morePhoneList();
+    this.morePhoneList()
   },
   methods: {
     // 选择值变动后调接口获取数据
     caseNameChange() {
-      this.morePhoneList();
+      this.morePhoneList()
     },
 
     // 获取话单接口
     morePhoneList() {
-      var _this = this;
+      var _this = this
       let obj = {
         caseName: this.select.caseName,
-        phone: this.select.phone
-      };
+        phone: this.select.phone,
+      }
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
-        console.log(data);
+        console.log(data)
         if (data.success) {
           _this.$message({
-            message: "获取话单成功！!",
-            type: "success"
-          });
+            message: '获取话单成功！!',
+            type: 'success',
+          })
         } else {
           this.$message({
-            message: "获取话单失败!",
-            type: "error"
-          });
+            message: '获取话单失败!',
+            type: 'error',
+          })
         }
-      });
+      })
     },
-    handleClick(tab, event) {}
-  }
-};
+    handleClick(tab, event) {},
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

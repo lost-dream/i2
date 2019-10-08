@@ -15,7 +15,7 @@
                 <span
                   style="font-size: 14px;text-align: initial;padding: 0 30px;height: auto;font-size: 18px;"
                   >{{
-                    tooltype == "lg" ? "旅馆名称" : "网吧名称"
+                    tooltype == 'lg' ? '旅馆名称' : '网吧名称'
                   }}：背包十年</span
                 >
               </div>
@@ -490,7 +490,7 @@
                           showQcInfo(
                             item !== 11
                               ? (item - 1) * 4 + 3
-                              : (item - 1) * 4 + 4
+                              : (item - 1) * 4 + 4,
                           )
                         "
                         :class="seatType(item, 'C')"
@@ -513,7 +513,7 @@
                           showQcInfo(
                             item !== 11
                               ? (item - 1) * 4 + 4
-                              : (item - 1) * 4 + 5
+                              : (item - 1) * 4 + 5,
                           )
                         "
                         :class="seatType(item, 'D')"
@@ -617,110 +617,110 @@
 </template>
 
 <script>
-import personalInfoCard from "@/views/common/personalInfoCard";
+import personalInfoCard from '@/views/common/personalInfoCard'
 export default {
-  name: "timespaceinfo",
+  name: 'timespaceinfo',
   components: {
-    personalInfoCard
+    personalInfoCard,
   },
   data() {
     return {
       passengerInfoShow: false,
-      tooltype: "lg",
+      tooltype: 'lg',
       okCard: 1,
       personCard: [],
-      partiesInfo: {}
-    };
+      partiesInfo: {},
+    }
   },
   computed: {
     seatType(x, y) {
       return (x, y) => {
-        let noOne = false;
-        let exist = false;
-        let parties = true;
+        let noOne = false
+        let exist = false
+        let parties = true
         return {
           noOne: noOne,
           exist: exist,
-          parties: parties
-        };
-      };
+          parties: parties,
+        }
+      }
     },
     wbArea(x) {
       return x => {
         let a = [
-          "A",
-          "B",
-          "C",
-          "D",
-          "E",
-          "F",
-          "G",
-          "H",
-          "I",
-          "J",
-          "K",
-          "L",
-          "M",
-          "N",
-          "O",
-          "P",
-          "Q",
-          "R",
-          "S",
-          "T",
-          "U",
-          "V",
-          "W",
-          "X",
-          "Y",
-          "Z"
-        ];
-        return a[x - 1];
-      };
-    }
+          'A',
+          'B',
+          'C',
+          'D',
+          'E',
+          'F',
+          'G',
+          'H',
+          'I',
+          'J',
+          'K',
+          'L',
+          'M',
+          'N',
+          'O',
+          'P',
+          'Q',
+          'R',
+          'S',
+          'T',
+          'U',
+          'V',
+          'W',
+          'X',
+          'Y',
+          'Z',
+        ]
+        return a[x - 1]
+      }
+    },
   },
   mounted() {
-    this.$route.params.form !== undefined && this.receiveRouter();
-    document.addEventListener("click", this.handleDocumentClick);
+    this.$route.params.form !== undefined && this.receiveRouter()
+    document.addEventListener('click', this.handleDocumentClick)
   },
   methods: {
     // 获取路由参数
     receiveRouter() {
       this.partiesInfo = JSON.parse(
-        JSON.stringify(this.$route.params.partiesInfo)
-      );
+        JSON.stringify(this.$route.params.partiesInfo),
+      )
     },
     // 显示座位乘客信息 x,y为座位信息
     showInfo(x, y) {
-      this.personCard = [1];
-      this.passengerInfoShow = true;
+      this.personCard = [1]
+      this.passengerInfoShow = true
     },
     // 显示汽车座位乘客信息 x为座位信息
     showQcInfo(x) {
-      this.personCard = [1];
-      this.passengerInfoShow = true;
+      this.personCard = [1]
+      this.passengerInfoShow = true
     },
     // 显示旅馆房间人员信息 x,y为房间坐标
     showLgInfo(x, y) {
-      this.personCard = [1, 2, 3];
-      this.passengerInfoShow = true;
+      this.personCard = [1, 2, 3]
+      this.passengerInfoShow = true
     },
     // 显示网吧人员信息 x,y为位置坐标
     showWbInfo(x, y) {
-      this.personCard = [1];
-      this.passengerInfoShow = true;
+      this.personCard = [1]
+      this.passengerInfoShow = true
     },
     // 点击空白地方隐藏乘客信息
     handleDocumentClick(e) {
       if (this.passengerInfoShow) {
-        let $passengerInfo = document.getElementById("passengerInfo");
+        let $passengerInfo = document.getElementById('passengerInfo')
         if (!$passengerInfo.contains(e.target)) {
-          this.passengerInfoShow = false;
+          this.passengerInfoShow = false
         }
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

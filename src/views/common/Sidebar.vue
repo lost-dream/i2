@@ -17,17 +17,17 @@
 export default {
   components: {},
   props: {
-    type: String
+    type: String,
   },
   data() {
     return {
-      sidebarSkin: "green"
-    };
+      sidebarSkin: 'green',
+    }
   },
   computed: {},
   methods: {},
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped></style>

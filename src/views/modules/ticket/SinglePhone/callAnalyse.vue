@@ -120,10 +120,10 @@
 </template>
 
 <script>
-import flyDialog from "../../../../components/fly-dialog";
+import flyDialog from '../../../../components/fly-dialog'
 export default {
   components: {
-    flyDialog
+    flyDialog,
   },
   mounted() {},
   data() {
@@ -131,88 +131,88 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       callForm: {
-        time: "",
-        communicationTime: "",
-        callTimes: ""
+        time: '',
+        communicationTime: '',
+        callTimes: '',
       },
       callAnalyse: [
         {
-          communicationTime: ""
-        }
+          communicationTime: '',
+        },
       ],
       show: false,
-      width: "1200px",
+      width: '1200px',
       analyseTable: [
         {
-          index: "",
-          otherPartyPhone: "13111111111",
-          communicationMode: "被叫",
-          beginTime: "2016-07-23 00:01:02",
-          communicationTime: "14",
-          baseStationLocation: "成都"
-        }
-      ]
-    };
+          index: '',
+          otherPartyPhone: '13111111111',
+          communicationMode: '被叫',
+          beginTime: '2016-07-23 00:01:02',
+          communicationTime: '14',
+          baseStationLocation: '成都',
+        },
+      ],
+    }
   },
   methods: {
     onSubmit() {},
     baseStation() {},
     check() {
-      this.show = true;
+      this.show = true
     },
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-    }
-  }
-};
+      this.$refs[formName].resetFields()
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

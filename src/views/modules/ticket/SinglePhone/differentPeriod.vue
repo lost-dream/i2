@@ -50,154 +50,154 @@
 </template>
 
 <script>
-import InputTag from "../comments/inputTag";
+import InputTag from '../comments/inputTag'
 export default {
   components: {
-    InputTag
+    InputTag,
   },
   mounted() {
-    console.log(this);
+    console.log(this)
   },
   data() {
     return {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       arr: [],
       callForm: {
-        time: "",
-        timeList: []
+        time: '',
+        timeList: [],
       },
       differentPeriod: [
         {
-          otherPartyPhone: "",
-          periorTimes: "",
-          location: ""
-        }
+          otherPartyPhone: '',
+          periorTimes: '',
+          location: '',
+        },
       ],
       tableData: [
         {
-          propName: "otherPartyPhone",
-          label: "对方号码",
+          propName: 'otherPartyPhone',
+          label: '对方号码',
           fixed: true,
-          width: "120"
+          width: '120',
         },
         {
-          propName: "periorTimes",
-          label: "几个时段",
+          propName: 'periorTimes',
+          label: '几个时段',
           fixed: true,
-          width: "80"
+          width: '80',
         },
-        { propName: "location", label: "号码属地", fixed: true, width: "100" }
-      ]
-    };
+        { propName: 'location', label: '号码属地', fixed: true, width: '100' },
+      ],
+    }
   },
   methods: {
     searchData() {
-      this.tableDataHandle();
+      this.tableDataHandle()
     },
     addTime() {
-      console.log("xzh", this.callForm);
+      console.log('xzh', this.callForm)
       if (this.callForm.time) {
-        let newTime = this.timeChange(this.callForm.time);
+        let newTime = this.timeChange(this.callForm.time)
         let obj = newTime
           .map(function(item, index) {
-            return item;
+            return item
           })
-          .join("至");
-        this.arr.push(obj);
-        this.callForm.timeList.push(obj);
+          .join('至')
+        this.arr.push(obj)
+        this.callForm.timeList.push(obj)
       } else {
         this.$message({
-          message: "请输入需要查询的时间范围",
-          type: "warning"
-        });
+          message: '请输入需要查询的时间范围',
+          type: 'warning',
+        })
       }
     },
     message(message, type) {
       this.$message({
         message: `${message}`,
-        type: `${type}`
-      });
+        type: `${type}`,
+      })
     },
     tableDataHandle() {
-      this.tableDataReset();
+      this.tableDataReset()
       this.tableData = this.tableData.concat(
         this.arr.map(function(item, index) {
           return {
             propName: `perior+${item.index}`,
             label: `${item}`,
-            width: "180"
-          };
-        })
-      );
+            width: '180',
+          }
+        }),
+      )
     },
     tableDataReset() {
-      this.tableData = this.tableData.slice(0, 3);
+      this.tableData = this.tableData.slice(0, 3)
     },
     arrReset() {
-      this.arr = [];
-      this.callForm.timeList = [];
+      this.arr = []
+      this.callForm.timeList = []
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-      this.tableDataReset();
-      this.arrReset();
+      this.$refs[formName].resetFields()
+      this.tableDataReset()
+      this.arrReset()
     },
     remove(innerTags) {
       this.arr = innerTags.map(function(item, index) {
-        return { time: item };
-      });
+        return { time: item }
+      })
     },
     timeChange(time) {
       var newTime = time.map(function(item) {
-        var d = new Date(item);
+        var d = new Date(item)
         var newItem =
           d.getFullYear() +
-          "-" +
+          '-' +
           (d.getMonth() + 1) +
-          "-" +
+          '-' +
           d.getDate() +
-          " " +
+          ' ' +
           d.getHours() +
-          ":" +
+          ':' +
           d.getMinutes() +
-          ":" +
-          d.getSeconds();
-        return newItem;
-      });
-      return newTime;
-    }
-  }
-};
+          ':' +
+          d.getSeconds()
+        return newItem
+      })
+      return newTime
+    },
+  },
+}
 </script>
 <style lang="stylus" scoped>
 .container

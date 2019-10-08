@@ -64,38 +64,38 @@ export default {
   data() {
     return {
       loginForm: {
-        tips: "",
-        username: "",
-        password: ""
+        tips: '',
+        username: '',
+        password: '',
       },
       rules: {
         username: [
-          { required: true, message: "登录账户不能为空！", trigger: "blur" }
+          { required: true, message: '登录账户不能为空！', trigger: 'blur' },
         ],
         password: [
-          { required: true, message: "密码不能为空！", trigger: "blur" }
-        ]
-      }
-    };
+          { required: true, message: '密码不能为空！', trigger: 'blur' },
+        ],
+      },
+    }
   },
   methods: {
     submitForm() {
-      this.$refs["loginForm"].validate(valid => {
-        let { username, password } = this.loginForm;
+      this.$refs['loginForm'].validate(valid => {
+        let { username, password } = this.loginForm
         if (valid) {
           this.$api.login(username, password).then(({ data }) => {
             if (data && data.code === 0) {
             } else {
-              this.loginForm.tips = data.msg;
+              this.loginForm.tips = data.msg
             }
-          });
+          })
         } else {
-          return false;
+          return false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

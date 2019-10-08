@@ -42,56 +42,56 @@
 
 <script>
 export default {
-  name: "modifyInfo",
+  name: 'modifyInfo',
   components: {},
   props: {},
   data() {
     return {
       asterisk: true, // 影响*号
       form: {
-        user: "admin",
-        name: "admin",
+        user: 'admin',
+        name: 'admin',
         policeNumber: 110110,
-        idNumber: "511381199508057678",
-        phone: "18000000000",
-        Email: "111@qq.com"
+        idNumber: '511381199508057678',
+        phone: '18000000000',
+        Email: '111@qq.com',
       },
       rules: {
-        user: [{ required: true, message: "请输入登陆账号", trigger: "blur" }],
-        name: [{ required: true, message: "请输入用户姓名", trigger: "blur" }],
+        user: [{ required: true, message: '请输入登陆账号', trigger: 'blur' }],
+        name: [{ required: true, message: '请输入用户姓名', trigger: 'blur' }],
         policeNumber: [
-          { required: true, message: "请输入警号", trigger: "blur" },
-          { type: "number", message: "警号必须为数字值" }
+          { required: true, message: '请输入警号', trigger: 'blur' },
+          { type: 'number', message: '警号必须为数字值' },
         ],
-        idNumber: this.filter_rules({ required: true, type: "idCard" }),
-        phone: this.filter_rules({ required: true, type: "mobile" }),
+        idNumber: this.filter_rules({ required: true, type: 'idCard' }),
+        phone: this.filter_rules({ required: true, type: 'mobile' }),
         Email: [
           {
             required: true,
-            type: "email",
-            message: "请输入邮箱",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            type: 'email',
+            message: '请输入邮箱',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   computed: {},
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          alert('submit!')
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-    }
+      })
+    },
   },
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 
 <style lang="stylus" scoped>

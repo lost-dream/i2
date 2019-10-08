@@ -23,12 +23,12 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {}
   },
   computed: {},
   methods: {},
   created() {},
-  mounted() {}
-};
+  mounted() {},
+}
 </script>
 <style lang="stylus" scoped></style>
