@@ -24,7 +24,6 @@
  */
 
 'use strict'
-
 ;(function webpackUniversalModuleDefinition(root, factory) {
   if (typeof exports === 'object' && typeof module === 'object')
     module.exports = factory()
@@ -5439,12 +5438,12 @@
         var __WEBPACK_AMD_DEFINE_FACTORY__,
           __WEBPACK_AMD_DEFINE_ARRAY__,
           __WEBPACK_AMD_DEFINE_RESULT__
-        /**
-         * Created by Alex on 11/6/2014.
-         */
+          /**
+           * Created by Alex on 11/6/2014.
+           */
 
-        // https://github.com/umdjs/umd/blob/master/returnExports.js#L40-L60
-        // if the module has no dependencies, the above pattern can be simplified to
+          // https://github.com/umdjs/umd/blob/master/returnExports.js#L40-L60
+          // if the module has no dependencies, the above pattern can be simplified to
         ;(function(root, factory) {
           if (true) {
             // AMD. Register as an anonymous module.
@@ -34192,11 +34191,10 @@
       /***/ function(module, exports, __webpack_require__) {
         /* WEBPACK VAR INJECTION */ ;(function(module) {
           var require //! moment.js
-          //! version : 2.19.1
-          //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-          //! license : MIT
-          //! momentjs.com
-
+            //! version : 2.19.1
+            //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+            //! license : MIT
+            //! momentjs.com
           ;(function(global, factory) {
             true
               ? (module.exports = factory())
@@ -39375,7 +39373,8 @@
       /* 157 */
       /***/ function(module, exports, __webpack_require__) {
         'use strict'
-        /* WEBPACK VAR INJECTION */ ;(function(global) {
+        /* WEBPACK VAR INJECTION */
+        ;(function(global) {
           /* eslint-disable require-jsdoc */
 
           var _rng
@@ -43230,7 +43229,6 @@
         var __WEBPACK_AMD_DEFINE_FACTORY__,
           __WEBPACK_AMD_DEFINE_ARRAY__,
           __WEBPACK_AMD_DEFINE_RESULT__
-
         ;(function(factory) {
           if (true) {
             // AMD. Register as an anonymous module.
@@ -43480,11 +43478,11 @@
       /* 176 */
       /***/ function(module, exports, __webpack_require__) {
         var __WEBPACK_AMD_DEFINE_RESULT__
-        /*! Hammer.JS - v2.0.7 - 2016-04-22
-         * http://hammerjs.github.io/
-         *
-         * Copyright (c) 2016 Jorik Tangelder;
-         * Licensed under the MIT license */
+          /*! Hammer.JS - v2.0.7 - 2016-04-22
+           * http://hammerjs.github.io/
+           *
+           * Copyright (c) 2016 Jorik Tangelder;
+           * Licensed under the MIT license */
         ;(function(window, document, exportName, undefined) {
           'use strict'
 
