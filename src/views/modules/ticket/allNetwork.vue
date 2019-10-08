@@ -9,7 +9,7 @@
                  type="card"
                  @tab-click="handleClick">
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/allNetwork/phoneSearch">电话查询</router-link>
+              <router-link to="/ticket/allNetwork/allNetPhoneSearch">电话查询</router-link>
             </span>
           </el-tab-pane>
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>

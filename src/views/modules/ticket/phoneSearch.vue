@@ -19,17 +19,19 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary"
-                       @click="onSubmit">查询</el-button>
+                       @click="onSubmit">查询
+            </el-button>
           </el-form-item>
           <el-form-item>
             <el-button type="danger"
-                       @click="resetForm('phoneForm')">重置</el-button>
+                       @click="resetForm('phoneForm')">重置
+            </el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="searchList">
-        <el-table :data="phoneData"
-                  height="250"
+        <el-table :data="phoneDataPage"
+                  height="321"
                   border
                   style="width: 100%">
           <el-table-column type="index"
@@ -51,6 +53,9 @@
                            align="center"
                            width="100"
                            label="上传时间">
+            <template slot-scope="scope">
+              <span>{{scope.row.uploadTime | formatDate}}</span>
+            </template>
           </el-table-column>
           <el-table-column prop="caseName"
                            align="center"
@@ -65,22 +70,26 @@
                            align="center">
             <template slot-scope="scope">
               <el-button size="mini"
-                         @click="edit(scope.$index, scope.row)">编辑</el-button>
+                         @click="edit(scope.$index, scope.row)">编辑
+              </el-button>
               <el-button size="mini"
-                         @click="addMore(scope.$index, scope.row)">追加</el-button>
+                         @click="addMore(scope.$index, scope.row)">追加
+              </el-button>
               <el-button size="mini"
                          type="danger"
-                         @click="Delete(scope.$index, scope.row)">删除</el-button>
+                         @click="Delete(scope.$index, scope.row)">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChange"
-                       :current-page="currentPage"
+                       :current-page="page.currentPage"
                        :page-sizes="[5]"
-                       :page-size="5"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :page-size="page.size"
+                       :total="page.total"
+                       layout="total, prev, pager, next, jumper"
+        >
         </el-pagination>
       </div>
       <div class="title1">
@@ -111,7 +120,8 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary"
-                       @click="onSubmit1">查询</el-button>
+                       @click="onSubmit1">查询
+            </el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -176,180 +186,317 @@
 </template>
 
 <script>
-export default {
-  mounted () {
-  },
-  data () {
-    return {
-      pickerOptions: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick (picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
+  import {formatDate} from '../../../utils/dateFormat.js'
+
+  export default {
+
+    filters: {
+      formatDate(time) {
+        var date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd');
+      }
+    },
+    data() {
+      return {
+        pickerOptions: {
+          shortcuts: [
+            {
+              text: '最近一周',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', [start, end]);
+              }
+            }, {
+              text: '最近一个月',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                picker.$emit('pick', [start, end]);
+              }
+            }, {
+              text: '最近三个月',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                picker.$emit('pick', [start, end]);
+              }
+            }]
+        },
+        page: {
+          currentPage: 1,
+          size: 5,
+          total: 10
+        },
+        phoneForm: {
+          phone: '',
+          name: ''
+        },
+        converseForm: {
+          id: 0,
+          phone: '',
+          callTime: '',
+          time: ''
+        },
+
+        phoneData: [
+          {
+            name: '小谢',
+            phone: '13111111111',
+            uploadTime: '2019-7-21',
+            caseName: '赚钱大事件',
+            depict: '小谢发现海贼王ONE PRICE'
           }
-        }, {
-          text: '最近一个月',
-          onClick (picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick (picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      },
-      phoneForm: {
-        phone: '',
-        name: ''
-      },
-      converseForm: {
-        phone: '',
-        callTime: '',
-        time: ''
-      },
-      currentPage: 1,
-      phoneData: [
-        {
-          name: '小谢',
-          phone: '13111111111',
-          uploadTime: '2019-7-21',
-          caseName: '赚钱大事件',
-          depict: '小谢发现海贼王ONE PRICE'
+        ],
+        converseData: [
+          {
+            otherPartyPhone: '13111111111',
+            communicationMode: '主叫',
+            beginTime: '2019-07-12 16:42:12',
+            communicationTime: '1时2分54秒',
+            location: '成都',
+            baseStationLocation: '成都青羊区',
+            baseStationCode: '73C5',
+            housingEstateCode: '528E',
+            IMEI: '868276009004130',
+            IMSI: '460028865883591'
+          }]
+      };
+    },
+    computed: {
+      phoneDataPage() {
+        let startKey = this.page.size * (this.page.currentPage - 1)
+        let endKey = startKey + this.page.size
+        console.log(this.phoneData)
+        let PageData = this.phoneData.slice(startKey, endKey)
+        console.log(PageData)
+        console.log(this.phoneData)
+        return PageData;
+      }
+    },
+    mounted() {
+      this.onSubmit()
+    },
+    methods: {
+      onSubmit() {
+        var _this = this
+        let obj = {
+          name: this.phoneForm.name,
+          phone: this.phoneForm.phone
         }
-      ],
-      converseData: [
-        {
-          otherPartyPhone: '13111111111',
-          communicationMode: '主叫',
-          beginTime: '2019-07-12 16:42:12',
-          communicationTime: '1时2分54秒',
-          location: '成都',
-          baseStationLocation: '成都青羊区',
-          baseStationCode: '73C5',
-          housingEstateCode: '528E',
-          IMEI: '868276009004130',
-          IMSI: '460028865883591'
-        }]
-    };
-  },
-  methods: {
-    onSubmit () {
-      console.log('submit!');
-    },
-    onSubmit1 () {
-      console.log(this.timeChange(this.converseForm.time));
-      console.log('submit!');
-    },
-    timeChange (time) {
-      var newTime = time.map(function (item) {
-        var d = new Date(item);
-        var newItem = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
-        return newItem
-      })
-      return newTime
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields();
-    },
-    Delete (index, row) {
-      console.log(index, row);
-    },
-    edit (index, row) {
-      console.log(index, row);
-    },
-    addMore (index, row) {
-      console.log(index, row);
-    },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`);
+        console.log('获取话单!');
+        this.$api.ticketQuery(obj).then(({data}) => {
+          console.log(data);
+          if (data.success) {
+            let phoneDataArr = []
+            let phoneDataInfo = {}
+            data.result.tickBackList.forEach((item) => {
+              phoneDataInfo = {
+                name: item.ticketRelevanceDTO.phoneOwner,
+                phone: item.ticketRelevanceDTO.phoneNumber,
+                uploadTime: item.ticketDTO.createTime,
+                caseName: item.ticketDTO.caseName,
+                depict: item.ticketDTO.description,
+                recordId: item.ticketRelevanceDTO.recordId
+              }
+              phoneDataArr.push(phoneDataInfo)
+            })
+            console.log(phoneDataArr)
+            console.log(phoneDataArr.length)
+            _this.phoneData = phoneDataArr
+            _this.page.total = phoneDataArr.length
+            // _this.converseData = data.result.ticketDetailsDTOList
+            // _this.converseData = data.result.ticketDetailsDTOList
+            _this.$message({
+              message: '获取话单成功!',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '获取话单失败!',
+              type: 'error'
+            })
+          }
+        })
+      },
+
+
+      onSubmit1() {
+        var _this = this
+        // console.log(this.timeChange(this.converseForm.time));
+        console.log(this.converseForm.time);
+        console.log(this.timeChange(this.converseForm.time))
+        console.log(this.timeChange(this.converseForm.time)[1])
+        console.log(this.timeChange(this.converseForm.time)[0])
+        console.log(this.converseForm.phone);
+        console.log(this.converseForm.callTime);
+        console.log('submit!');
+        console.log('submit!');
+        let obj = {
+          id: this.converseForm.id,
+          duration: this.converseForm.callTime,
+          // overTime: this.timeChange(this.converseForm.time)[1],
+          overTime: this.converseForm.time[1],
+          phone: this.converseForm.phone,
+          time: this.converseForm.time[0]
+          // time: this.timeChange(this.converseForm.time)[0]
+        }
+        this.$api.ticketCallQuery(obj).then(({data}) => {
+          _this.$message({
+            message: '通话查询成功!',
+            type: 'success'
+          })
+          console.log(data);
+        })
+      },
+      timeChange(time) {
+        var newTime = time.map(function (item) {
+          var d = new Date(item);
+          var newItem = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+          return newItem
+        })
+        return newTime
+      },
+
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+      Delete(index, row) {
+        console.log(index, row);
+      },
+      // 话单编辑
+      edit(index, row) {
+        console.log(index, row);
+        this.$router.push(
+          {
+            name: 'newPhone',
+            query: {
+              phoneDataList: JSON.stringify(row),
+              oper: '编辑话单'
+            }
+          }
+        )
+
+      },
+      // 话单追加
+      addMore(index, row) {
+        console.log(index, row);
+        this.$router.push(
+          {
+            name: 'newPhone',
+            query: {
+              phoneDataList: JSON.stringify(row),
+              oper: '追加话单'
+            }
+          }
+        )
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      }
     }
   }
-}
 </script>
 <style lang="stylus" scoped>
-.container
-  width 1200px
-  margin 0 auto
-  padding 20px
-  background-color rgba(44, 239, 255, 0.1)
-.bg
-  background-color rgba(44, 239, 255, 0.1)
-  padding 40px
-.container .title
-  position absolute
-  top -10px
-  font-size 24px
-  color white
-.container .title1
-  font-size 24px
-  color white
+  .container
+    width 1200px
+    margin 0 auto
+    padding 20px
+    background-color rgba(44, 239, 255, 0.1)
+
+  .bg
+    background-color rgba(44, 239, 255, 0.1)
+    padding 40px
+
+  .container .title
+    position absolute
+    top -10px
+    font-size 24px
+    color white
+
+  .container .title1
+    font-size 24px
+    color white
 </style>
 <style lang="stylus">
-.phoneSearch .el-form-item__label
-  color white
-.phoneSearch .el-input__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color white
-.phoneSearch .el-textarea__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color white
-.searchList .el-table
-  background-color rgba(44, 239, 255, 0.3) !important
-  color white
-.searchList .el-table--border
-  border 1px solid rgba(0, 0, 0, 0.3)
-.searchList .el-table th, .el-table tr, .el-table--border td
-  background-color transparent !important
-  border 1px solid rgba(0, 0, 0, 0.3) !important
-.searchList .el-table--border::after, .el-table--group::after
-  width 0px
-.searchList .el-table::before
-  height 0px
-.searchList .el-table thead
-  color white
-.searchList .el-table tbody tr:hover>td
-  background-color rgba(44, 239, 255, 0.4)
-.searchList .el-pagination__total
-  color white
-.searchList .el-input__inner
-  background-color rgba(44, 239, 255, 0.3)
-  color white
-.searchList .el-dialog, .el-pager li
-  background-color rgba(44, 239, 255, 0.3) !important
-.searchList .el-pager li.active
-  color white
-.searchList .el-pagination .btn-next, .el-pagination .btn-prev
-  background-color rgba(44, 239, 255, 0.3) !important
-.searchList .el-pagination__jump
-  color white
-.converseSearch .el-form-item__label
-  color white
-.converseSearch .el-input__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color white
-.converseSearch .el-textarea__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color white
-.converseSearch .el-range-editor .el-range-input
-  background transparent
-  color white
-.converseSearch .el-date-editor .el-range-separator
-  color white
+  .phoneSearch .el-form-item__label
+    color white
+
+  .phoneSearch .el-input__inner
+    background-color rgba(44, 239, 255, 0.3) !important
+    border 1px solid rgba(44, 239, 255, 0.4) !important
+    color white
+
+  .phoneSearch .el-textarea__inner
+    background-color rgba(44, 239, 255, 0.3) !important
+    border 1px solid rgba(44, 239, 255, 0.4) !important
+    color white
+
+  .searchList .el-table
+    background-color rgba(44, 239, 255, 0.3) !important
+    color white
+
+  .searchList .el-table--border
+    border 1px solid rgba(0, 0, 0, 0.3)
+
+  .searchList .el-table th, .el-table tr, .el-table--border td
+    background-color transparent !important
+    border 1px solid rgba(0, 0, 0, 0.3) !important
+
+  .searchList .el-table--border::after, .el-table--group::after
+    width 0px
+
+  .searchList .el-table::before
+    height 0px
+
+  .searchList .el-table thead
+    color white
+
+  .searchList .el-table tbody tr:hover > td
+    background-color rgba(44, 239, 255, 0.4)
+
+  .searchList .el-pagination__total
+    color white
+
+  .searchList .el-input__inner
+    background-color rgba(44, 239, 255, 0.3)
+    color white
+
+  .searchList .el-dialog, .el-pager li
+    background-color rgba(44, 239, 255, 0.3) !important
+
+  .searchList .el-pager li.active
+    color white
+
+  .searchList .el-pagination .btn-next, .el-pagination .btn-prev
+    background-color rgba(44, 239, 255, 0.3) !important
+
+  .searchList .el-pagination__jump
+    color white
+
+  .converseSearch .el-form-item__label
+    color white
+
+  .converseSearch .el-input__inner
+    background-color rgba(44, 239, 255, 0.3) !important
+    border 1px solid rgba(44, 239, 255, 0.4) !important
+    color white
+
+  .converseSearch .el-textarea__inner
+    background-color rgba(44, 239, 255, 0.3) !important
+    border 1px solid rgba(44, 239, 255, 0.4) !important
+    color white
+
+  .converseSearch .el-range-editor .el-range-input
+    background transparent
+    color white
+
+  .converseSearch .el-date-editor .el-range-separator
+    color white
 </style>

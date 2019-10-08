@@ -240,15 +240,86 @@ export default {
   },
   // ------------------------------------ticket---------------------------------------------//
   /**
-   * 通过用户和密码登录
-   * @param {*} username 用户名
-   * @param {*} password 密码
+   * 新建话单
    */
-  newly (from) {
+  newly (data) {
     return http({
-      url: http.adornUrl('/ticket/statement/newly'),
+      url: http.adornUrl('ticket/statement/newly'),
       method: 'post',
-      data: http.adornData(from)
+      data: http.adornData(data)
+    })
+  },
+  /**
+   * 话单查询
+   */
+  ticketQuery (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketQuery'),
+      method: 'post',
+      data: http.adornData(data,false)
+    })
+  },
+  /**
+   * (单/多)话单查询展示
+   */
+  ticketOneAnalyze (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
+      method: 'post',
+      data: http.adornData(data,false)
+    })
+  },
+  /**
+   * 全网通查询展示
+   */
+  ticketNoteQuery (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketNoteQuery'),
+      method: 'post',
+      data: http.adornData(data)
+    })
+  },
+  /**
+   * 话单删除
+   */
+  ticketDelete (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      data: http.adornData(data)
+    })
+  },
+
+  /**
+   * 通话查询展示
+   */
+  ticketCallQuery (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketCallQuery'),
+      method: 'post',
+      data: http.adornData(data)
+    })
+  },
+
+  /**
+   * 话单编辑
+   */
+  ticketAlter (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAlter'),
+      method: 'post',
+      data: http.adornData(data)
+    })
+  },
+
+  /**
+   * 话单追加
+   */
+  ticketAddTo (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAddTo'),
+      method: 'post',
+      data: http.adornData(data)
     })
   },
   // ------------------------------------relation---------------------------------------------//

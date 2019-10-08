@@ -12,7 +12,7 @@ const http = axios.create({
   }
 })
 window.SITE_CONFIG = {
-  baseUrl: 'http://192.168.1.129:8080/'
+  baseUrl: 'http://192.168.1.186:8087/'
 }
 /**
  * 请求拦截
@@ -65,7 +65,7 @@ http.adornParams = (params = {}, openDefultParams = true) => {
  */
 http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
   var defaults = {
-    't': new Date().getTime()
+    'time': new Date().getTime()
   }
   data = openDefultdata ? merge(defaults, data) : data
   return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)
