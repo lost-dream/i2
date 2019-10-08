@@ -9,4 +9,4 @@ export default {
   //   // container: 'undefined',
   //   showButton: false
   // }
-}
+};

@@ -34,11 +34,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnCacheData"
-                    class="tab-li"
-                    @click="cacheDataHandle"
-                  >
+                  <dl id="btnCacheData" class="tab-li" @click="cacheDataHandle">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">数据缓存器</dd>
                   </dl>
@@ -47,11 +43,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnAddEdge"
-                    class="tab-li"
-                    @click="addEdgeHandle"
-                  >
+                  <dl id="btnAddEdge" class="tab-li" @click="addEdgeHandle">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">添加关系</dd>
                   </dl>
@@ -60,10 +52,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">数据缓存</dd>
                   </dl>
@@ -72,10 +61,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">锁定</dd>
                   </dl>
@@ -84,10 +70,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">解锁</dd>
                   </dl>
@@ -96,10 +79,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">选择</dd>
                   </dl>
@@ -109,10 +89,7 @@
             <el-tab-pane label="编辑">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">编辑</dd>
                   </dl>
@@ -121,10 +98,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">删除</dd>
                   </dl>
@@ -133,10 +107,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">一键标注</dd>
                   </dl>
@@ -145,10 +116,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">备注</dd>
                   </dl>
@@ -157,10 +125,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">隐藏</dd>
                   </dl>
@@ -169,10 +134,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">显示</dd>
                   </dl>
@@ -185,10 +147,7 @@
             <el-tab-pane label="布局">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">自动</dd>
                   </dl>
@@ -197,10 +156,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">矩形</dd>
                   </dl>
@@ -209,10 +165,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">环形</dd>
                   </dl>
@@ -225,10 +178,7 @@
             <el-tab-pane label="分析">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">关系挖掘</dd>
                   </dl>
@@ -237,10 +187,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">两两分析</dd>
                   </dl>
@@ -249,10 +196,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">全局分析</dd>
                   </dl>
@@ -261,10 +205,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">亲密度分析</dd>
                   </dl>
@@ -273,10 +214,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">定向分析</dd>
                   </dl>
@@ -285,10 +223,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">档案</dd>
                   </dl>
@@ -297,10 +232,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">轨迹</dd>
                   </dl>
@@ -309,10 +241,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">案件串并</dd>
                   </dl>
@@ -321,10 +250,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">碰撞对比分析</dd>
                   </dl>
@@ -334,10 +260,7 @@
             <el-tab-pane label="算法">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">中心性</dd>
                   </dl>
@@ -346,10 +269,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">六度空间</dd>
                   </dl>
@@ -362,10 +282,7 @@
             <el-tab-pane label="协同工作">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">导入(JSON)</dd>
                   </dl>
@@ -374,10 +291,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">导出</dd>
                   </dl>
@@ -386,10 +300,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">保存</dd>
                   </dl>
@@ -398,10 +309,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">共享</dd>
                   </dl>
@@ -410,10 +318,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">管理</dd>
                   </dl>
@@ -434,40 +339,27 @@
     </div>
     <div class="fun-sidebar">
       <sidebar type="tabpanel">
-        <sidefun
-          :detail='basicInfo'
-          ref="sidebarControl"
-        ></sidefun>
+        <sidefun :detail="basicInfo" ref="sidebarControl"></sidefun>
       </sidebar>
     </div>
-    <div
-      id="mainpanel"
-      class="mainpanel"
-    >
+    <div id="mainpanel" class="mainpanel">
       <div id="mynetwork"></div>
     </div>
     <!-- 弹窗, 新增节点 -->
-    <add-nodes
-      v-if="addNodesVisible"
-      ref="addNodes"
-    >
-    </add-nodes>
+    <add-nodes v-if="addNodesVisible" ref="addNodes"> </add-nodes>
     <!-- 弹窗，数据缓存器 -->
-    <cache-data
-      v-if="cacheDataVisible"
-      ref="cacheData"
-    ></cache-data>
+    <cache-data v-if="cacheDataVisible" ref="cacheData"></cache-data>
   </div>
 </template>
 
 <script>
-import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
-import Sidefun from './Sidefun'
-import AddNodes from './AddNodes'
-import CacheData from './CacheData'
-import { Workbench } from './js/workbench'
-import { expandNode } from './js/expandNode'
+import Sidebar from "@/views/common/Sidebar";
+import SidemenuItem from "@/views/common/SidemenuItem";
+import Sidefun from "./Sidefun";
+import AddNodes from "./AddNodes";
+import CacheData from "./CacheData";
+import { Workbench } from "./js/workbench";
+import { expandNode } from "./js/expandNode";
 
 export default {
   components: {
@@ -477,72 +369,74 @@ export default {
     AddNodes,
     CacheData
   },
-  data () {
+  data() {
     return {
       addNodesVisible: false,
       cacheDataVisible: false,
       basicInfo: {
-        idNumber: '',
-        name: '',
-        nation: '',
-        sex: '',
-        birthday: '',
-        cellphone: '',
-        currentAddress: ''
+        idNumber: "",
+        name: "",
+        nation: "",
+        sex: "",
+        birthday: "",
+        cellphone: "",
+        currentAddress: ""
       }
-    }
+    };
   },
   computed: {
-    network () {
+    network() {
       return this.global.network;
     }
   },
   methods: {
-
     // 显示添加节点面板
-    addNodesHandle () {
-      this.addNodesVisible = true
+    addNodesHandle() {
+      this.addNodesVisible = true;
       this.$nextTick(() => {
         this.$refs.addNodes.init();
-      })
+      });
     },
     // 点击导入节点
-    importNodeHandle () {
+    importNodeHandle() {
       this.$nextTick(() => {
-        this.$refs.sidebarControl.init('2', '导入节点');
-      })
+        this.$refs.sidebarControl.init("2", "导入节点");
+      });
     },
     // 点击数据缓存器
-    cacheDataHandle () {
+    cacheDataHandle() {
       this.cacheDataVisible = true;
       this.$nextTick(() => {
         this.$refs.cacheData.init();
-      })
+      });
     },
     // 点击添加关系
-    addEdgeHandle () {
-      this.unbindEvent();// 解绑事件，不然会导致添加关系失效
-      this.global.edge_adding = true
+    addEdgeHandle() {
+      this.unbindEvent(); // 解绑事件，不然会导致添加关系失效
+      this.global.edge_adding = true;
       this.network.addEdgeMode();
     },
     // network绑定事件
-    bindEvent () {
+    bindEvent() {
       // 单击节点查看详情
-      this.network.on('click', this.clickEvent);
+      this.network.on("click", this.clickEvent);
       // 双击节点展开关系
-      this.network.on('doubleClick', this.doubleclickEvent);
+      this.network.on("doubleClick", this.doubleclickEvent);
     },
     // 解绑事件
-    unbindEvent () {
-      this.network.off('click', this.clickEvent);
-      this.network.off('doubleClick', this.doubleclickEvent);
+    unbindEvent() {
+      this.network.off("click", this.clickEvent);
+      this.network.off("doubleClick", this.doubleclickEvent);
     },
     /**
      * 单击事件
      */
-    clickEvent (params) {
+    clickEvent(params) {
       // 框选时，不执行单击操作
-      if (params.event.changedPointers[0].shiftKey === true || this.global.mutilSelectStatus === true) {
+      if (
+        params.event.changedPointers[0].shiftKey === true ||
+        this.global.mutilSelectStatus === true
+      ) {
         return;
       }
 
@@ -567,7 +461,7 @@ export default {
      * 双击事件
      * @param {*} params
      */
-    doubleclickEvent (params) {
+    doubleclickEvent(params) {
       if (params.nodes.length === 1) {
         var curNode = this.global.nodes.get(params.nodes[0]);
         expandNode(this, curNode);
@@ -576,16 +470,16 @@ export default {
     /**
      * 查看人节点基本信息
      */
-    showBasicInfo (params) {
+    showBasicInfo(params) {
       try {
         let { nodeType, keyword } = this.global.nodes.get(params.nodes[0]);
         if (this.isSideBarOpening()) {
-          if (nodeType === 'Person') {
+          if (nodeType === "Person") {
             this.$api.nodeFindDetail({ nodeType, keyword }).then(({ data }) => {
               if (data && data.code === 200) {
                 this.basicInfo = data.result;
               }
-            })
+            });
           }
         }
       } catch (e) {
@@ -595,21 +489,19 @@ export default {
     /**
      *  判断sidebar 是否展开
      */
-    isSideBarOpening () {
+    isSideBarOpening() {
       return true;
     }
   },
-  created () {
-
-  },
-  mounted () {
+  created() {},
+  mounted() {
     // 初始化画布
     /* eslint-disable no-new */
-    new Workbench('mynetwork', this);
+    new Workbench("mynetwork", this);
     // 绑定network事件
     this.bindEvent();
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .mod-i2.i2-bg

@@ -1,5 +1,5 @@
-import global from '@/utils/global'
-import { getEdgesZjgxConnectings, createZjgxEdge } from '../common'
+import global from "@/utils/global";
+import { getEdgesZjgxConnectings, createZjgxEdge } from "../common";
 /**
  * 操作
  */
@@ -8,17 +8,17 @@ export default {
     // 是否启用编辑
     enabled: false,
     // 添加节点
-    addNode: function (data, callback) {
-      console.log('添加节点')
-      callback(data)
+    addNode: function(data, callback) {
+      console.log("添加节点");
+      callback(data);
     },
     // 编辑节点
-    editNode: function (data, callback) {
-      console.log('编辑节点')
-      callback(data)
+    editNode: function(data, callback) {
+      console.log("编辑节点");
+      callback(data);
     },
     // 添加连线
-    addEdge: function (data, callback) {
+    addEdge: function(data, callback) {
       if (data.from === data.to || global.edge_adding === false) {
         return;
       }
@@ -29,7 +29,7 @@ export default {
         edgeId = getEdgesZjgxConnectings(data.to, data.from);
         if (!edgeId) {
           // 建立新关系
-          edge = createZjgxEdge(data.from, data.to)
+          edge = createZjgxEdge(data.from, data.to);
         } else {
           edge = global.edges.get(edgeId);
         }
@@ -39,4 +39,4 @@ export default {
       callback(edge);
     }
   }
-}
+};

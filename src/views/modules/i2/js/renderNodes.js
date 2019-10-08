@@ -1,10 +1,10 @@
-import { addOrUpdateEdge, addOrUpdateNode } from './common'
-import { Edge } from './entity/Edge'
-import { Node } from './entity/Node'
+import { addOrUpdateEdge, addOrUpdateNode } from "./common";
+import { Edge } from "./entity/Edge";
+import { Node } from "./entity/Node";
 let nodes = null;
 let edges = null;
 let network = null;
-export function renderNodes (vm, ns) {
+export function renderNodes(vm, ns) {
   nodes = vm.global.nodes;
   edges = vm.global.edges;
   network = vm.global.network;
@@ -16,7 +16,7 @@ export function renderNodes (vm, ns) {
  * @param {*} mode 0： 不自动展开，1：自动展开 2：强制展开
  * @param {*} callback
  */
-function expandChilds (childs, mode, callback) {
+function expandChilds(childs, mode, callback) {
   if (childs && childs.length > 0) {
     var pnode = nodes.get(childs[0].pid);
     if (pnode) {
@@ -24,7 +24,7 @@ function expandChilds (childs, mode, callback) {
       var newChilds = [];
       for (var i in childs) {
         var edge = edges.get({
-          filter: function (edge) {
+          filter: function(edge) {
             return edge.from === pnode.pid && edge.to === childs[i].id;
           }
         })[0];
@@ -53,7 +53,7 @@ function expandChilds (childs, mode, callback) {
  * @param {*} childs
  * @param {*} count 只显示前多少条数据
  */
-function addNodeToCanvas (childs, count) {
+function addNodeToCanvas(childs, count) {
   var subnodes = [];
   // var newedges = [];
   var updateNodes = [];
@@ -81,16 +81,20 @@ function addNodeToCanvas (childs, count) {
   nodes.update(updateNodes);
 }
 /**
-* 判断在聚合节点中是否已经存在
-* @param pid
-* @param id
-* @returns {Boolean}
-*/
-function existsInCluster (pid, id) {
-  if (!pid) { return false; }
+ * 判断在聚合节点中是否已经存在
+ * @param pid
+ * @param id
+ * @returns {Boolean}
+ */
+function existsInCluster(pid, id) {
+  if (!pid) {
+    return false;
+  }
 
   var pnode = nodes.get(pid);
-  if (!pnode) { return false; }
+  if (!pnode) {
+    return false;
+  }
 
   var childs = pnode.getChilds();
   for (var i in childs) {
@@ -106,7 +110,7 @@ function existsInCluster (pid, id) {
  * @param {*} subnodes
  * @param {*} id
  */
-function arrayExistsNode (subnodes, id) {
+function arrayExistsNode(subnodes, id) {
   for (var i in subnodes) {
     if (subnodes[i].id === id) {
       return true;

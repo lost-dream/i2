@@ -8,26 +8,26 @@ export default {
     brokenImage: undefined,
     chosen: true,
     color: {
-      border: '#2B7CE9',
-      background: '#97C2FC',
+      border: "#2B7CE9",
+      background: "#97C2FC",
       highlight: {
-        border: '#2B7CE9',
-        background: '#D2E5FF'
+        border: "#2B7CE9",
+        background: "#D2E5FF"
       },
       hover: {
-        border: '#2B7CE9',
-        background: '#D2E5FF'
+        border: "#2B7CE9",
+        background: "#D2E5FF"
       }
     },
     // 此对象定义标签的详细信息
     font: {
-      color: '#fff',
+      color: "#fff",
       size: 12, // px
-      face: 'Microsoft Yahei',
-      background: 'none',
+      face: "Microsoft Yahei",
+      background: "none",
       strokeWidth: 0
     },
-    shape: 'dot',
+    shape: "dot",
     shapeProperties: {
       borderDashes: false, // only for borders
       borderRadius: 6, // only for box shape
@@ -37,4 +37,4 @@ export default {
     },
     size: 18
   }
-}
+};

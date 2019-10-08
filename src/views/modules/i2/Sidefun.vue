@@ -1,34 +1,20 @@
 <template>
   <div class="mod-sidefun">
-    <el-tabs
-      type="card"
-      v-model="activeName"
-    >
-      <el-tab-pane
-        label="基本信息"
-        name="0"
-      >
-        <basic-info :basicInfo='detail'></basic-info>
+    <el-tabs type="card" v-model="activeName">
+      <el-tab-pane label="基本信息" name="0">
+        <basic-info :basicInfo="detail"></basic-info>
       </el-tab-pane>
-      <el-tab-pane
-        label="统计信息"
-        name="1"
-      >
+      <el-tab-pane label="统计信息" name="1">
         <count-info></count-info>
       </el-tab-pane>
-      <el-tab-pane
-        :label="dynamicTab"
-        name="2"
-      >
-
-      </el-tab-pane>
+      <el-tab-pane :label="dynamicTab" name="2"> </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import BasicInfo from './BasicInfo'
-import CountInfo from './CountInfo'
+import BasicInfo from "./BasicInfo";
+import CountInfo from "./CountInfo";
 export default {
   components: {
     BasicInfo,
@@ -39,28 +25,26 @@ export default {
       type: Object
     }
   },
-  data () {
+  data() {
     return {
-      activeName: '0',
-      dynamicTab: ''
-    }
+      activeName: "0",
+      dynamicTab: ""
+    };
   },
   computed: {},
   methods: {
-    init (name, lable) {
+    init(name, lable) {
       this.activeName = name;
       this.dynamicTab = lable;
     },
     /**
      * 判断侧边栏是否打开
      */
-    isSidebarOpening (num) {
-
-    }
+    isSidebarOpening(num) {}
   },
-  created () { },
-  mounted () { }
-}
+  created() {},
+  mounted() {}
+};
 </script>
 <style lang="stylus" scoped>
 .mod-sidefun

@@ -3,7 +3,7 @@
     :ref="type"
     :id="type"
     class="sidebar"
-    :class="'sidebar-'+sidebarSkin"
+    :class="'sidebar-' + sidebarSkin"
   >
     <div class="sidebar-inner">
       <template>
@@ -15,20 +15,19 @@
 
 <script>
 export default {
-  components: {
-  },
+  components: {},
   props: {
     type: String
   },
-  data () {
+  data() {
     return {
-      sidebarSkin: 'green'
-    }
+      sidebarSkin: "green"
+    };
   },
   computed: {},
   methods: {},
-  created () { },
-  mounted () { }
-}
+  created() {},
+  mounted() {}
+};
 </script>
 <style lang="stylus" scoped></style>

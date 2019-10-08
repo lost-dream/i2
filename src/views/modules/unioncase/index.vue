@@ -3,56 +3,47 @@
     <nav class="navbar-fixed-top">
       <div class="header-container">
         <div class="title">
-          <img style="width: 40px;height: 40px;margin-top: 5px;margin-right:5px;"
-               src="../../../assets/img/caseLogo.png"
-               alt="logo">
+          <img
+            style="width: 40px;height: 40px;margin-top: 5px;margin-right:5px;"
+            src="../../../assets/img/caseLogo.png"
+            alt="logo"
+          />
           <h1>联案分析</h1>
         </div>
-        <el-tabs v-model="activeName"
-                 type="border-card">
+        <el-tabs v-model="activeName" type="border-card">
           <el-tab-pane>
-            <div @click="addCase"
-                 slot="label">
-              <img src="../../../assets/img/casexinzeng.png"
-                   alt="">
+            <div @click="addCase" slot="label">
+              <img src="../../../assets/img/casexinzeng.png" alt="" />
               <p>添加案件</p>
             </div>
           </el-tab-pane>
           <el-tab-pane>
-            <div id="circle"
-                 slot="label">
-              <img src="../../../assets/img/caseguanxitu.png"
-                   alt="">
+            <div id="circle" slot="label">
+              <img src="../../../assets/img/caseguanxitu.png" alt="" />
               <p>添加描圆</p>
             </div>
           </el-tab-pane>
           <el-tab-pane>
-            <div id="point"
-                 slot="label">
-              <img src="../../../assets/img/caseguanxitu.png"
-                   alt="">
+            <div id="point" slot="label">
+              <img src="../../../assets/img/caseguanxitu.png" alt="" />
               <p>添加描点</p>
             </div>
           </el-tab-pane>
           <el-tab-pane>
-            <div @click = "trackShow = true"
-              slot="label">
-              <img src="../../../assets/img/casedizhi.png"
-                   alt="">
+            <div @click="trackShow = true" slot="label">
+              <img src="../../../assets/img/casedizhi.png" alt="" />
               <p>轨迹点</p>
             </div>
           </el-tab-pane>
           <el-tab-pane>
             <div slot="label">
-              <img src="../../../assets/img/caseshezhi.png"
-                   alt="">
+              <img src="../../../assets/img/caseshezhi.png" alt="" />
               <p>设定条件</p>
             </div>
           </el-tab-pane>
           <el-tab-pane>
             <div slot="label">
-              <img src="../../../assets/img/caseManagement.png"
-                   alt="">
+              <img src="../../../assets/img/caseManagement.png" alt="" />
               <p>任务管理</p>
             </div>
           </el-tab-pane>
@@ -83,33 +74,45 @@
             </div>
             <div class="condition">
               <h4>条件参数</h4>
-              <div class="conditionItem"
-                   style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;">
+              <div
+                class="conditionItem"
+                style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
+              >
                 <p>活动时间段</p>
                 <div class="inputStyle">
                   <p>起</p>
-                  <el-date-picker v-model="date1"
-                                  type="date"
-                                  placeholder="选择日期">
+                  <el-date-picker
+                    v-model="date1"
+                    type="date"
+                    placeholder="选择日期"
+                  >
                   </el-date-picker>
                 </div>
                 <div class="inputStyle">
                   <p>止</p>
-                  <el-date-picker v-model="date2"
-                                  type="date"
-                                  placeholder="选择日期">
+                  <el-date-picker
+                    v-model="date2"
+                    type="date"
+                    placeholder="选择日期"
+                  >
                   </el-date-picker>
                 </div>
                 <div class="inputStyle">
                   <p>范围</p>
-                  <el-input style="margin-left:10px;width:87%;"
-                            v-model="range"></el-input>
+                  <el-input
+                    style="margin-left:10px;width:87%;"
+                    v-model="range"
+                  ></el-input>
                 </div>
               </div>
             </div>
             <div class="resource">
-              <div style="display:flex;align-items:center;border-bottom:1px dashed white;margin-top:30px">
-                <h4 style="margin-right:20px;border:none;margin-top:0">资源参数</h4>
+              <div
+                style="display:flex;align-items:center;border-bottom:1px dashed white;margin-top:30px"
+              >
+                <h4 style="margin-right:20px;border:none;margin-top:0">
+                  资源参数
+                </h4>
                 <div class="resourceBtn">
                   <el-button type="primary">查人</el-button>
                   <el-button type="primary">查案</el-button>
@@ -118,60 +121,62 @@
               <p>出生时间段</p>
               <div class="inputStyle">
                 <p>起</p>
-                <el-date-picker v-model="date3"
-                                type="date"
-                                placeholder="选择日期">
+                <el-date-picker
+                  v-model="date3"
+                  type="date"
+                  placeholder="选择日期"
+                >
                 </el-date-picker>
               </div>
               <div class="inputStyle">
                 <p>止</p>
-                <el-date-picker v-model="date4"
-                                type="date"
-                                placeholder="选择日期">
+                <el-date-picker
+                  v-model="date4"
+                  type="date"
+                  placeholder="选择日期"
+                >
                 </el-date-picker>
               </div>
-              <el-checkbox-group v-model="checkedBox"
-                                 :min="1"
-                                 :max="2">
-                <el-checkbox v-for="(item,index) in boxs"
-                             :label="item.name"
-                             :key="index">{{item.name}}</el-checkbox>
+              <el-checkbox-group v-model="checkedBox" :min="1" :max="2">
+                <el-checkbox
+                  v-for="(item, index) in boxs"
+                  :label="item.name"
+                  :key="index"
+                  >{{ item.name }}</el-checkbox
+                >
               </el-checkbox-group>
             </div>
           </div>
         </sidebar>
       </div>
       <div class="dialog">
-        <flyDialog :show.sync='show'
-                   class="caseMap"
-                   :width='width'>
-          <el-button type="success"
-                     @click="addCaseNum">添加案件编号</el-button>
-          <div v-for="(item,index) in inputList"
-               :key="index">
-            <el-input style="margin:10px;"
-                      v-model="item.caseNum">
-              <el-button slot="append"
-                         :disabled="inputList.length==1?true:false"
-                         @click="delectCase(index)"
-                         icon="el-icon-close"></el-button>
+        <flyDialog :show.sync="show" class="caseMap" :width="width">
+          <el-button type="success" @click="addCaseNum">添加案件编号</el-button>
+          <div v-for="(item, index) in inputList" :key="index">
+            <el-input style="margin:10px;" v-model="item.caseNum">
+              <el-button
+                slot="append"
+                :disabled="inputList.length == 1 ? true : false"
+                @click="delectCase(index)"
+                icon="el-icon-close"
+              ></el-button>
             </el-input>
           </div>
           <div class="caseButton">
-            <el-button @click="search"
-                       type="success">查询</el-button>
-            <el-button @click="cancel"
-                       type="warning">取消</el-button>
+            <el-button @click="search" type="success">查询</el-button>
+            <el-button @click="cancel" type="warning">取消</el-button>
           </div>
         </flyDialog>
-        <flyDialog :show.sync='trackShow'
-                   title="人员轨迹条件"
-                   class="caseMap"
-                   :width='width2'>
+        <flyDialog
+          :show.sync="trackShow"
+          title="人员轨迹条件"
+          class="caseMap"
+          :width="width2"
+        >
           <div class="form">
             <el-form
               :model="trackForm"
-              label-width = "0px"
+              label-width="0px"
               :rules="trackRule"
               ref="trackForm"
             >
@@ -186,91 +191,94 @@
                 <el-date-picker
                   v-model="trackForm.startDate"
                   type="date"
-                  placeholder="选择日期">
+                  placeholder="选择日期"
+                >
                 </el-date-picker>
                 <el-date-picker
                   v-model="trackForm.endDate"
                   type="date"
-                  placeholder="选择日期">
+                  placeholder="选择日期"
+                >
                 </el-date-picker>
-            </el-form-item>
+              </el-form-item>
             </el-form>
           </div>
 
           <div class="caseButton">
-            <el-button @click="trackSearch('trackForm')"
-                       type="success">查询</el-button>
-            <el-button @click="trackClear"
-                       type="warning">清空</el-button>
+            <el-button @click="trackSearch('trackForm')" type="success"
+              >查询</el-button
+            >
+            <el-button @click="trackClear" type="warning">清空</el-button>
           </div>
         </flyDialog>
-        <flyDialog :show.sync='trackShow2'
-                   title="选择地图点位"
-                   class="caseMap"
-                   :width='width2'>
+        <flyDialog
+          :show.sync="trackShow2"
+          title="选择地图点位"
+          class="caseMap"
+          :width="width2"
+        >
           <div class="form">
-            <el-table :data="trackList"
-                      height='245px'
-                      :row-key="getRowKey"
-                      @selection-change="handleSelectionChange"
-                      style="width: 100%">
-              <el-table-column width="100"
-                               align="center"
-                               prop="organName"
-                               label="机构名称">
-              </el-table-column>
-              <el-table-column prop="area"
-                               align="center"
-                               width="200"
-                               label="所在区域">
-              </el-table-column>
-              <el-table-column prop="geographic_position"
-                               align="center"
-                               label="地图位置">
+            <el-table
+              :data="trackList"
+              height="245px"
+              :row-key="getRowKey"
+              @selection-change="handleSelectionChange"
+              style="width: 100%"
+            >
+              <el-table-column
+                width="100"
+                align="center"
+                prop="organName"
+                label="机构名称"
+              >
               </el-table-column>
               <el-table-column
-                type="selection"
-                width="55">
+                prop="area"
+                align="center"
+                width="200"
+                label="所在区域"
+              >
               </el-table-column>
+              <el-table-column
+                prop="geographic_position"
+                align="center"
+                label="地图位置"
+              >
+              </el-table-column>
+              <el-table-column type="selection" width="55"> </el-table-column>
             </el-table>
           </div>
           <div class="caseButton">
-            <el-button @click="affirmLabel"
-                       type="success">确认标注</el-button>
-            <el-button @click="trackClear"
-                       type="warning">清空</el-button>
+            <el-button @click="affirmLabel" type="success">确认标注</el-button>
+            <el-button @click="trackClear" type="warning">清空</el-button>
           </div>
         </flyDialog>
       </div>
 
-      <div style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
-           class="mapTable">
-        <el-table :data="mapTableData"
-                  height='245px'
-                  :row-key="getRowKey"
-                  style="width: 100%">
-          <el-table-column type="index"
-                           width="100"
-                           align="center"
-                           label="编号">
+      <div
+        style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
+        class="mapTable"
+      >
+        <el-table
+          :data="mapTableData"
+          height="245px"
+          :row-key="getRowKey"
+          style="width: 100%"
+        >
+          <el-table-column type="index" width="100" align="center" label="编号">
           </el-table-column>
-          <el-table-column prop="longitude"
-                           align="center"
-                           label="经度">
+          <el-table-column prop="longitude" align="center" label="经度">
           </el-table-column>
-          <el-table-column prop="latitude"
-                           align="center"
-                           label="纬度">
+          <el-table-column prop="latitude" align="center" label="纬度">
           </el-table-column>
-          <el-table-column prop="type"
-                           align="center"
-                           label="类型">
+          <el-table-column prop="type" align="center" label="类型">
           </el-table-column>
-          <el-table-column label="操作"
-                           align="center">
+          <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-              <button :data-index='scope.row.id'
-                      class="el-icon-delete-solid removeLayer"></button>
+              <button
+                :data-index="scope.row.id"
+                class="el-icon-delete-solid removeLayer"
+              ></button>
             </template>
           </el-table-column>
         </el-table>
@@ -279,15 +287,14 @@
         <div id="map"></div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import { loadModules } from 'esri-loader';
-import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
-import flyDialog from '@/components/fly-dialog'
+import { loadModules } from "esri-loader";
+import Sidebar from "@/views/common/Sidebar";
+import SidemenuItem from "@/views/common/SidemenuItem";
+import flyDialog from "@/components/fly-dialog";
 export default {
   components: {
     Sidebar,
@@ -295,60 +302,61 @@ export default {
     flyDialog
   },
   props: {},
-  data () {
+  data() {
     var trackDate = (rule, value, callback) => {
-      if (this.trackForm.startDate === ''|| this.trackForm.endDate == '') {
-        callback(new Error('请输入始末时间'))
+      if (this.trackForm.startDate === "" || this.trackForm.endDate == "") {
+        callback(new Error("请输入始末时间"));
       }
-        callback()
-    }
+      callback();
+    };
     return {
-      activeName: 'Second',
+      activeName: "Second",
       show: false,
       trackShow: false,
       trackShow2: false,
-      width: '400px',
-      width2: 'auto',
-      inputList: [
-        { caseNum: '' }
-      ],
+      width: "400px",
+      width2: "auto",
+      inputList: [{ caseNum: "" }],
       trackForm: {
-        nameId: '',
-        startDate: '',
-        endDate: '',
-        value1: '',
+        nameId: "",
+        startDate: "",
+        endDate: "",
+        value1: "",
         checkedBox: []
       },
       trackRule: {
         nameId: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' }
+          { required: true, message: "请输入身份证号", trigger: "blur" }
         ],
-        trackDate: [
-          { validator: trackDate, trigger: 'blur' }
-        ]
+        trackDate: [{ validator: trackDate, trigger: "blur" }]
       },
       trackList: [
         {
           organName: "未来旅馆",
           area: "成都市青羊区中坝",
           geographic_position: "有"
-        }, {
+        },
+        {
           organName: "未来旅馆",
           area: "成都市青羊区中坝",
           geographic_position: "有"
-        }, {
+        },
+        {
           organName: "未来旅馆",
           area: "成都市青羊区中坝",
           geographic_position: "有"
-        }, {
+        },
+        {
           organName: "未来旅馆",
           area: "成都市青羊区中坝",
           geographic_position: "有"
-        }, {
+        },
+        {
           organName: "未来旅馆",
           area: "成都市青羊区中坝",
           geographic_position: "有"
-        }, {
+        },
+        {
           organName: "未来旅馆",
           area: "成都市青羊区中坝",
           geographic_position: "有"
@@ -356,168 +364,238 @@ export default {
       ],
       mapTableData: [],
       graphicItemS: [],
-      taskName: '',
-      date1: '',
-      date2: '',
-      date3: '',
-      date4: '',
-      range: '',
-      checkedBox: ['旅馆', '网吧'],
-      boxs: [{ name: '旅馆' }, { name: '网吧' }]
-    }
+      taskName: "",
+      date1: "",
+      date2: "",
+      date3: "",
+      date4: "",
+      range: "",
+      checkedBox: ["旅馆", "网吧"],
+      boxs: [{ name: "旅馆" }, { name: "网吧" }]
+    };
   },
   computed: {},
-  created () { },
-  mounted () {
+  created() {},
+  mounted() {
     this.mapDraw();
   },
   methods: {
-    mapDraw () {
+    mapDraw() {
       var _this = this;
       const options = {
         // css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
         // url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'
-        css: 'https://js.arcgis.com/3.29/esri/css/esri.css',
-        url: 'https://js.arcgis.com/3.29/init.js'
+        css: "https://js.arcgis.com/3.29/esri/css/esri.css",
+        url: "https://js.arcgis.com/3.29/init.js"
       };
-      loadModules([
-        'esri/basemaps', 'esri/map', 'esri/dijit/Scalebar',
-        'esri/layers/ArcGISTiledMapServiceLayer',
-        'esri/dijit/HomeButton', 'esri/dijit/LocateButton', 'esri/dijit/BasemapToggle', 'esri/dijit/OverviewMap', 'dijit/registry', 'esri/symbols/PictureMarkerSymbol',
-        'esri/geometry/Point', 'esri/graphic', 'esri/geometry/webMercatorUtils', 'esri/InfoTemplate', 'esri/SpatialReference', 'esri/dijit/InfoWindow',
-        'dojo/dom-construct', 'dojo/dom', 'dojo/on', 'esri/toolbars/draw', 'esri/symbols/SimpleMarkerSymbol', 'esri/symbols/SimpleFillSymbol', 'esri/geometry/geometryEngine', 'esri/geometry/Extent',
-        'esri/geometry/Geometry', 'dojo/domReady'
-      ], options)
-        .then(([esriBasemaps, Map, Scalebar, ArcGISTiledMapServiceLayer,
-          HomeButton, LocateButton, BasemapToggle, OverviewMap, registry, PictureMarkerSymbol,
-          Point, Graphic, webMercatorUtils, InfoTemplate, SpatialReference, InfoWindow,
-          domConstruct, dom, on, Draw, SimpleMarkerSymbol, SimpleFillSymbol, geometryEngine, Extent, Geometry]) => {
-          esriBasemaps.delorme = {
-            baseMapLayers: [
-              {
-                url: 'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer'
-              }
-            ]
-          };
-          var infoWindow = new InfoWindow({}, domConstruct.create('div'));
-          infoWindow.startup();
-          var map = new Map('map', {
-            basemap: 'delorme',
-            center: [104.06667, 30.66667],
-            infoWindow: infoWindow,
-            zoom: 15,
-            logo: false
-          });
-          map.on('Load', function () {
-            console.log('地图加载完毕')
-            map.infoWindow.resize(250, 200);
-          });
-          var drawTool = new Draw(map);
-          // 绘制点
-          drawTool.markerSymbol = new SimpleMarkerSymbol();
-          // 绘制几何
-          drawTool.fillSymbol = new SimpleFillSymbol();
-
-          on(dom.byId('circle'), 'click', function () {
-            drawTool.activate(Draw['CIRCLE']);
-          })
-          on(dom.byId('point'), 'click', function () {
-            drawTool.activate(Draw['POINT']);
-          })
-          var id = 0;
-          drawTool.on('draw-complete', drawEndEvent);
-          function drawEndEvent (evt) {
-            console.log(evt);
-            if (evt.target._geometryType === 'circle') {
-              var length = geometryEngine.geodesicLength(evt.geometry, 'meters') / Math.PI;// 长度公式
-              _this.range = length/2
-              var a = evt.geometry.cache._extent;
-              var newX = (a.xmin + a.xmax) / 2;
-              var newY = (a.ymax + a.ymin) / 2;
-              var center = webMercatorUtils.xyToLngLat(newX, newY);
-              var newObj = { longitude: center[0].toFixed(6), latitude: center[1].toFixed(6), type: '描圆', id };
-              id++;
-              _this.mapTableData.push(newObj);
-            }
-            var symbol;
-            // 添加图形
-            if (evt.geometry.type === 'point') {
-              var a1 = evt.geometry;
-              var newX1 = a1.x;
-              var newY1 = a1.y
-              var center1 = webMercatorUtils.xyToLngLat(newX1, newY1);
-              var newObj1 = { longitude: center1[0].toFixed(6), latitude: center1[1].toFixed(6), type: '描点', id };
-              id++
-              _this.mapTableData.push(newObj1);
-              symbol = drawTool.markerSymbol;
-            } else {
-              symbol = drawTool.fillSymbol;
-            }
-            drawTool.deactivate();
-            let graphicItem = new Graphic(evt.geometry, symbol);
-            _this.graphicItemS.push(graphicItem);
-            map.graphics.add(graphicItem)
-
-            // 删除图形
-            setTimeout(() => {
-              // off()click操作中的累积效果
-              $('.removeLayer').off('click').on('click', (e) => {
-                let id = Number(e.target.dataset.index);
-                map.graphics.remove(_this.graphicItemS[id]);
-                _this.mapTableData.splice(_this.mapTableData.findIndex(fn), 1);
-                function fn (num, numIndex, nums) {
-                  console.log(nums, num, id)
-                  return num.id === id
+      loadModules(
+        [
+          "esri/basemaps",
+          "esri/map",
+          "esri/dijit/Scalebar",
+          "esri/layers/ArcGISTiledMapServiceLayer",
+          "esri/dijit/HomeButton",
+          "esri/dijit/LocateButton",
+          "esri/dijit/BasemapToggle",
+          "esri/dijit/OverviewMap",
+          "dijit/registry",
+          "esri/symbols/PictureMarkerSymbol",
+          "esri/geometry/Point",
+          "esri/graphic",
+          "esri/geometry/webMercatorUtils",
+          "esri/InfoTemplate",
+          "esri/SpatialReference",
+          "esri/dijit/InfoWindow",
+          "dojo/dom-construct",
+          "dojo/dom",
+          "dojo/on",
+          "esri/toolbars/draw",
+          "esri/symbols/SimpleMarkerSymbol",
+          "esri/symbols/SimpleFillSymbol",
+          "esri/geometry/geometryEngine",
+          "esri/geometry/Extent",
+          "esri/geometry/Geometry",
+          "dojo/domReady"
+        ],
+        options
+      )
+        .then(
+          ([
+            esriBasemaps,
+            Map,
+            Scalebar,
+            ArcGISTiledMapServiceLayer,
+            HomeButton,
+            LocateButton,
+            BasemapToggle,
+            OverviewMap,
+            registry,
+            PictureMarkerSymbol,
+            Point,
+            Graphic,
+            webMercatorUtils,
+            InfoTemplate,
+            SpatialReference,
+            InfoWindow,
+            domConstruct,
+            dom,
+            on,
+            Draw,
+            SimpleMarkerSymbol,
+            SimpleFillSymbol,
+            geometryEngine,
+            Extent,
+            Geometry
+          ]) => {
+            esriBasemaps.delorme = {
+              baseMapLayers: [
+                {
+                  url:
+                    "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer"
                 }
-                console.log(evt.geometry, map);
-              })
-            }, 500, evt, map, graphicItem)
-          };
-        })
-        .catch((err) => {
+              ]
+            };
+            var infoWindow = new InfoWindow({}, domConstruct.create("div"));
+            infoWindow.startup();
+            var map = new Map("map", {
+              basemap: "delorme",
+              center: [104.06667, 30.66667],
+              infoWindow: infoWindow,
+              zoom: 15,
+              logo: false
+            });
+            map.on("Load", function() {
+              console.log("地图加载完毕");
+              map.infoWindow.resize(250, 200);
+            });
+            var drawTool = new Draw(map);
+            // 绘制点
+            drawTool.markerSymbol = new SimpleMarkerSymbol();
+            // 绘制几何
+            drawTool.fillSymbol = new SimpleFillSymbol();
+
+            on(dom.byId("circle"), "click", function() {
+              drawTool.activate(Draw["CIRCLE"]);
+            });
+            on(dom.byId("point"), "click", function() {
+              drawTool.activate(Draw["POINT"]);
+            });
+            var id = 0;
+            drawTool.on("draw-complete", drawEndEvent);
+            function drawEndEvent(evt) {
+              console.log(evt);
+              if (evt.target._geometryType === "circle") {
+                var length =
+                  geometryEngine.geodesicLength(evt.geometry, "meters") /
+                  Math.PI; // 长度公式
+                _this.range = length / 2;
+                var a = evt.geometry.cache._extent;
+                var newX = (a.xmin + a.xmax) / 2;
+                var newY = (a.ymax + a.ymin) / 2;
+                var center = webMercatorUtils.xyToLngLat(newX, newY);
+                var newObj = {
+                  longitude: center[0].toFixed(6),
+                  latitude: center[1].toFixed(6),
+                  type: "描圆",
+                  id
+                };
+                id++;
+                _this.mapTableData.push(newObj);
+              }
+              var symbol;
+              // 添加图形
+              if (evt.geometry.type === "point") {
+                var a1 = evt.geometry;
+                var newX1 = a1.x;
+                var newY1 = a1.y;
+                var center1 = webMercatorUtils.xyToLngLat(newX1, newY1);
+                var newObj1 = {
+                  longitude: center1[0].toFixed(6),
+                  latitude: center1[1].toFixed(6),
+                  type: "描点",
+                  id
+                };
+                id++;
+                _this.mapTableData.push(newObj1);
+                symbol = drawTool.markerSymbol;
+              } else {
+                symbol = drawTool.fillSymbol;
+              }
+              drawTool.deactivate();
+              let graphicItem = new Graphic(evt.geometry, symbol);
+              _this.graphicItemS.push(graphicItem);
+              map.graphics.add(graphicItem);
+
+              // 删除图形
+              setTimeout(
+                () => {
+                  // off()click操作中的累积效果
+                  $(".removeLayer")
+                    .off("click")
+                    .on("click", e => {
+                      let id = Number(e.target.dataset.index);
+                      map.graphics.remove(_this.graphicItemS[id]);
+                      _this.mapTableData.splice(
+                        _this.mapTableData.findIndex(fn),
+                        1
+                      );
+                      function fn(num, numIndex, nums) {
+                        console.log(nums, num, id);
+                        return num.id === id;
+                      }
+                      console.log(evt.geometry, map);
+                    });
+                },
+                500,
+                evt,
+                map,
+                graphicItem
+              );
+            }
+          }
+        )
+        .catch(err => {
           console.log(err.message);
         });
     },
-    addCase () {
+    addCase() {
       this.show = true;
     },
-    addCaseNum () {
-      this.inputList.push({ caseNum: '' })
+    addCaseNum() {
+      this.inputList.push({ caseNum: "" });
     },
-    delectCase (index) {
+    delectCase(index) {
       this.inputList.splice(index, 1);
     },
-    search () {
-
-    },
-    cancel () {
+    search() {},
+    cancel() {
       this.show = false;
     },
     // 轨迹点搜索
-    trackSearch(formName){
-      this.$refs[formName].validate((valid) => {
+    trackSearch(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          this.trackShow = false
-          this.trackShow2 = true
-          console.log(this.trackForm.value1)
+          this.trackShow = false;
+          this.trackShow2 = true;
+          console.log(this.trackForm.value1);
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     // 清空轨迹点信息
-    trackClear(){},
+    trackClear() {},
     // 确认标注
-    affirmLabel(){
-      this.trackShow2 = false
+    affirmLabel() {
+      this.trackShow2 = false;
     },
-    getRowKey (row) {
-      console.log(row)
+    getRowKey(row) {
+      console.log(row);
     },
-    handleSelectionChange(){}
+    handleSelectionChange() {}
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .mod-ticket.ticket-bg

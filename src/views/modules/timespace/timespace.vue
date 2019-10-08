@@ -1,109 +1,119 @@
 <template>
-	<div class="timespace clearfix">
-		<div class="tsimg">
-			<img src="../../../assets/img/qiuxing.png" alt="">
-		</div>
-		<div class="tsimp">
-			<el-form ref="form" :model="form" status-icon :rules="rules" class="demo-ruleForm">
-				<el-form-item prop="idNumber">
-					<el-input v-model="form.idNumber" placeholder="身份证号"></el-input>
-				</el-form-item>
-				<el-form-item prop="startDate">
-					<el-date-picker
-            popper-class="datePicker"
-						v-model="form.startDate"
-						type="date"
-						placeholder="选择开始日期">
-          </el-date-picker>
-				</el-form-item>
-				<el-form-item prop="endDate">
-					<el-date-picker
-            popper-class="datePicker"
-						v-model="form.endDate"
-						type="date"
-						placeholder="选择结束日期">
-					</el-date-picker>
-				</el-form-item>
-			</el-form>
-      <div class="timespaceBut">
-        <el-button class="sureBut" type="primary" @click="onSubmit('form')">确定</el-button>
-      </div>
-		</div>
+  <div class="timespace clearfix">
+    <div class="tsimg">
+      <img src="../../../assets/img/qiuxing.png" alt="" />
     </div>
+    <div class="tsimp">
+      <el-form
+        ref="form"
+        :model="form"
+        status-icon
+        :rules="rules"
+        class="demo-ruleForm"
+      >
+        <el-form-item prop="idNumber">
+          <el-input v-model="form.idNumber" placeholder="身份证号"></el-input>
+        </el-form-item>
+        <el-form-item prop="startDate">
+          <el-date-picker
+            popper-class="datePicker"
+            v-model="form.startDate"
+            type="date"
+            placeholder="选择开始日期"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item prop="endDate">
+          <el-date-picker
+            popper-class="datePicker"
+            v-model="form.endDate"
+            type="date"
+            placeholder="选择结束日期"
+          >
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div class="timespaceBut">
+        <el-button class="sureBut" type="primary" @click="onSubmit('form')"
+          >确定</el-button
+        >
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'timespace',
-  data () {
+  name: "timespace",
+  data() {
     return {
       form: {
-        idNumber: '',
-        startDate: '',
-        endDate: ''
+        idNumber: "",
+        startDate: "",
+        endDate: ""
       },
       rules: {
-        idNumber: this.filter_rules({ required: true, type: 'idCard' }),
+        idNumber: this.filter_rules({ required: true, type: "idCard" }),
         startDate: [
-          { required: true, message: '请选择开始日期', trigger: 'blur' }
+          { required: true, message: "请选择开始日期", trigger: "blur" }
         ],
         endDate: [
-          { required: true, message: '请选择结束日期', trigger: 'blur' }
+          { required: true, message: "请选择结束日期", trigger: "blur" }
         ]
       }
-    }
+    };
   },
-  mounted () {
-    this.testapi()
+  mounted() {
+    this.testapi();
   },
   methods: {
-    testapi () {
+    testapi() {
       // console.log(http.adornUrl('/timespace'))
     },
-    onSubmit (formName) {
-      this.$refs[formName].validate((valid) => {
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log('submit!')
-          this.gotoList()
+          console.log("submit!");
+          this.gotoList();
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     // 跳转页面
-    gotoList () {
+    gotoList() {
       this.$router.push({
-        name: 'timespacelist',
+        name: "timespacelist",
         params: {
           form: this.form
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="stylus" scoped>
-  .timespace
-      width 415px
-      margin 0 auto
-      position relative
-      top 30%
-    .tsimg,
-    .tsimp
-      float left
-    .tsimg
-      margin-right 32px
-    .tsimg,
-    .tsimg img
-      width 183px
-    .tsimp
-      width 200px
-      .timespaceBut
-        .el-button--primary
-          background-color rgba(70, 111, 50, 1)
-          border-color: rgba(70, 111, 50, 1)
+.timespace
+    width 415px
+    margin 0 auto
+    position relative
+    top 30%
+  .tsimg,
+  .tsimp
+    float left
+  .tsimg
+    margin-right 32px
+  .tsimg,
+  .tsimg img
+    width 183px
+  .tsimp
+    width 200px
+    .timespaceBut
+      .el-button--primary
+        background-color rgba(70, 111, 50, 1)
+        border-color: rgba(70, 111, 50, 1)
 </style>
 <style lang="stylus">
 .tsimp

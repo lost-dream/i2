@@ -12,4 +12,4 @@ export default {
       centralGravity: 0
     }
   }
-}
+};

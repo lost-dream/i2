@@ -1,247 +1,247 @@
 /**
  * 全站路由配置
  */
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 // import http from '@/utils/httpRequest'
 
-Vue.use(Router)
+Vue.use(Router);
 
 // 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
-const _import = require('./_import_' + process.env.NODE_ENV)
+const _import = require("./_import_" + process.env.NODE_ENV);
 
 // 全局路由
 const globalRoutes = [
   {
-    path: '/404',
-    component: _import('common/404'),
-    name: '404',
+    path: "/404",
+    component: _import("common/404"),
+    name: "404",
     meta: {
-      title: '404未找到'
+      title: "404未找到"
     }
   },
   {
-    path: '/login',
-    component: _import('common/Login'),
-    name: 'login',
+    path: "/login",
+    component: _import("common/Login"),
+    name: "login",
     meta: {
-      title: '登录'
+      title: "登录"
     }
   }
-]
+];
 const mainRoutes = [
   {
-    path: '/',
-    component: _import('Layout'),
-    name: 'layout',
+    path: "/",
+    component: _import("Layout"),
+    name: "layout",
     redirect: {
-      name: 'home'
+      name: "home"
     },
     meta: {
-      title: '主入口整体布局'
+      title: "主入口整体布局"
     },
     children: [
       {
-        path: '/home',
-        component: _import('common/Home'),
-        name: 'home',
+        path: "/home",
+        component: _import("common/Home"),
+        name: "home",
         meta: {
-          title: '首页'
+          title: "首页"
         }
       },
       {
-        path: '/i2',
-        component: _import('modules/i2/index'),
-        name: 'i2',
+        path: "/i2",
+        component: _import("modules/i2/index"),
+        name: "i2",
         meta: {
-          title: 'i2'
+          title: "i2"
         }
       },
       {
-        path: '/ticket',
-        component: _import('modules/ticket/index'),
-        name: 'ticket',
-        redirect: { name: 'newPhone' },
+        path: "/ticket",
+        component: _import("modules/ticket/index"),
+        name: "ticket",
+        redirect: { name: "newPhone" },
         meta: {
-          title: 'ticket'
+          title: "ticket"
         },
         children: [
           {
-            path: '/ticket/newPhone',
-            component: _import('modules/ticket/newPhone'),
-            name: 'newPhone',
+            path: "/ticket/newPhone",
+            component: _import("modules/ticket/newPhone"),
+            name: "newPhone",
             meta: {
-              title: 'newPhone'
+              title: "newPhone"
             }
           },
           {
-            path: '/ticket/phoneSearch',
-            component: _import('modules/ticket/phoneSearch'),
-            name: 'phoneSearch',
+            path: "/ticket/phoneSearch",
+            component: _import("modules/ticket/phoneSearch"),
+            name: "phoneSearch",
             meta: {
-              title: 'phoneSearch'
+              title: "phoneSearch"
             }
           },
           {
-            path: '/ticket/singlePhone',
-            component: _import('modules/ticket/singlePhone'),
-            name: 'singlePhone',
+            path: "/ticket/singlePhone",
+            component: _import("modules/ticket/singlePhone"),
+            name: "singlePhone",
             meta: {
-              title: 'singlePhone'
+              title: "singlePhone"
             },
             children: [
               {
-                path: '/ticket/singlePhone/soonLate',
-                component: _import('modules/ticket/SinglePhone/soonLate'),
-                name: 'soonLate',
+                path: "/ticket/singlePhone/soonLate",
+                component: _import("modules/ticket/SinglePhone/soonLate"),
+                name: "soonLate",
                 meta: {
-                  title: 'soonLate'
+                  title: "soonLate"
                 }
               },
               {
-                path: '/ticket/singlePhone/periodAll',
-                component: _import('modules/ticket/SinglePhone/periodAll'),
-                name: 'periodAll',
+                path: "/ticket/singlePhone/periodAll",
+                component: _import("modules/ticket/SinglePhone/periodAll"),
+                name: "periodAll",
                 meta: {
-                  title: 'periodAll'
+                  title: "periodAll"
                 }
               },
               {
-                path: '/ticket/singlePhone/continuePeriod',
-                component: _import('modules/ticket/SinglePhone/continuePeriod'),
-                name: 'continuePeriod',
+                path: "/ticket/singlePhone/continuePeriod",
+                component: _import("modules/ticket/SinglePhone/continuePeriod"),
+                name: "continuePeriod",
                 meta: {
-                  title: 'continuePeriod'
+                  title: "continuePeriod"
                 }
               },
               {
-                path: '/ticket/singlePhone/differentPeriod',
+                path: "/ticket/singlePhone/differentPeriod",
                 component: _import(
-                  'modules/ticket/SinglePhone/differentPeriod'
+                  "modules/ticket/SinglePhone/differentPeriod"
                 ),
-                name: 'differentPeriod',
+                name: "differentPeriod",
                 meta: {
-                  title: 'differentPeriod'
+                  title: "differentPeriod"
                 }
               },
               {
-                path: '/ticket/singlePhone/callAnalyse',
-                component: _import('modules/ticket/SinglePhone/callAnalyse'),
-                name: 'callAnalyse',
+                path: "/ticket/singlePhone/callAnalyse",
+                component: _import("modules/ticket/SinglePhone/callAnalyse"),
+                name: "callAnalyse",
                 meta: {
-                  title: 'callAnalyse'
+                  title: "callAnalyse"
                 }
               },
               {
-                path: '/ticket/singlePhone/callDetailAnalyse',
+                path: "/ticket/singlePhone/callDetailAnalyse",
                 component: _import(
-                  'modules/ticket/SinglePhone/callDetailAnalyse'
+                  "modules/ticket/SinglePhone/callDetailAnalyse"
                 ),
-                name: 'callDetailAnalyse',
+                name: "callDetailAnalyse",
                 meta: {
-                  title: 'callDetailAnalyse'
+                  title: "callDetailAnalyse"
                 }
               },
               {
-                path: '/ticket/singlePhone/phoneHomeLocation',
+                path: "/ticket/singlePhone/phoneHomeLocation",
                 component: _import(
-                  'modules/ticket/SinglePhone/phoneHomeLocation'
+                  "modules/ticket/SinglePhone/phoneHomeLocation"
                 ),
-                name: 'phoneHomeLocation',
+                name: "phoneHomeLocation",
                 meta: {
-                  title: 'phoneHomeLocation'
+                  title: "phoneHomeLocation"
                 }
               },
               {
-                path: '/ticket/singlePhone/phoneTravel',
-                component: _import('modules/ticket/SinglePhone/phoneTravel'),
-                name: 'phoneTravel',
+                path: "/ticket/singlePhone/phoneTravel",
+                component: _import("modules/ticket/SinglePhone/phoneTravel"),
+                name: "phoneTravel",
                 meta: {
-                  title: 'phoneTravel'
+                  title: "phoneTravel"
                 }
               },
               {
-                path: '/ticket/singlePhone/mobileAnalyse',
-                component: _import('modules/ticket/SinglePhone/mobileAnalyse'),
-                name: 'mobileAnalyse',
+                path: "/ticket/singlePhone/mobileAnalyse",
+                component: _import("modules/ticket/SinglePhone/mobileAnalyse"),
+                name: "mobileAnalyse",
                 meta: {
-                  title: 'mobileAnalyse'
+                  title: "mobileAnalyse"
                 }
               },
               {
-                path: '/ticket/singlePhone/weekPhone',
-                component: _import('modules/ticket/SinglePhone/weekPhone'),
-                name: 'weekPhone',
+                path: "/ticket/singlePhone/weekPhone",
+                component: _import("modules/ticket/SinglePhone/weekPhone"),
+                name: "weekPhone",
                 meta: {
-                  title: 'weekPhone'
+                  title: "weekPhone"
                 }
               }
             ]
           },
           {
-            path: '/ticket/morePhone',
-            component: _import('modules/ticket/morePhone'),
-            name: 'morePhone',
+            path: "/ticket/morePhone",
+            component: _import("modules/ticket/morePhone"),
+            name: "morePhone",
             meta: {
-              title: 'morePhone'
+              title: "morePhone"
             },
             children: [
               {
-                path: '/ticket/morePhone/sameTime',
-                component: _import('modules/ticket/MorePhone/sameTime'),
-                name: 'sameTime',
+                path: "/ticket/morePhone/sameTime",
+                component: _import("modules/ticket/MorePhone/sameTime"),
+                name: "sameTime",
                 meta: {
-                  title: 'sameTime'
+                  title: "sameTime"
                 }
               },
               {
-                path: '/ticket/morePhone/assignTime',
-                component: _import('modules/ticket/MorePhone/assignTime'),
-                name: 'assignTime',
+                path: "/ticket/morePhone/assignTime",
+                component: _import("modules/ticket/MorePhone/assignTime"),
+                name: "assignTime",
                 meta: {
-                  title: 'assignTime'
+                  title: "assignTime"
                 }
               },
               {
-                path: '/ticket/morePhone/morePhoneTrail',
-                component: _import('modules/ticket/MorePhone/morePhoneTrail'),
-                name: 'morePhoneTrail',
+                path: "/ticket/morePhone/morePhoneTrail",
+                component: _import("modules/ticket/MorePhone/morePhoneTrail"),
+                name: "morePhoneTrail",
                 meta: {
-                  title: 'morePhoneTrail'
+                  title: "morePhoneTrail"
                 }
               },
               {
-                path: '/ticket/morePhone/commonPhone',
-                component: _import('modules/ticket/MorePhone/commonPhone'),
-                name: 'commonPhone',
+                path: "/ticket/morePhone/commonPhone",
+                component: _import("modules/ticket/MorePhone/commonPhone"),
+                name: "commonPhone",
                 meta: {
-                  title: 'commonPhone'
+                  title: "commonPhone"
                 }
               }
             ]
           },
           {
-            path: '/ticket/allNetwork',
-            component: _import('modules/ticket/allNetwork'),
-            name: 'allNetwork',
+            path: "/ticket/allNetwork",
+            component: _import("modules/ticket/allNetwork"),
+            name: "allNetwork",
             meta: {
-              title: 'allNetwork'
+              title: "allNetwork"
             },
             children: [
               {
-                path: '/ticket/allNetwork/allNetPhoneSearch',
-                component: _import('modules/ticket/AllNetwork/phoneSearch'),
-                name: 'allNetPhoneSearch',
+                path: "/ticket/allNetwork/allNetPhoneSearch",
+                component: _import("modules/ticket/AllNetwork/phoneSearch"),
+                name: "allNetPhoneSearch",
                 meta: {
-                  title: 'allNetPhoneSearch'
+                  title: "allNetPhoneSearch"
                 }
               },
               {
-                path: '/ticket/allNetwork/IMEISearch',
-                component: _import('modules/ticket/AllNetwork/IMEISearch'),
-                name: 'IMEISearch',
+                path: "/ticket/allNetwork/IMEISearch",
+                component: _import("modules/ticket/AllNetwork/IMEISearch"),
+                name: "IMEISearch",
                 meta: {
-                  title: 'IMEISearch'
+                  title: "IMEISearch"
                 }
               }
             ]
@@ -249,136 +249,132 @@ const mainRoutes = [
         ]
       },
       {
-        path: '/usercenter',
-        component: _import('modules/usercenter/index'),
-        name: 'usercenter',
-        redirect: { name: 'personCenter' },
-        meta: { title: 'usercenter' },
+        path: "/usercenter",
+        component: _import("modules/usercenter/index"),
+        name: "usercenter",
+        redirect: { name: "personCenter" },
+        meta: { title: "usercenter" },
         children: [
           {
-            path: '/personCenter',
-            component: _import('modules/usercenter/personCenter'),
-            name: 'personCenter',
-            meta: { title: 'personCenter' }
+            path: "/personCenter",
+            component: _import("modules/usercenter/personCenter"),
+            name: "personCenter",
+            meta: { title: "personCenter" }
           },
           {
-            path: '/modifyInfo',
-            component: _import('modules/usercenter/modifyInfo'),
-            name: 'modifyInfo',
-            meta: { title: 'modifyInfo' }
+            path: "/modifyInfo",
+            component: _import("modules/usercenter/modifyInfo"),
+            name: "modifyInfo",
+            meta: { title: "modifyInfo" }
           },
           {
-            path: '/accountManage',
-            component: _import('modules/usercenter/accountManage'),
-            name: 'accountManage',
-            meta: { title: 'accountManage' }
+            path: "/accountManage",
+            component: _import("modules/usercenter/accountManage"),
+            name: "accountManage",
+            meta: { title: "accountManage" }
           }
         ]
       },
       {
-        path: '/sys',
-        component: _import('modules/sys/index'),
-        name: 'sys',
-        redirect: { name: 'userManage' },
-        meta: { title: 'sys' },
+        path: "/sys",
+        component: _import("modules/sys/index"),
+        name: "sys",
+        redirect: { name: "userManage" },
+        meta: { title: "sys" },
         children: [
           {
-            path: '/userManage',
-            component: _import('modules/sys/userManage'),
-            name: 'userManage',
-            meta: { title: 'userManage' }
+            path: "/userManage",
+            component: _import("modules/sys/userManage"),
+            name: "userManage",
+            meta: { title: "userManage" }
           },
           {
-            path: '/menuManage',
-            component: _import('modules/sys/menuManage'),
-            name: 'menuManage',
-            meta: { title: 'menuManage' }
+            path: "/menuManage",
+            component: _import("modules/sys/menuManage"),
+            name: "menuManage",
+            meta: { title: "menuManage" }
           },
           {
-            path: '/roleManage',
-            component: _import('modules/sys/roleManage'),
-            name: 'roleManage',
-            meta: { title: 'roleManage' }
+            path: "/roleManage",
+            component: _import("modules/sys/roleManage"),
+            name: "roleManage",
+            meta: { title: "roleManage" }
           },
           {
-            path: '/organManage',
-            component: _import('modules/sys/organManage'),
-            name: 'organManage',
-            meta: { title: 'organManage' }
+            path: "/organManage",
+            component: _import("modules/sys/organManage"),
+            name: "organManage",
+            meta: { title: "organManage" }
           }
         ]
       },
       {
-        path: '/unioncase',
-        component: _import('modules/unioncase/index'),
-        name: 'unioncase',
+        path: "/unioncase",
+        component: _import("modules/unioncase/index"),
+        name: "unioncase",
         meta: {
-          title: 'unioncase'
+          title: "unioncase"
         }
       },
 
-
       {
-        path: '/taskManage',
-        component: _import('modules/unioncase/taskManage'),
-        name: 'taskManage',
-        meta: { title: 'taskManage' }
+        path: "/taskManage",
+        component: _import("modules/unioncase/taskManage"),
+        name: "taskManage",
+        meta: { title: "taskManage" }
       },
 
       {
-        path: '/taskAnalysisResults',
-        component: _import('modules/unioncase/taskAnalysisResults'),
-        name: 'taskAnalysisResults',
-        meta: { title: 'taskAnalysisResults' }
+        path: "/taskAnalysisResults",
+        component: _import("modules/unioncase/taskAnalysisResults"),
+        name: "taskAnalysisResults",
+        meta: { title: "taskAnalysisResults" }
       },
 
-
-
-
       {
-        path: '/relation',
-        component: _import('modules/relation/index'),
-        name: 'relation',
+        path: "/relation",
+        component: _import("modules/relation/index"),
+        name: "relation",
         meta: {
-          title: 'relation'
+          title: "relation"
         }
       },
       {
-        path: '/timespaceindex',
-        component: _import('modules/timespace/index'),
-        name: 'timespaceindex',
-        redirect: { name: 'timespace' },
-        meta: { title: 'timespaceindex' },
+        path: "/timespaceindex",
+        component: _import("modules/timespace/index"),
+        name: "timespaceindex",
+        redirect: { name: "timespace" },
+        meta: { title: "timespaceindex" },
         children: [
           {
-            path: '/timespace',
-            component: _import('modules/timespace/timespace'),
-            name: 'timespace',
-            meta: { title: 'timespace' }
+            path: "/timespace",
+            component: _import("modules/timespace/timespace"),
+            name: "timespace",
+            meta: { title: "timespace" }
           },
           {
-            path: '/timespacelist',
-            component: _import('modules/timespace/timespacelist'),
-            name: 'timespacelist',
-            meta: { title: 'timespacelist' }
+            path: "/timespacelist",
+            component: _import("modules/timespace/timespacelist"),
+            name: "timespacelist",
+            meta: { title: "timespacelist" }
           },
           {
-            path: '/timespaceinfo',
-            component: _import('modules/timespace/timespaceinfo'),
-            name: 'timespaceinfo',
-            meta: { title: 'timespaceinfo' }
+            path: "/timespaceinfo",
+            component: _import("modules/timespace/timespaceinfo"),
+            name: "timespaceinfo",
+            meta: { title: "timespaceinfo" }
           }
         ]
       }
     ]
   }
-]
+];
 
 const router = new Router({
-  mode: 'hash',
+  mode: "hash",
   scrollBehavior: () => ({
     y: 0
   }),
   routes: [...globalRoutes, ...mainRoutes]
-})
-export default router
+});
+export default router;

@@ -13,4 +13,4 @@ export default {
     // 当为真时，长时间单击以及控件单击将添加到选择。
     multiselect: true
   }
-}
+};

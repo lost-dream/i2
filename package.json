@@ -5,15 +5,18 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lint:eslint": "eslint --ext .js,.vue src",
+    "format": "prettier --write \"src/**/*.vue\" \"src/**/*.js\"",
+    "precommit": "lint-staged"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "core-js": "^2.6.5",
     "echarts": "^4.2.1",
     "element-ui": "^2.7.2",
     "file-saver": "^2.0.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "qs": "^6.7.0",
     "script-loader": "^0.7.2",
     "vue": "^2.6.10",
@@ -29,13 +32,29 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "esri-loader": "^2.10.0",
+    "husky": "^3.0.8",
     "jquery": "^3.4.1",
+    "lint-staged": "^9.4.2",
     "script-loader": "^0.7.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vis": "^4.21.0",
     "vue-template-compiler": "^2.5.21"
+  },
+  "lint-staged": {
+    "src/**/*.{js.json.vue,css}": [
+      "prettier --write \"src/**/*.vue\" \"src/**/*.js\"",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format"
+    }
   }
 }

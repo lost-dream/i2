@@ -1,12 +1,12 @@
-import global from '@/utils/global'
-import { Edge } from './entity/Edge'
+import global from "@/utils/global";
+import { Edge } from "./entity/Edge";
 /**
  * 添加或者更新节点
  * @param {*} node
  * @param {*} merge: true 如果画布上已经存在此id的节点，则合并现有数据
  * @param {*} physics： true 更新时是否保持现有位置不变
  */
-export function addOrUpdateNode (node, merge, physics) {
+export function addOrUpdateNode(node, merge, physics) {
   let data = {
     add: [],
     update: []
@@ -34,7 +34,10 @@ export function addOrUpdateNode (node, merge, physics) {
     // 更新时是否保持现有位置不变，physics = true
     if (physics === true) {
       for (let i in data.update) {
-        if (data.update[i].physics === undefined || data.update[i].physics === true) {
+        if (
+          data.update[i].physics === undefined ||
+          data.update[i].physics === true
+        ) {
           data.update[i].x = undefined;
           data.update[i].y = undefined;
           data.update[i].physics = false;
@@ -56,22 +59,24 @@ export function addOrUpdateNode (node, merge, physics) {
  * 新增或者更新连线
  * @param {*} edge
  */
-export function addOrUpdateEdge (edge) {
-
-}
+export function addOrUpdateEdge(edge) {}
 /**
  * 是否禁用
  * @param obj
  * @returns
  */
-export function isDisabled (obj) {
-  return $(obj).hasClass('disabled');
+export function isDisabled(obj) {
+  return $(obj).hasClass("disabled");
 }
 // 获取连接两个节点a和b的边的id ---自建关系
-export function getEdgesZjgxConnectings (a, b) {
+export function getEdgesZjgxConnectings(a, b) {
   var edge = global.edges.get({
-    filter: function (edge) {
-      return edge.from === a && edge.to === b && edge.attributes.relationType === 'zjgx';
+    filter: function(edge) {
+      return (
+        edge.from === a &&
+        edge.to === b &&
+        edge.attributes.relationType === "zjgx"
+      );
     }
   })[0];
 
@@ -85,7 +90,7 @@ export function getEdgesZjgxConnectings (a, b) {
  * @param to
  * @returns {Edge}
  */
-export function createZjgxEdge (from, to) {
+export function createZjgxEdge(from, to) {
   var node = {
     id: to,
     pid: from

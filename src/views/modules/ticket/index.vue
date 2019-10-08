@@ -6,22 +6,36 @@
           <h1>话单分析</h1>
         </div>
         <el-tabs type="border-card">
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-date"></i>
               <router-link to="/ticket/newPhone">新建话单</router-link>
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-date"></i>
               <router-link to="/ticket/phoneSearch">话单查询</router-link>
-            </span></el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
+            </span></el-tab-pane
+          >
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-date"></i>
               <router-link to="/ticket/singlePhone">单话单分析</router-link>
-            </span></el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
-            <router-link to="/ticket/morePhone">多话单分析</router-link>
-            </span></el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-date"></i>
-            <router-link to="/ticket/allNetwork">全网通查询</router-link>
-            </span></el-tab-pane>
+            </span></el-tab-pane
+          >
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-date"></i>
+              <router-link to="/ticket/morePhone">多话单分析</router-link>
+            </span></el-tab-pane
+          >
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-date"></i>
+              <router-link to="/ticket/allNetwork">全网通查询</router-link>
+            </span></el-tab-pane
+          >
         </el-tabs>
       </div>
     </nav>
@@ -35,28 +49,26 @@
         <router-view></router-view>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
+import Sidebar from "@/views/common/Sidebar";
+import SidemenuItem from "@/views/common/SidemenuItem";
 export default {
   components: {
     Sidebar,
     SidemenuItem
   },
   props: {},
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
   computed: {},
   methods: {},
-  created () { },
-  mounted () { }
-}
+  created() {},
+  mounted() {}
+};
 </script>
 <style lang="stylus" scoped>
 .mod-ticket.ticket-bg

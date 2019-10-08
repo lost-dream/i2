@@ -3,14 +3,8 @@
     <div class="fly-layout">
       <div class="fly-header header">
         <div class="fly-container">
-          <a
-            href="/"
-            class="logo"
-          >
-            <img
-              src="../../assets/img/logo.png"
-              alt=""
-            >
+          <a href="/" class="logo">
+            <img src="../../assets/img/logo.png" alt="" />
           </a>
           <span>情报智能分析系统</span>
         </div>
@@ -31,12 +25,14 @@
             >
               <el-form-item>
                 <div>
-                  <strong class="errtip">Tips：</strong>{{loginForm.tips}}
+                  <strong class="errtip">Tips：</strong>{{ loginForm.tips }}
                 </div>
               </el-form-item>
               <el-form-item prop="username">
                 <el-input v-model="loginForm.username">
-                  <template slot="prepend">管理员账号</template>
+                  <template slot="prepend"
+                    >管理员账号</template
+                  >
                 </el-input>
               </el-form-item>
               <el-form-item prop="password">
@@ -45,14 +41,15 @@
                   v-model="loginForm.password"
                   autocomplete="off"
                 >
-                  <template slot="prepend">密码</template>
+                  <template slot="prepend"
+                    >密码</template
+                  >
                 </el-input>
               </el-form-item>
               <el-form-item>
-                <el-button
-                  type="success"
-                  @click="submitForm()"
-                >立即登录</el-button>
+                <el-button type="success" @click="submitForm()"
+                  >立即登录</el-button
+                >
               </el-form-item>
             </el-form>
           </div>
@@ -63,46 +60,45 @@
 </template>
 
 <script>
-
 export default {
-  data () {
+  data() {
     return {
       loginForm: {
-        tips: '',
-        username: '',
-        password: ''
+        tips: "",
+        username: "",
+        password: ""
       },
       rules: {
         username: [
-          { required: true, message: '登录账户不能为空！', trigger: 'blur' }
+          { required: true, message: "登录账户不能为空！", trigger: "blur" }
         ],
         password: [
-          { required: true, message: '密码不能为空！', trigger: 'blur' }
+          { required: true, message: "密码不能为空！", trigger: "blur" }
         ]
       }
-    }
+    };
   },
   methods: {
-    submitForm () {
-      this.$refs['loginForm'].validate((valid) => {
-        let { username, password } = this.loginForm
+    submitForm() {
+      this.$refs["loginForm"].validate(valid => {
+        let { username, password } = this.loginForm;
         if (valid) {
           this.$api.login(username, password).then(({ data }) => {
             if (data && data.code === 0) {
             } else {
-              this.loginForm.tips = data.msg
+              this.loginForm.tips = data.msg;
             }
-          })
+          });
         } else {
-          return false
+          return false;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 >>> .el-input-group__prepend
   width 120px
   height 50px

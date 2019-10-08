@@ -16,7 +16,7 @@ const validators = {
 /* eslint-enable */
 
 export default {
-  name: 'InputTag',
+  name: "InputTag",
   props: {
     value: {
       type: Array,
@@ -24,7 +24,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: ''
+      default: ""
     },
     readOnly: {
       type: Boolean,
@@ -32,7 +32,7 @@ export default {
     },
     addTagOnKeys: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
           13, // Return
           188, // Comma ','
@@ -57,49 +57,49 @@ export default {
     }
   },
 
-  data () {
+  data() {
     return {
-      newTag: '',
+      newTag: "",
       innerTags: [...this.value],
       isInputActive: false
     };
   },
 
   computed: {
-    isLimit: function () {
+    isLimit: function() {
       return this.limit > 0 && Number(this.limit) === this.innerTags.length;
     }
   },
 
   watch: {
-    value () {
+    value() {
       this.innerTags = [...this.value];
     }
   },
 
   methods: {
-    focusNewTag () {
-      if (this.readOnly || !this.$el.querySelector('.new-tag')) {
+    focusNewTag() {
+      if (this.readOnly || !this.$el.querySelector(".new-tag")) {
         return;
       }
-      this.$el.querySelector('.new-tag').focus();
+      this.$el.querySelector(".new-tag").focus();
     },
 
-    handleInputFocus () {
+    handleInputFocus() {
       this.isInputActive = true;
     },
 
-    handleInputBlur (e) {
+    handleInputBlur(e) {
       this.isInputActive = false;
       this.addNew(e);
     },
 
-    async addNew (e) {
+    async addNew(e) {
       const keyShouldAddTag = e
         ? this.addTagOnKeys.indexOf(e.keyCode) !== -1
         : true;
 
-      const typeIsNotBlur = e && e.type !== 'blur';
+      const typeIsNotBlur = e && e.type !== "blur";
 
       if (
         (!keyShouldAddTag && (typeIsNotBlur || !this.addTagOnBlur)) ||
@@ -120,31 +120,31 @@ export default {
         (this.allowDuplicates || this.innerTags.indexOf(tag) === -1)
       ) {
         this.innerTags.push(tag);
-        this.newTag = '';
+        this.newTag = "";
         this.tagChange();
 
         e && e.preventDefault();
       }
     },
 
-    validateIfNeeded (tagValue) {
-      if (this.validate === '' || this.validate === undefined) {
+    validateIfNeeded(tagValue) {
+      if (this.validate === "" || this.validate === undefined) {
         return true;
       }
 
-      if (typeof this.validate === 'function') {
+      if (typeof this.validate === "function") {
         return this.validate(tagValue);
       }
 
       if (
-        typeof this.validate === 'string' &&
+        typeof this.validate === "string" &&
         Object.keys(validators).indexOf(this.validate) > -1
       ) {
         return validators[this.validate].test(tagValue);
       }
 
       if (
-        typeof this.validate === 'object' &&
+        typeof this.validate === "object" &&
         this.validate.test !== undefined
       ) {
         return this.validate.test(tagValue);
@@ -153,14 +153,14 @@ export default {
       return true;
     },
 
-    remove (index) {
-      console.log(index)
+    remove(index) {
+      console.log(index);
       this.innerTags.splice(index, 1);
-      this.$emit('remove', this.innerTags);
+      this.$emit("remove", this.innerTags);
       this.tagChange();
     },
 
-    removeLastTag () {
+    removeLastTag() {
       if (this.newTag) {
         return;
       }
@@ -168,48 +168,48 @@ export default {
       this.tagChange();
     },
 
-    tagChange () {
-      this.$emit('update:tags', this.innerTags);
-      this.$emit('input', this.innerTags);
+    tagChange() {
+      this.$emit("update:tags", this.innerTags);
+      this.$emit("input", this.innerTags);
     }
   }
 };
 </script>
 
 <template>
-  <div @click="focusNewTag()"
-       :class="{
+  <div
+    @click="focusNewTag()"
+    :class="{
       'read-only': readOnly,
-      'vue-input-tag-wrapper--active': isInputActive,
+      'vue-input-tag-wrapper--active': isInputActive
     }"
-       class="vue-input-tag-wrapper">
-    <span v-for="(tag, index) in innerTags"
-          :key="index"
-          class="input-tag">
+    class="vue-input-tag-wrapper"
+  >
+    <span v-for="(tag, index) in innerTags" :key="index" class="input-tag">
       <span>{{ tag }}</span>
-      <a v-if="!readOnly"
-         @click.prevent.stop="remove(index)"
-         class="remove">
+      <a v-if="!readOnly" @click.prevent.stop="remove(index)" class="remove">
         <slot name="remove-icon" />
       </a>
     </span>
-    <input v-if="!readOnly && !isLimit"
-           ref="inputtag"
-           :placeholder="placeholder"
-           type="text"
-           v-model="newTag"
-           v-on:keydown.delete.stop="removeLastTag"
-           v-on:keydown="addNew"
-           v-on:blur="handleInputBlur"
-           v-on:focus="handleInputFocus"
-           class="new-tag" />
+    <input
+      v-if="!readOnly && !isLimit"
+      ref="inputtag"
+      :placeholder="placeholder"
+      type="text"
+      v-model="newTag"
+      v-on:keydown.delete.stop="removeLastTag"
+      v-on:keydown="addNew"
+      v-on:blur="handleInputBlur"
+      v-on:focus="handleInputFocus"
+      class="new-tag"
+    />
   </div>
 </template>
 
 <style>
 .vue-input-tag-wrapper {
-  background-color: rgba(44,239,255,0.3);
-  border: 1px solid rgba(44,239,255,0.4);
+  background-color: rgba(44, 239, 255, 0.3);
+  border: 1px solid rgba(44, 239, 255, 0.4);
   overflow: hidden;
   padding-left: 4px;
   padding-top: 4px;
