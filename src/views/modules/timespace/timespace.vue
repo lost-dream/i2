@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import {searchList} from '@/api/timespace'
+import { searchList } from '@/api/timespace'
 export default {
   name: 'timespace',
   data() {
