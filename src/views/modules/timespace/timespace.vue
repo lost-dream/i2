@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import {searchList} from '@/api/timespace'
 export default {
   name: 'timespace',
   data() {
@@ -73,7 +74,14 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log('submit!')
+          // searchList({
+          //   // params
+          // }).then(({res})=> {
+          //   if(res && res.code !== 0) {
+          //     this.gotoList()
+          //   }
+          // })
+
           this.gotoList()
         } else {
           console.log('error submit!!')
