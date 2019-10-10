@@ -40,6 +40,8 @@ http.interceptors.response.use(
     if (response.data && response.data.code === 401) {
       // token失效
       Cookies.remove('ac_token')
+      Cookies.remove('user_info')
+      Cookies.remove('userId')
       router.push({ name: 'login' })
     }
     return response

@@ -10,6 +10,9 @@ export default {
     return http({
       url: http.adornUrl('xboot/login'),
       method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded', // 登录请求request header ？？？
+      },
       data: http.adornData(userData, false, 'qs'),
     })
   },
