@@ -9,8 +9,8 @@ const http = axios.create({
   // 是否携带cookie信息
   // withCredentials: true,
   headers: {
-    // 'Content-Type': 'application/json; charset=utf-8',
-    'Content-Type': 'application/x-www-form-urlencoded', // 登录请求request header ？？？
+    'Content-Type': 'application/json; charset=utf-8',
+    // 'Content-Type': 'application/x-www-form-urlencoded', // 登录请求request header ？？？
   },
 })
 window.SITE_CONFIG = {

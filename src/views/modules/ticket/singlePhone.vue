@@ -5,33 +5,43 @@
         <h3>单话单分析</h3>
       </div>
       <div class="select">
-        <el-select v-model="select.caseName"
-                   filterable
-                   @change = "caseNameChange1"
-                   placeholder="案件名称">
-          <el-option v-for="item in cases"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <el-select
+          v-model="select.caseName"
+          filterable
+          @change="caseNameChange1"
+          placeholder="案件名称"
+        >
+          <el-option
+            v-for="item in cases"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
-        <el-select v-model="select.id"
-                   filterable
-                   @change = "caseNameChange2"
-                   placeholder="电话号码">
-          <el-option v-for="item in phoneList"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <el-select
+          v-model="select.id"
+          filterable
+          @change="caseNameChange2"
+          placeholder="电话号码"
+        >
+          <el-option
+            v-for="item in phoneList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
       </div>
       <div class="nav">
-        <el-tabs v-model="activeName"
-                 type="card"
-                 @tab-click="handleClick">
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/soonLate">最早最晚分析</router-link>
+        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/soonLate"
+                >最早最晚分析</router-link
+              >
               <!--<router-link :to="{name:'soonLate',query:{modeInfo: JSON.stringify(item)}}">最早最晚分析</router-link>-->
             </span>
           </el-tab-pane>
@@ -139,34 +149,34 @@ export default {
       ],
       select: {
         id: '',
-        caseName: ''
-      }
-    };
+        caseName: '',
+      },
+    }
   },
-  mounted () {
-    this.ticketOneName ()
+  mounted() {
+    this.ticketOneName()
   },
   methods: {
     handleClick(tab, event) {},
 
-    caseNameChange1(){
-      this.ticketOnePhone ()
+    caseNameChange1() {
+      this.ticketOnePhone()
     },
 
-    caseNameChange2(){
+    caseNameChange2() {
       this.singlePhoneList()
     },
 
     // 获取话单案件名称
-    ticketOneName (){
+    ticketOneName() {
       var _this = this
       this.$api.ticketOneName().then(({ data }) => {
         console.log(data)
 
-        if(data.success){
+        if (data.success) {
           let casesArr = []
           let caseList = data.result
-          caseList.forEach((item)=>{
+          caseList.forEach(item => {
             let a = {}
             a.value = item.caseName
             a.label = item.caseName
@@ -174,25 +184,25 @@ export default {
           })
           _this.cases = casesArr
           console.log(_this.cases)
-        }else {
+        } else {
           this.$message({
             message: '获取话单案件名称失败!',
-            type: 'error'
+            type: 'error',
           })
         }
       })
     },
 
     // 获取话单案件电话
-    ticketOnePhone (){
+    ticketOnePhone() {
       var _this = this
       let obj = this.select.caseName
       this.$api.ticketOnePhone(obj).then(({ data }) => {
         console.log(data)
-        if(data.success){
+        if (data.success) {
           let phoneArr = []
           let phoneList = data.result
-          phoneList.forEach((item)=>{
+          phoneList.forEach(item => {
             let a = {}
             a.value = item.recordId
             a.label = item.phoneNumber
@@ -200,10 +210,10 @@ export default {
           })
           _this.phoneList = phoneArr
           console.log(_this.phoneList)
-        }else {
+        } else {
           this.$message({
             message: '获取话单案件电话失败!',
-            type: 'error'
+            type: 'error',
           })
         }
       })
@@ -213,13 +223,13 @@ export default {
     singlePhoneList() {
       var _this = this
       let obj = {
-        id:this.select.id
+        id: this.select.id,
       }
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)
-        if(data.success){
-          sessionStorage.setItem("phoneInfo",JSON.stringify(data.result));
-        }else {
+        if (data.success) {
+          sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
+        } else {
           this.$message({
             message: '获取话单失败!',
             type: 'error',

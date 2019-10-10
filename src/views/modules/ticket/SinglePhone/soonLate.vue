@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import {formatDate} from '../../../../utils/dateFormat.js'
+import { formatDate } from '../../../../utils/dateFormat.js'
 
 export default {
   mounted() {},
@@ -106,29 +106,33 @@ export default {
           lateTime: '12:11:11',
           latePhone: '15111111111',
           lateLocation: '自贡',
-          lateBaseStation: '自贡郊区'
-        }
+          lateBaseStation: '自贡郊区',
+        },
       ],
       soonLateData: [],
       soonLateData2: [],
-      soonLateShowList: []
-    };
+      soonLateShowList: [],
+    }
   },
-  mounted(){
-    this.soonLateData = JSON.parse(sessionStorage.getItem("phoneInfo"));
+  mounted() {
+    this.soonLateData = JSON.parse(sessionStorage.getItem('phoneInfo'))
     console.log(666666666)
     console.log(this.soonLateData)
   },
   methods: {
     // 查询
-    onSubmit () {
-        let data = this.soonLateData
-        this.soonLateData2 = data
-        let conData = this.callForm
-        console.log("分析查询")
-        conData.time != null && (this.timeSizer())
+    onSubmit() {
+      let data = this.soonLateData
+      this.soonLateData2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
       console.log(this.soonLateData2)
-
+      soonLateData2.forEach(
+        (item = {
+          // item.beginTime
+        }),
+      )
     },
 
     // 时间筛选
@@ -136,7 +140,7 @@ export default {
       let data = this.soonLateData2
       let time = this.callForm.time
       let dataArr = []
-      data.forEach((item) => {
+      data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
       this.soonLateData2 = dataArr
@@ -152,39 +156,46 @@ export default {
 
       // 转换时间格式，并转换为时间戳
       function tranDate(time) {
-        return new Date(time.replace(/-/g, '/')).getTime();
+        return new Date(time.replace(/-/g, '/')).getTime()
       }
 
       // 开始时间
-      let startTime = tranDate(stime);
+      let startTime = tranDate(stime)
       // 结束时间
-      let endTime = tranDate(etime);
-      let nowTime = tranDate(changeTime);
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
       console.log(startTime)
       console.log(endTime)
       console.log(nowTime)
       // 如果当前时间处于时间段内，返回true，否则返回false
       if (nowTime < startTime || nowTime > endTime) {
-        return false;
+        return false
       }
-      return true;
+      return true
     },
 
+    baseStation() {},
 
-    baseStation () {
-
-    },
-
-    timeChange (time) {
-      var newTime = time.map(function (item) {
-        var d = new Date(item);
-        var newItem = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    timeChange(time) {
+      var newTime = time.map(function(item) {
+        var d = new Date(item)
+        var newItem =
+          d.getFullYear() +
+          '-' +
+          (d.getMonth() + 1) +
+          '-' +
+          d.getDate() +
+          ' ' +
+          d.getHours() +
+          ':' +
+          d.getMinutes() +
+          ':' +
+          d.getSeconds()
         return newItem
       })
       return newTime
-    }
-  }
-
+    },
+  },
 }
 </script>
 <style lang="stylus" scoped>

@@ -233,7 +233,7 @@ export default {
    */
   ticketOneAnalyze(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketOneAnalyze' ),
+      url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
       method: 'post',
       data: http.adornData(data, false),
     })
@@ -255,7 +255,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketDelete'),
       method: 'get',
-      params: http.adornParams(data,false)
+      params: http.adornParams(data, false),
     })
   },
 
@@ -266,7 +266,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketCallQuery'),
       method: 'post',
-      data: http.adornData(data,false)
+      data: http.adornData(data, false),
     })
   },
 
@@ -295,20 +295,20 @@ export default {
   /**
    * 话单案件名称
    */
-  ticketOneName () {
+  ticketOneName() {
     return http({
       url: http.adornUrl('ticket/statement/ticketOneName'),
-      method: 'post'
+      method: 'post',
     })
   },
 
   /**
    * 话单案件电话
    */
-  ticketOnePhone (data) {
+  ticketOnePhone(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketOnePhone?caseName='+data),
-      method: 'post'
+      url: http.adornUrl('ticket/statement/ticketOnePhone?caseName=' + data),
+      method: 'post',
       // data: http.adornData(data,false)
     })
   },
@@ -316,24 +316,29 @@ export default {
   /**
    * 话单追加
    */
-  ticketAddTo (data) {
+  ticketAddTo(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketAddTo'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data),
     })
   },
 
   /**
    * 数据筛选
    */
-  callFilter(condition,data){
-    return data.filter( item => {
-      return Object.keys( condition ).every( key => {
-        return String( item[ key ] ).toLowerCase().includes(
-          String( condition[ key ] ).trim().toLowerCase() )
-      } )
-    } )
+  callFilter(condition, data) {
+    return data.filter(item => {
+      return Object.keys(condition).every(key => {
+        return String(item[key])
+          .toLowerCase()
+          .includes(
+            String(condition[key])
+              .trim()
+              .toLowerCase(),
+          )
+      })
+    })
   },
   // ------------------------------------relation---------------------------------------------//
   /**

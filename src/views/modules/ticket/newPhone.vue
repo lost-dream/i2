@@ -23,22 +23,22 @@
         <el-form-item label="案件描述" prop="depict">
           <el-input type="textarea" v-model="ticketForm.depict"></el-input>
         </el-form-item>
-        <el-form-item label="上传话单"
-                      prop="uploadPhone">
-          <el-upload class="upload-demo"
-                     ref="upload"
-                     action="http://192.168.1.186:8087/statement/importEmp"
-                     :on-preview="handlePreview"
-                     :on-remove="handleRemove"
-                     :before-upload="beforeUpload"
-                     :on-error="uploadError"
-                     :on-success="uploadSuccess"
-                     :limit="1"
-                     :on-exceed="handleExceed"
-                     :auto-upload="false">
-            <el-button slot="trigger"
-                       size="small"
-                       type="primary">选取文件
+        <el-form-item label="上传话单" prop="uploadPhone">
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            action="http://192.168.1.186:8087/statement/importEmp"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-upload="beforeUpload"
+            :on-error="uploadError"
+            :on-success="uploadSuccess"
+            :limit="1"
+            :on-exceed="handleExceed"
+            :auto-upload="false"
+          >
+            <el-button slot="trigger" size="small" type="primary"
+              >选取文件
             </el-button>
             <el-button
               style="margin-left: 10px;"
