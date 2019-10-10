@@ -1,7 +1,7 @@
 <template>
   <div class="mod-home">
     <ul id="nav">
-      <li class="nav" @click="$router.push({ name: 'usercenter' })">
+      <li class="nav" @click="toUserCenter">
         <img src="../../assets/img/xiazai.png" alt />
         <p>个人中心</p>
       </li>
@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   data() {
     return {}
@@ -129,6 +130,10 @@ export default {
           _this.initCanvas(ctx)
         }, 1000)
       }
+    },
+    toUserCenter() {
+      // 确认登录状态，未登录跳转登录
+      Cookies.get('ac_token') ? this.$router.push({ name: 'usercenter' }) : this.$router.push({ name: 'login' })
     },
     initCanvas(ctx) {
       this.clearCanvas(ctx)

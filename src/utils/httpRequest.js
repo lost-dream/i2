@@ -2,24 +2,29 @@ import axios from 'axios'
 import router from '@/router'
 import qs from 'qs'
 import merge from 'lodash/merge'
+import Cookies from 'js-cookie'
 
 const http = axios.create({
   timeout: 1000 * 30,
   // 是否携带cookie信息
   // withCredentials: true,
   headers: {
-    'Content-Type': 'application/json; charset=utf-8',
+    // 'Content-Type': 'application/json; charset=utf-8',
+    'Content-Type': 'application/x-www-form-urlencoded', // 登录请求request header ？？？
   },
 })
 window.SITE_CONFIG = {
-  baseUrl: 'http://192.168.1.186:8087/',
+  baseUrl: 'http://192.168.1.186:90/',
+  // baseUrl: 'http://192.168.1.186:8091/', // TODO 临时登录接口地址 will be delate
 }
 /**
  * 请求拦截
  */
 http.interceptors.request.use(
   config => {
-    // config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
+    if (Cookies.get('ac_token')) {
+      config.headers['token'] = Cookies.get('ac_token')
+    }
     return config
   },
   error => {
@@ -33,7 +38,8 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   response => {
     if (response.data && response.data.code === 401) {
-      // 401, token失效
+      // token失效
+      Cookies.remove('ac_token')
       router.push({ name: 'login' })
     }
     return response

@@ -11,22 +11,6 @@
         >删除</el-button
       >
       <div class="menuList">
-        <!--<el-select v-model="backEnd" popper-class='leftselect' placeholder="后端">
-            <el-option
-              v-for="item in backEndList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select v-model="frontEnd" popper-class='leftselect' placeholder="前端">
-            <el-option
-              v-for="item in frontEndList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>-->
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
@@ -52,10 +36,9 @@
                 <span>{{ item.name }}</span>
               </template>
               <label
-                v-for="(item2, index2) in item.items"
-                @click="addInfo(item2, item)"
-                @click.stop
+                v-for="(item2, index2) in item.list"
                 :key="index2"
+                @click.stop="addInfo(item2, item)"
               >
                 <el-menu-item :index="item2.menuId">{{
                   item2.name
@@ -64,74 +47,6 @@
             </el-submenu>
           </label>
         </el-menu>
-        <!--<el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>前台</span>
-              </template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              <el-submenu index="1-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
-                <el-submenu index="1-4-1">
-                  <template slot="title">选项4</template>
-                  <el-menu-item index="1-4-1">选项1</el-menu-item>
-                </el-submenu>
-              </el-submenu>
-            </el-submenu>
-            <el-menu-item index="2">
-              <i class="el-icon-menu"></i>
-              <span slot="title">后台</span>
-            </el-menu-item>
-          </el-menu>
-          <el-menu class="el-menu-vertical-demo" @select="handleOpen" :collapse="isCollapse">
-            <label v-for="(item,index) in listNav" :key="index">
-              <label v-for="(itemR,indexR) in item.extopts" :key="indexR">
-                <label v-for="(iconitem2,iconIndex2) in (indexR).match(/(\S*)@@/)" :key="iconIndex2">
-                  <label v-if="iconIndex2 > 0">
-                    <el-menu-item :url="item.url" :index=iconitem2 v-if="item.items.length == 0">
-                      <label v-for="(iconitem1,iconIndex1) in (indexR).match(/@@(\S*)/)" :key="iconIndex1">
-                        <label v-if="iconIndex1 > 0">
-                          <i :class=iconitem1></i>
-                        </label>
-                      </label>
-                      <span slot="title">{{ item.text}}{{iconitem2}}</span>
-                    </el-menu-item>
-                    <el-submenu :index=iconitem2 v-else>
-                      <template slot="title">
-                        <label v-for="(iconitem3,iconIndex3) in (indexR).match(/@@(\S*)/)" :key="iconIndex3">
-                          <label v-if="iconIndex3 > 0">
-                            <i :class=iconitem3></i>
-                          </label>
-                        </label>
-                        <span slot="title" v-show="false">{{ item.text}}{{iconitem2}}111</span>
-                      </template>
-                      <label v-for="(item1,index1) in item.items" :key="index1">
-                        <label v-for="(itemR1,indexR1) in item1.extopts" :key="indexR1">
-                          <el-menu-item :url="item1.url" :index=indexR1 v-if="item1.items.length == 0">{{item1.text}}{{indexR1}}</el-menu-item>
-                          <el-submenu :index=indexR1 v-else>
-                            <template slot="title">{{item1.text}}{{indexR1}}</template>
-                            <label v-for="(item2,index2) in item1.items" :key="index2">
-                              <label v-for="(itemR2,indexR2) in item2.extopts" :key="indexR2">
-                                <el-menu-item :url="item2.url" :index=indexR2>{{item2.text}}{{indexR2}}</el-menu-item>
-                              </label>
-                            </label>
-                          </el-submenu>
-                        </label>
-                      </label>
-                    </el-submenu>
-                  </label>
-                </label>
-              </label>
-            </label>
-          </el-menu>-->
       </div>
     </div>
     <div class="right">
@@ -266,6 +181,8 @@
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
+import { getMenu } from '@/api/system'
+import Cookies from 'js-cookie'
 export default {
   name: 'menuManage',
   components: {
@@ -356,18 +273,7 @@ export default {
         {
           name: '前台',
           menuId: '1',
-          info: {
-            name: '5555555555555555555',
-            higherUp: '444',
-            isModule: '2',
-            backStyle: '',
-            frontStyle: '',
-            chainedAddress: '#',
-            powerPath: '#',
-            sortSubordinate: '111',
-            adjustSort: '111',
-          },
-          items: [
+          list: [
             {
               name: 'i2',
               menuId: '1-1',
@@ -409,7 +315,7 @@ export default {
         {
           name: '后台',
           menuId: '2',
-          items: [
+          list: [
             {
               name: '用户管理',
               menuId: '2-1',
@@ -831,6 +737,75 @@ export default {
       this.deleteDialog = false
     },
   },
+  mounted() {
+    const $THIS = this
+    ;(async function initMenu() {
+      let menu = []
+      // 获取前台目录 module 1
+      await getMenu({
+        module: 1,
+        parentId: 0,
+        accessToken: Cookies.get('ac_token')
+      }).then(({data})=> {
+        if (data && data.code === 200) {
+          let list = data.data[0]
+          list.menuId = '1' // 区分前后台目录标识(element-ui规定必须是string)
+
+          // list.list[0].info = {
+          //   name: '111',
+          //   higherUp: '444',
+          //   isModule: '2',
+          //   backStyle: '',
+          //   frontStyle: '',
+          //   chainedAddress: '#',
+          //   powerPath: '#',
+          //   sortSubordinate: '111',
+          //   adjustSort: '111',
+          // }
+
+          list.list.map((value, index)=> {
+            console.log(value, index)
+          //   value.info = {
+          //   name: '111',
+          //   higherUp: '444',
+          //   isModule: '2',
+          //   backStyle: '',
+          //   frontStyle: '',
+          //   chainedAddress: '#',
+          //   powerPath: '#',
+          //   sortSubordinate: '111',
+          //   adjustSort: '111',
+          // }
+
+
+
+            value.menuId = `1-${index + 1}`
+            value.items = []
+          })
+          menu.push(list)
+        }
+      })
+      // 获取后台目录 module 2
+      await getMenu({
+        module: 2,
+        parentId: 0,
+        accessToken: Cookies.get('ac_token')
+      }).then(({data})=> {
+        if (data && data.code === 200) {
+          let list = data.data[0]
+          list.menuId = '2' // 区分前后台目录标识(element-ui规定必须是string)
+          
+          list.list.map((value, index)=> {
+            console.log(value, index)
+            value.menuId = `2-${index + 1}`
+            value.items = []
+          })
+          menu.push(list)
+        }
+      })
+      $THIS.leftMenu = menu
+    })()
+  }
 }
 </script>
 

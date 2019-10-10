@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import { getUserInfo } from '@/api/userCenter'
 export default {
   name: 'personCenter',
   components: {},
@@ -52,7 +54,11 @@ export default {
   computed: {},
   methods: {},
   created() {},
-  mounted() {},
+  mounted() {
+    getUserInfo({
+      id: Cookies.get('ac_token'),
+    })
+  },
 }
 </script>
 

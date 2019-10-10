@@ -6,14 +6,11 @@ export default {
    * @param {*} username 用户名
    * @param {*} password 密码
    */
-  login(username, password) {
+  login(userData) {
     return http({
-      url: http.adornUrl('login'),
+      url: http.adornUrl('xboot/login'),
       method: 'post',
-      data: http.adornData({
-        username: username,
-        password: password,
-      }),
+      data: http.adornData(userData, false, 'qs'),
     })
   },
   /**

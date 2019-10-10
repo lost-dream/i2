@@ -60,7 +60,9 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
+  name: 'login',
   data() {
     return {
       loginForm: {
@@ -83,14 +85,19 @@ export default {
       this.$refs['loginForm'].validate(valid => {
         let { username, password } = this.loginForm
         if (valid) {
-          this.$api.login(username, password).then(({ data }) => {
-            if (data && data.code === 0) {
-            } else {
-              this.loginForm.tips = data.msg
+          this.$api.login({
+            username,
+            password
+          }).then(({ data }) => {
+            this.loginForm.tips = data.msg
+            if (data && data.code === 200) {
+              // 成功
+              Cookies.set('ac_token', data.result)
+              this.$router.push({
+                name: 'home',
+              })
             }
           })
-        } else {
-          return false
         }
       })
     },
