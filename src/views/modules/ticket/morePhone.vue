@@ -7,7 +7,7 @@
       <div class="select">
         <el-select v-model="select.caseName"
                    filterable
-                   @change = "caseNameChange"
+                   @change = "caseNameChange1"
                    placeholder="案件名称">
           <el-option v-for="item in cases"
                      :key="item.value"
@@ -15,10 +15,10 @@
                      :value="item.value">
           </el-option>
         </el-select>
-        <el-select v-model="select.phone"
+        <el-select v-model="select.id"
                    filterable
                    multiple
-                   @change = "caseNameChange"
+                   @change = "caseNameChange2"
                    placeholder="电话号码">
           <el-option v-for="item in phoneList"
                      :key="item.value"
@@ -85,15 +85,103 @@ export default {
         }
       ],
       select: {
-        phone: '',
+        id: '',
         caseName: ''
       }
     };
   },
   mounted () {
+    this.ticketOneName ()
     this.morePhoneList()
   },
   methods: {
+    caseNameChange1(){
+      this.ticketOnePhone ()
+      this.singlePhoneList()
+    },
+
+    caseNameChange2(){
+      this.singlePhoneList()
+    },
+
+    // 获取话单案件名称
+    ticketOneName (){
+      var _this = this
+      this.$api.ticketOneName().then(({ data }) => {
+        console.log(data)
+
+        if(data.success){
+          let casesArr = []
+          let caseList = data.result
+          caseList.forEach((item)=>{
+            let a = {}
+            a.value = item.caseName
+            a.label = item.caseName
+            casesArr.push(a)
+          })
+          _this.cases = casesArr
+          console.log(_this.cases)
+          _this.$message({
+            message: '获取话单案件名称成功！!',
+            type: 'success'
+          })
+        }else {
+          this.$message({
+            message: '获取话单案件名称失败!',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 获取话单案件电话
+    ticketOnePhone (){
+      var _this = this
+      let obj = this.select.caseName
+      this.$api.ticketOnePhone(obj).then(({ data }) => {
+        console.log(data)
+        if(data.success){
+          let phoneArr = []
+          let phoneList = data.result
+          phoneList.forEach((item)=>{
+            let a = {}
+            a.value = item.recordId
+            a.label = item.phoneNumber
+            phoneArr.push(a)
+          })
+          _this.phoneList = phoneArr
+          console.log(_this.phoneList)
+          _this.$message({
+            message: '获取话单案件电话成功！!',
+            type: 'success'
+          })
+        }else {
+          this.$message({
+            message: '获取话单案件电话失败!',
+            type: 'error'
+          })
+        }
+      })
+    },
+
+    // 获取话单列表
+    singlePhoneList (){
+      var _this = this
+      let obj = {
+        id:this.select.id
+      }
+      this.$api.ticketOneAnalyze(obj).then(({ data }) => {
+        console.log(data)
+        if(data.success){
+        }else {
+          this.$message({
+            message: '获取话单失败!',
+            type: 'error'
+          })
+        }
+      })
+    }
+  },
 
     // 选择值变动后调接口获取数据
     caseNameChange(){
@@ -124,7 +212,6 @@ export default {
     },
     handleClick (tab, event) {
     },
-  }
 }
 </script>
 <style lang="stylus" scoped>

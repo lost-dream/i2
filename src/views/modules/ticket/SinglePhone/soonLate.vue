@@ -75,6 +75,8 @@
 </template>
 
 <script>
+  import {formatDate} from '../../../../utils/dateFormat.js'
+
 export default {
   mounted () {
   },
@@ -122,16 +124,73 @@ export default {
           lateLocation: '自贡',
           lateBaseStation: '自贡郊区'
         }
-      ]
+      ],
+      soonLateData: [],
+      soonLateData2: [],
+      soonLateShowList: []
     };
   },
+  mounted(){
+    this.soonLateData = JSON.parse(sessionStorage.getItem("phoneInfo"));
+    console.log(666666666)
+    console.log(this.soonLateData)
+  },
   methods: {
+    // 查询
     onSubmit () {
-      console.log('submit!');
+        let data = this.soonLateData
+        this.soonLateData2 = data
+        let conData = this.callForm
+        console.log("分析查询")
+        conData.time != null && (this.timeSizer())
+      console.log(this.soonLateData2)
+
     },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.soonLateData2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach((item) => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.soonLateData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime();
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime);
+      // 结束时间
+      let endTime = tranDate(etime);
+      let nowTime = tranDate(changeTime);
+      console.log(startTime)
+      console.log(endTime)
+      console.log(nowTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false;
+      }
+      return true;
+    },
+
+
     baseStation () {
 
     },
+
     timeChange (time) {
       var newTime = time.map(function (item) {
         var d = new Date(item);
@@ -141,6 +200,7 @@ export default {
       return newTime
     }
   }
+
 }
 </script>
 <style lang="stylus" scoped>

@@ -264,7 +264,7 @@ export default {
    */
   ticketOneAnalyze (data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
+      url: http.adornUrl('ticket/statement/ticketOneAnalyze' ),
       method: 'post',
       data: http.adornData(data,false)
     })
@@ -286,7 +286,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketDelete'),
       method: 'get',
-      data: http.adornData(data)
+      params: http.adornParams(data,false)
     })
   },
 
@@ -297,7 +297,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketCallQuery'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data,false)
     })
   },
 
@@ -321,6 +321,50 @@ export default {
       method: 'post',
       data: http.adornData(data)
     })
+  },
+
+  /**
+   * 话单案件名称
+   */
+  ticketOneName () {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOneName'),
+      method: 'post'
+    })
+  },
+
+  /**
+   * 话单案件电话
+   */
+  ticketOnePhone (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOnePhone?caseName='+data),
+      method: 'post'
+      // data: http.adornData(data,false)
+    })
+  },
+
+  /**
+   * 话单追加
+   */
+  ticketAddTo (data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAddTo'),
+      method: 'post',
+      data: http.adornData(data)
+    })
+  },
+
+  /**
+   * 数据筛选
+   */
+  callFilter(condition,data){
+    return data.filter( item => {
+      return Object.keys( condition ).every( key => {
+        return String( item[ key ] ).toLowerCase().includes(
+          String( condition[ key ] ).trim().toLowerCase() )
+      } )
+    } )
   },
   // ------------------------------------relation---------------------------------------------//
   /**

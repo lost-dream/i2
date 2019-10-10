@@ -29,7 +29,7 @@
                       prop="uploadPhone">
           <el-upload class="upload-demo"
                      ref="upload"
-                     action="http://192.168.1.186:8087/ticket/statement/importEmp"
+                     action="http://192.168.1.186:8087/statement/importEmp"
                      :on-preview="handlePreview"
                      :on-remove="handleRemove"
                      :before-upload="beforeUpload"
