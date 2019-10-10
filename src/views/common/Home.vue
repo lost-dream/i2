@@ -133,7 +133,9 @@ export default {
     },
     toUserCenter() {
       // 确认登录状态，未登录跳转登录
-      Cookies.get('ac_token') ? this.$router.push({ name: 'usercenter' }) : this.$router.push({ name: 'login' })
+      Cookies.get('ac_token')
+        ? this.$router.push({ name: 'usercenter' })
+        : this.$router.push({ name: 'login' })
     },
     initCanvas(ctx) {
       this.clearCanvas(ctx)

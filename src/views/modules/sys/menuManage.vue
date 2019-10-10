@@ -745,8 +745,8 @@ export default {
       await getMenu({
         module: 1,
         parentId: 0,
-        accessToken: Cookies.get('ac_token')
-      }).then(({data})=> {
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
         if (data && data.code === 200) {
           let list = data.data[0]
           list.menuId = '1' // 区分前后台目录标识(element-ui规定必须是string)
@@ -763,21 +763,19 @@ export default {
           //   adjustSort: '111',
           // }
 
-          list.list.map((value, index)=> {
+          list.list.map((value, index) => {
             console.log(value, index)
-          //   value.info = {
-          //   name: '111',
-          //   higherUp: '444',
-          //   isModule: '2',
-          //   backStyle: '',
-          //   frontStyle: '',
-          //   chainedAddress: '#',
-          //   powerPath: '#',
-          //   sortSubordinate: '111',
-          //   adjustSort: '111',
-          // }
-
-
+            //   value.info = {
+            //   name: '111',
+            //   higherUp: '444',
+            //   isModule: '2',
+            //   backStyle: '',
+            //   frontStyle: '',
+            //   chainedAddress: '#',
+            //   powerPath: '#',
+            //   sortSubordinate: '111',
+            //   adjustSort: '111',
+            // }
 
             value.menuId = `1-${index + 1}`
             value.items = []
@@ -789,13 +787,13 @@ export default {
       await getMenu({
         module: 2,
         parentId: 0,
-        accessToken: Cookies.get('ac_token')
-      }).then(({data})=> {
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
         if (data && data.code === 200) {
           let list = data.data[0]
           list.menuId = '2' // 区分前后台目录标识(element-ui规定必须是string)
-          
-          list.list.map((value, index)=> {
+
+          list.list.map((value, index) => {
             console.log(value, index)
             value.menuId = `2-${index + 1}`
             value.items = []
@@ -805,7 +803,7 @@ export default {
       })
       $THIS.leftMenu = menu
     })()
-  }
+  },
 }
 </script>
 
