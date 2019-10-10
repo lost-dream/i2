@@ -87,14 +87,13 @@
 export default {
   components: {},
   props: {},
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
   computed: {},
   methods: {},
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

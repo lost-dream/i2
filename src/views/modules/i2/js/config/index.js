@@ -18,5 +18,5 @@ export default {
   ...interaction,
   ...layout,
   ...manipulation,
-  ...physics
+  ...physics,
 }

@@ -14,7 +14,7 @@ export default {
       edgeMinimization: true,
       parentCentralization: true,
       direction: 'UD', // UD, DU, LR, RL
-      sortMethod: 'hubsize' // hubsize, directed
-    }
-  }
+      sortMethod: 'hubsize', // hubsize, directed
+    },
+  },
 }

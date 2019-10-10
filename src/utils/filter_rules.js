@@ -1,7 +1,7 @@
 import { qq, mobile, password, userName, idCard } from './validate'
 
 export default {
-  install (Vue, options) {
+  install(Vue, options) {
     /**
      * 注意:  定义type 规则时 不用做非空验证
      *        只需要传入 required:true 即可
@@ -78,13 +78,13 @@ export default {
      *      各种自定义类型   定义在 src/utils/validate 中    持续添加中.......
      * */
 
-    Vue.prototype.filter_rules = function (item) {
+    Vue.prototype.filter_rules = function(item) {
       let rules = []
       if (item.required) {
         rules.push({
           required: true,
           message: '该输入项为必填项!',
-          trigger: 'blur'
+          trigger: 'blur',
         })
       }
       if (item.maxLength) {
@@ -92,7 +92,7 @@ export default {
           min: 1,
           max: item.maxLength,
           message: '最多输入' + item.maxLength + '个字符!',
-          trigger: 'blur'
+          trigger: 'blur',
         })
       }
       if (item.min && item.max) {
@@ -100,7 +100,7 @@ export default {
           min: item.min,
           max: item.max,
           message: '字符长度在' + item.min + '至' + item.max + '之间!',
-          trigger: 'blur'
+          trigger: 'blur',
         })
       }
       if (item.type) {
@@ -110,42 +110,42 @@ export default {
             rules.push({
               type: 'email',
               message: '请输入正确的邮箱地址',
-              trigger: 'blur,change'
+              trigger: 'blur,change',
             })
             break
           case 'qq':
             rules.push({
               validator: isvalidateQQ,
-              trigger: 'blur'
+              trigger: 'blur',
             })
             break
           case 'mobile':
             rules.push({
               validator: isvalidateMobile,
-              trigger: 'blur'
+              trigger: 'blur',
             })
             break
           case 'password':
             rules.push({
               validator: isvalidatePassword,
-              trigger: 'blur'
+              trigger: 'blur',
             })
             break
           case 'userName':
             rules.push({
               validator: isvalidateUserName,
-              trigger: 'blur'
+              trigger: 'blur',
             })
             break
           case 'idCard':
             rules.push({
               validator: isvalidateIdCard,
-              trigger: 'blur'
+              trigger: 'blur',
             })
             break
         }
       }
       return rules
     }
-  }
+  },
 }

@@ -2,17 +2,17 @@
 /* eslint-disable */
 const validators = {
   email: new RegExp(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   ),
   url: new RegExp(
-    /^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i
+    /^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i,
   ),
   text: new RegExp(/^[a-zA-Z]+$/),
   digits: new RegExp(/^[\d() \.\:\-\+#]+$/),
   isodate: new RegExp(
-    /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/
-  )
-};
+    /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/,
+  ),
+}
 /* eslint-enable */
 
 export default {
@@ -20,196 +20,196 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     addTagOnKeys: {
       type: Array,
-      default: function () {
+      default: function() {
         return [
           13, // Return
           188, // Comma ','
-          9 // Tab
-        ];
-      }
+          9, // Tab
+        ]
+      },
     },
     addTagOnBlur: {
       type: Boolean,
-      default: false
+      default: false,
     },
     limit: {
       type: Number,
-      default: -1
+      default: -1,
     },
     allowDuplicates: {
       type: Boolean,
-      default: false
+      default: false,
     },
     beforeAdding: {
-      type: Function
-    }
+      type: Function,
+    },
   },
 
-  data () {
+  data() {
     return {
       newTag: '',
       innerTags: [...this.value],
-      isInputActive: false
-    };
+      isInputActive: false,
+    }
   },
 
   computed: {
-    isLimit: function () {
-      return this.limit > 0 && Number(this.limit) === this.innerTags.length;
-    }
+    isLimit: function() {
+      return this.limit > 0 && Number(this.limit) === this.innerTags.length
+    },
   },
 
   watch: {
-    value () {
-      this.innerTags = [...this.value];
-    }
+    value() {
+      this.innerTags = [...this.value]
+    },
   },
 
   methods: {
-    focusNewTag () {
+    focusNewTag() {
       if (this.readOnly || !this.$el.querySelector('.new-tag')) {
-        return;
+        return
       }
-      this.$el.querySelector('.new-tag').focus();
+      this.$el.querySelector('.new-tag').focus()
     },
 
-    handleInputFocus () {
-      this.isInputActive = true;
+    handleInputFocus() {
+      this.isInputActive = true
     },
 
-    handleInputBlur (e) {
-      this.isInputActive = false;
-      this.addNew(e);
+    handleInputBlur(e) {
+      this.isInputActive = false
+      this.addNew(e)
     },
 
-    async addNew (e) {
+    async addNew(e) {
       const keyShouldAddTag = e
         ? this.addTagOnKeys.indexOf(e.keyCode) !== -1
-        : true;
+        : true
 
-      const typeIsNotBlur = e && e.type !== 'blur';
+      const typeIsNotBlur = e && e.type !== 'blur'
 
       if (
         (!keyShouldAddTag && (typeIsNotBlur || !this.addTagOnBlur)) ||
         this.isLimit
       ) {
-        return;
+        return
       }
 
       const tag = this.beforeAdding
         ? await this.beforeAdding(this.newTag)
-        : this.newTag;
+        : this.newTag
 
-      const isValid = await this.validateIfNeeded(tag);
+      const isValid = await this.validateIfNeeded(tag)
 
       if (
         tag &&
         isValid &&
         (this.allowDuplicates || this.innerTags.indexOf(tag) === -1)
       ) {
-        this.innerTags.push(tag);
-        this.newTag = '';
-        this.tagChange();
+        this.innerTags.push(tag)
+        this.newTag = ''
+        this.tagChange()
 
-        e && e.preventDefault();
+        e && e.preventDefault()
       }
     },
 
-    validateIfNeeded (tagValue) {
+    validateIfNeeded(tagValue) {
       if (this.validate === '' || this.validate === undefined) {
-        return true;
+        return true
       }
 
       if (typeof this.validate === 'function') {
-        return this.validate(tagValue);
+        return this.validate(tagValue)
       }
 
       if (
         typeof this.validate === 'string' &&
         Object.keys(validators).indexOf(this.validate) > -1
       ) {
-        return validators[this.validate].test(tagValue);
+        return validators[this.validate].test(tagValue)
       }
 
       if (
         typeof this.validate === 'object' &&
         this.validate.test !== undefined
       ) {
-        return this.validate.test(tagValue);
+        return this.validate.test(tagValue)
       }
 
-      return true;
+      return true
     },
 
-    remove (index) {
+    remove(index) {
       console.log(index)
-      this.innerTags.splice(index, 1);
-      this.$emit('remove', this.innerTags);
-      this.tagChange();
+      this.innerTags.splice(index, 1)
+      this.$emit('remove', this.innerTags)
+      this.tagChange()
     },
 
-    removeLastTag () {
+    removeLastTag() {
       if (this.newTag) {
-        return;
+        return
       }
-      this.innerTags.pop();
-      this.tagChange();
+      this.innerTags.pop()
+      this.tagChange()
     },
 
-    tagChange () {
-      this.$emit('update:tags', this.innerTags);
-      this.$emit('input', this.innerTags);
-    }
-  }
-};
+    tagChange() {
+      this.$emit('update:tags', this.innerTags)
+      this.$emit('input', this.innerTags)
+    },
+  },
+}
 </script>
 
 <template>
-  <div @click="focusNewTag()"
-       :class="{
+  <div
+    @click="focusNewTag()"
+    :class="{
       'read-only': readOnly,
       'vue-input-tag-wrapper--active': isInputActive,
     }"
-       class="vue-input-tag-wrapper">
-    <span v-for="(tag, index) in innerTags"
-          :key="index"
-          class="input-tag">
+    class="vue-input-tag-wrapper"
+  >
+    <span v-for="(tag, index) in innerTags" :key="index" class="input-tag">
       <span>{{ tag }}</span>
-      <a v-if="!readOnly"
-         @click.prevent.stop="remove(index)"
-         class="remove">
+      <a v-if="!readOnly" @click.prevent.stop="remove(index)" class="remove">
         <slot name="remove-icon" />
       </a>
     </span>
-    <input v-if="!readOnly && !isLimit"
-           ref="inputtag"
-           :placeholder="placeholder"
-           type="text"
-           v-model="newTag"
-           v-on:keydown.delete.stop="removeLastTag"
-           v-on:keydown="addNew"
-           v-on:blur="handleInputBlur"
-           v-on:focus="handleInputFocus"
-           class="new-tag" />
+    <input
+      v-if="!readOnly && !isLimit"
+      ref="inputtag"
+      :placeholder="placeholder"
+      type="text"
+      v-model="newTag"
+      v-on:keydown.delete.stop="removeLastTag"
+      v-on:keydown="addNew"
+      v-on:blur="handleInputBlur"
+      v-on:focus="handleInputFocus"
+      class="new-tag"
+    />
   </div>
 </template>
 
 <style>
 .vue-input-tag-wrapper {
-  background-color: rgba(44,239,255,0.3);
-  border: 1px solid rgba(44,239,255,0.4);
+  background-color: rgba(44, 239, 255, 0.3);
+  border: 1px solid rgba(44, 239, 255, 0.4);
   overflow: hidden;
   padding-left: 4px;
   padding-top: 4px;
@@ -243,7 +243,7 @@ export default {
 }
 
 .vue-input-tag-wrapper .input-tag .remove:empty::before {
-  content: " x";
+  content: ' x';
 }
 
 .vue-input-tag-wrapper .new-tag {

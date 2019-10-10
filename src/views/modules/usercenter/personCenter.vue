@@ -23,11 +23,13 @@
           </tr>
           <tr>
             <td class="tal_tit">用户组</td>
-            <td colspan="5">管理员,地市管理员,111,高级权限,搜索分析权限,红名单,游客,区用户组,绵阳平台ip限制</td>
+            <td colspan="5">
+              管理员,地市管理员,111,高级权限,搜索分析权限,红名单,游客,区用户组,绵阳平台ip限制
+            </td>
           </tr>
           <tr>
             <td class="tal_tit">ip限制</td>
-            <td colspan="5">  </td>
+            <td colspan="5"></td>
           </tr>
           <tr>
             <td class="tal_tit">所属机构</td>
@@ -36,45 +38,45 @@
         </table>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import { getUserInfo } from '@/api/userCenter'
 export default {
   name: 'personCenter',
   components: {},
   props: {},
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   },
   computed: {},
   methods: {},
-  created () {
+  created() {},
+  mounted() {
+    getUserInfo({
+      id: Cookies.get('ac_token'),
+    })
   },
-  mounted () {
-  }
 }
 </script>
 
 <style lang="stylus" scoped>
 
-  .personCenter
-    position relative
+.personCenter
+  position relative
 
-  table
-   width 100%
-   margin 0 auto
-   color #ffffff
-   border 5px solid transparent
-  td
-   height: 34px;
-   padding 0 15px
-   background-color: rgba(44, 239, 255, 0.2)
-  table .tal_tit
-   background-color: rgba(44, 239, 255, 0.4)
-   text-align center
-
+table
+ width 100%
+ margin 0 auto
+ color #ffffff
+ border 5px solid transparent
+td
+ height: 34px;
+ padding 0 15px
+ background-color: rgba(44, 239, 255, 0.2)
+table .tal_tit
+ background-color: rgba(44, 239, 255, 0.4)
+ text-align center
 </style>

@@ -5,26 +5,27 @@
         <h3>话单查询</h3>
       </div>
       <div class="phoneSearch">
-        <el-form :inline="true"
-                 :model="phoneForm"
-                 ref="phoneForm"
-                 class="phoneSearch">
+        <el-form
+          :inline="true"
+          :model="phoneForm"
+          ref="phoneForm"
+          class="phoneSearch"
+        >
           <el-form-item label="机主姓名">
-            <el-input v-model="phoneForm.name"
-                      placeholder="姓名"></el-input>
+            <el-input v-model="phoneForm.name" placeholder="姓名"></el-input>
           </el-form-item>
           <el-form-item label="手机号码">
-            <el-input v-model="phoneForm.phone"
-                      placeholder="手机号码"></el-input>
+            <el-input
+              v-model="phoneForm.phone"
+              placeholder="手机号码"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"
-                       @click="isQuery">查询
-            </el-button>
+            <el-button type="primary" @click="isQuery">查询</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="danger"
-                       @click="resetForm('phoneForm')">重置
+            <el-button type="danger" @click="resetForm('phoneForm')"
+              >重置
             </el-button>
           </el-form-item>
         </el-form>
@@ -43,56 +44,64 @@
                            align="center"
                            label="序号">
           </el-table-column>
-          <el-table-column prop="name"
-                           align="center"
-                           label="机主姓名"
-                           width="100">
+          <el-table-column
+            prop="name"
+            align="center"
+            label="机主姓名"
+            width="100"
+          >
           </el-table-column>
-          <el-table-column prop="phone"
-                           align="center"
-                           label="电话号码"
-                           width="150">
+          <el-table-column
+            prop="phone"
+            align="center"
+            label="电话号码"
+            width="150"
+          >
           </el-table-column>
-          <el-table-column prop="uploadTime"
-                           align="center"
-                           width="100"
-                           label="上传时间">
+          <el-table-column
+            prop="uploadTime"
+            align="center"
+            width="100"
+            label="上传时间"
+          >
             <template slot-scope="scope">
-              <span>{{scope.row.uploadTime | formatDate}}</span>
+              <span>{{ scope.row.uploadTime | formatDate }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="caseName"
-                           align="center"
-                           width="100"
-                           label="案件名称">
+          <el-table-column
+            prop="caseName"
+            align="center"
+            width="100"
+            label="案件名称"
+          >
           </el-table-column>
-          <el-table-column prop="depict"
-                           align="center"
-                           label="描述">
+          <el-table-column prop="depict" align="center" label="描述">
           </el-table-column>
-          <el-table-column label="操作"
-                           align="center">
+          <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-              <el-button size="mini"
-                         @click="edit(scope.$index, scope.row)">编辑
+              <el-button size="mini" @click="edit(scope.$index, scope.row)"
+                >编辑
               </el-button>
-              <el-button size="mini"
-                         @click="addMore(scope.$index, scope.row)">追加
+              <el-button size="mini" @click="addMore(scope.$index, scope.row)"
+                >追加
               </el-button>
-              <el-button size="mini"
-                         type="danger"
-                         @click="Delete(scope.$index, scope.row)">删除
+              <el-button
+                size="mini"
+                type="danger"
+                @click="Delete(scope.$index, scope.row)"
+                >删除
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange"
-                       @current-change="handleCurrentChange"
-                       :current-page="page.currentPage"
-                       :page-sizes="[5]"
-                       :page-size="page.size"
-                       :total="page.total"
-                       layout="total, prev, pager, next, jumper"
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page.currentPage"
+          :page-sizes="[5]"
+          :page-size="page.size"
+          :total="page.total"
+          layout="total, prev, pager, next, jumper"
         >
         </el-pagination>
       </div>
@@ -100,32 +109,38 @@
         <h3>通话查询</h3>
       </div>
       <div class="converseSearch">
-        <el-form :inline="true"
-                 :model="converseForm"
-                 ref="converseForm"
-                 class="converseSearch">
+        <el-form
+          :inline="true"
+          :model="converseForm"
+          ref="converseForm"
+          class="converseSearch"
+        >
           <el-form-item>
-            <el-date-picker v-model="converseForm.time"
-                            type="datetimerange"
-                            :picker-options="pickerOptions"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            align="right">
+            <el-date-picker
+              v-model="converseForm.time"
+              type="datetimerange"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
             </el-date-picker>
           </el-form-item>
           <el-form-item label="手机号码">
-            <el-input v-model="converseForm.phone"
-                      placeholder="手机号码"></el-input>
+            <el-input
+              v-model="converseForm.phone"
+              placeholder="手机号码"
+            ></el-input>
           </el-form-item>
           <el-form-item label="通话时长">
-            <el-input v-model="converseForm.callTime"
-                      placeholder="通话时长"></el-input>
+            <el-input
+              v-model="converseForm.callTime"
+              placeholder="通话时长"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"
-                       @click="callQuery">查询
-            </el-button>
+            <el-button type="primary" @click="callQuery">查询</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -160,9 +175,7 @@
                            align="center"
                            label="通话时长">
           </el-table-column>
-          <el-table-column prop="location"
-                           align="center"
-                           label="通信地点">
+          <el-table-column prop="location" align="center" label="通信地点">
           </el-table-column>
           <el-table-column prop="baseLocation"
                            align="center"
@@ -193,7 +206,7 @@
 </template>
 
 <script>
-  import {formatDate} from '../../../utils/dateFormat.js'
+import { formatDate } from '../../../utils/dateFormat.js'
 
   export default {
 
@@ -566,99 +579,99 @@
   }
 </script>
 <style lang="stylus" scoped>
-  .container
-    width 1200px
-    margin 0 auto
-    padding 20px
-    background-color rgba(44, 239, 255, 0.1)
+.container
+  width 1200px
+  margin 0 auto
+  padding 20px
+  background-color rgba(44, 239, 255, 0.1)
 
-  .bg
-    background-color rgba(44, 239, 255, 0.1)
-    padding 40px
+.bg
+  background-color rgba(44, 239, 255, 0.1)
+  padding 40px
 
-  .container .title
-    position absolute
-    top -10px
-    font-size 24px
-    color white
+.container .title
+  position absolute
+  top -10px
+  font-size 24px
+  color white
 
-  .container .title1
-    font-size 24px
-    color white
+.container .title1
+  font-size 24px
+  color white
 </style>
 <style lang="stylus">
-  .phoneSearch .el-form-item__label
-    color white
+.phoneSearch .el-form-item__label
+  color white
 
-  .phoneSearch .el-input__inner
-    background-color rgba(44, 239, 255, 0.3) !important
-    border 1px solid rgba(44, 239, 255, 0.4) !important
-    color white
+.phoneSearch .el-input__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
 
-  .phoneSearch .el-textarea__inner
-    background-color rgba(44, 239, 255, 0.3) !important
-    border 1px solid rgba(44, 239, 255, 0.4) !important
-    color white
+.phoneSearch .el-textarea__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
 
-  .searchList .el-table
-    background-color rgba(44, 239, 255, 0.3) !important
-    color white
+.searchList .el-table
+  background-color rgba(44, 239, 255, 0.3) !important
+  color white
 
-  .searchList .el-table--border
-    border 1px solid rgba(0, 0, 0, 0.3)
+.searchList .el-table--border
+  border 1px solid rgba(0, 0, 0, 0.3)
 
-  .searchList .el-table th, .el-table tr, .el-table--border td
-    background-color transparent !important
-    border 1px solid rgba(0, 0, 0, 0.3) !important
+.searchList .el-table th, .el-table tr, .el-table--border td
+  background-color transparent !important
+  border 1px solid rgba(0, 0, 0, 0.3) !important
 
-  .searchList .el-table--border::after, .el-table--group::after
-    width 0px
+.searchList .el-table--border::after, .el-table--group::after
+  width 0px
 
-  .searchList .el-table::before
-    height 0px
+.searchList .el-table::before
+  height 0px
 
-  .searchList .el-table thead
-    color white
+.searchList .el-table thead
+  color white
 
-  .searchList .el-table tbody tr:hover > td
-    background-color rgba(44, 239, 255, 0.4)
+.searchList .el-table tbody tr:hover > td
+  background-color rgba(44, 239, 255, 0.4)
 
-  .searchList .el-pagination__total
-    color white
+.searchList .el-pagination__total
+  color white
 
-  .searchList .el-input__inner
-    background-color rgba(44, 239, 255, 0.3)
-    color white
+.searchList .el-input__inner
+  background-color rgba(44, 239, 255, 0.3)
+  color white
 
-  .searchList .el-dialog, .el-pager li
-    background-color rgba(44, 239, 255, 0.3) !important
+.searchList .el-dialog, .el-pager li
+  background-color rgba(44, 239, 255, 0.3) !important
 
-  .searchList .el-pager li.active
-    color white
+.searchList .el-pager li.active
+  color white
 
-  .searchList .el-pagination .btn-next, .el-pagination .btn-prev
-    background-color rgba(44, 239, 255, 0.3) !important
+.searchList .el-pagination .btn-next, .el-pagination .btn-prev
+  background-color rgba(44, 239, 255, 0.3) !important
 
-  .searchList .el-pagination__jump
-    color white
+.searchList .el-pagination__jump
+  color white
 
-  .converseSearch .el-form-item__label
-    color white
+.converseSearch .el-form-item__label
+  color white
 
-  .converseSearch .el-input__inner
-    background-color rgba(44, 239, 255, 0.3) !important
-    border 1px solid rgba(44, 239, 255, 0.4) !important
-    color white
+.converseSearch .el-input__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
 
-  .converseSearch .el-textarea__inner
-    background-color rgba(44, 239, 255, 0.3) !important
-    border 1px solid rgba(44, 239, 255, 0.4) !important
-    color white
+.converseSearch .el-textarea__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color white
 
-  .converseSearch .el-range-editor .el-range-input
-    background transparent
-    color white
+.converseSearch .el-range-editor .el-range-input
+  background transparent
+  color white
 
-  .converseSearch .el-date-editor .el-range-separator
-    color white
+.converseSearch .el-date-editor .el-range-separator
+  color white
 </style>

@@ -1,74 +1,55 @@
 <template>
   <div class="container">
-
-    <el-form :inline="true"
-             :model="callForm"
-             class="demo-form-inline">
+    <el-form :inline="true" :model="callForm" class="demo-form-inline">
       <el-form-item label="呼叫时间">
-        <el-date-picker v-model="callForm.time"
-                        type="datetimerange"
-                        :picker-options="pickerOptions"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期"
-                        align="right">
+        <el-date-picker
+          v-model="callForm.time"
+          type="datetimerange"
+          :picker-options="pickerOptions"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          align="right"
+        >
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click="baseStation">基站查询</el-button>
+        <el-button type="primary" @click="baseStation">基站查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="soonLate"
-              border
-              style="width: 100%">
-      <el-table-column label="序号"
-                       type="index"
-                       align="center"
-                       width="50">
+    <el-table :data="soonLate" border style="width: 100%">
+      <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
-      <el-table-column prop="date"
-                       label="日期"
-                       align="center"
-                       width="100">
+      <el-table-column prop="date" label="日期" align="center" width="100">
       </el-table-column>
-      <el-table-column prop="soonTime"
-                       align="center"
-                       label="最早时间">
+      <el-table-column prop="soonTime" align="center" label="最早时间">
       </el-table-column>
-      <el-table-column prop="soonPhone"
-                       align="center"
-                       width="120"
-                       label="最早对方号码">
+      <el-table-column
+        prop="soonPhone"
+        align="center"
+        width="120"
+        label="最早对方号码"
+      >
       </el-table-column>
-      <el-table-column prop="soonLocation"
-                       align="center"
-                       label="最早归属地">
+      <el-table-column prop="soonLocation" align="center" label="最早归属地">
       </el-table-column>
-      <el-table-column prop="soonBaseStation"
-                       align="center"
-                       label="最早基站">
+      <el-table-column prop="soonBaseStation" align="center" label="最早基站">
       </el-table-column>
-      <el-table-column prop="lateTime"
-                       align="center"
-                       label="最晚时间">
+      <el-table-column prop="lateTime" align="center" label="最晚时间">
       </el-table-column>
-      <el-table-column prop="latePhone"
-                       align="center"
-                       width="120"
-                       label="最晚对方号码">
+      <el-table-column
+        prop="latePhone"
+        align="center"
+        width="120"
+        label="最晚对方号码"
+      >
       </el-table-column>
-      <el-table-column prop="lateLocation"
-                       align="center"
-                       label="最晚归属地">
+      <el-table-column prop="lateLocation" align="center" label="最晚归属地">
       </el-table-column>
-      <el-table-column prop="lateBaseStation"
-                       align="center"
-                       label="最晚基站">
+      <el-table-column prop="lateBaseStation" align="center" label="最晚基站">
       </el-table-column>
     </el-table>
   </div>
@@ -78,39 +59,42 @@
   import {formatDate} from '../../../../utils/dateFormat.js'
 
 export default {
-  mounted () {
-  },
-  data () {
+  mounted() {},
+  data() {
     return {
       pickerOptions: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick (picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一个月',
-          onClick (picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick (picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
+        shortcuts: [
+          {
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
+          },
+          {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
+          },
+          {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
       },
       callForm: {
-        time: ''
+        time: '',
       },
       soonLate: [
         {

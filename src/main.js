@@ -10,9 +10,9 @@ import 'vis/dist/vis.css'
 import VueCookie from 'vue-cookie'
 import httpRequest from './utils/httpRequest'
 import api from './api/api'
-import Validate from './utils/filter_rules';
+import Validate from './utils/filter_rules'
 import * as filters from './filters'
-import './assets/icon/iconfont.css';
+import './assets/icon/iconfont.css'
 import 'jquery'
 import global from './utils/global'
 
@@ -33,5 +33,5 @@ Object.keys(filters).forEach(key => {
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

@@ -9,30 +9,33 @@
       <div class="mode-cachedata">
         <el-form class="filter-form">
           <el-form-item>
-            <el-button
-              type="primary"
-              @click="addOrUpdateHandle()"
-            >新增</el-button>
+            <el-button type="primary" @click="addOrUpdateHandle()"
+              >新增</el-button
+            >
             <el-button
               type="primary"
               @click="addToCanvasHandle()"
               :disabled="dataListSelections.length <= 0"
-            >添加至画布</el-button>
+              >添加至画布</el-button
+            >
             <el-button
               type="primary"
               @click="moveOrCopyToFoder(0)"
               :disabled="dataListSelections.length <= 0"
-            >移动</el-button>
+              >移动</el-button
+            >
             <el-button
               type="primary"
               @click="moveOrCopyToFoder(1)"
               :disabled="dataListSelections.length <= 0"
-            >复制</el-button>
+              >复制</el-button
+            >
             <el-button
               type="danger"
               @click="deleteHandle()"
               :disabled="dataListSelections.length <= 0"
-            >批量删除</el-button>
+              >批量删除</el-button
+            >
           </el-form-item>
         </el-form>
         <el-form
@@ -42,14 +45,8 @@
           @keyup.enter.native="getDataList()"
         >
           <el-form-item>
-            <el-select
-              v-model="dataForm.folderId"
-              placeholder="文件夹"
-            >
-              <el-option
-                label="请选择文件夹"
-                value=""
-              ></el-option>
+            <el-select v-model="dataForm.folderId" placeholder="文件夹">
+              <el-option label="请选择文件夹" value=""></el-option>
               <el-option
                 v-for="item in folderList"
                 :key="item.value"
@@ -84,10 +81,7 @@
           v-loading="dataListLoading"
           @selection-change="selectionChangeHandle"
         >
-          <el-table-column
-            type="selection"
-            width="50"
-          ></el-table-column>
+          <el-table-column type="selection" width="50"></el-table-column>
           <el-table-column
             prop="keywords"
             header-align="center"
@@ -142,12 +136,14 @@
                 type="text"
                 size="small"
                 @click="addOrUpdateHandle(scope.row.id)"
-              >修改</el-button>
+                >修改</el-button
+              >
               <el-button
                 type="text"
                 size="small"
                 @click="deleteHandle(scope.row.id)"
-              >删除</el-button>
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -176,10 +172,10 @@ export default {
   components: {
     FlyDialog,
     AddOrUpdate,
-    MoveOrCopy
+    MoveOrCopy,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       addOrUpdateVisible: false,
@@ -188,42 +184,44 @@ export default {
       dataForm: {
         keywords: '',
         name: '',
-        folderId: ''
+        folderId: '',
       },
       dataList: [],
       pageIndex: 1,
       pageSize: 10,
       totalPage: 0,
       dataListSelections: [],
-      dataListLoading: false
+      dataListLoading: false,
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init () {
-      this.$api.getAllFolderByUserName('10011').then(({ data }) => {
-        let list = data && data.code === 200 ? data.result : [];
-        let arr = [];
-        for (let i in list) {
-          arr.push({
-            value: list[i].id,
-            label: list[i].folderName
-          })
-        }
-        this.folderList = arr;
-      }).then(() => {
-        this.visible = true;
-        this.$nextTick(() => {
-          this.$refs['dataForm'].resetFields();
+    init() {
+      this.$api
+        .getAllFolderByUserName('10011')
+        .then(({ data }) => {
+          let list = data && data.code === 200 ? data.result : []
+          let arr = []
+          for (let i in list) {
+            arr.push({
+              value: list[i].id,
+              label: list[i].folderName,
+            })
+          }
+          this.folderList = arr
         })
-        this.getDataList();
-      })
+        .then(() => {
+          this.visible = true
+          this.$nextTick(() => {
+            this.$refs['dataForm'].resetFields()
+          })
+          this.getDataList()
+        })
     },
-    getDataList () {
+    getDataList() {
       this.dataListLoading = true
       let params = {
-        username: '10011'
+        username: '10011',
       }
       this.$api.getAllCacheDataByUserName(params).then(({ data }) => {
         if (data && data.code === 200) {
@@ -235,52 +233,52 @@ export default {
         this.dataListLoading = false
       })
     },
-    searchDataList () {
-      this.dataListLoading = true;
+    searchDataList() {
+      this.dataListLoading = true
       let params = {
         username: '10011',
-        ...this.dataForm
+        ...this.dataForm,
       }
       this.$api.dataCacheSearch(params).then(({ data }) => {
         if (data && data.code === 200) {
-          this.dataList = data.result.records;
+          this.dataList = data.result.records
         } else {
-          this.dataList = [];
-          this.totalPage = 0;
+          this.dataList = []
+          this.totalPage = 0
         }
-        this.dataListLoading = false;
+        this.dataListLoading = false
       })
     },
     // 多选
-    selectionChangeHandle (val) {
-      this.dataListSelections = val;
+    selectionChangeHandle(val) {
+      this.dataListSelections = val
     },
     // 新增  /  修改
-    addOrUpdateHandle (id) {
-      this.addOrUpdateVisible = true;
-      this.visible = false;
+    addOrUpdateHandle(id) {
+      this.addOrUpdateVisible = true
+      this.visible = false
       this.$nextTick(() => {
-        this.$refs.cacheDataAddOrUpdate.init(id);
+        this.$refs.cacheDataAddOrUpdate.init(id)
       })
     },
     // 添加至画布
-    addToCanvasHandle () { },
+    addToCanvasHandle() {},
     // 移动 或 复制至文件夹
-    moveOrCopyToFoder (type) {
-      this.moveOrCopyVisible = true;
-      this.visible = false;
+    moveOrCopyToFoder(type) {
+      this.moveOrCopyVisible = true
+      this.visible = false
       this.$nextTick(() => {
         let ids = this.dataListSelections.map(item => {
-          return item.id;
+          return item.id
         })
-        this.$refs.moveOrCopy.init(type, ids);
+        this.$refs.moveOrCopy.init(type, ids)
       })
     },
     // 批量删除
-    deleteHandle () { }
+    deleteHandle() {},
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>
