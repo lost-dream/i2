@@ -502,7 +502,7 @@
 
 <script>
 import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
+// import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
 import AddNodes from './AddNodes'
 import CacheData from './CacheData'
@@ -519,7 +519,7 @@ import { lockNode, unNockNode, deleteOperation, hasData, buildExportData } from 
 export default {
   components: {
     Sidebar,
-    SidemenuItem,
+    // SidemenuItem,
     Sidefun,
     AddNodes,
     CacheData,

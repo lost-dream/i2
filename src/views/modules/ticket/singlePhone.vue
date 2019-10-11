@@ -5,31 +5,41 @@
         <h3>单话单分析</h3>
       </div>
       <div class="select">
-        <el-select v-model="select.caseName"
-                   filterable
-                   @change = "caseNameChange"
-                   placeholder="案件名称">
-          <el-option v-for="item in cases"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <el-select
+          v-model="select.caseName"
+          filterable
+          @change="caseNameChange"
+          placeholder="案件名称"
+        >
+          <el-option
+            v-for="item in cases"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
-        <el-select v-model="select.phone"
-                   filterable
-                   @change = "caseNameChange"
-                   placeholder="电话号码">
-          <el-option v-for="item in phoneList"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <el-select
+          v-model="select.phone"
+          filterable
+          @change="caseNameChange"
+          placeholder="电话号码"
+        >
+          <el-option
+            v-for="item in phoneList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
       </div>
       <div class="nav">
-        <el-tabs v-model="activeName"
-                 type="card"
-                 @tab-click="handleClick">
+        <el-tabs
+          v-model="activeName"
+          type="card"
+          @tab-click="handleClick"
+        >
           <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/soonLate">最早最晚分析</router-link>
             </span>
@@ -113,11 +123,11 @@ export default {
     handleClick (tab, event) {
     },
 
-    caseNameChange(){
+    caseNameChange () {
       this.singlePhoneList()
     },
     // 获取话单列表
-    singlePhoneList (){
+    singlePhoneList () {
       var _this = this
       let obj = {
         caseName: this.select.caseName,
@@ -125,12 +135,12 @@ export default {
       }
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)
-        if(data.success){
+        if (data.success) {
           _this.$message({
             message: '获取话单成功！!',
             type: 'success'
           })
-        }else {
+        } else {
           this.$message({
             message: '获取话单失败!',
             type: 'error'
