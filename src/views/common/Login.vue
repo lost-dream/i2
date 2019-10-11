@@ -173,7 +173,7 @@ export default {
     //   id: '1c928572a3414478895ef893dfee12fc',
     //   delFlag: 0
     // })
-  }
+  },
 }
 </script>
 
