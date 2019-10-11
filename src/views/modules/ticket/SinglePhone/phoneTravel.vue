@@ -33,11 +33,9 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 import { loadModules } from 'esri-loader'
 export default {
-  mounted() {
-    this.mapDraw()
-  },
   data() {
     return {
       pickerOptions: {
@@ -78,13 +76,77 @@ export default {
         { x: 104.06667, y: 30.66667 },
         { x: 104.06667, y: 30.66769 },
       ],
+      phoneInfo: [],
+      phoneInfo2: [],
     }
+  },
+  mounted() {
+    // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.phoneInfo = JSON.parse(localStorage.getItem('phoneInfo'))
+    // this.mapDraw()
   },
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time))
-      console.log('submit!')
+      let data = this.phoneInfo
+      this.phoneInfo2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      console.log(this.positionArray)
+      conData.time != null && this.timeSizer()
+      this.positionArray = this.addPoint(this.phoneInfo2)
+      this.mapDraw()
+      console.log(this.positionArray)
+      console.log(this.phoneInfo2)
     },
+
+    // 添加经纬度坐标
+    addPoint(data) {
+      let arr = []
+      let point = {}
+      data.forEach(item => {
+        point.x = item.jingdu
+        point.y = item.weidu
+        arr.push(point)
+      })
+      return arr
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.phoneInfo2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.phoneInfo2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)

@@ -104,13 +104,17 @@
           <el-tab-pane
             ><span slot="label"
               ><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">移动设备分析</router-link>
+              <router-link to="/ticket/singlePhone/mobileAnalyse"
+                >移动设备分析</router-link
+              >
             </span>
           </el-tab-pane>
           <el-tab-pane
             ><span slot="label"
               ><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">一周号码频次</router-link>
+              <router-link to="/ticket/singlePhone/weekPhone"
+                >一周号码频次</router-link
+              >
             </span>
           </el-tab-pane>
         </el-tabs>
@@ -221,14 +225,20 @@ export default {
     // 获取话单列表
     singlePhoneList() {
       var _this = this
+      var data = this.phoneList.filter(function(item) {
+        return item.value === _this.select.id
+      })
+      console.log(data)
       let obj = {
         id: this.select.id,
+        phone: data[0].label,
       }
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)
         if (data.success) {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
-          localStorage.setItem('phoneInfo', JSON.stringify(data.result))
+          localStorage.setItem('phoneInfo', JSON.stringify(data.result.list))
+          localStorage.setItem('phone', JSON.stringify(data.result.phone))
         } else {
           this.$message({
             message: '获取话单失败!',

@@ -31,41 +31,27 @@
         width="50"
       >
       </el-table-column>
-      <el-table-column
-        prop="IMEI"
-        label="手机串号(IMEI)"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="IMEI" label="手机串号(IMEI)" align="center">
       </el-table-column>
-      <el-table-column
-        prop="phoneNumber"
-        label="使用号码"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="phoneNumber" label="使用号码" align="center">
       </el-table-column>
-      <el-table-column
-        prop="callTimes"
-        label="通话次数"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="callTimes" label="通话次数" align="center">
       </el-table-column>
-      <el-table-column
-        prop="lastTime"
-        label="最后使用时间"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="lastTime" label="最后使用时间" align="center">
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 export default {
-  mounted() {},
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'hh:mm:ss ')
+    },
+  },
   data() {
     return {
       pickerOptions: {
@@ -111,12 +97,98 @@ export default {
           lastTime: '2019-07-31 10:12:11',
         },
       ],
+      phone: '',
+      phoneInfo: [],
+      phoneInfo2: [],
     }
+  },
+  mounted() {
+    // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.phoneInfo = JSON.parse(localStorage.getItem('phoneInfo'))
+    this.continueTable[0].phoneNumber = JSON.parse(
+      localStorage.getItem('phone'),
+    )
+    this.onSubmit()
   },
   methods: {
     onSubmit() {
-      console.log('submit!')
+      let data = this.phoneInfo
+      this.phoneInfo2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      this.continueTable[0].callTimes = this.phoneInfo2.length
+      this.continueTable[0].callTimes = this.timeTotal(this.phoneInfo2)
+      // this.positionArray = this.addPoint(this.phoneInfo2)
+      // this.mapDraw()
+      // console.log(this.positionArray)
+      console.log(this.phoneInfo2)
     },
+
+    // 总时长
+    timeTotal(data) {
+      let istime = this.timeToSec(data[0].beginTime)
+      data.forEach(item => {
+        istime > this.timeToSec(item.beginTime) && (istime = item.beginTime)
+      })
+      return istime
+    },
+
+    // 时间转为毫秒
+    timeToSec(time) {
+      time.replace(/分钟/g, '分')
+      time.replace(/小时/g, '时')
+      let hourIn, minIn, secIn
+      time.indexOf('时') == -1 ? (hourIn = 0) : (hourIn = time.indexOf('时'))
+      time.indexOf('分') == -1 ? (minIn = 0) : (minIn = time.indexOf('分'))
+      time.indexOf('秒') == -1 ? (secIn = 0) : (secIn = time.indexOf('秒'))
+      let hour = 0
+      let min = 0
+      let sec = 0
+      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
+      hourIn != 0 && (hour = time.substring(0, hourIn))
+      minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
+      secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
+      var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
+      return s * 1000
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.phoneInfo2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.phoneInfo2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)
@@ -150,17 +222,23 @@ export default {
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
   color white
+
 .el-form-item__label
   color white !important
+
 .el-table
   background-color rgba(44, 239, 255, 0.3) !important
   color white !important
+
 .el-table th, .el-table tr
   background-color transparent !important
+
 .el-table thead
   color white !important
-.el-table tbody tr:hover>td
+
+.el-table tbody tr:hover > td
   background-color rgba(44, 239, 255, 0.4) !important
+
 .el-pagination__total
   color white
 </style>

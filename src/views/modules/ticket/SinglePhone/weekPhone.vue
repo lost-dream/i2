@@ -43,22 +43,21 @@
         prop="otherPartyPhone"
         label="对方号码"
         align="center"
-        width="100"
       >
       </el-table-column>
-      <el-table-column prop="sunD" label="星期天" align="center" width="100">
+      <el-table-column prop="sunD" label="星期天" align="center">
       </el-table-column>
-      <el-table-column prop="monD" label="星期一" align="center" width="100">
+      <el-table-column prop="monD" label="星期一" align="center">
       </el-table-column>
-      <el-table-column prop="tuesD" label="星期二" align="center" width="100">
+      <el-table-column prop="tuesD" label="星期二" align="center">
       </el-table-column>
-      <el-table-column prop="wesD" label="星期三" align="center" width="100">
+      <el-table-column prop="wesD" label="星期三" align="center">
       </el-table-column>
-      <el-table-column prop="thurD" label="星期四" align="center" width="100">
+      <el-table-column prop="thurD" label="星期四" align="center">
       </el-table-column>
-      <el-table-column prop="friD" label="星期五" align="center" width="100">
+      <el-table-column prop="friD" label="星期五" align="center">
       </el-table-column>
-      <el-table-column prop="satD" label="星期六" align="center" width="100">
+      <el-table-column prop="satD" label="星期六" align="center">
       </el-table-column>
     </el-table>
   </div>
