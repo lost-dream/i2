@@ -12,13 +12,13 @@
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
       <el-table-column
-        prop="manName"
+        prop="phoneOwner"
         label="机主姓名"
         align="center"
         width="100"
       >
       </el-table-column>
-      <el-table-column prop="manPhone" align="center" label="机主电话号码">
+      <el-table-column prop="phoneNumber" align="center" label="机主电话号码">
       </el-table-column>
       <el-table-column
         prop="manCardNum"
@@ -28,8 +28,10 @@
       >
       </el-table-column>
       <el-table-column align="center" label="操作">
-        <template>
-          <el-button type="primary" @click="detail">查看详情</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary" @click="detail(scope.row)"
+            >查看详情
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -43,47 +45,26 @@
           width="50"
         >
         </el-table-column>
-        <el-table-column
-          prop="manName"
-          label="机主姓名"
-          align="center"
-          width="100"
-        >
+        <el-table-column prop="manName" label="机主姓名" align="center">
+          <template>
+            <span>{{ this.masterInfo.phoneOwner }}</span>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="phoneNum"
-          label="电话号码"
-          align="center"
-          width="100"
-        >
+        <el-table-column prop="phoneNum" label="电话号码" align="center">
+          <template>
+            <span>{{ this.masterInfo.phoneNumber }}</span>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="phoneTime"
-          label="通话时长"
-          align="center"
-          width="100"
-        >
+        <el-table-column prop="datetime" label="通话时长" align="center">
         </el-table-column>
-        <el-table-column
-          prop="beginTime"
-          label="通话时间"
-          align="center"
-          width="100"
-        >
+        <el-table-column prop="beginTime" label="通话时间" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.beginTime | formatDate }}</span>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="baseLocation"
-          label="归属地"
-          align="center"
-          width="100"
-        >
+        <el-table-column prop="location" label="归属地" align="center">
         </el-table-column>
-        <el-table-column
-          prop="IMEI"
-          label="基站信息"
-          align="center"
-          width="100"
-        >
+        <el-table-column prop="imei" label="基站信息" align="center">
         </el-table-column>
       </el-table>
     </flyDialog>
@@ -91,10 +72,17 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 import flyDialog from '../../../../components/fly-dialog'
 export default {
   components: {
     flyDialog,
+  },
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    },
   },
   data() {
     return {
@@ -142,9 +130,16 @@ export default {
       detailTable: [],
       show: false,
       width: '1200px',
+      masterInfo: {},
+      imeisInfo: [],
     }
   },
-  mounted() {},
+  mounted() {
+    // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.imeisInfo = JSON.parse(localStorage.getItem('imeisInfo'))
+    // this.onSubmit()
+    this.dataSort2()
+  },
 
   methods: {
     onSubmit() {
@@ -156,6 +151,11 @@ export default {
         console.log(data)
       })
       console.log('submit!')
+    },
+
+    // 数据重组
+    dataSort2() {
+      this.phoneSearch = this.imeisInfo
     },
 
     baseStation() {},
@@ -178,7 +178,12 @@ export default {
       })
       return newTime
     },
-    detail() {
+
+    detail(data) {
+      this.masterInfo.phoneOwner = data.phoneOwner
+      this.masterInfo.phoneNumber = data.phoneNumber
+      this.detailTable = data.mapsPhoneDetail
+      console.log(data)
       this.show = true
     },
   },
