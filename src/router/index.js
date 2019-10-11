@@ -317,7 +317,6 @@ const mainRoutes = [
         }
       },
 
-
       {
         path: '/taskManage',
         component: _import('modules/unioncase/taskManage'),
@@ -331,9 +330,6 @@ const mainRoutes = [
         name: 'taskAnalysisResults',
         meta: { title: 'taskAnalysisResults' }
       },
-
-
-
 
       {
         path: '/relation',

@@ -61,11 +61,12 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnAddDatacache"
                     class="tab-li"
+                    @click="addDataCacheHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">数据缓存</dd>
+                    <dd class="operate-desc">缓存数据</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -73,8 +74,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnLock"
                     class="tab-li"
+                    @click="lockNodeHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">锁定</dd>
@@ -85,8 +87,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnUnlock"
                     class="tab-li"
+                    @click="unLockNodeHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">解锁</dd>
@@ -95,7 +98,7 @@
                     <div class="mask"></div>
                   </div>
                 </li>
-                <li>
+                <!-- <li>
                   <dl
                     id="btnBatchAddNode"
                     class="tab-li"
@@ -103,15 +106,16 @@
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">选择</dd>
                   </dl>
-                </li>
+                </li> -->
               </ul>
             </el-tab-pane>
             <el-tab-pane label="编辑">
               <ul class="tab-list clearfix">
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnEidt"
                     class="tab-li"
+                    @click="eidtNodeHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">编辑</dd>
@@ -122,8 +126,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnDeleteNode"
                     class="tab-li"
+                    @click="deleteNodeHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">删除</dd>
@@ -134,8 +139,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnTagging"
                     class="tab-li"
+                    @click="taggingHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">一键标注</dd>
@@ -146,8 +152,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnRemark"
                     class="tab-li"
+                    @click="remarkHandle"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">备注</dd>
@@ -156,7 +163,7 @@
                     <div class="mask"></div>
                   </div>
                 </li>
-                <li>
+                <!-- <li>
                   <dl
                     id="btnBatchAddNode"
                     class="tab-li"
@@ -179,7 +186,7 @@
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
                   </div>
-                </li>
+                </li> -->
               </ul>
             </el-tab-pane>
             <el-tab-pane label="布局">
@@ -387,8 +394,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnSaveRelationData"
                     class="tab-li"
+                    @click="saveRelatonData"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">保存</dd>
@@ -399,8 +407,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnShareRelationData"
                     class="tab-li"
+                    @click="shareRelationData"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">共享</dd>
@@ -411,8 +420,9 @@
                 </li>
                 <li>
                   <dl
-                    id="btnBatchAddNode"
+                    id="btnManagerRelationData"
                     class="tab-li"
+                    @click="managerRelationData"
                   >
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">管理</dd>
@@ -457,6 +467,36 @@
       v-if="cacheDataVisible"
       ref="cacheData"
     ></cache-data>
+    <!-- 弹窗，添加关系 -->
+    <edit-edge
+      v-if="editEdgeVisible"
+      ref="editEdge"
+    ></edit-edge>
+    <!-- 弹窗，编辑节点 -->
+    <modify-node
+      v-if="modifyNodeVisible"
+      ref="modifyNode"
+    ></modify-node>
+    <!-- 弹窗，备注 -->
+    <remark
+      v-if="remarkVisible"
+      ref="remark"
+    ></remark>
+    <!-- 弹窗，协同工作管理 -->
+    <manager-relation
+      v-if="managerRelationVisible"
+      ref="managerRelation"
+    ></manager-relation>
+    <!-- 弹窗，协同工作共享 -->
+    <share-relation
+      v-if="shareRelationVisible"
+      ref="shareRelation"
+    ></share-relation>
+    <!-- 弹窗, 协同工作保存 -->
+    <save-relation
+      v-if="saveRelationVisible"
+      ref="saveRelation"
+    ></save-relation>
   </div>
 </template>
 
@@ -466,8 +506,15 @@ import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
 import AddNodes from './AddNodes'
 import CacheData from './CacheData'
+import EditEdge from './EditEdgeWindow'
+import ModifyNode from './ModifyNodeWindow'
+import Remark from './RemarkWindow'
+import ManagerRelation from './ManagerRelationWindow'
+import SaveRelation from './SaveRelationWindow'
+import ShareRelation from './ShareRelationWindow'
 import { Workbench } from './js/workbench'
 import { expandNode } from './js/expandNode'
+import { lockNode, unNockNode, deleteOperation, hasData, buildExportData } from './js/common'
 
 export default {
   components: {
@@ -475,12 +522,24 @@ export default {
     SidemenuItem,
     Sidefun,
     AddNodes,
-    CacheData
+    CacheData,
+    EditEdge,
+    ModifyNode,
+    Remark,
+    ManagerRelation,
+    ShareRelation,
+    SaveRelation
   },
   data () {
     return {
       addNodesVisible: false,
       cacheDataVisible: false,
+      editEdgeVisible: false,
+      modifyNodeVisible: false,
+      remarkVisible: false,
+      managerRelationVisible: false,
+      saveRelationVisible: false,
+      shareRelationVisible: false,
       basicInfo: {
         idNumber: '',
         name: '',
@@ -512,7 +571,7 @@ export default {
         this.$refs.sidebarControl.init('2', '导入节点');
       })
     },
-    // 点击数据缓存器
+    // 点击数据缓存器--显示面板
     cacheDataHandle () {
       this.cacheDataVisible = true;
       this.$nextTick(() => {
@@ -522,8 +581,111 @@ export default {
     // 点击添加关系
     addEdgeHandle () {
       this.unbindEvent();// 解绑事件，不然会导致添加关系失效
-      this.global.edge_adding = true
+      this.global.edge_adding = true;
       this.network.addEdgeMode();
+    },
+    // 点击缓存数据
+    addDataCacheHandle () {
+      let arr = this.network.getSelectedNodes(); // 获取选中节点的ID
+      let addAllCacheParam = [];// 缓存数据变量
+      for (var i = 0; i < arr.length; i++) {
+        addAllCacheParam.push({
+          keywords: this.global.nodes.get(arr[i]).keyword,
+          name: this.global.nodes.get(arr[i]).label,
+          dataType: this.global.nodes.get(arr[i]).nodeType,
+          folderId: this.global.nodes.get(arr[i]).folderId,
+          description: this.global.nodes.get(arr[i]).keyword
+        });// 缓存本页数据
+      }
+      this.$api.dataCacheSaveOrUpdate('save', addAllCacheParam).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '操作成功',
+            type: 'success',
+            duration: 1500
+          })
+        }
+      })
+      console.log(arr)
+    },
+    // 点击锁定
+    lockNodeHandle () {
+      var arr = this.network.getSelectedNodes();
+      lockNode(arr);
+    },
+    // 解锁
+    unLockNodeHandle () {
+      var arr = this.network.getSelectedNodes();
+      unNockNode(arr);
+    },
+    // 节点编辑
+    eidtNodeHandle () {
+      let arr = this.network.getSelectedNodes();
+      if (arr.length > 0) {
+        // 修改节点
+        for (var i in arr) {
+          var node = this.global.nodes.get(arr[i]);
+          this.modifyNodeVisible = true
+          this.$nextTick(() => {
+            this.$refs.modifyNode.init(node);
+          })
+          break;
+        }
+      }
+    },
+    // 节点删除
+    deleteNodeHandle () {
+      deleteOperation();
+    },
+    // 一键标注
+    taggingHandle () {
+      let arr = this.network.getSelectedNodes();
+      for (let i in arr) {
+        let node = this.global.nodes.get(arr[i]);
+        node.taggingState();
+      }
+    },
+    // 备注
+    remarkHandle () {
+      let arr = this.global.network.getSelectedNodes();
+      for (let i in arr) {
+        var node = this.global.nodes.get(arr[i]);
+        this.remarkVisible = true
+        this.$nextTick(() => {
+          this.$refs.remark.init(node);
+        })
+        break;
+      }
+    },
+    // 协同工作 -- 保存
+    saveRelatonData () {
+      if (!hasData()) {
+        this.$message({
+          message: '没有可以保存的数据！',
+          type: 'error',
+          duration: 1500
+        });
+        return;
+      }
+      var datas = buildExportData();
+      this.saveRelationVisible = true
+      this.$nextTick(() => {
+        this.$refs.saveRelation.init(datas);
+      })
+    },
+    // 协同工作-- 共享
+    shareRelationData () {
+      this.shareRelationVisible = true
+      this.$nextTick(() => {
+        this.$refs.shareRelation.init();
+      })
+    },
+    // 协同工作 -- 管理
+    managerRelationData () {
+      this.managerRelationVisible = true
+      this.$nextTick(() => {
+        this.$refs.managerRelation.init();
+      })
     },
     // network绑定事件
     bindEvent () {
@@ -555,7 +717,7 @@ export default {
         // refreshDxAnalysisWind();
       } else if (params.edges.length === 1) {
         // 点击的是连线
-        var edge = this.global.edges.get(params.edges[0]);
+        // var edge = this.global.edges.get(params.edges[0]);
 
         /** 在dark状态时，点击连线，节点无法恢复正常状态的 bug处理 start */
         // nomalNodes([edge.from, edge.to]);

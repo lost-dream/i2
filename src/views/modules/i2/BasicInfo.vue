@@ -119,7 +119,11 @@ export default {
     },
     // 删除标签
     handleCloseTag (tag) {
-      this.tagList.splice(this.tagList.indexOf(tag), 1);
+      this.$api.deletePersonTag({ tagId: tag.id }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.tagList.splice(this.tagList.indexOf(tag), 1);
+        }
+      })
     },
     // 表单提交
     dataFormSubmit () {

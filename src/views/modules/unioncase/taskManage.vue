@@ -97,84 +97,84 @@
 </template>
 
 <script>
-  export default {
-    name: "taskManage",
-    data() {
-      return {
-        pagination: {
-          page: 1,
-          size: 10,
-          total: 100
+export default {
+  name: 'taskManage',
+  data () {
+    return {
+      pagination: {
+        page: 1,
+        size: 10,
+        total: 100
+      },
+      statusList: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+      criteria: {
+        taskName: '',
+        status: ''
+      },
+      taskData: [
+        {
+          name: '123',
+          taskType: '查人',
+          status: '未开始',
+          endDate: '2019-09-05 20:00:39',
+          createDate: '2019-07-08 15:57:40'
         },
-        statusList: [
-          {
-            value: '选项1',
-            label: '黄金糕'
-          }, {
-            value: '选项2',
-            label: '双皮奶'
-          }, {
-            value: '选项3',
-            label: '蚵仔煎'
-          }, {
-            value: '选项4',
-            label: '龙须面'
-          }, {
-            value: '选项5',
-            label: '北京烤鸭'
-          }],
-        criteria: {
-          taskName: '',
-          status: ''
+        {
+          name: '123',
+          taskType: '查人',
+          status: '进行中',
+          endDate: '2019-09-05 20:00:39',
+          createDate: '2019-07-08 15:57:40'
         },
-        taskData: [
-          {
-            name: '123',
-            taskType: '查人',
-            status: '未开始',
-            endDate: '2019-09-05 20:00:39',
-            createDate: '2019-07-08 15:57:40'
-          },
-          {
-            name: '123',
-            taskType: '查人',
-            status: '进行中',
-            endDate: '2019-09-05 20:00:39',
-            createDate: '2019-07-08 15:57:40'
-          },
-          {
-            name: '123',
-            taskType: '查人',
-            status: '已完成',
-            endDate: '2019-09-05 20:00:39',
-            createDate: '2019-07-08 15:57:40'
-          }
-        ]
-      }
+        {
+          name: '123',
+          taskType: '查人',
+          status: '已完成',
+          endDate: '2019-09-05 20:00:39',
+          createDate: '2019-07-08 15:57:40'
+        }
+      ]
+    }
+  },
+  methods: {
+    // 搜索
+    isSeek () {},
+    addTask () {},
+    handleClick (row) {
+      console.log(row)
     },
-    methods: {
-      // 搜索
-      isSeek() {},
-      addTask() {},
-      handleClick(row){
-        console.log(row)
-      },
-      handleSizeChange(val) {
-        this.pagination.size = val;
-        /*var newArr = this.idList.map(function (item) {
+    handleSizeChange (val) {
+      this.pagination.size = val;
+      /* var newArr = this.idList.map(function (item) {
           return item
         }).join(',')
-        this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr);*/
-      },
-      handleCurrentChange(val) {
-        this.pagination.page = val;
-       /* var newArr = this.idList.map(function (item) {
+        this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr); */
+    },
+    handleCurrentChange (val) {
+      this.pagination.page = val;
+      /* var newArr = this.idList.map(function (item) {
           return item
         }).join(',')
-        this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr);*/
-      },
+        this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr); */
     }
   }
+}
 </script>
 
 <style lang="stylus" scoped>

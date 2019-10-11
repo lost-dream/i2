@@ -277,7 +277,32 @@ export default {
       })
     },
     // 批量删除
-    deleteHandle () { }
+    deleteHandle (id) {
+      let ids = id ? [id] : this.dataListSelections.map(item => {
+        return item.id
+      })
+      console.log(ids)
+      this.$confirm(`确定对[ID=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.dataCacheDelByIds(ids).then(({ data }) => {
+          if (data && data.code === 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.getDataList()
+              }
+            })
+          } else {
+            this.$message.error(data.message)
+          }
+        })
+      }).catch(() => { })
+    }
   },
   created () { },
   mounted () { }

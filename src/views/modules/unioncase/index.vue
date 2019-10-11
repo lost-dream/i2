@@ -297,10 +297,10 @@ export default {
   props: {},
   data () {
     var trackDate = (rule, value, callback) => {
-      if (this.trackForm.startDate === ''|| this.trackForm.endDate == '') {
+      if (this.trackForm.startDate === '' || this.trackForm.endDate == '') {
         callback(new Error('请输入始末时间'))
       }
-        callback()
+      callback()
     }
     return {
       activeName: 'Second',
@@ -329,29 +329,29 @@ export default {
       },
       trackList: [
         {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有'
         }, {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有'
         }, {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有'
         }, {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有'
         }, {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有'
         }, {
-          organName: "未来旅馆",
-          area: "成都市青羊区中坝",
-          geographic_position: "有"
+          organName: '未来旅馆',
+          area: '成都市青羊区中坝',
+          geographic_position: '有'
         }
       ],
       mapTableData: [],
@@ -430,7 +430,7 @@ export default {
             console.log(evt);
             if (evt.target._geometryType === 'circle') {
               var length = geometryEngine.geodesicLength(evt.geometry, 'meters') / Math.PI;// 长度公式
-              _this.range = length/2
+              _this.range = length / 2
               var a = evt.geometry.cache._extent;
               var newX = (a.xmin + a.xmax) / 2;
               var newY = (a.ymax + a.ymin) / 2;
@@ -494,7 +494,7 @@ export default {
       this.show = false;
     },
     // 轨迹点搜索
-    trackSearch(formName){
+    trackSearch (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.trackShow = false
@@ -507,15 +507,15 @@ export default {
       })
     },
     // 清空轨迹点信息
-    trackClear(){},
+    trackClear () {},
     // 确认标注
-    affirmLabel(){
+    affirmLabel () {
       this.trackShow2 = false
     },
     getRowKey (row) {
       console.log(row)
     },
-    handleSelectionChange(){}
+    handleSelectionChange () {}
   }
 }
 </script>
@@ -656,7 +656,6 @@ a:focus, a:hover
 
 .mod-ticket .dialog .el-date-editor.el-input:nth-child(2)
   margin-left 2%
-
 
   /*隐藏进度条*/
 .dialog .el-table__body-wrapper::-webkit-scrollbar {

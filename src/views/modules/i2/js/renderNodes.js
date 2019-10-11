@@ -68,8 +68,9 @@ function addNodeToCanvas (childs, count) {
     if (ids.indexOf(node.id) === -1 && !arrayExistsNode(subnodes, node.id)) {
       // 判断在聚合节点中是否已经存在
       if (existsInCluster(node.pid, node.id)) continue;
-      // var obj = new Node(network, node);
-      subnodes.push(node);
+      var obj = new Node(node, network, nodes);
+      console.log(obj)
+      subnodes.push(obj);
     } else {
       var un = nodes.get(node.id);
       if (un) {

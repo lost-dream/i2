@@ -93,15 +93,14 @@ export default {
               caseName: this.ticketForm.case,
               desc: this.ticketForm.depict
 
-
-              /*flag: this.ticketForm.name,
+              /* flag: this.ticketForm.name,
               id: this.ticketForm.name,
               recordId: this.ticketForm.name,
               time: this.ticketForm.name,
-              name: this.ticketForm.name*/
+              name: this.ticketForm.name */
             }
           ).then(({ data }) => {
-            console.log("新建话单")
+            console.log('新建话单')
             console.log(data)
           })
         } else {

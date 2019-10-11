@@ -2,7 +2,7 @@ export function Edge (node) {
   $.extend(this, {
     from: '',
     to: '',
-    label: '同住关系',
+    label: '',
     selectionWidth: 2,
     lineWidth: 1,
     dashes: false,

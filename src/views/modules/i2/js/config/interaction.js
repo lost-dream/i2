@@ -5,7 +5,7 @@ export default {
   interaction: {
     dragNodes: true,
     dragView: true,
-    hideEdgesOnDrag: true,
+    hideEdgesOnDrag: false,
     hideNodesOnDrag: false,
     hover: true,
     // 导航按钮

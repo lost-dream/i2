@@ -3,7 +3,7 @@
  */
 export default {
   layout: {
-    randomSeed: undefined,
+    randomSeed: 1,
     improvedLayout: true,
     hierarchical: {
       enabled: false,

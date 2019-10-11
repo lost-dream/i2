@@ -35,7 +35,11 @@ export default {
    * @param {*} ids
    */
   dataCacheDelByIds (ids) {
-
+    return http({
+      url: http.adornUrl('i2/cacheDataCtlr/delByIds'),
+      method: 'get',
+      params: http.adornParams(ids, false)
+    })
   },
   /**
   * 数据缓存--通过id获取缓存数据
@@ -104,7 +108,7 @@ export default {
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/' + addr),
       method: 'post',
-      data: http.adornData(data)
+      data: data
     })
   },
   /**
@@ -236,6 +240,38 @@ export default {
       url: http.adornUrl('i2/nodeDetailCtlr/saveTag'),
       method: 'post',
       data: http.adornData(data)
+    })
+  },
+  /**
+   * 节点详情-- 人员标签删除
+   * @param {*} data
+   */
+  deletePersonTag (data) {
+    return http({
+      url: http.adornUrl('i2/nodeDetailCtlr/deleteTag'),
+      method: 'get',
+      params: http.adornParams(data)
+    })
+  },
+  /**
+   * 协同工作--保存分析记录
+   */
+  saveAnalyticalRecords (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/saveAnalyticalRecords'),
+      method: 'post',
+      data: http.adornData(data)
+    })
+  },
+  /**
+   * 协同工作 -- 管理分析记录列表
+   * @param {*} data
+   */
+  listAllAnalyticalRecords (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/listAllAnalyticalRecords'),
+      method: 'get',
+      params: http.adornParams(data)
     })
   },
   // ------------------------------------ticket---------------------------------------------//
