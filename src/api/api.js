@@ -245,7 +245,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketNoteQuery'),
       method: 'post',
-      data: http.adornData(data),
+      data: http.adornData(data, false),
     })
   },
   /**

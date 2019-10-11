@@ -25,7 +25,52 @@
         <el-button type="primary" @click="exportExcel">导出</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="continueTable" border style="width: 100%">
+    <!--   <el-table :data="continueTable" border style="width: 100%">
+    <el-table-column
+    label="序号"
+    type="index"
+    align="center"
+    prop="index"
+    width="50"
+    >
+    </el-table-column>
+    <el-table-column
+    prop="otherPartyPhone"
+    label="对方号码"
+    align="center"
+    width="100"
+    >
+    </el-table-column>
+    <el-table-column
+    prop="communicationMode"
+    label="呼叫类型"
+    align="center"
+    width="100"
+    >
+    </el-table-column>
+    <el-table-column
+    prop="beginTime"
+    label="通话时间"
+    align="center"
+    width="100"
+    >
+    </el-table-column>
+    <el-table-column
+    prop="communicationTime"
+    label="通话时长"
+    align="center"
+    width="100"
+    >
+    </el-table-column>
+    <el-table-column
+    prop="baseStationLocation"
+    label="基站地址"
+    align="center"
+    width="100"
+    >
+    </el-table-column>
+    </el-table>-->
+    <el-table :data="continueData2" border style="width: 100%">
       <el-table-column
         label="序号"
         type="index"
@@ -34,39 +79,21 @@
         width="50"
       >
       </el-table-column>
-      <el-table-column
-        prop="otherPartyPhone"
-        label="对方号码"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
       </el-table-column>
-      <el-table-column
-        prop="communicationMode"
-        label="呼叫类型"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="communicationMode" label="呼叫类型" align="center">
       </el-table-column>
-      <el-table-column
-        prop="beginTime"
-        label="通话时间"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="beginTime" label="通话时间" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.beginTime | formatDate }}</span>
+        </template>
       </el-table-column>
-      <el-table-column
-        prop="communicationTime"
-        label="通话时长"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="communicationTime" label="通话时长" align="center">
       </el-table-column>
       <el-table-column
         prop="baseStationLocation"
         label="基站地址"
         align="center"
-        width="100"
       >
       </el-table-column>
     </el-table>
@@ -74,8 +101,14 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 export default {
-  mounted() {},
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    },
+  },
   data() {
     return {
       pickerOptions: {
@@ -122,12 +155,63 @@ export default {
           baseStationLocation: '成都',
         },
       ],
+
+      continueData: [],
+      continueData2: [],
     }
+  },
+  mounted() {
+    // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.continueData = JSON.parse(localStorage.getItem('phoneInfo'))
+    this.onSubmit()
   },
   methods: {
     onSubmit() {
-      console.log('submit!')
+      let data = this.continueData
+      this.continueData2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      console.log(this.continueData2)
     },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.continueData2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.continueData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
+
     exportExcel() {
       require.ensure([], () => {
         const { exportJsonToExcel } = require('../../../../utils/Export2Excel')

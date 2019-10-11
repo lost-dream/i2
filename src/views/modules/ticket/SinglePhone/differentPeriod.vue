@@ -27,9 +27,9 @@
       <el-form-item>
         <el-button type="danger" @click="resetForm('callForm')">重置</el-button>
       </el-form-item>
-      <input-tag v-on:remove="remove" v-model="callForm.timeList"></input-tag>
+      <!--<input-tag v-on:remove="remove" v-model="callForm.timeList"></input-tag>-->
     </el-form>
-    <el-table :data="differentPeriod" border style="width: 100%">
+    <el-table :data="differentData2" border style="width: 100%">
       <el-table-column
         label="序号"
         type="index"
@@ -42,21 +42,31 @@
           :label="item.label"
           :key="index"
           align="center"
-          :width="item.width"
         ></el-table-column>
+        <!--<el-table-column
+          :prop="item.propName"
+          :label="item.label"
+          :key="index"
+          align="center"
+          :width="item.width"
+        ></el-table-column>-->
       </template>
     </el-table>
   </div>
 </template>
 
 <script>
-import InputTag from '../comments/inputTag'
+// import InputTag from '../comments/inputTag'
+import { formatDate } from '../../../../utils/dateFormat.js'
 export default {
   components: {
-    InputTag,
+    // InputTag,
   },
-  mounted() {
-    console.log(this)
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'hh:mm:ss ')
+    },
   },
   data() {
     return {
@@ -118,11 +128,101 @@ export default {
         },
         { propName: 'location', label: '号码属地', fixed: true, width: '100' },
       ],
+      differentData: [],
+      differentData2: [],
     }
   },
+
+  mounted() {
+    // this.differentData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.differentData = JSON.parse(localStorage.getItem('phoneInfo'))
+    this.searchData()
+  },
+
   methods: {
     searchData() {
-      this.tableDataHandle()
+      let data = this.differentData
+      this.differentData2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      this.differentData2 = this.dataSort2(this.differentData2)
+      console.log(this.differentData2)
+      // this.tableDataHandle()
+    },
+
+    // 数据重组
+    dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let otherPartyPhone = ai.otherPartyPhone
+        if (!data1[otherPartyPhone]) {
+          value1.push({
+            otherPartyPhone: otherPartyPhone,
+            beginTime: [ai],
+            periorTimes: 1,
+            location: ai.location,
+          })
+          data1[otherPartyPhone] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            let otherPartyPhone = ai.otherPartyPhone
+            if (dj.otherPartyPhone === otherPartyPhone) {
+              dj.beginTime.push(ai)
+              dj.periorTimes = this.differTotal(dj.beginTime)
+              break
+            }
+          }
+        }
+      })
+      return value1
+    },
+
+    // 时段计算
+    differTotal(data) {
+      let arr = []
+      data.forEach(item => {
+        let hours = formatDate(new Date(item.beginTime), 'h')
+        arr.indexOf(hours) === -1 && arr.push(hours)
+      })
+      return arr.length
+    },
+    // 时间筛选
+    timeSizer() {
+      let data = this.differentData2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.differentData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
     },
     addTime() {
       console.log('xzh', this.callForm)

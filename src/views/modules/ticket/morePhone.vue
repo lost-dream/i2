@@ -136,7 +136,6 @@ export default {
       var _this = this
       this.$api.ticketOneName().then(({ data }) => {
         console.log(data)
-
         if (data.success) {
           let casesArr = []
           let caseList = data.result
@@ -147,11 +146,7 @@ export default {
             casesArr.push(a)
           })
           _this.cases = casesArr
-          console.log(_this.cases)
-          _this.$message({
-            message: '获取话单案件名称成功！!',
-            type: 'success',
-          })
+          // console.log(_this.cases)
         } else {
           this.$message({
             message: '获取话单案件名称失败!',
@@ -178,10 +173,6 @@ export default {
           })
           _this.phoneList = phoneArr
           console.log(_this.phoneList)
-          _this.$message({
-            message: '获取话单案件电话成功！!',
-            type: 'success',
-          })
         } else {
           this.$message({
             message: '获取话单案件电话失败!',
@@ -200,6 +191,8 @@ export default {
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)
         if (data.success) {
+          // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
+          localStorage.setItem('morePhone', JSON.stringify(data.result))
         } else {
           this.$message({
             message: '获取话单失败!',

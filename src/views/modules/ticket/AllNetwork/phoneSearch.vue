@@ -2,7 +2,7 @@
   <div class="container">
     <el-form :inline="true" :model="phoneSearchForm" class="demo-form-inline">
       <el-form-item label="电话号码">
-        <el-input v-model="phoneNum"></el-input>
+        <el-input v-model="phoneSearchForm.phoneNum"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -96,10 +96,8 @@ export default {
   components: {
     flyDialog,
   },
-  mounted() {},
   data() {
     return {
-      phoneNum: '',
       show: false,
       width: '1200px',
       pickerOptions: {
@@ -153,10 +151,21 @@ export default {
       },
     }
   },
+  mounted() {},
+
   methods: {
     onSubmit() {
+      var _this = this
+      let obj = {
+        phone: this.phoneSearchForm.phoneNum,
+      }
+      this.$api.ticketNoteQuery(obj).then(({ data }) => {
+        console.log(data)
+      })
       console.log('submit!')
     },
+
+
     baseStation() {},
     timeChange(time) {
       var newTime = time.map(function(item) {

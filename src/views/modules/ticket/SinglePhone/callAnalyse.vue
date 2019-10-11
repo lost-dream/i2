@@ -37,29 +37,14 @@
         <el-button type="danger" @click="resetForm('callForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="callAnalyse" border style="width: 100%">
+    <el-table :data="callAnalyseData2" border style="width: 100%">
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
-      <el-table-column
-        prop="otherPartyPhone"
-        label="对方号码"
-        align="center"
-        width="120"
-      >
+      <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
       </el-table-column>
-      <el-table-column
-        prop="callTimes"
-        label="通话频次"
-        align="center"
-        width="120"
-      >
+      <el-table-column prop="callTimes" label="通话频次" align="center">
       </el-table-column>
-      <el-table-column
-        prop="communicationTime"
-        label="通话时长"
-        align="center"
-        width="120"
-      >
+      <el-table-column prop="communicationTime" label="通话时长" align="center">
       </el-table-column>
       <el-table-column label="详情" align="center" width="120">
         <template slot-scope="scope">
@@ -70,7 +55,7 @@
       </el-table-column>
     </el-table>
     <flyDialog :show.sync="show" :width="width">
-      <el-table :data="analyseTable" border style="width: 100%">
+      <!--<el-table :data="analyseTable" border style="width: 100%">
         <el-table-column
           label="序号"
           type="index"
@@ -114,18 +99,56 @@
           width="100"
         >
         </el-table-column>
+      </el-table>-->
+      <el-table :data="analyseTable" border style="width: 100%">
+        <el-table-column
+          label="序号"
+          type="index"
+          align="center"
+          prop="index"
+          width="50"
+        >
+        </el-table-column>
+        <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="communicationMode"
+          label="呼叫类型"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column prop="beginTime" label="通话时间" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="communicationTime"
+          label="通话时长"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="baseStationLocation"
+          label="基站地址"
+          align="center"
+        >
+        </el-table-column>
       </el-table>
     </flyDialog>
   </div>
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 import flyDialog from '../../../../components/fly-dialog'
 export default {
   components: {
     flyDialog,
   },
-  mounted() {},
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    },
+  },
   data() {
     return {
       pickerOptions: {
@@ -181,10 +204,112 @@ export default {
           baseStationLocation: '成都',
         },
       ],
+      callAnalyseData: [],
+      callAnalyseData2: [],
     }
   },
+  mounted() {
+    this.callAnalyseData = JSON.parse(localStorage.getItem('phoneInfo'))
+    // this.soonLateData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.onSubmit()
+  },
   methods: {
-    onSubmit() {},
+    // 查询
+    onSubmit() {
+      let data = this.callAnalyseData
+      this.callAnalyseData2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      console.log(this.callAnalyseData2)
+      this.callAnalyseData2.callTimes = this.dateList(this.callAnalyseData2)
+      conData.communicationTime !== '' && this.callTimeSizer()
+      console.log(this.callAnalyseData2)
+    },
+
+    // 提取时间列表
+    dateList(data) {
+      let arr = []
+      for (var i = 0; i < 24; i++) {
+        arr.push(0)
+      }
+      console.log(arr)
+      data.forEach(item => {
+        let hours = formatDate(new Date(item.beginTime), 'h')
+        arr[hours]++
+        console.log(hours)
+      })
+      console.log(arr)
+      return arr
+    },
+
+    // 时长筛选
+    callTimeSizer() {
+      let data = this.callAnalyseData2
+      let callTime = this.callForm.communicationTime
+      let dataArr = []
+      data.forEach(item => {
+        this.timeToSec(callTime) <= this.timeToSec(item.communicationTime) &&
+          dataArr.push(item)
+      })
+      this.callAnalyseData2 = dataArr
+    },
+
+    // 时间转为毫秒
+    timeToSec(time) {
+      time.replace(/分钟/g, '分')
+      time.replace(/小时/g, '时')
+      let hourIn, minIn, secIn
+      time.indexOf('时') == -1 ? (hourIn = 0) : (hourIn = time.indexOf('时'))
+      time.indexOf('分') == -1 ? (minIn = 0) : (minIn = time.indexOf('分'))
+      time.indexOf('秒') == -1 ? (secIn = 0) : (secIn = time.indexOf('秒'))
+      let hour = 0
+      let min = 0
+      let sec = 0
+      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
+      hourIn != 0 && (hour = time.substring(0, hourIn))
+      minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
+      secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
+      var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
+      return s * 1000
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.callAnalyseData2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.callAnalyseData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     baseStation() {},
     check() {
       this.show = true

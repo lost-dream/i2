@@ -26,14 +26,9 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 import echarts from 'echarts'
 export default {
-  mounted() {
-    this.picture1()
-    this.picture2()
-    this.picture3()
-    this.picture4()
-  },
   data() {
     return {
       pickerOptions: {
@@ -68,15 +63,221 @@ export default {
         ],
       },
       callForm: {
-        time: '',
+        time: null,
       },
+      callDetailData: [],
+      callDetailData2: [],
+      pictureData1: {},
+      pictureData2: {},
+      pictureData3: {},
+      pictureData4: {},
     }
   },
+
+  mounted() {
+    this.callDetailData = JSON.parse(localStorage.getItem('phoneInfo'))
+    // this.callDetailData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.onSubmit()
+  },
+
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time))
-      console.log('submit!')
+      let data = this.callDetailData
+      this.callDetailData2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      console.log(this.callDetailData2)
+      this.situation(this.callDetailData2)
+      this.pictureData2 = this.dayCount(this.callDetailData2)
+      this.pictureData3 = this.phoneCount(this.callDetailData2, '主叫')
+      this.pictureData4 = this.phoneCount(this.callDetailData2, '被叫')
+      console.log(55555555)
+      console.log(this.pictureData3)
+      this.picture1()
+      this.picture2()
+      this.picture3()
+      this.picture4()
     },
+    // 加载概况数据
+    situation(data) {
+      this.pictureData1 = {
+        callNumber: data.length,
+        duration: this.durationData(data),
+        Lord: this.callLord(data),
+        passive: this.callPassive(data),
+      }
+    },
+
+    // 加载主叫TOP
+    phoneCount(data, type) {
+      let picturInfo = {}
+      let data1 = {}
+      let a = []
+      let b = []
+      let value1 = []
+      data.forEach(ai => {
+        if (ai.communicationMode === type) {
+          let otherPartyPhone = ai.otherPartyPhone
+          if (!data1[otherPartyPhone]) {
+            value1.push({
+              otherPartyPhone: otherPartyPhone,
+              count: 1,
+            })
+            data1[otherPartyPhone] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              let aiBeg = ai.otherPartyPhone
+              if (dj.otherPartyPhone === aiBeg) {
+                dj.count++
+                break
+              }
+            }
+          }
+        }
+      })
+      value1.forEach(item => {
+        a.push(item.otherPartyPhone)
+        b.push(item.count)
+      })
+      picturInfo.otherPartyPhone = a
+      picturInfo.count = b
+      return picturInfo
+    },
+
+    // 加载当日通话计数
+    dayCount(data) {
+      let picturInfo = {}
+      let data1 = {}
+      let a = []
+      let b = []
+      let value1 = []
+      data.forEach(ai => {
+        let beginTime = formatDate(new Date(ai.beginTime), 'yyyy-MM-dd')
+        if (!data1[beginTime]) {
+          value1.push({
+            beginTime: beginTime,
+            count: 1,
+          })
+          data1[beginTime] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            let aiBeg = formatDate(new Date(ai.beginTime), 'yyyy-MM-dd')
+            if (dj.beginTime === aiBeg) {
+              dj.count++
+              break
+            }
+          }
+        }
+      })
+      this.sortByKey(value1, 'beginTime', 'up')
+      value1.forEach(item => {
+        a.push(item.beginTime)
+        b.push(item.count)
+      })
+      picturInfo.date = a
+      picturInfo.count = b
+      return picturInfo
+    },
+
+    // 时间排序
+    sortByKey(array, key, updown) {
+      return array.sort(function(a, b) {
+        var x = a[key]
+        var y = b[key]
+        if (updown == 'up') {
+          return x < y ? -1 : x > y ? 1 : 0
+        }
+        if (updown == 'down') {
+          return x < y ? 1 : x > y ? -1 : 0
+        }
+      })
+    },
+
+    // 主叫
+    callLord(data) {
+      let total = 0
+      data.forEach(item => {
+        item.communicationMode === '主叫' && total++
+      })
+      return total
+    },
+
+    // 被叫
+    callPassive(data) {
+      let total = 0
+      data.forEach(item => {
+        item.communicationMode === '被叫' && total++
+      })
+      return total
+    },
+
+    // 累计时长
+    durationData(data) {
+      let s = 0
+      data.forEach(item => {
+        s = s + this.timeToSec(item.communicationTime)
+      })
+      return s
+    },
+
+    // 时间转为秒
+    timeToSec(time) {
+      time.replace(/分钟/g, '分')
+      time.replace(/小时/g, '时')
+      let hourIn, minIn, secIn
+      time.indexOf('时') == -1 ? (hourIn = 0) : (hourIn = time.indexOf('时'))
+      time.indexOf('分') == -1 ? (minIn = 0) : (minIn = time.indexOf('分'))
+      time.indexOf('秒') == -1 ? (secIn = 0) : (secIn = time.indexOf('秒'))
+      let hour = 0
+      let min = 0
+      let sec = 0
+      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
+      hourIn != 0 && (hour = time.substring(0, hourIn))
+      minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
+      secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
+      var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
+      return s
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.callDetailData2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.callDetailData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)
@@ -149,7 +350,7 @@ export default {
             },
             data: [
               {
-                value: '114',
+                value: this.pictureData1.callNumber,
                 name: '总通话次数',
                 itemStyle: { color: 'rgba(128,125,239,0.9)' },
               },
@@ -177,7 +378,7 @@ export default {
             },
             data: [
               {
-                value: '114',
+                value: this.pictureData1.duration,
                 name: '累计时长(s)',
                 itemStyle: { color: 'rgba(75,137,241,0.9)' },
               },
@@ -205,12 +406,12 @@ export default {
             },
             data: [
               {
-                value: 335,
+                value: this.pictureData1.Lord,
                 name: '主叫占比',
                 itemStyle: { color: 'rgba(225,150,54,0.9)' },
               },
               {
-                value: 310,
+                value: this.pictureData1.passive,
                 name: '被叫占比',
                 itemStyle: { color: 'rgba(228,104,98,0.9)' },
               },
@@ -259,7 +460,7 @@ export default {
             name: '时间',
             nameTextStyle: { color: 'white' },
             type: 'category',
-            data: ['2019-07-21', '2019-07-22', '2019-07-23', '2019-07-24'],
+            data: this.pictureData2.date,
             axisLabel: {
               show: true,
               textStyle: {
@@ -310,7 +511,7 @@ export default {
             name: '通话次数',
             type: 'bar',
             barWidth: '20%',
-            data: [1, 2, 3, 4],
+            data: this.pictureData2.count,
           },
         ],
         emphasis: {
@@ -360,7 +561,7 @@ export default {
             name: '电话号码',
             nameTextStyle: { color: 'white' },
             type: 'category',
-            data: ['13111111111', '15111111111', '18111111111', '16111111111'],
+            data: this.pictureData3.otherPartyPhone,
             axisLabel: {
               show: true,
               textStyle: {
@@ -411,7 +612,7 @@ export default {
             name: '通话次数',
             type: 'bar',
             barWidth: '20%',
-            data: [1, 2, 3, 4],
+            data: this.pictureData3.count,
           },
         ],
         emphasis: {
@@ -461,7 +662,7 @@ export default {
             name: '电话号码',
             nameTextStyle: { color: 'white' },
             type: 'category',
-            data: ['13111111111', '15111111111', '18111111111', '16111111111'],
+            data: this.pictureData4.otherPartyPhone,
             axisLabel: {
               show: true,
               textStyle: {
@@ -512,7 +713,7 @@ export default {
             name: '通话次数',
             type: 'bar',
             barWidth: '20%',
-            data: [1, 2, 3, 4],
+            data: this.pictureData4.count,
           },
         ],
         emphasis: {

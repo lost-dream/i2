@@ -206,7 +206,7 @@ export default {
   filters: {
     formatDate(time) {
       var date = new Date(time)
-      return formatDate(date, 'yyyy-MM-dd hh:mm ')
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
   },
   data() {
@@ -293,7 +293,6 @@ export default {
       console.log(PageData)
       console.log(this.phoneData2)
       console.log('phoneData2')
-      // recordId
       this.converseForm.id = PageData[0].recordId
       return PageData
     },
@@ -391,7 +390,7 @@ export default {
       console.log(this.converseForm.time)
       /*      console.log(this.timeChange(this.converseForm.time))
               console.log(this.timeChange(this.converseForm.time)[1])
-              console.log(this.timeChange(this.converseForm.time)[0])*/
+              console.log(this.timeChange(this.converseForm.time)[0]) */
       console.log(this.converseForm.phone)
       console.log(this.converseForm.callTime)
       console.log('submit!')
@@ -402,7 +401,7 @@ export default {
            overTime: this.converseForm.time[1],
            phone: this.converseForm.phone,
            time: this.converseForm.time[0]
-           // time: this.timeChange(this.converseForm.time)[0]*/
+           // time: this.timeChange(this.converseForm.time)[0] */
       }
       this.$api.ticketCallQuery(obj).then(({ data }) => {
         _this.converseData = data.result.ticketDetailsDTOList
@@ -415,14 +414,14 @@ export default {
       let data = this.converseData
       this.converseData2 = data
       let conData = this.converseForm
-      /*let callFilter=(condition,data)=>{
+      /* let callFilter=(condition,data)=>{
           return data.filter( item => {
             return Object.keys( condition ).every( key => {
               return String( item[ key ] ).toLowerCase().includes(
                 String( condition[ key ] ).trim().toLowerCase() )
             } )
           } )
-        }*/
+        } */
       let condition = {}
       console.log('通话查询')
       console.log(conData)
@@ -459,10 +458,10 @@ export default {
       time.indexOf('时') == -1 ? (hourIn = 0) : (hourIn = time.indexOf('时'))
       time.indexOf('分') == -1 ? (minIn = 0) : (minIn = time.indexOf('分'))
       time.indexOf('秒') == -1 ? (secIn = 0) : (secIn = time.indexOf('秒'))
-      let hour = 0,
-        min = 0,
-        sec = 0
-      hourIn == 0 && minIn == 0 && secIn == 0 && (min = time)
+      let hour = 0
+      let min = 0
+      let sec = 0
+      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
       hourIn != 0 && (hour = time.substring(0, hourIn))
       minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
       secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
@@ -485,9 +484,9 @@ export default {
      * converseTime 要判断的时间 stime 开始时间 etime 结束时间
      */
     compareTime(changeTime, stime, etime) {
-      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd')
-      stime = formatDate(new Date(stime), 'yyyy-MM-dd')
-      etime = formatDate(new Date(etime), 'yyyy-MM-dd')
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
 
       // 转换时间格式，并转换为时间戳
       function tranDate(time) {

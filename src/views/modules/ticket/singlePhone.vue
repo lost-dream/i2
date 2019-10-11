@@ -172,7 +172,6 @@ export default {
       var _this = this
       this.$api.ticketOneName().then(({ data }) => {
         console.log(data)
-
         if (data.success) {
           let casesArr = []
           let caseList = data.result
@@ -183,7 +182,7 @@ export default {
             casesArr.push(a)
           })
           _this.cases = casesArr
-          console.log(_this.cases)
+          // console.log(_this.cases)
         } else {
           this.$message({
             message: '获取话单案件名称失败!',
@@ -228,7 +227,8 @@ export default {
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)
         if (data.success) {
-          sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
+          // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
+          localStorage.setItem('phoneInfo', JSON.stringify(data.result))
         } else {
           this.$message({
             message: '获取话单失败!',

@@ -22,11 +22,9 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 import echarts from 'echarts'
 export default {
-  mounted() {
-    this.picture()
-  },
   data() {
     return {
       pickerOptions: {
@@ -63,13 +61,80 @@ export default {
       callForm: {
         time: '',
       },
+      periodAllData: [],
+      periodAllData2: [],
     }
+  },
+  mounted() {
+    // this.periodAllData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.periodAllData = JSON.parse(localStorage.getItem('phoneInfo'))
+    this.onSubmit()
   },
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time))
-      console.log('submit!')
+      let data = this.periodAllData
+      this.periodAllData2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      console.log(this.periodAllData2)
+      this.periodAllData2 = this.dateList(this.periodAllData2)
+      this.picture()
+      console.log(this.periodAllData2)
     },
+
+    // 提取时间列表
+    dateList(data) {
+      let arr = []
+      for (var i = 0; i < 24; i++) {
+        arr.push(0)
+      }
+      console.log(arr)
+      data.forEach(item => {
+        let hours = formatDate(new Date(item.beginTime), 'h')
+        arr[hours]++
+        console.log(hours)
+      })
+      console.log(arr)
+      return arr
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.periodAllData2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.periodAllData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)
@@ -187,32 +252,7 @@ export default {
             name: '通话次数',
             type: 'bar',
             barWidth: '60%',
-            data: [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18,
-              19,
-              20,
-              21,
-              22,
-              23,
-              24,
-            ],
+            data: this.periodAllData2,
           },
         ],
         emphasis: {
