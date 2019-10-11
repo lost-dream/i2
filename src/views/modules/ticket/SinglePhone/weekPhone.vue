@@ -60,8 +60,9 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
+
 export default {
-  mounted() {},
   data() {
     return {
       pickerOptions: {
@@ -100,7 +101,7 @@ export default {
       },
       continueTable: [
         {
-          index: '',
+          // index: '',
           otherPartyPhone: '13111111111',
           sunD: '1',
           monD: '2',
@@ -111,12 +112,120 @@ export default {
           satD: '13',
         },
       ],
+      phoneInfo: [],
+      phoneInfo2: [],
     }
   },
+
+  mounted() {
+    // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.phoneInfo = JSON.parse(localStorage.getItem('phoneInfo'))
+    this.onSubmit()
+  },
+
   methods: {
     onSubmit() {
-      console.log('submit!')
+      let data = this.phoneInfo
+      this.phoneInfo2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null && this.timeSizer()
+      this.continueTable = this.dataSort2(this.phoneInfo2)
     },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.phoneInfo2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.phoneInfo2 = dataArr
+    },
+
+    // 数据重组
+    dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let otherPartyPhone = ai.otherPartyPhone
+        if (!data1[otherPartyPhone]) {
+          value1.push({
+            otherPartyPhone: ai.otherPartyPhone,
+            sunD: 0,
+            monD: 0,
+            tuesD: 0,
+            wesD: 0,
+            thurD: 0,
+            friD: 0,
+            satD: 0,
+          })
+          data1[otherPartyPhone] = ai
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            let otherPartyPhone = ai.otherPartyPhone
+            if (dj.otherPartyPhone === otherPartyPhone) {
+              dj[this.compareTime2(ai.beginTime)]++
+              break
+            }
+          }
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            let otherPartyPhone = ai.otherPartyPhone
+            if (dj.otherPartyPhone === otherPartyPhone) {
+              dj[this.compareTime2(ai.beginTime)]++
+              break
+            }
+          }
+        }
+      })
+      return value1
+    },
+
+    /**
+     * 判断星期几
+     */
+    compareTime2(date) {
+      var d = new Date(date)
+      var weekday = new Array(7)
+      weekday[0] = 'sunD'
+      weekday[1] = 'monD'
+      weekday[2] = 'tuesD'
+      weekday[3] = 'wesD'
+      weekday[4] = 'thurD'
+      weekday[5] = 'friD'
+      weekday[6] = 'satD'
+      return weekday[d.getDay()]
+    },
+
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     exportExcel() {
       require.ensure([], () => {
         const { exportJsonToExcel } = require('../../../../utils/Export2Excel')
@@ -171,7 +280,7 @@ export default {
     },
     cellStyle(row) {
       if (row.columnIndex >= 2) {
-        console.log(row)
+        // console.log(row)
       }
     },
   },
@@ -188,17 +297,23 @@ export default {
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
   color white
+
 .el-form-item__label
   color white !important
+
 .el-table
   background-color rgba(44, 239, 255, 0.3) !important
   color white !important
+
 .el-table th, .el-table tr
   background-color transparent !important
+
 .el-table thead
   color white !important
-.el-table tbody tr:hover>td
+
+.el-table tbody tr:hover > td
   background-color rgba(44, 239, 255, 0.4) !important
+
 .el-pagination__total
   color white
 </style>

@@ -185,8 +185,13 @@ export default {
     // 获取话单列表
     singlePhoneList() {
       var _this = this
+      // let obj = {
+      //   id: '739c3cf0-a365-4ca3-90c5-e5b33d3d2334',
+      //   phone: '13100001111',
+      // }
       let obj = {
         id: this.select.id,
+        phone: '13100001111',
       }
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)

@@ -233,9 +233,15 @@ export default {
    */
   ticketOneAnalyze(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
+      url: http.adornUrl(
+        'ticket/statement/ticketOneAnalyze?id=' +
+          data.id +
+          '&phone=' +
+          data.phone,
+      ),
       method: 'post',
-      data: http.adornData(data, false),
+      // data: http.adornData(data, false),
+      // data: http.adornData(data, false),
     })
   },
   /**

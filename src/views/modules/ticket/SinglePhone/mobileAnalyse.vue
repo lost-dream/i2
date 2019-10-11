@@ -38,6 +38,9 @@
       <el-table-column prop="callTimes" label="通话次数" align="center">
       </el-table-column>
       <el-table-column prop="lastTime" label="最后使用时间" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.lastTime | formatDate }}</span>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -49,7 +52,7 @@ export default {
   filters: {
     formatDate(time) {
       var date = new Date(time)
-      return formatDate(date, 'hh:mm:ss ')
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
   },
   data() {
@@ -118,7 +121,7 @@ export default {
       console.log('分析查询')
       conData.time != null && this.timeSizer()
       this.continueTable[0].callTimes = this.phoneInfo2.length
-      this.continueTable[0].callTimes = this.timeTotal(this.phoneInfo2)
+      this.continueTable[0].lastTime = this.timeTotal(this.phoneInfo2)
       // this.positionArray = this.addPoint(this.phoneInfo2)
       // this.mapDraw()
       // console.log(this.positionArray)
@@ -127,9 +130,10 @@ export default {
 
     // 总时长
     timeTotal(data) {
-      let istime = this.timeToSec(data[0].beginTime)
+      let istime = data[0].beginTime
       data.forEach(item => {
-        istime > this.timeToSec(item.beginTime) && (istime = item.beginTime)
+        this.timeToSec(istime) > this.timeToSec(item.beginTime) &&
+          (istime = item.beginTime)
       })
       return istime
     },
