@@ -65,44 +65,42 @@
             <div class="fly-form">
               <el-form
                 :model="secondaryPWDModel"
-                :rules="rules"
                 @keyup.enter.native="submitForm()"
                 status-icon
                 ref="loginForm"
               >
                 <el-form-item>
                   <div>
-                    <strong class="errtip">Tips：</strong>{{ loginForm.tips }}
+                    <strong class="errtip">Tips：</strong>
+                    <span>{{ secondaryPWDModel.tips }}</span>
                   </div>
                 </el-form-item>
                 <el-form-item prop="username">
-                  <el-input v-model="loginForm.username">
+                  <el-input v-model="secondaryPWDModel.secondaryWt">
                     <template slot="prepend">
-                      管理员账号
+                      请设置二级密码问题
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                   <el-input
-                    type="password"
-                    v-model="loginForm.password"
+                    v-model="secondaryPWDModel.secondaryPassword"
                     autocomplete="off"
                   >
                     <template slot="prepend">
-                      密码
+                      答案
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="success" @click="submitForm"
-                    >立即登录</el-button
+                  <el-button type="success" @click="set2ndPWD"
+                    >重置密码</el-button
                   >
                 </el-form-item>
               </el-form>
             </div>
           </div>
         </transition>
-        <button @click="changeModel">change</button>
       </div>
     </div>
   </div>
@@ -110,6 +108,8 @@
 
 <script>
 import Cookies from 'js-cookie'
+import { login, setSecondaryPassword } from '@/api/login'
+
 export default {
   name: 'login',
   data() {
@@ -128,7 +128,11 @@ export default {
           { required: true, message: '密码不能为空！', trigger: 'blur' },
         ],
       },
-      secondaryPWDModel: {},
+      secondaryPWDModel: {
+        tips: '请输入二级密码答案进行合法性验证',
+        secondaryWt: '',
+        secondaryPassword: '',
+      },
     }
   },
   methods: {
@@ -139,41 +143,54 @@ export default {
       this.$refs['loginForm'].validate(valid => {
         let { username, password } = this.loginForm
         if (valid) {
-          this.$api
-            .login({
-              username,
-              password,
-            })
-            .then(({ data }) => {
-              this.loginForm.tips = data.msg
-              if (data && data.code === 200) {
-                if (data.result.secondary === 0) {
-                  // 未设置二级密码，去设置
-                } else {
-                  // 已设置过二级密码,登录成功
-                  this.doLogin(data)
-                }
+          login({ username, password }).then(({ data }) => {
+            this.loginForm.tips = data.msg
+            if (data && data.code === 200) {
+              Cookies.set('userId', data.result.user.id)
+              Cookies.set('ac_token', data.result.accessToken)
+              if (data.result.secondary === 0) {
+                // 未设置二级密码，去设置
+                this.changeModel()
+              } else {
+                // 已设置过二级密码,登录成功
+                this.doLogin(data.result.user)
               }
-            })
+            }
+          })
+        }
+      })
+    },
+    set2ndPWD() {
+      const { secondaryWt, secondaryPassword } = this.secondaryPWDModel
+      const [id, accessToken] = [Cookies.get('userId'), Cookies.get('ac_token')]
+      setSecondaryPassword({
+        id,
+        accessToken,
+        secondaryWt,
+        secondaryPassword,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.doLogin(data.data)
+        } else {
+          this.$message.error(data.msg)
         }
       })
     },
     doLogin(userData) {
-      Cookies.set('ac_token', data.result.accessToken)
-      Cookies.set('userId', data.result.user.id)
-      Cookies.set('user_info', data.result.user)
+      Cookies.set('user_info', {
+        nickName: userData.nickName,
+        username: userData.username,
+      })
       this.$router.push({ name: 'home' })
     },
   },
   created() {
-    // Cookies.set('ac_token', '6aa4809ad79e471a95f401b073fac1ce')
-    // Cookies.set('userId', '1c928572a3414478895ef893dfee12fc')
-    // Cookies.set('user_info', {
-    //   nickName: "虎虎",
-    //   username: 'test3',
-    //   id: '1c928572a3414478895ef893dfee12fc',
-    //   delFlag: 0
-    // })
+    Cookies.set('userId', '1c928572a3414478895ef893dfee12fc')
+    Cookies.set('ac_token', 'd6ddcd9b39a841ddbfbd2f85eee4164e')
+    Cookies.set('user_info', {
+      username: 'test3',
+      nickName: '虎虎',
+    })
   },
 }
 </script>

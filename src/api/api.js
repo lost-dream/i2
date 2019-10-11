@@ -1,21 +1,6 @@
 import http from '@/utils/httpRequest'
-
+console.log(process.env.VUE_APP_LOGIN_REQUEST_URL)
 export default {
-  /**
-   * 通过用户和密码登录
-   * @param {*} username 用户名
-   * @param {*} password 密码
-   */
-  login(userData) {
-    return http({
-      url: http.adornUrl('xboot/login'),
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded', // 登录请求request header ？？？
-      },
-      data: http.adornData(userData, false, 'qs'),
-    })
-  },
   /**
    * 通过token获取用户信息
    * @param {*} token 令牌

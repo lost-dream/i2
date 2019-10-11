@@ -2,7 +2,8 @@
   <div class="userManage">
     <div class="coat1">
       <div class="coat2">
-        <div class="from" v-show="see == 'pass'">
+        <!-- 修改密码模块 -->
+        <div class="from">
           <el-form
             ref="form"
             :model="form"
@@ -32,13 +33,20 @@
               <el-button
                 class="sureBut"
                 type="primary"
-                @click="onSubmit('form')"
+                @click="onResetPWDSubmit"
                 >确定</el-button
               >
             </el-form-item>
           </el-form>
         </div>
-        <div class="from2" v-show="see == 'depict'">
+        <!--
+          TODO
+          关于是否需要修改密保问题的功能有待商榷，暂时不需要
+          需要打开  => 删除v-if="showItem" && Line 139 data && 打开Line 46
+        -->
+        <!-- <div class="hr"></div> -->
+        <!-- 修改密保问题模块 -->
+        <div class="from2" v-if="showItem">
           <div class="depict">
             <span class="c_align">什么是超级问答认证？</span>
             <p>
@@ -69,7 +77,10 @@
               ></el-input>
             </el-form-item>
           </el-form>
-          <el-button class="sureBut" type="primary" @click="onSubmit('form2')"
+          <el-button
+            class="sureBut"
+            type="primary"
+            @click="onVerify2ndPWDSubmit"
             >确定</el-button
           >
         </div>
@@ -79,6 +90,9 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import { updatePassword } from '@/api/userCenter'
+
 export default {
   name: 'userManage',
   components: {},
@@ -88,12 +102,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入旧密码'))
       } else {
-        if (value !== '111') {
-          callback(new Error('请输入正确密码'))
-        } else {
-          if (this.form.newPass !== '') {
-            this.$refs.form.validateField('newPass')
-          }
+        if (this.form.newPass !== '') {
+          this.$refs.form.validateField('newPass')
         }
         callback()
       }
@@ -127,6 +137,7 @@ export default {
       }
     }
     return {
+      showItem: false,
       form: {
         oldPass: '',
         newPass: '',
@@ -136,7 +147,6 @@ export default {
         question: '',
         answer: '',
       },
-      see: 'pass',
       rules: {
         oldPass: [{ validator: validateOldPass, trigger: 'blur' }],
         newPass: [{ validator: validatePass, trigger: 'blur' }],
@@ -148,13 +158,32 @@ export default {
   },
   computed: {},
   methods: {
-    onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
+    onResetPWDSubmit() {
+      this.$refs.form.validate(valid => {
         if (valid) {
-          formName === 'form' && (this.see = 'depict')
-        } else {
-          console.log('error submit!!')
-          return false
+          // success
+          updatePassword({
+            id: Cookies.get('userId'),
+            longPassword: this.form.oldPass,
+            newPassword: this.form.newPass,
+            affirmPassword: this.form.checkPass,
+          }).then(({ data }) => {
+            if (data && data.code === 200) {
+              this.$message({
+                type: 'success',
+                message: '修改成功',
+              })
+            } else {
+              this.$message.error(data.code)
+            }
+          })
+        }
+      })
+    },
+    onVerify2ndPWDSubmit() {
+      this.$refs.form2.validate(valid => {
+        if (valid) {
+          // success
         }
       })
     },
@@ -171,6 +200,14 @@ export default {
 .from, .from2 .el-form
   width 20%
   margin 30px auto
+
+.hr
+  width 100%
+  height 1px
+  background #2cefff
+
+.from2
+  margin-top 30px
 
 .el-form-item
   text-align: center
