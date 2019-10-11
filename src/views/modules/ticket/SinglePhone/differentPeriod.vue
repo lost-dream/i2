@@ -27,7 +27,7 @@
       <el-form-item>
         <el-button type="danger" @click="resetForm('callForm')">重置</el-button>
       </el-form-item>
-      <!--<input-tag v-on:remove="remove" v-model="callForm.timeList"></input-tag>-->
+      <input-tag v-on:remove="remove" v-model="callForm.timeList"></input-tag>
     </el-form>
     <el-table :data="differentData2" border style="width: 100%">
       <el-table-column

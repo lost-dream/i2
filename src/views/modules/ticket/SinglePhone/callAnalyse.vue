@@ -221,9 +221,9 @@ export default {
       let conData = this.callForm
       console.log('分析查询')
       conData.time != null && this.timeSizer()
+      conData.communicationTime !== '' && this.callTimeSizer()
       console.log(this.callAnalyseData2)
       this.callAnalyseData2.callTimes = this.dateList(this.callAnalyseData2)
-      conData.communicationTime !== '' && this.callTimeSizer()
       console.log(this.callAnalyseData2)
     },
 

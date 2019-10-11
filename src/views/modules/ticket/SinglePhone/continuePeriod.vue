@@ -211,7 +211,6 @@ export default {
       return true
     },
 
-
     exportExcel() {
       require.ensure([], () => {
         const { exportJsonToExcel } = require('../../../../utils/Export2Excel')

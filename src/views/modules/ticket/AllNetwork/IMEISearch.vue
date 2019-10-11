@@ -158,7 +158,6 @@ export default {
       console.log('submit!')
     },
 
-
     baseStation() {},
     timeChange(time) {
       var newTime = time.map(function(item) {

@@ -141,8 +141,13 @@ export default {
         a.push(item.otherPartyPhone)
         b.push(item.count)
       })
-      picturInfo.otherPartyPhone = a
       picturInfo.count = b
+      a.length > 10
+        ? (picturInfo.otherPartyPhone = a.slice(0, 10))
+        : (picturInfo.otherPartyPhone = a)
+      b.length > 10
+        ? (picturInfo.count = b.slice(0, 10))
+        : (picturInfo.count = b)
       return picturInfo
     },
 
@@ -177,8 +182,11 @@ export default {
         a.push(item.beginTime)
         b.push(item.count)
       })
-      picturInfo.date = a
-      picturInfo.count = b
+      a.length > 10 ? (picturInfo.date = a.slice(0, 10)) : (picturInfo.date = a)
+      b.length > 10
+        ? (picturInfo.count = b.slice(0, 10))
+        : (picturInfo.count = b)
+      picturInfo.count = b.slice(0, 10)
       return picturInfo
     },
 
