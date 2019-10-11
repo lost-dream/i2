@@ -65,7 +65,7 @@ http.adornParams = (params = {}, openDefultParams = true) => {
  */
 http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
   var defaults = {
-    't': new Date().getTime()
+    'time': new Date().getTime()
   }
   data = openDefultdata ? merge(defaults, data) : data
   return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)

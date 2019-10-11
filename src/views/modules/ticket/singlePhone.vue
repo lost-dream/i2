@@ -7,6 +7,7 @@
       <div class="select">
         <el-select v-model="select.caseName"
                    filterable
+                   @change = "caseNameChange"
                    placeholder="案件名称">
           <el-option v-for="item in cases"
                      :key="item.value"
@@ -16,6 +17,7 @@
         </el-select>
         <el-select v-model="select.phone"
                    filterable
+                   @change = "caseNameChange"
                    placeholder="电话号码">
           <el-option v-for="item in phoneList"
                      :key="item.value"
@@ -69,7 +71,6 @@
             </span>
           </el-tab-pane>
         </el-tabs>
-
       </div>
       <div class="mainContent">
         <router-view></router-view>
@@ -80,8 +81,6 @@
 
 <script>
 export default {
-  mounted () {
-  },
   data () {
     return {
       activeName: 'first',
@@ -107,8 +106,37 @@ export default {
       }
     };
   },
+  mounted () {
+    this.singlePhoneList()
+  },
   methods: {
     handleClick (tab, event) {
+    },
+
+    caseNameChange(){
+      this.singlePhoneList()
+    },
+    // 获取话单列表
+    singlePhoneList (){
+      var _this = this
+      let obj = {
+        caseName: this.select.caseName,
+        phone: this.select.phone
+      }
+      this.$api.ticketOneAnalyze(obj).then(({ data }) => {
+        console.log(data)
+        if(data.success){
+          _this.$message({
+            message: '获取话单成功！!',
+            type: 'success'
+          })
+        }else {
+          this.$message({
+            message: '获取话单失败!',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

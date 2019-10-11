@@ -74,14 +74,14 @@ const mainRoutes = [
               title: 'newPhone'
             }
           },
-          // {
-          //   path: '/ticket/phoneSearch',
-          //   component: _import('modules/ticket/phoneSearch'),
-          //   name: 'phoneSearch',
-          //   meta: {
-          //     title: 'phoneSearch'
-          //   }
-          // },
+          {
+            path: '/ticket/phoneSearch',
+            component: _import('modules/ticket/phoneSearch'),
+            name: 'phoneSearch',
+            meta: {
+              title: 'phoneSearch'
+            }
+          },
           {
             path: '/ticket/singlePhone',
             component: _import('modules/ticket/singlePhone'),
@@ -229,11 +229,11 @@ const mainRoutes = [
             },
             children: [
               {
-                path: '/ticket/allNetwork/phoneSearch',
+                path: '/ticket/allNetwork/allNetPhoneSearch',
                 component: _import('modules/ticket/AllNetwork/phoneSearch'),
-                name: 'phoneSearch',
+                name: 'allNetPhoneSearch',
                 meta: {
-                  title: 'phoneSearch'
+                  title: 'allNetPhoneSearch'
                 }
               },
               {
