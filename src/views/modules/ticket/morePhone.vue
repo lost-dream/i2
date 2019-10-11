@@ -36,7 +36,7 @@
         </el-select>
       </div>
       <div class="nav">
-        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="card">
           <el-tab-pane
             ><span slot="label"
               ><i class="el-icon-view"></i>
@@ -118,8 +118,8 @@ export default {
     }
   },
   mounted() {
-    this.ticketOneName()
-    this.morePhoneList()
+    /*this.ticketOneName()
+    this.morePhoneList()*/
   },
   methods: {
     caseNameChange1() {
@@ -235,7 +235,9 @@ export default {
       }
     })
   },
-  handleClick(tab, event) {},
+  handleClick(tab, event) {
+    console.log(tab, event)
+  },
 }
 </script>
 <style lang="stylus" scoped>

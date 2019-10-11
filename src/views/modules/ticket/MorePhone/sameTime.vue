@@ -30,43 +30,36 @@
     <el-table :data="sameTime" border style="width: 100%">
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
-      <el-table-column
-        prop="housingEstateCode"
-        label="基站小区"
-        align="center"
-        width="100"
-      >
+      <el-table-column prop="housingEstateCode" label="基站小区" align="center">
       </el-table-column>
-      <el-table-column
-        prop="phoneTimes"
-        align="center"
-        width="100"
-        label="几个话单出现"
-      >
+      <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
       </el-table-column>
       <el-table-column
         prop="baseStationLocation"
         align="center"
-        width="120"
         label="基站地址"
       >
       </el-table-column>
+      <!--:width="item.width"-->
       <template v-for="(item, index) in tableHead">
         <el-table-column
           :prop="item.propName"
           :label="item.label"
           :key="index"
           align="center"
-          :width="item.width"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.phoneNum[index] }}</span>
+          </template>
+        </el-table-column>
       </template>
     </el-table>
   </div>
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 export default {
-  mounted() {},
   data() {
     return {
       pickerOptions: {
@@ -114,13 +107,127 @@ export default {
         { propName: 'phoneNum', label: '电话号码', fixed: true, width: '200' },
         { propName: 'phoneNum', label: '电话号码', fixed: true, width: '200' },
       ],
+
+      morePhone: [],
+      morePhone2: [],
     }
   },
+
+  mounted() {
+    // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
+    this.morePhone = JSON.parse(localStorage.getItem('morePhone')).list
+    this.onSubmit()
+  },
+
   methods: {
     onSubmit() {
-      console.log('submit!')
+      let data = this.morePhone
+      this.morePhone2 = data
+      let conData = this.sameTimeForm
+      console.log('分析查询')
+      console.log(this.morePhone2)
+      conData.time != null && this.timeSizer()
+      console.log(this.morePhone2)
+      this.morePhone2 = this.dataSort2(this.morePhone2)
+      this.tableHead = this.isHead(this.morePhone2)
+      this.sameTime = this.morePhone2
+      console.log(this.tableHead)
+      console.log(this.morePhone2)
     },
+
+    // 表头生成
+    isHead(data) {
+      let data1 = {}
+      let value1 = []
+      data1.propName = 'phoneNum'
+      data1.label = '电话号码'
+      data1.fixed = true
+      data1.width = '200'
+      let i = 0
+      data.forEach(item => {
+        item.phoneNum.length > i && (i = item.phoneNum.length)
+      })
+      for (let j = 0; j < i; j++) {
+        value1.push(data1)
+      }
+      return value1
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.morePhone2
+      let time = this.sameTimeForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.morePhone2 = dataArr
+    },
+
+    // 数据重组
+    dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let otherPartyPhone = ai.otherPartyPhone
+        let beginTime = ai.beginTime
+        let housingEstateCode = ai.housingEstateCode
+        let baseStationLocation = ai.baseStationLocation
+        if (!data1[housingEstateCode]) {
+          value1.push({
+            beginTime: beginTime,
+            housingEstateCode: housingEstateCode,
+            phoneTimes: 1,
+            baseStationLocation: baseStationLocation,
+            phoneNum: [otherPartyPhone],
+          })
+          data1[housingEstateCode] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            if (
+              dj.beginTime === beginTime &&
+              dj.baseStationLocation === baseStationLocation &&
+              dj.housingEstateCode === housingEstateCode
+            ) {
+              dj.phoneTimes++
+              dj.phoneNum.push(otherPartyPhone)
+              break
+            }
+          }
+        }
+      })
+      return value1
+    },
+
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     baseStation() {},
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)
