@@ -118,8 +118,8 @@ export default {
     }
   },
   mounted() {
-    /*this.ticketOneName()
-    this.morePhoneList()*/
+    /* this.ticketOneName()
+    this.morePhoneList() */
   },
   methods: {
     caseNameChange1() {

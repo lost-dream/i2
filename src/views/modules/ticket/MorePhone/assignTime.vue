@@ -45,11 +45,7 @@
       </el-table-column>
       <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
       </el-table-column>
-      <el-table-column
-        prop="location"
-        align="center"
-        label="号码属地"
-      >
+      <el-table-column prop="location" align="center" label="号码属地">
       </el-table-column>
       <template v-for="(item, index) in tableHead">
         <el-table-column
