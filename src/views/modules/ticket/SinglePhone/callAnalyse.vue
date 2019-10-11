@@ -221,26 +221,75 @@ export default {
       let conData = this.callForm
       console.log('分析查询')
       conData.time != null && this.timeSizer()
-      conData.communicationTime !== '' && this.callTimeSizer()
       console.log(this.callAnalyseData2)
-      this.callAnalyseData2.callTimes = this.dateList(this.callAnalyseData2)
+      this.callAnalyseData2 = this.dataSort2(this.callAnalyseData2)
+      conData.callTimes != null && this.callTimesCount()
+      conData.communicationTime != null && this.callTimeSizer()
       console.log(this.callAnalyseData2)
     },
 
-    // 提取时间列表
-    dateList(data) {
-      let arr = []
-      for (var i = 0; i < 24; i++) {
-        arr.push(0)
-      }
-      console.log(arr)
+    // 通话频次计算
+    callTimesCount() {
+      let data = this.callAnalyseData2
+      let callTimes = this.callForm.callTimes
+      let dataArr = []
       data.forEach(item => {
-        let hours = formatDate(new Date(item.beginTime), 'h')
-        arr[hours]++
-        console.log(hours)
+        callTimes <= item.callTimes && dataArr.push(item)
       })
-      console.log(arr)
-      return arr
+      this.callAnalyseData2 = dataArr
+    },
+
+    // 数据重组
+    dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let otherPartyPhone = ai.otherPartyPhone
+        if (!data1[otherPartyPhone]) {
+          value1.push({
+            otherPartyPhone: otherPartyPhone,
+            callTimes: 1,
+            communicationTime: ai.communicationTime,
+          })
+          data1[otherPartyPhone] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            let otherPartyPhone = ai.otherPartyPhone
+            if (dj.otherPartyPhone === otherPartyPhone) {
+              dj.callTimes++
+              dj.communicationTime = this.timeTotal(
+                ai.communicationTime,
+                dj.communicationTime,
+              )
+              break
+            }
+          }
+        }
+      })
+      return value1
+    },
+
+    // 总时长
+    timeTotal(a, b) {
+      a = this.timeToSec(a)
+      b = this.timeToSec(b)
+      return this.formatDuring(a + b)
+    },
+
+    // 毫秒转换时分秒
+    formatDuring(mss) {
+      var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60))
+      var seconds = parseInt((mss % (1000 * 60)) / 1000)
+      return hours > 0
+        ? hours + ' 小时 '
+        : 0 + minutes > 0
+        ? minutes + ' 分钟 '
+        : 0 + seconds > 0
+        ? seconds + ' 秒 '
+        : '0 秒 '
+      // return hours + ' 小时 ' + minutes + ' 分钟 ' + seconds + ' 秒 '
     },
 
     // 时长筛选

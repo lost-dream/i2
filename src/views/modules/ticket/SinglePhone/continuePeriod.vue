@@ -18,6 +18,18 @@
         >
         </el-date-picker>
       </el-form-item>
+      <el-form-item label="分段">
+        <el-time-picker
+          is-range
+          v-model="callForm.period"
+          format="HH"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          placeholder="选择时间范围"
+        >
+        </el-time-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
@@ -144,6 +156,7 @@ export default {
       },
       callForm: {
         time: '',
+        period: [new Date(2016, 9, 10, 0), new Date(2016, 9, 10, 23)],
       },
       continueTable: [
         {
@@ -172,6 +185,7 @@ export default {
       let conData = this.callForm
       console.log('分析查询')
       conData.time != null && this.timeSizer()
+      console.log(conData)
       console.log(this.continueData2)
     },
 
@@ -179,9 +193,12 @@ export default {
     timeSizer() {
       let data = this.continueData2
       let time = this.callForm.time
+      let period = this.callForm.period
       let dataArr = []
       data.forEach(item => {
-        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+        this.compareTime(item.beginTime, time[0], time[1]) &&
+          this.compareTime2(item.beginTime, period[0], period[1]) &&
+          dataArr.push(item)
       })
       this.continueData2 = dataArr
     },
@@ -206,6 +223,20 @@ export default {
       let nowTime = tranDate(changeTime)
       // 如果当前时间处于时间段内，返回true，否则返回false
       if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+    /**
+     * 判断是否在时段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime2(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'h')
+      stime = formatDate(new Date(stime), 'h')
+      etime = formatDate(new Date(etime), 'h')
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (changeTime <= stime || changeTime >= etime) {
         return false
       }
       return true
@@ -285,4 +316,8 @@ export default {
     background-color rgba(44, 239, 255, 0.4) !important
   .el-pagination__total
     color white
+
+  .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner {
+    width: 200px;
+  }
 </style>

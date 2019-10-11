@@ -56,11 +56,11 @@
 </template>
 
 <script>
-// import InputTag from '../comments/inputTag'
+import InputTag from '../comments/inputTag'
 import { formatDate } from '../../../../utils/dateFormat.js'
 export default {
   components: {
-    // InputTag,
+    InputTag,
   },
   filters: {
     formatDate(time) {
@@ -146,6 +146,7 @@ export default {
       let conData = this.callForm
       console.log('分析查询')
       conData.time != null && this.timeSizer()
+      console.log(this.differentData2)
       this.differentData2 = this.dataSort2(this.differentData2)
       console.log(this.differentData2)
       // this.tableDataHandle()
@@ -160,8 +161,8 @@ export default {
         if (!data1[otherPartyPhone]) {
           value1.push({
             otherPartyPhone: otherPartyPhone,
-            beginTime: [ai],
-            periorTimes: 1,
+            beginTime: [ai.beginTime],
+            periorTimes: this.differTotal(ai.beginTime),
             location: ai.location,
           })
           data1[otherPartyPhone] = ai
@@ -170,8 +171,8 @@ export default {
             let dj = value1[j]
             let otherPartyPhone = ai.otherPartyPhone
             if (dj.otherPartyPhone === otherPartyPhone) {
-              dj.beginTime.push(ai)
-              dj.periorTimes = this.differTotal(dj.beginTime)
+              dj.beginTime.push(ai.beginTime)
+              dj.periorTimes = this.differTotal(ai.beginTime)
               break
             }
           }
@@ -182,12 +183,17 @@ export default {
 
     // 时段计算
     differTotal(data) {
-      let arr = []
-      data.forEach(item => {
-        let hours = formatDate(new Date(item.beginTime), 'h')
-        arr.indexOf(hours) === -1 && arr.push(hours)
+      let count = 0
+
+      // 分割字段
+      function points(time) {
+        return time.split('至')
+      }
+      this.callForm.timeList.forEach(item => {
+        this.compareTime(data.beginTime, points(item)[0], points(item)[1]) &&
+          count++
       })
-      return arr.length
+      return count
     },
     // 时间筛选
     timeSizer() {
@@ -224,6 +230,7 @@ export default {
       }
       return true
     },
+
     addTime() {
       console.log('xzh', this.callForm)
       if (this.callForm.time) {
