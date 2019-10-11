@@ -39,11 +39,7 @@
         width="50"
       >
       </el-table-column>
-      <el-table-column
-        prop="otherPartyPhone"
-        label="对方号码"
-        align="center"
-      >
+      <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
       </el-table-column>
       <el-table-column prop="sunD" label="星期天" align="center">
       </el-table-column>
