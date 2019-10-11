@@ -164,6 +164,16 @@ export default {
       this.$router.push({ name: 'home' })
     },
   },
+  created() {
+    // Cookies.set('ac_token', '6aa4809ad79e471a95f401b073fac1ce')
+    // Cookies.set('userId', '1c928572a3414478895ef893dfee12fc')
+    // Cookies.set('user_info', {
+    //   nickName: "虎虎",
+    //   username: 'test3',
+    //   id: '1c928572a3414478895ef893dfee12fc',
+    //   delFlag: 0
+    // })
+  }
 }
 </script>
 

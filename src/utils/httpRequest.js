@@ -14,8 +14,8 @@ const http = axios.create({
   },
 })
 window.SITE_CONFIG = {
-  baseUrl: 'http://192.168.1.186:90/',
-  // baseUrl: 'http://192.168.1.186:8091/', // TODO 临时登录接口地址 will be delate
+  // baseUrl: 'http://192.168.1.186:90/',
+  baseUrl: 'http://192.168.1.186:8091/', // TODO 临时登录接口地址 will be delate
 }
 /**
  * 请求拦截

@@ -14,8 +14,8 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/': {
-        target: 'http://192.168.1.186:90/',
-        // target: 'http://192.168.1.186:8091/',
+        // target: 'http://192.168.1.186:90/',
+        target: 'http://192.168.1.186:8091/',
         changeOrigin: true,
         wx: true,
       },
