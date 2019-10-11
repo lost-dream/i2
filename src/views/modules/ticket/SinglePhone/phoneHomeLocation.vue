@@ -132,13 +132,12 @@
 <script>
 import echarts from 'echarts'
 import flyDialog from '../../../../components/fly-dialog'
+import { formatDate } from '../../../../utils/dateFormat.js'
+import { GP, GT, GC } from '../../../../utils/provincesData.js'
 require('echarts/map/js/china.js')
 export default {
   components: {
     flyDialog,
-  },
-  mounted() {
-    this.map()
   },
   data() {
     return {
@@ -181,7 +180,7 @@ export default {
       show1: false,
       width1: '1100px',
       modal: false,
-      mapData: [
+      /* mapData: [
         { name: '北京', value: Math.round(Math.random() * 500) },
         { name: '天津', value: Math.round(Math.random() * 500) },
         { name: '上海', value: Math.round(Math.random() * 500) },
@@ -216,6 +215,42 @@ export default {
         { name: '台湾', value: Math.round(Math.random() * 500) },
         { name: '香港', value: Math.round(Math.random() * 500) },
         { name: '澳门', value: Math.round(Math.random() * 500) },
+      ], */
+      mapData: [
+        { name: '北京', value: 0 },
+        { name: '天津', value: 0 },
+        { name: '上海', value: 0 },
+        { name: '重庆', value: 0 },
+        { name: '河北', value: 0 },
+        { name: '河南', value: 0 },
+        { name: '云南', value: 0 },
+        { name: '辽宁', value: 0 },
+        { name: '黑龙江', value: 0 },
+        { name: '湖南', value: 0 },
+        { name: '安徽', value: 0 },
+        { name: '山东', value: 0 },
+        { name: '新疆', value: 0 },
+        { name: '江苏', value: 0 },
+        { name: '浙江', value: 0 },
+        { name: '江西', value: 0 },
+        { name: '湖北', value: 0 },
+        { name: '广西', value: 0 },
+        { name: '甘肃', value: 0 },
+        { name: '山西', value: 0 },
+        { name: '内蒙古', value: 0 },
+        { name: '陕西', value: 0 },
+        { name: '吉林', value: 0 },
+        { name: '福建', value: 0 },
+        { name: '贵州', value: 0 },
+        { name: '广东', value: 0 },
+        { name: '青海', value: 0 },
+        { name: '西藏', value: 0 },
+        { name: '四川', value: 0 },
+        { name: '宁夏', value: 0 },
+        { name: '海南', value: 0 },
+        { name: '台湾', value: 0 },
+        { name: '香港', value: 0 },
+        { name: '澳门', value: 0 },
       ],
       clickTable: [],
       detailTable: [
@@ -229,13 +264,123 @@ export default {
           baseStationLocation: '成都',
         },
       ],
+      mapDataInfo: [],
+      mapDataInfo2: [],
     }
+  },
+  mounted() {
+    this.mapDataInfo = JSON.parse(localStorage.getItem('phoneInfo'))
+    this.map()
   },
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time))
-      console.log('submit!')
+      let data = this.mapDataInfo
+      this.mapDataInfo2 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      console.log(GP)
+      console.log(GT)
+      console.log(GC)
+      console.log(this.mapDataInfo2)
+      conData.time != null && this.timeSizer()
+      this.mapDataInfo2 = this.dataSort2(this.mapDataInfo2)
+      this.mapData2(this.mapDataInfo2)
+      this.map()
+      console.log(this.mapDataInfo2)
     },
+
+    // 显示地图数据
+    mapData2(data) {
+      let arr = this.mapData
+      for (let i = 0; i <= arr.length - 1; i++) {
+        for (let j = 0; j <= data.length - 1; j++) {
+          arr[i].name === data[j].provinces && (arr[i].value = data[j].count)
+        }
+      }
+    },
+
+    // 数据重组
+    dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let location = this.isProvinces(ai.location)
+        if (!data1[location]) {
+          value1.push({
+            provinces: location,
+            count: 1,
+          })
+          data1[location] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            if (dj.provinces === location) {
+              dj.count++
+              break
+            }
+          }
+        }
+      })
+      return value1
+    },
+
+    // 计算通话省份
+    isProvinces(data) {
+      let gp = GP
+      let gt = GT
+      let gc = GC
+      let location = ''
+      for (let i = 0; i <= gt.length - 1; i++) {
+        if (gt[i].indexOf(data) > -1) {
+          location = gp[i]
+          break
+        }
+        for (let j = 0; j < gc[i].length - 1; j++) {
+          if (gc[i][j].indexOf(data) > -1) {
+            location = gp[i]
+            break
+          }
+        }
+      }
+      return location
+    },
+
+    // 时间筛选
+    timeSizer() {
+      let data = this.mapDataInfo2
+      let time = this.callForm.time
+      let dataArr = []
+      data.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      this.differentData2 = dataArr
+    },
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)

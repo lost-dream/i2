@@ -195,6 +195,7 @@ export default {
       })
       return count
     },
+
     // 时间筛选
     timeSizer() {
       let data = this.differentData2
