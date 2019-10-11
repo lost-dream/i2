@@ -64,7 +64,7 @@
             </div>
             <div class="fly-form">
               <el-form
-                :model="loginForm"
+                :model="secondaryPWDModel"
                 :rules="rules"
                 @keyup.enter.native="submitForm()"
                 status-icon
@@ -128,6 +128,9 @@ export default {
           { required: true, message: '密码不能为空！', trigger: 'blur' },
         ],
       },
+      secondaryPWDModel: {
+        
+      }
     }
   },
   methods: {
