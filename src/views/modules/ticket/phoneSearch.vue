@@ -40,7 +40,9 @@
         <el-table
           :data="phoneDataPage"
           height="321"
+          ref="singleTable"
           @row-click="rowClick"
+          highlight-current-row
           border
           style="width: 100%"
         >
@@ -258,6 +260,7 @@ export default {
         callTime: '',
         time: null,
       },
+      currentRow: null,
 
       phoneData: [
         {
@@ -303,6 +306,8 @@ export default {
   methods: {
     // 通话查询ID添加
     rowClick(row) {
+      this.$refs.singleTable.setCurrentRow(row)
+      console.log(22222)
       this.converseForm.id = row.recordId
       this.onSubmit1()
     },
@@ -380,6 +385,9 @@ export default {
       console.log('shij')
       this.phoneData2 = _phoneData
       this.page.total = _phoneData.length
+      this.$refs.singleTable.setCurrentRow(this.phoneDataPage[0])
+      this.converseForm.id = this.phoneDataPage[0].recordId
+      this.onSubmit1()
       this.flag = false
     },
 
@@ -389,19 +397,19 @@ export default {
       // console.log(this.timeChange(this.converseForm.time));
       console.log(this.converseForm.time)
       /*      console.log(this.timeChange(this.converseForm.time))
-              console.log(this.timeChange(this.converseForm.time)[1])
-              console.log(this.timeChange(this.converseForm.time)[0]) */
+                console.log(this.timeChange(this.converseForm.time)[1])
+                console.log(this.timeChange(this.converseForm.time)[0]) */
       console.log(this.converseForm.phone)
       console.log(this.converseForm.callTime)
       console.log('submit!')
       let obj = {
         id: this.converseForm.id,
         /* duration: this.converseForm.callTime,
-           // overTime: this.timeChange(this.converseForm.time)[1],
-           overTime: this.converseForm.time[1],
-           phone: this.converseForm.phone,
-           time: this.converseForm.time[0]
-           // time: this.timeChange(this.converseForm.time)[0] */
+             // overTime: this.timeChange(this.converseForm.time)[1],
+             overTime: this.converseForm.time[1],
+             phone: this.converseForm.phone,
+             time: this.converseForm.time[0]
+             // time: this.timeChange(this.converseForm.time)[0] */
       }
       this.$api.ticketCallQuery(obj).then(({ data }) => {
         _this.converseData = data.result.ticketDetailsDTOList
@@ -415,13 +423,13 @@ export default {
       this.converseData2 = data
       let conData = this.converseForm
       /* let callFilter=(condition,data)=>{
-          return data.filter( item => {
-            return Object.keys( condition ).every( key => {
-              return String( item[ key ] ).toLowerCase().includes(
-                String( condition[ key ] ).trim().toLowerCase() )
+            return data.filter( item => {
+              return Object.keys( condition ).every( key => {
+                return String( item[ key ] ).toLowerCase().includes(
+                  String( condition[ key ] ).trim().toLowerCase() )
+              } )
             } )
-          } )
-        } */
+          } */
       let condition = {}
       console.log('通话查询')
       console.log(conData)
@@ -627,6 +635,9 @@ export default {
 .searchList .el-table
   background-color rgba(44, 239, 255, 0.3) !important
   color white
+
+.searchList .el-table .current-row
+  background-color rgba(44, 239, 255, 0.3) !important
 
 .searchList .el-table--border
   border 1px solid rgba(0, 0, 0, 0.3)

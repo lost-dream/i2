@@ -132,24 +132,24 @@ export default {
     return {
       activeName: 'first',
       cases: [
-        {
-          value: '双十一',
-          label: '双十一',
-        },
-        {
-          value: '双十二',
-          label: '双十二',
-        },
+        // {
+        //   value: '双十一',
+        //   label: '双十一',
+        // },
+        // {
+        //   value: '双十二',
+        //   label: '双十二',
+        // },
       ],
       phoneList: [
-        {
-          value: '13111111111',
-          label: '13111111111',
-        },
-        {
-          value: '15111111111',
-          label: '15111111111',
-        },
+        // {
+        //   value: '13111111111',
+        //   label: '13111111111',
+        // },
+        // {
+        //   value: '15111111111',
+        //   label: '15111111111',
+        // },
       ],
       select: {
         id: '',

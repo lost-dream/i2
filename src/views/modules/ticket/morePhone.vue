@@ -21,14 +21,15 @@
         </el-select>
         <el-select
           v-model="select.id"
+          value-key="phone"
           filterable
           multiple
           @change="caseNameChange2"
           placeholder="电话号码"
         >
           <el-option
-            v-for="item in phoneList"
-            :key="item.value"
+            v-for="(item, index) in phoneList"
+            :key="index"
             :label="item.label"
             :value="item.value"
           >
@@ -84,17 +85,17 @@ export default {
     return {
       activeName: 'first',
       cases: [
-        {
+        /* {
           value: '双十一',
           label: '双十一',
         },
         {
           value: '双十二',
           label: '双十二',
-        },
+        }, */
       ],
       phoneList: [
-        {
+        /* {
           value: '13111111111',
           label: '13111111111',
         },
@@ -109,7 +110,7 @@ export default {
         {
           value: '15111111112',
           label: '15111111112',
-        },
+        }, */
       ],
       select: {
         id: '',
@@ -118,8 +119,7 @@ export default {
     }
   },
   mounted() {
-    /* this.ticketOneName()
-    this.morePhoneList() */
+    this.ticketOneName()
   },
   methods: {
     caseNameChange1() {
@@ -167,10 +167,13 @@ export default {
           let phoneList = data.result
           phoneList.forEach(item => {
             let a = {}
-            a.value = item.recordId
+            a.value = {}
+            a.value.id = item.recordId
+            a.value.phone = item.phoneNumber
             a.label = item.phoneNumber
             phoneArr.push(a)
           })
+          console.log(phoneArr)
           _this.phoneList = phoneArr
           console.log(_this.phoneList)
         } else {
@@ -184,16 +187,16 @@ export default {
 
     // 获取话单列表
     singlePhoneList() {
+      console.log(11111)
+      console.log(this.select)
+      console.log(22222)
       var _this = this
+      let obj = this.select.id
       // let obj = {
-      //   id: '739c3cf0-a365-4ca3-90c5-e5b33d3d2334',
-      //   phone: '13100001111',
+      //   id: this.select.id,
       // }
-      let obj = {
-        id: this.select.id,
-        phone: '13100001111',
-      }
-      this.$api.ticketOneAnalyze(obj).then(({ data }) => {
+
+      this.$api.ticketOneAnalyze2(obj).then(({ data }) => {
         console.log(data)
         if (data.success) {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
@@ -210,7 +213,8 @@ export default {
 
   // 选择值变动后调接口获取数据
   caseNameChange() {
-    this.morePhoneList()
+    // this.morePhoneList()
+    this.singlePhoneList()
   },
 
   // 获取话单接口

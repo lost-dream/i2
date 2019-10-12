@@ -250,6 +250,7 @@ export default {
             otherPartyPhone: otherPartyPhone,
             callTimes: 1,
             communicationTime: ai.communicationTime,
+            info: [ai],
           })
           data1[otherPartyPhone] = ai
         } else {
@@ -258,6 +259,7 @@ export default {
             let otherPartyPhone = ai.otherPartyPhone
             if (dj.otherPartyPhone === otherPartyPhone) {
               dj.callTimes++
+              dj.info.push(ai)
               dj.communicationTime = this.timeTotal(
                 ai.communicationTime,
                 dj.communicationTime,
@@ -360,7 +362,10 @@ export default {
     },
 
     baseStation() {},
-    check() {
+    check(a, b) {
+      console.log(a)
+      console.log(b)
+      this.analyseTable = b.info
       this.show = true
     },
     timeChange(time) {

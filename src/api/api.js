@@ -229,7 +229,7 @@ export default {
     })
   },
   /**
-   * (单/多)话单查询展示
+   * (单)话单查询展示
    */
   ticketOneAnalyze(data) {
     return http({
@@ -242,6 +242,29 @@ export default {
       method: 'post',
       // data: http.adornData(data, false),
       // data: http.adornData(data, false),
+    })
+  },
+  /**
+   * (多)话单查询展示
+   */
+  /*  ticketOneAnalyze2(data) {
+    return http({
+      url: http.adornUrl(
+        'ticket/statement/ticketOneAnalyze2?id=' +
+          data.id +
+          '&phone=' +
+          data.phone,
+      ),
+      method: 'post',
+      // data: http.adornData(data, false),
+      // data: http.adornData(data, false),
+    })
+  }, */
+  ticketOneAnalyze2(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOneAnalyze2'),
+      method: 'post',
+      data: http.adornData(data, false),
     })
   },
   /**

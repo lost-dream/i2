@@ -87,7 +87,6 @@ export default {
         id: '',
         recordId: '',
         time: '',
-        name: '',
       },
       oper: '新建话单',
       rules: {
@@ -107,12 +106,16 @@ export default {
           max: 10,
           type: 'caseName',
         }),
-        uploadPhone: this.filter_rules({ required: true }),
+        uploadPhone:
+          this.oper === '编辑话单'
+            ? this.filter_rules({ required: false })
+            : this.filter_rules({ required: true }),
       },
     }
   },
   mounted() {
     this.$route.query.phoneDataList != undefined && this.getRoute()
+    console.log(this.oper)
   },
   methods: {
     // 获取路由
@@ -124,7 +127,16 @@ export default {
       this.ticketForm.recordId = phoneData.recordId
       this.ticketForm.depict = phoneData.depict
       this.oper = this.$route.query.oper
+      this.editoRrules()
     },
+
+    // 调整验证规则
+    editoRrules() {
+      this.oper === '新建话单'
+        ? (this.rules.uploadPhone = this.filter_rules({ required: true }))
+        : (this.rules.uploadPhone = this.filter_rules({ required: false }))
+    },
+
     submitForm(formName) {
       var _this = this
       this.$refs[formName].validate(valid => {

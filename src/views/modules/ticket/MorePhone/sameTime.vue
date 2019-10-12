@@ -23,8 +23,8 @@
       </el-form-item>
       <el-form-item>
         <el-button type="danger" @click="resetForm('sameTimeForm')"
-          >重置</el-button
-        >
+          >重置
+        </el-button>
       </el-form-item>
     </el-form>
     <el-table :data="sameTime" border style="width: 100%">
@@ -59,6 +59,7 @@
 
 <script>
 import { formatDate } from '../../../../utils/dateFormat.js'
+
 export default {
   data() {
     return {
@@ -115,7 +116,7 @@ export default {
 
   mounted() {
     // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
-    this.morePhone = JSON.parse(localStorage.getItem('morePhone')).list
+    this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
     this.onSubmit()
   },
 
@@ -126,13 +127,23 @@ export default {
       let conData = this.sameTimeForm
       console.log('分析查询')
       console.log(this.morePhone2)
-      conData.time != null && this.timeSizer()
+      conData.time != null && this.eachPhone(this.morePhone2)
       console.log(this.morePhone2)
       this.morePhone2 = this.dataSort2(this.morePhone2)
-      this.tableHead = this.isHead(this.morePhone2)
-      this.sameTime = this.morePhone2
-      console.log(this.tableHead)
       console.log(this.morePhone2)
+      /* this.tableHead = this.isHead(this.morePhone2)
+        this.sameTime = this.morePhone2
+        console.log(this.tableHead)
+        console.log(this.morePhone2) */
+    },
+
+    // 分别计算时间范围
+    eachPhone(data) {
+      let eachPhone = []
+      data.forEach(item => {
+        eachPhone.push(this.timeSizer(item))
+      })
+      this.morePhone2 = eachPhone
     },
 
     // 表头生成
@@ -154,49 +165,56 @@ export default {
     },
 
     // 时间筛选
-    timeSizer() {
-      let data = this.morePhone2
+    timeSizer(data) {
       let time = this.sameTimeForm.time
+      let phoneInfo = {}
       let dataArr = []
-      data.forEach(item => {
+      data.list.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
-      this.morePhone2 = dataArr
+      phoneInfo.list = dataArr
+      phoneInfo.phone = data.phone
+      return phoneInfo
     },
 
     // 数据重组
     dataSort2(data) {
       let data1 = {}
       let value1 = []
-      data.forEach(ai => {
-        let otherPartyPhone = ai.otherPartyPhone
-        let beginTime = ai.beginTime
-        let housingEstateCode = ai.housingEstateCode
-        let baseStationLocation = ai.baseStationLocation
-        if (!data1[housingEstateCode]) {
-          value1.push({
-            beginTime: beginTime,
-            housingEstateCode: housingEstateCode,
-            phoneTimes: 1,
-            baseStationLocation: baseStationLocation,
-            phoneNum: [otherPartyPhone],
-          })
-          data1[housingEstateCode] = ai
-        } else {
-          for (let j = 0; j < value1.length; j++) {
-            let dj = value1[j]
-            if (
-              dj.beginTime === beginTime &&
-              dj.baseStationLocation === baseStationLocation &&
-              dj.housingEstateCode === housingEstateCode
-            ) {
-              dj.phoneTimes++
-              dj.phoneNum.push(otherPartyPhone)
-              break
+      data.forEach(ai1 => {
+        let phone = ai1.phone
+        ai1.list.forEach(ai => {
+          let otherPartyPhone = ai.otherPartyPhone
+          let beginTime = ai.beginTime
+          let housingEstateCode = ai.housingEstateCode
+          let baseStationLocation = ai.baseStationLocation
+          if (!data1[housingEstateCode]) {
+            value1.push({
+              beginTime: beginTime,
+              housingEstateCode: housingEstateCode,
+              phoneTimes: 1,
+              baseStationLocation: baseStationLocation,
+              masterPhone: phone,
+              phoneNum: [otherPartyPhone],
+            })
+            data1[housingEstateCode] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              if (
+                dj.beginTime === beginTime &&
+                dj.baseStationLocation === baseStationLocation &&
+                dj.housingEstateCode === housingEstateCode
+              ) {
+                dj.phoneTimes++
+                dj.phoneNum.push(otherPartyPhone)
+                break
+              }
             }
           }
-        }
+        })
       })
+      console.log(value1)
       return value1
     },
 
@@ -264,17 +282,23 @@ export default {
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
   color white
+
 .el-form-item__label
   color white !important
+
 .el-table
   background-color rgba(44, 239, 255, 0.3) !important
   color white !important
+
 .el-table th, .el-table tr
   background-color transparent !important
+
 .el-table thead
   color white !important
-.el-table tbody tr:hover>td
+
+.el-table tbody tr:hover > td
   background-color rgba(44, 239, 255, 0.4) !important
+
 .el-pagination__total
   color white
 </style>

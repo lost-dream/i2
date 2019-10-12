@@ -145,9 +145,9 @@ export default {
   },
   mounted() {
     // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
-    this.allPhoneInfo = JSON.parse(localStorage.getItem('allPhoneInfo'))
-    // this.onSubmit()
-    this.dataSort2()
+    // this.imeisInfo = JSON.parse(localStorage.getItem('imeisInfo'))
+    // this.dataSort2()
+    this.onSubmit()
   },
 
   methods: {
@@ -158,6 +158,7 @@ export default {
       }
       this.$api.ticketNoteQuery(obj).then(({ data }) => {
         console.log(data)
+        this.phoneSearch = data.result.o
       })
       console.log('submit!')
     },

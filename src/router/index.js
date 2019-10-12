@@ -276,6 +276,12 @@ const mainRoutes = [
         ],
       },
       {
+        path: '/archives',
+        component: _import('modules/archives/archives'),
+        name: 'archives',
+        meta: { title: 'archives' },
+      },
+      {
         path: '/sys',
         component: _import('modules/sys/index'),
         name: 'sys',
