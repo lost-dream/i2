@@ -4,14 +4,7 @@
       <div class="coat2">
         <div class="operateMenu">
           <ul class="clearfix">
-            <li
-              @click="
-                clearValue()
-                addDialog = true
-              "
-            >
-              添加
-            </li>
+            <li @click="clearValue(), (addDialog = true)">添加</li>
             <li @click="pitchOn() && (addValue(), (editDialog = true))">
               编辑
             </li>
@@ -67,10 +60,10 @@
                 placeholder="请选择部门"
               >
                 <el-option
-                  v-for="item in sectionList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="(item, index) in sectionList"
+                  :key="index"
+                  :label="item.title"
+                  :value="item.title"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -81,15 +74,15 @@
                 placeholder="请选择用户组"
               >
                 <el-option
-                  v-for="item in userGroupList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="(item, index) in userGroupList"
+                  :key="index"
+                  :label="item.description"
+                  :value="item.description"
                 ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button class="seekBut" type="primary" @click="isSeek()"
+              <el-button class="seekBut" type="primary" @click="search"
                 >搜索</el-button
               >
             </el-form-item>
@@ -104,101 +97,42 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="50"> </el-table-column>
-              <el-table-column prop="user" label="登录名" width="100">
+              <el-table-column type="selection" width="50"></el-table-column>
+              <el-table-column prop="username" label="登录名" width="100">
               </el-table-column>
-              <el-table-column prop="name" label="姓名" width="100">
+              <el-table-column prop="nickName" label="姓名" width="100">
               </el-table-column>
-              <el-table-column prop="section" label="部门" width="110">
+              <el-table-column prop="description" label="部门" width="110">
               </el-table-column>
               <el-table-column prop="userGroup" label="用户组" width="120">
               </el-table-column>
               <el-table-column
-                prop="lastLoginDate"
+                prop="endTime"
                 label="最后登录时间"
                 width="180"
                 show-overflow-tooltip
               >
               </el-table-column>
-              <el-table-column prop="loginType" label="登录类型" width="120">
+              <el-table-column prop="loginWay" label="登录类型" width="120">
               </el-table-column>
               <el-table-column prop="status" label="状态" width="100">
               </el-table-column>
-              <el-table-column prop="policeKind" label="警种类别" width="100">
+              <el-table-column prop="policeType" label="警种类别" width="100">
               </el-table-column>
-              <el-table-column prop="reportedSection" label="上报部门">
+              <el-table-column prop="berichtenDepartment" label="上报部门">
               </el-table-column>
             </el-table>
           </div>
+          <Pagination
+            class="user-list-pagination"
+            :curPage="currentPage"
+            :totalPage="totalPage"
+            :size="pageSize"
+            @handleCurrentChange="changePage"
+          />
         </div>
         <div class="dialog">
           <!--添加-->
-          <!--<el-dialog
-                  title="添加用户"
-                  :visible.sync="addDialog"
-                  width="35%"
-                  :before-close="handleClose">
-            <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
-              <el-form-item label="登陆账号" prop="user">
-                <el-input v-model="form.user"></el-input>
-              </el-form-item>
-              <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="部门" prop="section">
-                <el-select v-model="form.section" placeholder="请选择部门">
-                  <el-option v-for="item in sectionList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="用户组" prop="userGroup">
-                <el-select v-model="form.userGroup" placeholder="请选择用户组">
-                  <el-option v-for="item in userGroupList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="登录类型" prop="loginType">
-                <el-select v-model="form.loginType" placeholder="请选择登录类型">
-                  <el-option v-for="item in loginTypeList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="状态" prop="status">
-                <el-select v-model="form.status" placeholder="请选择状态">
-                  <el-option v-for="item in statusList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="警种类别" prop="policeKind">
-                <el-select v-model="form.policeKind" placeholder="请选择警种类别">
-                  <el-option v-for="item in policeKindList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="上报部门" prop="reportedSection">
-                <el-select v-model="form.reportedSection" placeholder="请选择上报部门">
-                  <el-option v-for="item in reportedSectionList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="addDialog = false">取 消</el-button>
-    <el-button type="primary" @click="addUser('form')">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="添加用户" :show.sync="addDialog">
             <el-form
               ref="form"
@@ -215,6 +149,18 @@
               <el-form-item label="姓名" prop="name">
                 <el-input v-model="form.name"></el-input>
               </el-form-item>
+              <el-form-item label="身份证号" prop="IDCard">
+                <el-input v-model="form.IDCard"></el-input>
+              </el-form-item>
+              <el-form-item label="电话号码" prop="mobile">
+                <el-input v-model="form.mobile"></el-input>
+              </el-form-item>
+              <el-form-item label="警号" prop="policeNo">
+                <el-input v-model="form.policeNo"></el-input>
+              </el-form-item>
+              <el-form-item label="电子邮件" prop="email">
+                <el-input v-model="form.email"></el-input>
+              </el-form-item>
               <el-form-item label="部门" prop="section">
                 <el-select
                   v-model="form.section"
@@ -222,10 +168,10 @@
                   placeholder="请选择部门"
                 >
                   <el-option
-                    v-for="item in sectionList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in sectionList"
+                    :key="index"
+                    :label="item.title"
+                    :value="item.title"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -236,27 +182,27 @@
                   placeholder="请选择用户组"
                 >
                   <el-option
-                    v-for="item in userGroupList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in userGroupList"
+                    :key="index"
+                    :label="item.description"
+                    :value="item.description"
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="登录类型" prop="loginType">
+              <!-- <el-form-item label="登录类型" prop="loginType">
                 <el-select
                   v-model="form.loginType"
                   popper-class="fromselect"
                   placeholder="请选择登录类型"
                 >
                   <el-option
-                    v-for="item in loginTypeList"
-                    :key="item.value"
+                    v-for="(item, index) in loginTypeList"
+                    :key="index"
                     :label="item.label"
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="状态" prop="status">
                 <el-select
                   v-model="form.status"
@@ -264,8 +210,8 @@
                   placeholder="请选择状态"
                 >
                   <el-option
-                    v-for="item in statusList"
-                    :key="item.value"
+                    v-for="(item, index) in statusList"
+                    :key="index"
                     :label="item.label"
                     :value="item.value"
                   ></el-option>
@@ -278,10 +224,10 @@
                   placeholder="请选择警种类别"
                 >
                   <el-option
-                    v-for="item in policeKindList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in policeKindList"
+                    :key="index"
+                    :label="item.typeName"
+                    :value="item.typeName"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -290,101 +236,27 @@
                   v-model="form.reportedSection"
                   popper-class="fromselect"
                   placeholder="请选择上报部门"
+                  @change="chooseDepartmentId"
                 >
                   <el-option
-                    v-for="item in reportedSectionList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in sectionList"
+                    :key="index"
+                    :label="item.title"
+                    :value="item.title"
                   ></el-option>
                 </el-select>
               </el-form-item>
             </el-form>
             <div class="butCoat">
-              <el-button class="canBut" @click="addDialog = false"
-                >取 消</el-button
-              >
-              <el-button class="okBut" type="primary" @click="addUser('form')"
-                >确 定</el-button
-              >
+              <el-button class="canBut" @click="addDialog = false">
+                <span>取 消</span>
+              </el-button>
+              <el-button class="okBut" type="primary" @click="addUser">
+                <span>确 定</span>
+              </el-button>
             </div>
-            <!-- <span
-                    slot="ft"
-                    class="dialog-footer"
-            >
-    <el-button class="canBut" @click="addDialog = false">取 消</el-button>
-    <el-button class="okBut" type="primary" @click="addUser('form')">确 定</el-button>
-    </span>-->
           </fly-dialog>
-          <!--编辑-->
-          <!--<el-dialog
-                  title="编辑用户"
-                  :visible.sync="editDialog"
-                  width="35%"
-                  :close-on-click-modal="modal"
-                  :modal-append-to-body="modal"
-                  :before-close="handleClose">
-            <el-form ref="form" :model="form" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
-              <el-form-item label="登陆账号" prop="user">
-                <el-input v-model="form.user"></el-input>
-              </el-form-item>
-              <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="部门" prop="section">
-                <el-select v-model="form.section" placeholder="请选择部门">
-                  <el-option v-for="item in sectionList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="用户组" prop="userGroup">
-                <el-select v-model="form.userGroup" placeholder="请选择用户组">
-                  <el-option v-for="item in userGroupList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="登录类型" prop="loginType">
-                <el-select v-model="form.loginType" placeholder="请选择登录类型">
-                  <el-option v-for="item in loginTypeList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="状态" prop="status">
-                <el-select v-model="form.status" placeholder="请选择状态">
-                  <el-option v-for="item in statusList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="警种类别" prop="policeKind">
-                <el-select v-model="form.policeKind" placeholder="请选择警种类别">
-                  <el-option v-for="item in policeKindList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="上报部门" prop="reportedSection">
-                <el-select v-model="form.reportedSection" placeholder="请选择上报部门">
-                  <el-option v-for="item in reportedSectionList"
-                             :key="item.value"
-                             :label="item.label"
-                             :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-    <el-button class="canBut" @click="editDialog = false">取 消</el-button>
-    <el-button class="okBut" type="primary" @click="editUser('form')">确 定</el-button>
-  </span>
-          </el-dialog>-->
+          <!-- 编辑 -->
           <fly-dialog title="编辑用户" :show.sync="editDialog">
             <el-form
               ref="form"
@@ -395,11 +267,11 @@
               label-width="120px"
               class="demo-ruleForm"
             >
-              <el-form-item label="登陆账号" prop="user">
-                <el-input v-model="form.user" :disabled="true"></el-input>
+              <el-form-item label="登陆账号" prop="username">
+                <el-input v-model="form.username" :disabled="true"></el-input>
               </el-form-item>
-              <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" :disabled="true"></el-input>
+              <el-form-item label="姓名" prop="nickName">
+                <el-input v-model="form.nickName" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="部门" prop="section">
                 <el-select
@@ -408,10 +280,10 @@
                   placeholder="请选择部门"
                 >
                   <el-option
-                    v-for="item in sectionList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in sectionList"
+                    :key="index"
+                    :label="item.title"
+                    :value="item.title"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -422,14 +294,14 @@
                   placeholder="请选择用户组"
                 >
                   <el-option
-                    v-for="item in userGroupList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in userGroupList"
+                    :key="index"
+                    :label="item.description"
+                    :value="item.description"
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="登录类型" prop="loginType">
+              <!-- <el-form-item label="登录类型" prop="loginType">
                 <el-select
                   v-model="form.loginType"
                   popper-class="fromselect"
@@ -442,7 +314,7 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="状态" prop="status">
                 <el-select
                   v-model="form.status"
@@ -450,8 +322,8 @@
                   placeholder="请选择状态"
                 >
                   <el-option
-                    v-for="item in statusList"
-                    :key="item.value"
+                    v-for="(item, index) in statusList"
+                    :key="index"
                     :label="item.label"
                     :value="item.value"
                   ></el-option>
@@ -464,10 +336,10 @@
                   placeholder="请选择警种类别"
                 >
                   <el-option
-                    v-for="item in policeKindList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in policeKindList"
+                    :key="index"
+                    :label="item.typeName"
+                    :value="item.typeName"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -478,69 +350,24 @@
                   placeholder="请选择上报部门"
                 >
                   <el-option
-                    v-for="item in reportedSectionList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="(item, index) in sectionList"
+                    :key="index"
+                    :label="item.title"
+                    :value="item.title"
                   ></el-option>
                 </el-select>
               </el-form-item>
             </el-form>
             <div class="butCoat">
               <el-button class="canBut" @click="editDialog = false"
-                >取 消</el-button
+                ><span>取 消</span></el-button
               >
-              <el-button class="okBut" type="primary" @click="editUser('form')"
-                >确 定</el-button
+              <el-button class="okBut" type="primary" @click="editUser">
+                <span>确 定</span></el-button
               >
             </div>
           </fly-dialog>
           <!--查看-->
-          <!--<el-dialog
-                  title="查看用户详情"
-                  :visible.sync="lookDialog"
-                  width="35%"
-                  :before-close="handleClose">
-            <div>
-              <span>登陆账号:</span>
-              <span>{{lookInfo.user}}</span>
-            </div>
-            <div>
-              <span>姓名:</span>
-              <span>{{lookInfo.name}}</span>
-            </div>
-            <div>
-              <span>部门:</span>
-              <span>{{lookInfo.section}}</span>
-            </div>
-            <div>
-              <span>用户组:</span>
-              <span>{{lookInfo.userGroup}}</span>
-            </div>
-            <div>
-              <span>登录类型:</span>
-              <span>{{lookInfo.loginType}}</span>
-            </div>
-            <div>
-              <span>状态:</span>
-              <span>{{lookInfo.status}}</span>
-            </div>
-            <div>
-              <span>警种类别:</span>
-              <span>{{lookInfo.policeKind}}</span>
-            </div>
-            <div>
-              <span>登陆账号:</span>
-              <span>{{lookInfo.user}}</span>
-            </div>
-            <div>
-              <span>上报部门:</span>
-              <span>{{lookInfo.reportedSection}}</span>
-            </div>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="lookDialog = false">关   闭</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="查看用户详情" :show.sync="lookDialog">
             <div id="uesrInfo">
               <div>
@@ -559,10 +386,10 @@
                 <span>用户组:</span>
                 <span>{{ lookInfo.userGroup }}</span>
               </div>
-              <div>
+              <!-- <div>
                 <span>登录类型:</span>
                 <span>{{ lookInfo.loginType }}</span>
-              </div>
+              </div> -->
               <div>
                 <span>状态:</span>
                 <span>{{ lookInfo.status }}</span>
@@ -588,51 +415,18 @@
             </div>
           </fly-dialog>
           <!--删除-->
-          <!--<el-dialog
-                  title="删除"
-                  :visible.sync="deleteDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>确定删除？</span>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="deleteDialog = false">取 消</el-button>
-    <el-button type="primary" @click="deleteUser()">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="删除" :show.sync="deleteDialog">
             <span class="content">确定删除？</span>
             <div class="butCoat">
               <el-button class="canBut" @click="deleteDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="deleteUser()"
+              <el-button class="okBut" type="primary" @click="deleteUser"
                 >确 定</el-button
               >
             </div>
           </fly-dialog>
-          <!--导入-->
-          <!-- <el-dialog
-                   title="导入"
-                   :visible.sync="importDialog"
-                   width="30%"
-                   :before-close="handleClose">
-             <span>导入</span>
-             <el-upload
-                     class="upload-demo"
-                     action="https://jsonplaceholder.typicode.com/posts/"
-                     :on-preview="handlePreview"
-                     :on-remove="handleRemove"
-                     :file-list="fileList2"
-                     accept=".xls, .xlsx"
-                     list-type="picture">
-               <el-button size="small" type="primary">点击上传</el-button>
-               <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
-             </el-upload>
-             <span slot="footer" class="dialog-footer">
-     <el-button @click="importDialog = false">取 消</el-button>
-     <el-button type="primary" @click="importUser()">确 定</el-button>
-   </span>
-           </el-dialog>-->
+          <!-- 导入 -->
           <fly-dialog title="导入" :show.sync="importDialog">
             <span class="content">导入</span>
             <el-upload
@@ -653,122 +447,67 @@
               <el-button class="canBut" @click="importDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="importUser()"
+              <el-button class="okBut" type="primary" @click="importUser"
                 >确 定</el-button
               >
             </div>
           </fly-dialog>
           <!--导出-->
-          <!--<el-dialog
-                  title="导出"
-                  :visible.sync="exportDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>导出</span>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="exportDialog = false">取 消</el-button>
-    <el-button type="primary" @click="exportUser()">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="导出" :show.sync="exportDialog">
             <span class="content">导出</span>
             <div class="butCoat">
               <el-button class="canBut" @click="exportDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="exportUser()"
+              <el-button class="okBut" type="primary" @click="exportUser"
                 >确 定</el-button
               >
             </div>
           </fly-dialog>
           <!--启用-->
-          <!--<el-dialog
-                  title="启用"
-                  :visible.sync="startDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>确定启用该用户？</span>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="startDialog = false">取 消</el-button>
-    <el-button type="primary" @click="startUser()">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="启用" :show.sync="startDialog">
             <span class="content">确定启用该用户？</span>
             <div class="butCoat">
               <el-button class="canBut" @click="startDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="startUser()"
+              <el-button class="okBut" type="primary" @click="startUser"
                 >确 定</el-button
               >
             </div>
           </fly-dialog>
           <!--停用-->
-          <!--<el-dialog
-                  title="停用"
-                  :visible.sync="stopDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>确定停用该用户？</span>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="stopDialog = false">取 消</el-button>
-    <el-button type="primary" @click="stopUser()">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="停用" :show.sync="stopDialog">
             <span class="content">确定停用该用户？</span>
             <div class="butCoat">
               <el-button class="canBut" @click="stopDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="stopUser()"
+              <el-button class="okBut" type="primary" @click="stopUser"
                 >确 定</el-button
               >
             </div>
           </fly-dialog>
           <!--重置密码-->
-          <!--<el-dialog
-                  title="重置密码"
-                  :visible.sync="resetPassDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>确定重置该用户密码？</span>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="resetPassDialog = false">取 消</el-button>
-    <el-button type="primary" @click="resetPassUser()">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="重置密码" :show.sync="resetPassDialog">
             <span class="content">确定重置该用户密码？</span>
             <div class="butCoat">
               <el-button class="canBut" @click="resetPassDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="resetPassUser()"
+              <el-button class="okBut" type="primary" @click="resetPassUser"
                 >确 定</el-button
               >
             </div>
           </fly-dialog>
           <!--重置回答-->
-          <!--<el-dialog
-                  title="重置回答"
-                  :visible.sync="resetAnswerDialog"
-                  width="30%"
-                  :before-close="handleClose">
-            <span>确定重置该用户回答？</span>
-            <span slot="footer" class="dialog-footer">
-    <el-button @click="resetAnswerDialog = false">取 消</el-button>
-    <el-button type="primary" @click="resetAnswerUser()">确 定</el-button>
-  </span>
-          </el-dialog>-->
           <fly-dialog title="重置回答" :show.sync="resetAnswerDialog">
             <span class="content">确定重置该用户回答？</span>
             <div class="butCoat">
               <el-button class="canBut" @click="resetAnswerDialog = false"
                 >取 消</el-button
               >
-              <el-button class="okBut" type="primary" @click="resetAnswerUser()"
+              <el-button class="okBut" type="primary" @click="resetAnswerUser"
                 >确 定</el-button
               >
             </div>
@@ -780,15 +519,29 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import {
+  queryUserApi,
+  queryDepartmentApi,
+  queryUserGroup,
+  queryPoliceType,
+  addUser,
+} from '@/api/system'
+
 import FlyDialog from '@/components/fly-dialog'
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'userManage',
   components: {
     FlyDialog,
+    Pagination,
   },
   data() {
     return {
+      currentPage: 1, // 当前页数
+      pageSize: 10, // 每页显示信息条数
+      totalPage: 1, // 总页数
       modal: false,
       asterisk: true,
       addDialog: false,
@@ -803,13 +556,18 @@ export default {
       resetAnswerDialog: false,
       form: {
         user: '',
+        IDCard: '',
         name: '',
+        mobile: '',
+        policeNo: '',
+        email: '',
         section: '',
         userGroup: '',
-        loginType: '',
+        // loginType: '',
         status: '',
         policeKind: '',
         reportedSection: '',
+        departmentId: '',
       },
       criteria: {
         user: '',
@@ -823,61 +581,33 @@ export default {
         name: '',
         section: '',
         userGroup: '',
-        loginType: '',
+        // loginType: '',
         status: '',
         policeKind: '',
         reportedSection: '',
       },
       userList: [
+        // 用户列表
         {
-          user: 'admin',
-          name: '王国维',
-          section: '四川省公安厅',
-          userGroup: '管理员',
-          lastLoginDate: '2019-07-08 15:57:40',
-          loginType: '账号登录',
-          status: '启用',
-          policeKind: '刑侦',
-          reportedSection: '1111',
-        },
-        {
-          user: 'admin',
-          name: '王国维',
-          section: '四川省公安厅',
-          userGroup: '管理员',
-          lastLoginDate: '2019-07-08 15:57:40',
-          loginType: '账号登录',
-          status: '启用',
-          policeKind: '刑侦',
-          reportedSection: '',
-        },
-        {
-          user: 'admin',
-          name: '王国维',
-          section: '四川省公安厅',
-          userGroup: '管理员',
-          lastLoginDate: '2019-07-08 15:57:40',
-          loginType: '账号登录',
-          status: '启用',
-          policeKind: '刑侦',
-          reportedSection: '',
-        },
-        {
-          user: 'admin',
-          name: '王国维',
-          section: '四川省公安厅',
-          userGroup: '管理员',
-          lastLoginDate: '2019-07-08 15:57:40',
-          loginType: '账号登录',
-          status: '启用',
-          policeKind: '刑侦',
-          reportedSection: '',
+          username: '', // 登录名
+          nickName: '', // 姓名
+          description: '', // 部门
+          userGroup: '', // 用户组
+          endTime: '', // 最后登录时间
+          loginWay: '', // 登录类型
+          status: '', // 状态
+          policeType: '', // 警种类别
+          berichtenDepartment: '', // 上报部门
         },
       ],
       fileList2: [],
       rules: {
         user: [{ required: true, message: '请输入登陆账号', trigger: 'blur' }],
         name: [{ required: true, message: '请输入用户姓名', trigger: 'blur' }],
+        IDCard: this.filter_rules({ required: true, type: 'idCard' }),
+        mobile: this.filter_rules({ required: true, type: 'mobile' }),
+        policeNo: [{ required: true, message: '请输入警号', trigger: 'blur' }],
+        email: this.filter_rules({ required: true, type: 'email' }),
         section: [{ required: true, message: '请选择部门', trigger: 'blur' }],
         userGroup: [
           { required: true, message: '请选择用户组', trigger: 'blur' },
@@ -898,7 +628,8 @@ export default {
           { required: true, message: '请选择上报部门', trigger: 'blur' },
         ],
       },
-      sectionList: [
+      /* loginTypeList: [
+        // 登录类型下拉框数据 （暂时不需要）
         {
           value: '选项1',
           label: '黄金糕',
@@ -918,75 +649,54 @@ export default {
         {
           value: '选项5',
           label: '北京烤鸭',
+        },
+      ], */
+      statusList: [
+        // 选择状态下拉框数据
+        {
+          value: 0,
+          label: '启用',
+        },
+        {
+          value: 1,
+          label: '未启用',
+        },
+      ],
+      sectionList: [
+        // 选择部门下拉框数据
+        {
+          id: '',
+          pid: '',
+          title: '',
         },
       ],
       userGroupList: [
+        // 选择用户组下拉框数据
         {
-          value: '选项1',
-          label: '黄金糕',
-        },
-        {
-          value: '选项2',
-          label: '双皮奶',
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎',
-        },
-        {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
-        },
-      ],
-      loginTypeList: [
-        {
-          value: '选项1',
-          label: '黄金糕',
-        },
-        {
-          value: '选项2',
-          label: '双皮奶',
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎',
-        },
-        {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
-        },
-      ],
-      statusList: [
-        {
-          value: '选项1',
-          label: '黄金糕',
-        },
-        {
-          value: '选项2',
-          label: '双皮奶',
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎',
-        },
-        {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
+          createBy: '',
+          createTime: '',
+          delFlag: null,
+          description: '',
+          id: '',
+          name: '',
+          updateBy: '',
+          updateTime: '',
         },
       ],
       policeKindList: [
+        // 警种类型下拉框数据
+        {
+          id: '',
+          createBy: '',
+          createTime: '',
+          updateBy: '',
+          updateTime: '',
+          typeName: '',
+          delFlag: 0,
+        },
+      ],
+      /* reportedSectionList: [
+        // 上报部门下拉框数据 （目前和部门数据完全相同，暂时弃用）
         {
           value: '选项1',
           label: '黄金糕',
@@ -1007,30 +717,8 @@ export default {
           value: '选项5',
           label: '北京烤鸭',
         },
-      ],
-      reportedSectionList: [
-        {
-          value: '选项1',
-          label: '黄金糕',
-        },
-        {
-          value: '选项2',
-          label: '双皮奶',
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎',
-        },
-        {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
-        },
-      ],
-      multipleSelection: [],
+      ], */
+      multipleSelection: [], // 存放选中的用户信息
     }
   },
   methods: {
@@ -1050,30 +738,6 @@ export default {
     // 添加选择值
     addValue() {
       this.form = this.multipleSelection[0]
-    },
-    // 添加用户
-    addUser(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!')
-          this.addDialog = false
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    // 编辑用户
-    editUser(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!')
-          this.editDialog = false
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
     },
     // 判断是否只选择一个用户
     pitchOn() {
@@ -1142,12 +806,146 @@ export default {
     resetAnswerUser() {
       this.resetAnswerDialog = false
     },
-    // 搜索
-    isSeek() {},
     handleSelectionChange(val) {
       this.multipleSelection = val
       console.log(val)
     },
+    /* -------------------- edit by singleDogNo.1 -------------------- */
+    chooseDepartmentId(val) {
+      // 选中上报机构时保存机构ID
+      this.sectionList.map((value, index) => {
+        if (value.title === val) {
+          this.form.departmentId = value.id
+        }
+      })
+    },
+    /**
+     * 获取用户列表
+     * @param { string | number } username 查询的登录名
+     * @param { string | number } nickName 查询的姓名
+     * @param { string | number } status 查询的状态
+     * @param { string } departmentId 查询的部门
+     * @param { string } rolesId 查询的用户组
+     * @param { string | number } page 查询的页码
+     * @param { string | number } size 查询需要每页返还的数据量
+     */
+
+    getUserList(
+      username = null,
+      nickName = null,
+      status = null,
+      departmentId = null,
+      rolesId = null,
+      page = this.currentPage,
+      size = this.pageSize,
+    ) {
+      queryUserApi({
+        id: Cookies.get('userId'),
+        username,
+        nickName,
+        status,
+        departmentId,
+        rolesId,
+        page,
+        size,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          const {
+            list, // 当前页相关数据
+            tUserIPage, // 分页相关数据
+          } = data.data
+
+          list.map(value => {
+            value.status = `${value.status === 0 ? '' : '未'}启用`
+          })
+
+          this.userList = list
+          this.currentPage = tUserIPage.current
+          this.totalPage = Math.ceil(tUserIPage.total / tUserIPage.size)
+        } else {
+          this.$message.error(data.msg)
+        }
+      })
+    },
+    // 切换分页
+    changePage(page) {
+      this.currentPage = page
+      this.getUserList(page)
+    },
+    search() {
+      this.getUserList(
+        this.criteria.user,
+        this.criteria.name,
+        this.criteria.status,
+        this.criteria.section,
+        this.criteria.userGroup,
+      )
+    },
+    addUser() {
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          addUser({
+            userId: Cookies.get('userId'),
+            username: this.form.user,
+            card: this.form.IDCard,
+            nickName: this.form.name,
+            policeType: this.form.policeKind,
+            mobile: this.form.mobile,
+            siren: this.form.policeNo,
+            email: this.form.email,
+            berichtenDepartment: this.form.reportedSection,
+            departmentId: this.form.departmentId,
+          }).then(({ data }) => {
+            console.log(data)
+            if (data && data.code === 200) {
+              this.$message({
+                message: '添加用户成功',
+                type: 'success',
+              })
+              this.addDialog = false
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
+        }
+      })
+    },
+    editUser() {
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          this.editDialog = false
+        }
+      })
+    },
+  },
+  mounted() {
+    const $THIS = this
+    ;(async function init() {
+      await $THIS.getUserList()
+      await queryDepartmentApi().then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.sectionList = data.data
+        } else {
+          $THIS.$message.error(data.msg)
+        }
+      })
+      await queryUserGroup({
+        id: Cookies.get('userId'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.userGroupList = data.data
+        } else {
+          $THIS.$message.error(data.msg)
+        }
+      })
+      queryPoliceType().then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.policeKindList = data.data
+        } else {
+          $THIS.$message.error(data.msg)
+        }
+      })
+    })()
   },
 }
 </script>
@@ -1158,13 +956,13 @@ export default {
   position relative
   ul
     display inline-block
-  ul li
-    float left
-    padding 8px 18px
-    margin 0 3px
-    color #ffffff
-    background-color rgba(44, 239, 255, 0.3)
-    border-radius: 2px;
+    li
+      float left
+      padding 8px 18px
+      margin 0 3px
+      color #ffffff
+      background-color rgba(44, 239, 255, 0.3)
+      border-radius: 2px;
   .operateMenu
     text-align center
     margin 0 auto
@@ -1249,6 +1047,7 @@ export default {
   margin-top 18px
   margin-bottom 20px
   padding 20px 15px 20px 15px
+
   position relative
   top 0
   left 0
@@ -1256,6 +1055,9 @@ export default {
   bottom 0
   margin 0 auto
   background-color rgba(44, 239, 255, 0.1)
+
+.user-list-pagination
+  margin-top 20px
 .dialog
   .el-dialog
     /*background: rgba(44, 239, 255, 0.5)!important*/
@@ -1263,13 +1065,12 @@ export default {
     top 30%
   .butCoat
     text-align center
-  .impBut {
+  .impBut
     background-color: rgba(44, 239, 255, 0.3);
     border: 1px solid rgba(44, 239, 255, 0.3);
     color: #ffffff;
     padding: 9px 20px;
     margin-left: 1px;
-  }
   .canBut,
   .okBut
     color: #ffffff
@@ -1295,21 +1096,19 @@ export default {
     background-color rgba(44, 239, 255, 0.4)
     color: #ffffff;
 
-  .el-input__inner {
+  .el-input__inner
     border-radius: 0px;
     background-color: rgba(44, 239, 255, 0.2);
     border: 1px none #DCDFE6;
     color: #ffffff;
     margin-left: 1px;
-  }
 
-  .el-form-item {
+  .el-form-item
     margin 0 auto
     margin-bottom: 1px;
     width 295px!important
-  }
 
-  .el-form-item__error {
+  .el-form-item__error
     color: #F56C6C;
     font-size: 12px;
     width: 100px;
@@ -1319,5 +1118,4 @@ export default {
     position: absolute;
     top: 25%;
     left: 105%;
-  }
 </style>

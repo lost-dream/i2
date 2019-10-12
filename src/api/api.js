@@ -1,5 +1,4 @@
 import http from '@/utils/httpRequest'
-console.log(process.env.VUE_APP_LOGIN_REQUEST_URL)
 export default {
   /**
    * 通过token获取用户信息

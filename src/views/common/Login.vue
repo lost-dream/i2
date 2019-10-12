@@ -185,12 +185,12 @@ export default {
     },
   },
   created() {
-    Cookies.set('userId', '1c928572a3414478895ef893dfee12fc')
-    Cookies.set('ac_token', 'd6ddcd9b39a841ddbfbd2f85eee4164e')
-    Cookies.set('user_info', {
-      username: 'test3',
-      nickName: '虎虎',
-    })
+    // Cookies.set('userId', '1c928572a3414478895ef893dfee12fc')
+    // Cookies.set('ac_token', 'd6ddcd9b39a841ddbfbd2f85eee4164e')
+    // Cookies.set('user_info', {
+    //   username: 'test3',
+    //   nickName: '虎虎',
+    // })
   },
 }
 </script>

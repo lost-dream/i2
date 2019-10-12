@@ -24,7 +24,7 @@ const http = axios.create({
 http.interceptors.request.use(
   config => {
     if (Cookies.get('ac_token')) {
-      config.headers['token'] = Cookies.get('ac_token')
+      config.headers['accessToken'] = Cookies.get('ac_token')
     }
     return config
   },
