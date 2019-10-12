@@ -13,22 +13,22 @@
             class="demo-ruleForm"
           >
             <el-form-item label="登陆账号" prop="user">
-              <el-input v-model="form.user"></el-input>
+              <el-input v-model="username" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="用户姓名" prop="name">
-              <el-input v-model="form.name"></el-input>
+              <el-input v-model="form.nickName"></el-input>
             </el-form-item>
             <el-form-item label="警号" prop="policeNumber">
-              <el-input v-model="form.policeNumber"></el-input>
+              <el-input v-model="form.siren"></el-input>
             </el-form-item>
             <el-form-item label="身份证号" prop="idNumber">
-              <el-input v-model="form.idNumber"></el-input>
+              <el-input v-model="form.card"></el-input>
             </el-form-item>
             <el-form-item label="手机" prop="phone">
-              <el-input v-model="form.phone"></el-input>
+              <el-input v-model="form.mobile"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="Email">
-              <el-input v-model="form.Email"></el-input>
+              <el-input v-model="form.email"></el-input>
             </el-form-item>
           </el-form>
           <el-button class="sureBut" type="primary" @click="onSubmit('form')"
@@ -41,6 +41,9 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+import { getUserInfo, updateUserInfo } from '@/api/userCenter'
+
 export default {
   name: 'modifyInfo',
   components: {},
@@ -48,14 +51,8 @@ export default {
   data() {
     return {
       asterisk: true, // 影响*号
-      form: {
-        user: 'admin',
-        name: 'admin',
-        policeNumber: 110110,
-        idNumber: '511381199508057678',
-        phone: '18000000000',
-        Email: '111@qq.com',
-      },
+      username: '',
+      form: {},
       rules: {
         user: [{ required: true, message: '请输入登陆账号', trigger: 'blur' }],
         name: [{ required: true, message: '请输入用户姓名', trigger: 'blur' }],
@@ -80,17 +77,45 @@ export default {
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
+        /*
+          TODO 校验规则有问题？？？
+          TODO updateUserInfo接口频繁失效
+        */
         if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
+          // console.log('success submit!!')
+          const userId = Cookie.get('userId')
+          updateUserInfo(Object.assign(userId, this.form)).then(({ data }) => {
+            if (data && data.code === 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success',
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
         }
       })
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    getUserInfo({
+      accessToken: Cookie.get('ac_token'),
+      id: Cookie.get('userId'),
+    }).then(({ data }) => {
+      if (data && data.code === 200) {
+        this.username = data.data.username
+        this.form.nickName = data.data.nickName
+        this.form.card = data.data.card
+        this.form.mobile = data.data.mobile
+        this.form.email = data.data.email
+        this.form.siren = data.data.siren
+      } else {
+        this.$message.error(data.msg)
+      }
+    })
+  },
 }
 </script>
 

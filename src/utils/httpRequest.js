@@ -13,17 +13,18 @@ const http = axios.create({
     // 'Content-Type': 'application/x-www-form-urlencoded', // 登录请求request header ？？？
   },
 })
-window.SITE_CONFIG = {
-  baseUrl: 'http://192.168.1.186:90/',
-  // baseUrl: 'http://192.168.1.186:8091/', // TODO 临时登录接口地址 will be delate
-}
+
+// window.SITE_CONFIG = {
+//   baseUrl: 'http://192.168.1.186:90/',
+// }
+
 /**
  * 请求拦截
  */
 http.interceptors.request.use(
   config => {
     if (Cookies.get('ac_token')) {
-      config.headers['token'] = Cookies.get('ac_token')
+      config.headers['accessToken'] = Cookies.get('ac_token')
     }
     return config
   },
@@ -40,6 +41,8 @@ http.interceptors.response.use(
     if (response.data && response.data.code === 401) {
       // token失效
       Cookies.remove('ac_token')
+      Cookies.remove('user_info')
+      Cookies.remove('userId')
       router.push({ name: 'login' })
     }
     return response
@@ -52,15 +55,19 @@ http.interceptors.response.use(
  * 请求地址处理
  * @param {*} actionName action方法名称
  */
-http.adornUrl = actionName => {
-  // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
-  // console.log(window.SITE_CONFIG.baseUrl)
-  return (
-    (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY
-      ? '/proxyApi/'
-      : window.SITE_CONFIG.baseUrl) + actionName
-  )
-}
+// http.adornUrl = actionName => {
+//   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
+//   // console.log(window.SITE_CONFIG.baseUrl)
+//   return (
+//     (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY
+//       ? '/proxyApi/'
+//       : window.SITE_CONFIG.baseUrl) + actionName
+//   )
+// }
+
+http.adornUrl = actionName =>
+  process.env.VUE_APP_COMMON_REQUEST_URL + actionName
+
 /**
  * get请求参数处理
  * @param {*} params 参数对象
