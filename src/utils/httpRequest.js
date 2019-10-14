@@ -65,8 +65,9 @@ http.interceptors.response.use(
 //   )
 // }
 
-http.adornUrl = actionName =>
-  process.env.VUE_APP_COMMON_REQUEST_URL + actionName
+http.adornUrl = actionName => {
+  return process.env.VUE_APP_COMMON_REQUEST_URL + actionName
+}
 
 /**
  * get请求参数处理

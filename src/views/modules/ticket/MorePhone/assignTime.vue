@@ -281,7 +281,6 @@ export default {
               otherPartyPhone: otherPartyPhone,
               phoneTimes: 1,
               location: location,
-
               masterList: [phone],
               phoneNum: [otherPartyPhone],
               masterNum: [1],
@@ -302,6 +301,9 @@ export default {
                 dj.phoneNum.push(otherPartyPhone)
                 break
               }
+              console.log(4444)
+              console.log(value1)
+              console.log(111)
             }
           }
         })

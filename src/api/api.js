@@ -219,6 +219,7 @@ export default {
    * (单)话单查询展示
    */
   ticketOneAnalyze(data) {
+    console.log(process.env.VUE_APP_COMMON_REQUEST_URL)
     return http({
       url: http.adornUrl(
         'ticket/statement/ticketOneAnalyze?id=' +
@@ -377,8 +378,73 @@ export default {
   },
   // ------------------------------------unioncase---------------------------------------------//
   /**
-   * 通过用户和密码登录
-   * @param {*} username 用户名
-   * @param {*} password 密码
+   * 添加案件
    */
+  queryTCase(data) {
+    return http({
+      url: http.adornUrl('queryTCase'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 添加案件
+   */
+  ticketDelete(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 添加案件
+   */
+  ticketDelete(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 添加案件
+   */
+  ticketDelete(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 添加案件
+   */
+  ticketDelete(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 添加案件
+   */
+  ticketDelete(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 添加案件
+   */
+  ticketDelete(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketDelete'),
+      method: 'get',
+      params: http.adornParams(data, false),
+    })
+  },
 }
