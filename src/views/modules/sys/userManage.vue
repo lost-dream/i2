@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO singleDogNo.1  导入 && 导出 -->
   <div id="userManage">
     <div class="coat1">
       <div class="coat2">
@@ -8,7 +9,7 @@
             <li @click="pitchOn() && (addValue(), (editDialog = true))">
               编辑
             </li>
-            <li @click="lookUser()">查看</li>
+            <li @click="lookUser">查看</li>
             <li @click="pitchOn2() && (deleteDialog = true)">删除</li>
             <li @click="importDialog = true">导入</li>
             <li @click="exportDialog = true">导出</li>
@@ -372,15 +373,19 @@
             <div id="uesrInfo">
               <div>
                 <span>登陆账号:</span>
-                <span>{{ lookInfo.user }}</span>
+                <span>{{ lookInfo.username }}</span>
               </div>
               <div>
                 <span>姓名:</span>
-                <span>{{ lookInfo.name }}</span>
+                <span>{{ lookInfo.nickName }}</span>
               </div>
               <div>
                 <span>部门:</span>
-                <span>{{ lookInfo.section }}</span>
+                <span>{{
+                  lookInfo.description === '' || lookInfo.description === null
+                    ? '暂无数据'
+                    : lookInfo.description
+                }}</span>
               </div>
               <div>
                 <span>用户组:</span>
@@ -396,21 +401,21 @@
               </div>
               <div>
                 <span>警种类别:</span>
-                <span>{{ lookInfo.policeKind }}</span>
+                <span>{{ lookInfo.policeType }}</span>
               </div>
               <div>
                 <span>上报部门:</span>
                 <span>{{
-                  lookInfo.reportedSection == '' ||
-                  lookInfo.reportedSection == null
+                  lookInfo.berichtenDepartment === '' ||
+                  lookInfo.berichtenDepartment === null
                     ? '暂无数据'
-                    : lookInfo.reportedSection
+                    : lookInfo.berichtenDepartment
                 }}</span>
               </div>
               <div class="butCoat">
-                <el-button class="canBut" @click="lookDialog = false"
-                  >取 消</el-button
-                >
+                <el-button class="canBut" @click="lookDialog = false">
+                  <span>取 消</span>
+                </el-button>
               </div>
             </div>
           </fly-dialog>
@@ -418,12 +423,12 @@
           <fly-dialog title="删除" :show.sync="deleteDialog">
             <span class="content">确定删除？</span>
             <div class="butCoat">
-              <el-button class="canBut" @click="deleteDialog = false"
-                >取 消</el-button
-              >
-              <el-button class="okBut" type="primary" @click="deleteUser"
-                >确 定</el-button
-              >
+              <el-button class="canBut" @click="deleteDialog = false">
+                <span>取 消</span>
+              </el-button>
+              <el-button class="okBut" type="primary" @click="deleteUser">
+                <span>确 定</span>
+              </el-button>
             </div>
           </fly-dialog>
           <!-- 导入 -->
@@ -431,7 +436,7 @@
             <span class="content">导入</span>
             <el-upload
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :action="uploadURL"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :file-list="fileList2"
@@ -468,12 +473,12 @@
           <fly-dialog title="启用" :show.sync="startDialog">
             <span class="content">确定启用该用户？</span>
             <div class="butCoat">
-              <el-button class="canBut" @click="startDialog = false"
-                >取 消</el-button
-              >
-              <el-button class="okBut" type="primary" @click="startUser"
-                >确 定</el-button
-              >
+              <el-button class="canBut" @click="startDialog = false">
+                <span>取 消</span>
+              </el-button>
+              <el-button class="okBut" type="primary" @click="startUser">
+                <span>确 定</span>
+              </el-button>
             </div>
           </fly-dialog>
           <!--停用-->
@@ -492,24 +497,24 @@
           <fly-dialog title="重置密码" :show.sync="resetPassDialog">
             <span class="content">确定重置该用户密码？</span>
             <div class="butCoat">
-              <el-button class="canBut" @click="resetPassDialog = false"
-                >取 消</el-button
-              >
-              <el-button class="okBut" type="primary" @click="resetPassUser"
-                >确 定</el-button
-              >
+              <el-button class="canBut" @click="resetPassDialog = false">
+                <span>取 消</span>
+              </el-button>
+              <el-button class="okBut" type="primary" @click="resetPassUser">
+                <span>确 定</span>
+              </el-button>
             </div>
           </fly-dialog>
           <!--重置回答-->
           <fly-dialog title="重置回答" :show.sync="resetAnswerDialog">
             <span class="content">确定重置该用户回答？</span>
             <div class="butCoat">
-              <el-button class="canBut" @click="resetAnswerDialog = false"
-                >取 消</el-button
-              >
-              <el-button class="okBut" type="primary" @click="resetAnswerUser"
-                >确 定</el-button
-              >
+              <el-button class="canBut" @click="resetAnswerDialog = false">
+                <span>取 消</span>
+              </el-button>
+              <el-button class="okBut" type="primary" @click="resetAnswerUser">
+                <span>确 定</span>
+              </el-button>
             </div>
           </fly-dialog>
         </div>
@@ -526,6 +531,9 @@ import {
   queryUserGroup,
   queryPoliceType,
   addUser,
+  operateUser,
+  resetPassword,
+  reset2ndPWD,
 } from '@/api/system'
 
 import FlyDialog from '@/components/fly-dialog'
@@ -539,10 +547,11 @@ export default {
   },
   data() {
     return {
+      uploadURL:
+        process.env.VUE_APP_COMMON_REQUEST_URL + 'admin/ImportExcelUser',
       currentPage: 1, // 当前页数
       pageSize: 10, // 每页显示信息条数
       totalPage: 1, // 总页数
-      modal: false,
       asterisk: true,
       addDialog: false,
       editDialog: false,
@@ -576,16 +585,7 @@ export default {
         userGroup: '',
         status: '',
       },
-      lookInfo: {
-        user: '6666',
-        name: '',
-        section: '',
-        userGroup: '',
-        // loginType: '',
-        status: '',
-        policeKind: '',
-        reportedSection: '',
-      },
+      lookInfo: {},
       userList: [
         // 用户列表
         {
@@ -755,27 +755,6 @@ export default {
         : this.$message.error('请至少选择一条数据!')
       return isPitchOn
     },
-    // 查看用户
-    lookUser() {
-      if (this.pitchOn()) {
-        this.lookInfo = this.multipleSelection[0]
-        this.lookDialog = true
-        console.log(11)
-        console.log(this.lookInfo.reportedSection)
-        console.log(22222)
-      }
-    },
-    // 删除用户
-    deleteUser() {
-      this.deleteDialog = false
-    },
-    // 刷新
-    flush() {
-      this.$message({
-        message: '刷新成功',
-        type: 'success',
-      })
-    },
     // 导入
     importUser() {
       this.importDialog = false
@@ -790,25 +769,8 @@ export default {
     exportUser() {
       this.exportDialog = false
     },
-    // 启用
-    startUser() {
-      this.startDialog = false
-    },
-    // 停用
-    stopUser() {
-      this.stopDialog = false
-    },
-    // 重置密码
-    resetPassUser() {
-      this.resetPassDialog = false
-    },
-    // 重置回答
-    resetAnswerUser() {
-      this.resetAnswerDialog = false
-    },
     handleSelectionChange(val) {
       this.multipleSelection = val
-      console.log(val)
     },
     /* -------------------- edit by singleDogNo.1 -------------------- */
     chooseDepartmentId(val) {
@@ -829,7 +791,6 @@ export default {
      * @param { string | number } page 查询的页码
      * @param { string | number } size 查询需要每页返还的数据量
      */
-
     getUserList(
       username = null,
       nickName = null,
@@ -896,13 +857,15 @@ export default {
             berichtenDepartment: this.form.reportedSection,
             departmentId: this.form.departmentId,
           }).then(({ data }) => {
-            console.log(data)
             if (data && data.code === 200) {
-              this.$message({
-                message: '添加用户成功',
-                type: 'success',
+              // 添加成功，重新拉取数据更新视图
+              this.initPage(() => {
+                this.$message({
+                  message: '添加用户成功',
+                  type: 'success',
+                })
+                this.addDialog = false
               })
-              this.addDialog = false
             } else {
               this.$message.error(data.msg)
             }
@@ -917,35 +880,159 @@ export default {
         }
       })
     },
-  },
-  mounted() {
-    const $THIS = this
-    ;(async function init() {
-      await $THIS.getUserList()
+    lookUser() {
+      if (this.pitchOn()) {
+        this.lookInfo = this.multipleSelection[0]
+        this.lookDialog = true
+      }
+    },
+    deleteUser() {
+      const selectedUser = this.multipleSelection[0]
+
+      operateUser({
+        id: selectedUser.id,
+        state: 0,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          })
+
+          this.userList.map((value, index) => {
+            if (value === selectedUser) {
+              this.userList.splice(index, 1)
+              this.deleteDialog = false
+            }
+          })
+        } else {
+          this.$message.error(data.msg)
+        }
+      })
+    },
+    startUser() {
+      const selectedUser = this.multipleSelection[0]
+
+      operateUser({
+        id: selectedUser.id,
+        state: 2,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '启用成功',
+            type: 'success',
+          })
+
+          this.userList.map((value, index) => {
+            if (value === selectedUser) {
+              this.userList[index].status = '启用'
+              this.startDialog = false
+            }
+          })
+        } else {
+          this.$message.error(data.msg)
+        }
+      })
+    },
+    stopUser() {
+      const selectedUser = this.multipleSelection[0]
+
+      operateUser({
+        id: selectedUser.id,
+        state: 1,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '停用成功',
+            type: 'success',
+          })
+
+          this.userList.map((value, index) => {
+            if (value === selectedUser) {
+              this.userList[index].status = '未启用'
+              this.startDialog = false
+            }
+          })
+        } else {
+          this.$message.error(data.msg)
+        }
+      })
+    },
+    resetPassUser() {
+      const selectedUser = this.multipleSelection[0]
+      resetPassword({
+        id: selectedUser.id,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '重置用户密码成功',
+            type: 'success',
+          })
+          this.resetPassDialog = false
+        } else {
+          this.$message.error(data.msg)
+        }
+      })
+    },
+    resetAnswerUser() {
+      const selectedUser = this.multipleSelection[0]
+      reset2ndPWD({
+        id: selectedUser.id,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '重置回答二级密码问题成功',
+            type: 'success',
+          })
+          this.resetAnswerDialog = false
+        } else {
+          this.$message.error(data.msg)
+        }
+      })
+    },
+    flush() {
+      this.initPage(() => {
+        this.$message({
+          message: '刷新成功',
+          type: 'success',
+        })
+      })
+    },
+    async initPage(callback = () => {}) {
+      await this.getUserList()
       await queryDepartmentApi().then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.sectionList = data.data
+          this.sectionList = data.data
+          this.sectionList.unshift({
+            id: -1,
+            pid: -1,
+            title: '（不选择）',
+          })
         } else {
-          $THIS.$message.error(data.msg)
+          this.$message.error(data.msg)
         }
       })
       await queryUserGroup({
         id: Cookies.get('userId'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.userGroupList = data.data
+          this.userGroupList = data.data
         } else {
-          $THIS.$message.error(data.msg)
+          this.$message.error(data.msg)
         }
       })
-      queryPoliceType().then(({ data }) => {
+      await queryPoliceType().then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.policeKindList = data.data
+          this.policeKindList = data.data
         } else {
-          $THIS.$message.error(data.msg)
+          this.$message.error(data.msg)
         }
       })
-    })()
+      await callback()
+    },
+  },
+  mounted() {
+    this.initPage()
   },
 }
 </script>

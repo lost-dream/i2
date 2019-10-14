@@ -192,7 +192,7 @@
          * @return {Boolean} isNumber
          */
         exports.isNumber = function(object) {
-          return object instanceof Number || typeof object == 'number'
+          return object instanceof Number || typeof object === 'number'
         }
 
         /**
@@ -232,7 +232,7 @@
          * @return {Boolean} isString
          */
         exports.isString = function(object) {
-          return object instanceof String || typeof object == 'string'
+          return object instanceof String || typeof object === 'string'
         }
 
         /**
@@ -576,7 +576,7 @@
             throw new Error('Type must be a string')
           }
 
-          //noinspection FallthroughInSwitchStatementJS
+          // noinspection FallthroughInSwitchStatementJS
           switch (type) {
             case 'boolean':
             case 'Boolean':
@@ -1034,7 +1034,7 @@
          * @returns {Boolean} bool
          */
         exports.option.asBoolean = function(value, defaultValue) {
-          if (typeof value == 'function') {
+          if (typeof value === 'function') {
             value = value()
           }
 
@@ -1052,7 +1052,7 @@
          * @returns {number} number
          */
         exports.option.asNumber = function(value, defaultValue) {
-          if (typeof value == 'function') {
+          if (typeof value === 'function') {
             value = value()
           }
 
@@ -1070,7 +1070,7 @@
          * @returns {String} str
          */
         exports.option.asString = function(value, defaultValue) {
-          if (typeof value == 'function') {
+          if (typeof value === 'function') {
             value = value()
           }
 
@@ -1088,7 +1088,7 @@
          * @returns {String} size
          */
         exports.option.asSize = function(value, defaultValue) {
-          if (typeof value == 'function') {
+          if (typeof value === 'function') {
             value = value()
           }
 
@@ -1108,7 +1108,7 @@
          * @returns {HTMLElement | null} dom
          */
         exports.option.asElement = function(value, defaultValue) {
-          if (typeof value == 'function') {
+          if (typeof value === 'function') {
             value = value()
           }
 
@@ -1640,9 +1640,9 @@
           var globalOption = globalPassed ? globalOptions[option] : undefined
           var globalEnabled = globalOption ? globalOption.enabled : undefined
 
-          /////////////////////////////////////////
+          /// //////////////////////////////////////
           // Main routine
-          /////////////////////////////////////////
+          /// //////////////////////////////////////
           if (srcOption === undefined) {
             return // Nothing to do
           }
@@ -1927,7 +1927,7 @@
                     continue
                   }
                 }
-                if (typeof candidate != 'undefined') {
+                if (typeof candidate !== 'undefined') {
                   break
                 }
               }
@@ -2099,7 +2099,7 @@
       /* 7 */
       /***/ function(module, exports) {
         var core = (module.exports = { version: '2.5.1' })
-        if (typeof __e == 'number') __e = core // eslint-disable-line no-undef
+        if (typeof __e === 'number') __e = core // eslint-disable-line no-undef
 
         /***/
       },
@@ -2145,7 +2145,7 @@
             emit: noop,
 
             get: function get(m) {
-              //eslint-disable-line no-unused-vars
+              // eslint-disable-line no-unused-vars
               return {
                 set: noop,
               }
@@ -2374,9 +2374,9 @@
          * @return {Array.<string|number>} addedIds      Array with the ids of the added items
          */
         DataSet.prototype.add = function(data, senderId) {
-          var addedIds = [],
-            id,
-            me = this
+          var addedIds = []
+          var id
+          var me = this
 
           if (Array.isArray(data)) {
             // Array
@@ -2468,12 +2468,12 @@
               data: updatedData,
             }
             // TODO: remove deprecated property 'data' some day
-            //Object.defineProperty(props, 'data', {
+            // Object.defineProperty(props, 'data', {
             //  'get': (function() {
             //    console.warn('Property data is deprecated. Use DataSet.get(ids) to retrieve the new data, use the oldData property on this object to get the old data');
             //    return updatedData;
             //  }).bind(this)
-            //});
+            // });
             this._trigger('update', props, senderId)
           }
 
@@ -2544,12 +2544,12 @@
           // build options
           var type = (options && options.type) || this._options.type
           var filter = options && options.filter
-          var items = [],
-            item,
-            itemIds,
-            itemId,
-            i,
-            len
+          var items = []
+          var item
+          var itemIds
+          var itemId
+          var i
+          var len
 
           // convert items
           if (id != undefined) {
@@ -2597,8 +2597,8 @@
 
           // return the results
           if (returnType == 'Object') {
-            var result = {},
-              resultant
+            var result = {}
+            var resultant
             for (i = 0, len = items.length; i < len; i++) {
               resultant = items[i]
               result[resultant.id] = resultant
@@ -2624,17 +2624,17 @@
          * @return {Array.<string|number>} ids
          */
         DataSet.prototype.getIds = function(options) {
-          var data = this._data,
-            filter = options && options.filter,
-            order = options && options.order,
-            type = (options && options.type) || this._options.type,
-            itemIds = (0, _keys2['default'])(data),
-            i,
-            len,
-            id,
-            item,
-            items,
-            ids = []
+          var data = this._data
+          var filter = options && options.filter
+          var order = options && options.order
+          var type = (options && options.type) || this._options.type
+          var itemIds = (0, _keys2['default'])(data)
+          var i
+          var len
+          var id
+          var item
+          var items
+          var ids = []
 
           if (filter) {
             // get filtered items
@@ -2712,14 +2712,14 @@
          *                                  a field name or custom sort function.
          */
         DataSet.prototype.forEach = function(callback, options) {
-          var filter = options && options.filter,
-            type = (options && options.type) || this._options.type,
-            data = this._data,
-            itemIds = (0, _keys2['default'])(data),
-            i,
-            len,
-            item,
-            id
+          var filter = options && options.filter
+          var type = (options && options.type) || this._options.type
+          var data = this._data
+          var itemIds = (0, _keys2['default'])(data)
+          var i
+          var len
+          var item
+          var id
 
           if (options && options.order) {
             // execute forEach on ordered list
@@ -2754,15 +2754,15 @@
          * @return {Object[]} mappedItems
          */
         DataSet.prototype.map = function(callback, options) {
-          var filter = options && options.filter,
-            type = (options && options.type) || this._options.type,
-            mappedItems = [],
-            data = this._data,
-            itemIds = (0, _keys2['default'])(data),
-            i,
-            len,
-            id,
-            item
+          var filter = options && options.filter
+          var type = (options && options.type) || this._options.type
+          var mappedItems = []
+          var data = this._data
+          var itemIds = (0, _keys2['default'])(data)
+          var i
+          var len
+          var id
+          var item
 
           // convert and filter items
           for (i = 0, len = itemIds.length; i < len; i++) {
@@ -2794,11 +2794,11 @@
             return item
           }
 
-          var filteredItem = {},
-            itemFields = (0, _keys2['default'])(item),
-            len = itemFields.length,
-            i,
-            field
+          var filteredItem = {}
+          var itemFields = (0, _keys2['default'])(item)
+          var len = itemFields.length
+          var i
+          var field
 
           if (Array.isArray(fields)) {
             for (i = 0; i < len; i++) {
@@ -2853,13 +2853,13 @@
          * @return {Array.<string|number>} removedIds
          */
         DataSet.prototype.remove = function(id, senderId) {
-          var removedIds = [],
-            removedItems = [],
-            ids = [],
-            i,
-            len,
-            itemId,
-            item
+          var removedIds = []
+          var removedItems = []
+          var ids = []
+          var i
+          var len
+          var itemId
+          var item
 
           // force everything to be an array for simplicity
           ids = Array.isArray(id) ? id : [id]
@@ -2945,12 +2945,12 @@
          * @return {Object | null} item  Item containing max value, or null if no items
          */
         DataSet.prototype.max = function(field) {
-          var data = this._data,
-            itemIds = (0, _keys2['default'])(data),
-            max = null,
-            maxField = null,
-            i,
-            len
+          var data = this._data
+          var itemIds = (0, _keys2['default'])(data)
+          var max = null
+          var maxField = null
+          var i
+          var len
 
           for (i = 0, len = itemIds.length; i < len; i++) {
             var id = itemIds[i]
@@ -2971,12 +2971,12 @@
          * @return {Object | null} item  Item containing max value, or null if no items
          */
         DataSet.prototype.min = function(field) {
-          var data = this._data,
-            itemIds = (0, _keys2['default'])(data),
-            min = null,
-            minField = null,
-            i,
-            len
+          var data = this._data
+          var itemIds = (0, _keys2['default'])(data)
+          var min = null
+          var minField = null
+          var i
+          var len
 
           for (i = 0, len = itemIds.length; i < len; i++) {
             var id = itemIds[i]
@@ -3056,10 +3056,10 @@
             item[this._fieldId] = id
           }
 
-          var d = {},
-            fields = (0, _keys2['default'])(item),
-            i,
-            len
+          var d = {}
+          var fields = (0, _keys2['default'])(item)
+          var i
+          var len
           for (i = 0, len = fields.length; i < len; i++) {
             var field = fields[i]
             var fieldType = this._type[field] // type may be undefined
@@ -3088,8 +3088,8 @@
           }
 
           // convert the items field types
-          var converted = {},
-            fields = (0, _keys2['default'])(raw)
+          var converted = {}
+          var fields = (0, _keys2['default'])(raw)
 
           if (types) {
             for (i = 0, len = fields.length; i < len; i++) {
@@ -3261,13 +3261,13 @@
         DataView.prototype.refresh = function() {
           var id, i, len
           var ids = this._data.getIds({
-              filter: this._options && this._options.filter,
-            }),
-            oldIds = (0, _keys2['default'])(this._ids),
-            newIds = {},
-            addedIds = [],
-            removedIds = [],
-            removedItems = []
+            filter: this._options && this._options.filter,
+          })
+          var oldIds = (0, _keys2['default'])(this._ids)
+          var newIds = {}
+          var addedIds = []
+          var removedIds = []
+          var removedItems = []
 
           // check for additions
           for (i = 0, len = ids.length; i < len; i++) {
@@ -3484,12 +3484,12 @@
         DataView.prototype._onEvent = function(event, params, senderId) {
           var i, len, id, item
           var ids = params && params.items
-          var addedIds = [],
-            updatedIds = [],
-            removedIds = [],
-            oldItems = [],
-            updatedItems = [],
-            removedItems = []
+          var addedIds = []
+          var updatedIds = []
+          var removedIds = []
+          var oldItems = []
+          var updatedItems = []
+          var removedItems = []
 
           if (ids && this._data) {
             switch (event) {
@@ -3589,7 +3589,7 @@
         var store = __webpack_require__(57)('wks')
         var uid = __webpack_require__(40)
         var Symbol = __webpack_require__(18).Symbol
-        var USE_SYMBOL = typeof Symbol == 'function'
+        var USE_SYMBOL = typeof Symbol === 'function'
 
         var $exports = (module.exports = function(name) {
           return (
@@ -3799,7 +3799,7 @@
             'class',
             groupTemplate.className + ' vis-point',
           )
-          //handle label
+          // handle label
 
           if (labelObj) {
             var label = exports.getSVGElement(
@@ -4497,7 +4497,7 @@
             out = own ? target[key] : source[key]
             // prevent global pollution for namespaces
             exports[key] =
-              IS_GLOBAL && typeof target[key] != 'function'
+              IS_GLOBAL && typeof target[key] !== 'function'
                 ? source[key]
                 : // bind timers to global for call from export context
                 IS_BIND && own
@@ -4523,7 +4523,7 @@
                     return F
                     // make static versions for prototype methods
                   })(out)
-                : IS_PROTO && typeof out == 'function'
+                : IS_PROTO && typeof out === 'function'
                 ? ctx(Function.call, out)
                 : out
             // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
@@ -4552,13 +4552,13 @@
       /***/ function(module, exports) {
         // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
         var global = (module.exports =
-          typeof window != 'undefined' && window.Math == Math
+          typeof window !== 'undefined' && window.Math == Math
             ? window
-            : typeof self != 'undefined' && self.Math == Math
+            : typeof self !== 'undefined' && self.Math == Math
             ? self
             : // eslint-disable-next-line no-new-func
               Function('return this')())
-        if (typeof __g == 'number') __g = global // eslint-disable-line no-undef
+        if (typeof __g === 'number') __g = global // eslint-disable-line no-undef
 
         /***/
       },
@@ -4866,14 +4866,14 @@
               value: function performStroke(ctx, values) {
                 var borderWidth = values.borderWidth / this.body.view.scale
 
-                //draw dashed border if enabled, save and restore is required for firefox not to crash on unix.
+                // draw dashed border if enabled, save and restore is required for firefox not to crash on unix.
                 ctx.save()
                 // if borders are zero width, they will be drawn with width 1 by default. This prevents that
                 if (borderWidth > 0) {
                   this.enableBorderDashes(ctx, values)
-                  //draw the border
+                  // draw the border
                   ctx.stroke()
-                  //disable dashed border for other elements
+                  // disable dashed border for other elements
                   this.disableBorderDashes(ctx, values)
                 }
                 ctx.restore()
@@ -5983,7 +5983,7 @@
           ) {
             var prevValue = moment(previousTime)
             var newValue = moment(endDate)
-            //check if the next step should be major
+            // check if the next step should be major
             if (prevValue.year() != newValue.year()) {
               timeStep.switchedYear = true
             } else if (prevValue.month() != newValue.month()) {
@@ -5996,12 +5996,12 @@
           }
         }
 
-        ///**
+        /// **
         // * Used in TimeStep to avoid the hidden times.
         // * @param timeStep
         // * @param previousTime
         // */
-        //exports.checkFirstStep = function(timeStep) {
+        // exports.checkFirstStep = function(timeStep) {
         //  var stepInHidden = false;
         //  var currentValue = timeStep.current.valueOf();
         //  for (var i = 0; i < timeStep.hiddenDates.length; i++) {
@@ -6017,7 +6017,7 @@
         //    var newValue = moment(endDate);
         //    timeStep.current = newValue.toDate();
         //  }
-        //};
+        // };
 
         /**
          * replaces the Core toScreen methods
@@ -6224,7 +6224,7 @@
           var hiddenDuration = 0
           var duration = 0
           var previousPoint = range.start
-          //exports.printDates(hiddenDates)
+          // exports.printDates(hiddenDates)
           for (var i = 0; i < hiddenDates.length; i++) {
             var startDate = hiddenDates[i].start
             var endDate = hiddenDates[i].end
@@ -7315,7 +7315,7 @@
           this._callbacks = this._callbacks || {}
 
           // all
-          if (0 == arguments.length) {
+          if (arguments.length == 0) {
             this._callbacks = {}
             return this
           }
@@ -7325,7 +7325,7 @@
           if (!callbacks) return this
 
           // remove all handlers
-          if (1 == arguments.length) {
+          if (arguments.length == 1) {
             delete this._callbacks[event]
             return this
           }
@@ -7352,8 +7352,8 @@
 
         Emitter.prototype.emit = function(event) {
           this._callbacks = this._callbacks || {}
-          var args = [].slice.call(arguments, 1),
-            callbacks = this._callbacks[event]
+          var args = [].slice.call(arguments, 1)
+          var callbacks = this._callbacks[event]
 
           if (callbacks) {
             callbacks = callbacks.slice(0)
@@ -7669,8 +7669,8 @@
           var isMajor
           var nextIsMajor // eslint-disable-line no-unused-vars
           var showMinorGrid
-          var width = 0,
-            prevWidth
+          var width = 0
+          var prevWidth
           var line
           var labelMinor
           var xFirstMajorLabel = undefined
@@ -7754,10 +7754,10 @@
 
           // create a major label on the left when needed
           if (this.options.showMajorLabels) {
-            var leftTime = this.body.util.toTime(0),
-              leftText = step.getLabelMajor(leftTime),
-              widthText =
-                leftText.length * (this.props.majorCharWidth || 10) + 10 // upper bound estimation
+            var leftTime = this.body.util.toTime(0)
+            var leftText = step.getLabelMajor(leftTime)
+            var widthText =
+              leftText.length * (this.props.majorCharWidth || 10) + 10 // upper bound estimation
 
             if (xFirstMajorLabel == undefined || widthText < xFirstMajorLabel) {
               this._repaintMajorText(0, leftText, orientation, className)
@@ -7813,7 +7813,7 @@
             label.style.left = x + 'px'
           }
           label.className = 'vis-text vis-minor ' + className
-          //label.title = title;  // TODO: this is a heavy operation
+          // label.title = title;  // TODO: this is a heavy operation
 
           return label
         }
@@ -7846,7 +7846,7 @@
 
           label.childNodes[0].innerHTML = text
           label.className = 'vis-text vis-major ' + className
-          //label.title = title; // TODO: this is a heavy operation
+          // label.title = title; // TODO: this is a heavy operation
 
           label.style.top =
             orientation == 'top' ? '0' : this.props.minorLabelHeight + 'px'
@@ -8325,8 +8325,8 @@
         var Triangle = __webpack_require__(212)['default']
         var TriangleDown = __webpack_require__(213)['default']
 
-        var _require = __webpack_require__(15),
-          printStyle = _require.printStyle
+        var _require = __webpack_require__(15)
+        var printStyle = _require.printStyle
 
         /**
          * A node. A node can be connected to other nodes via one or multiple edges.
@@ -9495,18 +9495,18 @@
           var fn, val
           if (
             S &&
-            typeof (fn = it.toString) == 'function' &&
+            typeof (fn = it.toString) === 'function' &&
             !isObject((val = fn.call(it)))
           )
             return val
           if (
-            typeof (fn = it.valueOf) == 'function' &&
+            typeof (fn = it.valueOf) === 'function' &&
             !isObject((val = fn.call(it)))
           )
             return val
           if (
             !S &&
-            typeof (fn = it.toString) == 'function' &&
+            typeof (fn = it.toString) === 'function' &&
             !isObject((val = fn.call(it)))
           )
             return val
@@ -10089,20 +10089,18 @@
          */
         Range.prototype._applyRange = function(start, end) {
           var newStart =
-              start != null
-                ? util.convert(start, 'Date').valueOf()
-                : this.start,
-            newEnd =
-              end != null ? util.convert(end, 'Date').valueOf() : this.end,
-            max =
-              this.options.max != null
-                ? util.convert(this.options.max, 'Date').valueOf()
-                : null,
-            min =
-              this.options.min != null
-                ? util.convert(this.options.min, 'Date').valueOf()
-                : null,
-            diff
+            start != null ? util.convert(start, 'Date').valueOf() : this.start
+          var newEnd =
+            end != null ? util.convert(end, 'Date').valueOf() : this.end
+          var max =
+            this.options.max != null
+              ? util.convert(this.options.max, 'Date').valueOf()
+              : null
+          var min =
+            this.options.min != null
+              ? util.convert(this.options.min, 'Date').valueOf()
+              : null
+          var diff
 
           // check for valid number
           if (isNaN(newStart) || newStart === null) {
@@ -10693,8 +10691,8 @@
             (this.end - (center + hiddenDurationAfter)) * scale
 
           // snapping times away from hidden zones
-          this.startToFront = delta > 0 ? false : true // used to do the right autocorrection with periodic hidden times
-          this.endToFront = -delta > 0 ? false : true // used to do the right autocorrection with periodic hidden times
+          this.startToFront = !(delta > 0) // used to do the right autocorrection with periodic hidden times
+          this.endToFront = !(-delta > 0) // used to do the right autocorrection with periodic hidden times
           var safeStart = DateUtil.snapAwayFromHidden(
             this.body.hiddenDates,
             newStart,
@@ -10950,10 +10948,10 @@
             'panmove',
             'panend',
             // TODO: cleanup
-            //'touch', 'pinch',
-            //'tap', 'doubletap', 'hold',
-            //'dragstart', 'drag', 'dragend',
-            //'mousewheel', 'DOMMouseScroll' // DOMMouseScroll is needed for Firefox
+            // 'touch', 'pinch',
+            // 'tap', 'doubletap', 'hold',
+            // 'dragstart', 'drag', 'dragend',
+            // 'mousewheel', 'DOMMouseScroll' // DOMMouseScroll is needed for Firefox
           ]
           events.forEach(function(type) {
             var listener = function listener(event) {
@@ -10966,20 +10964,14 @@
           })
 
           // emulate a touch event (emitted before the start of a pan, pinch, tap, or press)
-          hammerUtil.onTouch(
-            this.hammer,
-            function(event) {
-              me.emit('touch', event)
-            }.bind(this),
-          )
+          hammerUtil.onTouch(this.hammer, function(event) {
+            me.emit('touch', event)
+          })
 
           // emulate a release event (emitted after a pan, pinch, tap, or press)
-          hammerUtil.onRelease(
-            this.hammer,
-            function(event) {
-              me.emit('release', event)
-            }.bind(this),
-          )
+          hammerUtil.onRelease(this.hammer, function(event) {
+            me.emit('release', event)
+          })
 
           /**
            *
@@ -11297,7 +11289,7 @@
             }
 
             // if the graph2d's drawPoints is a function delegate the callback to the onRender property
-            if (typeof options.drawPoints == 'function') {
+            if (typeof options.drawPoints === 'function') {
               options.drawPoints = {
                 onRender: options.drawPoints,
               }
@@ -11621,7 +11613,7 @@
          * @param {function} [callback] a callback funtion to be executed at the end of this function
          */
         Core.prototype.setWindow = function(start, end, options, callback) {
-          if (typeof arguments[2] == 'function') {
+          if (typeof arguments[2] === 'function') {
             callback = arguments[2]
             options = {}
           }
@@ -11635,7 +11627,7 @@
             })
           } else if (
             arguments.length == 2 &&
-            typeof arguments[1] == 'function'
+            typeof arguments[1] === 'function'
           ) {
             range = arguments[0]
             callback = arguments[1]
@@ -11668,7 +11660,7 @@
          * @param {function} [callback] a callback funtion to be executed at the end of this function
          */
         Core.prototype.moveTo = function(time, options, callback) {
-          if (typeof arguments[1] == 'function') {
+          if (typeof arguments[1] === 'function') {
             callback = arguments[1]
             options = {}
           }
@@ -11711,7 +11703,7 @@
          */
         Core.prototype.zoomIn = function(percentage, options, callback) {
           if (!percentage || percentage < 0 || percentage > 1) return
-          if (typeof arguments[1] == 'function') {
+          if (typeof arguments[1] === 'function') {
             callback = arguments[1]
             options = {}
           }
@@ -11741,7 +11733,7 @@
          */
         Core.prototype.zoomOut = function(percentage, options, callback) {
           if (!percentage || percentage < 0 || percentage > 1) return
-          if (typeof arguments[1] == 'function') {
+          if (typeof arguments[1] === 'function') {
             callback = arguments[1]
             options = {}
           }
@@ -11982,7 +11974,7 @@
             this.redrawCount = 0
           }
 
-          //Emit public 'changed' event for UI updates, see issue #1592
+          // Emit public 'changed' event for UI updates, see issue #1592
           this.body.emitter.emit('changed')
         }
 
@@ -12097,8 +12089,8 @@
         // TODO: move this function to Range
         Core.prototype._toGlobalTime = function(x) {
           return DateUtil.toTime(this, x, this.props.root.width)
-          //var conversion = this.range.conversion(this.props.root.width);
-          //return new Date(x / conversion.scale + conversion.offset);
+          // var conversion = this.range.conversion(this.props.root.width);
+          // return new Date(x / conversion.scale + conversion.offset);
         }
 
         /**
@@ -12124,8 +12116,8 @@
         // TODO: move this function to Range
         Core.prototype._toGlobalScreen = function(time) {
           return DateUtil.toScreen(this, time, this.props.root.width)
-          //var conversion = this.range.conversion(this.props.root.width);
-          //return (time.valueOf() - conversion.offset) * conversion.scale;
+          // var conversion = this.range.conversion(this.props.root.width);
+          // return (time.valueOf() - conversion.offset) * conversion.scale;
         }
 
         /**
@@ -12178,7 +12170,7 @@
           // add event listener to window resize
           util.addEventListener(window, 'resize', this._onResize)
 
-          //Prevent initial unnecessary redraw
+          // Prevent initial unnecessary redraw
           if (me.dom.root) {
             me.props.lastWidth = me.dom.root.offsetWidth
             me.props.lastHeight = me.dom.root.offsetHeight
@@ -12384,7 +12376,7 @@
           }
 
           this.format = TimeStep.FORMAT // default formatting
-          this.options = options ? options : {}
+          this.options = options || {}
         }
 
         // Time formatting
@@ -12500,7 +12492,7 @@
               this.current.seconds(0) // eslint-disable-line no-fallthrough
             case 'second':
               this.current.milliseconds(0) // eslint-disable-line no-fallthrough
-            //case 'millisecond': // nothing to do for milliseconds
+            // case 'millisecond': // nothing to do for milliseconds
           }
 
           if (this.step != 1) {
@@ -12706,7 +12698,7 @@
          *                                 Choose for example 1, 2, 5, or 10.
          */
         TimeStep.prototype.setScale = function(params) {
-          if (params && typeof params.scale == 'string') {
+          if (params && typeof params.scale === 'string') {
             this.scale = params.scale
             this.step = params.step > 0 ? params.step : 1
             this.autoScale = false
@@ -12730,7 +12722,7 @@
             return
           }
 
-          //var b = asc + ds;
+          // var b = asc + ds;
 
           var stepYear = 1000 * 60 * 60 * 24 * 30 * 12
           var stepMonth = 1000 * 60 * 60 * 24 * 30
@@ -12908,7 +12900,7 @@
             clone.seconds(0)
             clone.milliseconds(0)
           } else if (scale == 'day') {
-            //noinspection FallthroughInSwitchStatementJS
+            // noinspection FallthroughInSwitchStatementJS
             switch (step) {
               case 5:
               case 2:
@@ -12922,7 +12914,7 @@
             clone.seconds(0)
             clone.milliseconds(0)
           } else if (scale == 'weekday') {
-            //noinspection FallthroughInSwitchStatementJS
+            // noinspection FallthroughInSwitchStatementJS
             switch (step) {
               case 5:
               case 2:
@@ -12947,7 +12939,7 @@
             clone.seconds(0)
             clone.milliseconds(0)
           } else if (scale == 'minute') {
-            //noinspection FallthroughInSwitchStatementJS
+            // noinspection FallthroughInSwitchStatementJS
             switch (step) {
               case 15:
               case 10:
@@ -12963,7 +12955,7 @@
             }
             clone.milliseconds(0)
           } else if (scale == 'second') {
-            //noinspection FallthroughInSwitchStatementJS
+            // noinspection FallthroughInSwitchStatementJS
             switch (step) {
               case 15:
               case 10:
@@ -14176,7 +14168,7 @@
           if (this.subgroupOrderer !== undefined) {
             var sortArray = []
             var subgroup
-            if (typeof this.subgroupOrderer == 'string') {
+            if (typeof this.subgroupOrderer === 'string') {
               for (subgroup in this.subgroups) {
                 sortArray.push({
                   subgroup: subgroup,
@@ -14188,7 +14180,7 @@
               sortArray.sort(function(a, b) {
                 return a.sortField - b.sortField
               })
-            } else if (typeof this.subgroupOrderer == 'function') {
+            } else if (typeof this.subgroupOrderer === 'function') {
               for (subgroup in this.subgroups) {
                 sortArray.push(this.subgroups[subgroup].items[0].data)
               }
@@ -15246,7 +15238,7 @@
                 }
 
                 this._push()
-                //~ this.colorPicker.insertTo(this.container);
+                // ~ this.colorPicker.insertTo(this.container);
               },
 
               /**
@@ -16049,7 +16041,7 @@
           outline.setAttributeNS(null, 'height', 2 * fillHeight)
           outline.setAttributeNS(null, 'class', 'vis-outline')
 
-          //Don't call callback on icon
+          // Don't call callback on icon
           DOMutil.drawPoint(
             x + 0.5 * iconWidth,
             y,
@@ -16089,7 +16081,7 @@
             framework.options &&
             framework.options.drawPoints &&
             framework.options.drawPoints.onRender &&
-            typeof framework.options.drawPoints.onRender == 'function'
+            typeof framework.options.drawPoints.onRender === 'function'
           ) {
             callback = framework.options.drawPoints.onRender
           }
@@ -16099,7 +16091,7 @@
             group.group.options &&
             group.group.options.drawPoints &&
             group.group.options.drawPoints.onRender &&
-            typeof group.group.options.drawPoints.onRender == 'function'
+            typeof group.group.options.drawPoints.onRender === 'function'
           ) {
             callback = group.group.options.drawPoints.onRender
           }
@@ -17689,10 +17681,10 @@
                 // x3,y3 is the point
                 var minDistance = 1e9
                 var distance = void 0
-                var i = void 0,
-                  t = void 0,
-                  x = void 0,
-                  y = void 0
+                var i = void 0
+                var t = void 0
+                var x = void 0
+                var y = void 0
                 var lastX = x1
                 var lastY = y1
                 for (i = 1; i < 10; i++) {
@@ -17847,11 +17839,11 @@
                     ? arguments[1]
                     : []
 
-                var minY = 1e9,
-                  maxY = -1e9,
-                  minX = 1e9,
-                  maxX = -1e9,
-                  node
+                var minY = 1e9
+                var maxY = -1e9
+                var minX = 1e9
+                var maxX = -1e9
+                var node
                 if (specificNodes.length > 0) {
                   for (var i = 0; i < specificNodes.length; i++) {
                     node = allNodes[specificNodes[i]]
@@ -17898,11 +17890,11 @@
                     ? arguments[1]
                     : []
 
-                var minY = 1e9,
-                  maxY = -1e9,
-                  minX = 1e9,
-                  maxX = -1e9,
-                  node
+                var minY = 1e9
+                var maxY = -1e9
+                var minX = 1e9
+                var maxX = -1e9
+                var node
                 if (specificNodes.length > 0) {
                   for (var i = 0; i < specificNodes.length; i++) {
                     node = allNodes[specificNodes[i]]
@@ -18215,7 +18207,7 @@
             O = toObject(O)
             if (has(O, IE_PROTO)) return O[IE_PROTO]
             if (
-              typeof O.constructor == 'function' &&
+              typeof O.constructor === 'function' &&
               O instanceof O.constructor
             ) {
               return O.constructor.prototype
@@ -18254,13 +18246,13 @@
             : it === null
             ? 'Null'
             : // @@toStringTag case
-            typeof (T = tryGet((O = Object(it)), TAG)) == 'string'
+            typeof (T = tryGet((O = Object(it)), TAG)) === 'string'
             ? T
             : // builtinTag case
             ARG
             ? cof(O)
             : // ES3 arguments fallback
-            (B = cof(O)) == 'Object' && typeof O.callee == 'function'
+            (B = cof(O)) == 'Object' && typeof O.callee === 'function'
             ? 'Arguments'
             : B
         }
@@ -18382,7 +18374,7 @@
 
           if (this.visible) {
             this.frame = document.createElement('DIV')
-            //this.frame.style.backgroundColor = '#E5E5E5';
+            // this.frame.style.backgroundColor = '#E5E5E5';
             this.frame.style.width = '100%'
             this.frame.style.position = 'relative'
             this.container.appendChild(this.frame)
@@ -18801,8 +18793,8 @@
             throw new Error("Parameter 'step' is not numeric; value: " + start)
           }
 
-          this._start = start ? start : 0
-          this._end = end ? end : 0
+          this._start = start || 0
+          this._end = end || 0
 
           this.setStep(step, prettyStep)
         }
@@ -18836,9 +18828,9 @@
           }
 
           // try three steps (multiple of 1, 2, or 5
-          var step1 = Math.pow(10, Math.round(log10(step))),
-            step2 = 2 * Math.pow(10, Math.round(log10(step / 2))),
-            step5 = 5 * Math.pow(10, Math.round(log10(step / 5)))
+          var step1 = Math.pow(10, Math.round(log10(step)))
+          var step2 = 2 * Math.pow(10, Math.round(log10(step / 2)))
+          var step5 = 5 * Math.pow(10, Math.round(log10(step / 5)))
 
           // choose the best step (closest to minimum step)
           var prettyStep = step1
@@ -18927,10 +18919,10 @@
           return obj && obj.__esModule ? obj : { default: obj }
         }
 
-        ////////////////////////////////////////////////////////////////////////////////
+        /// /////////////////////////////////////////////////////////////////////////////
         // This modules handles the options for Graph3d.
         //
-        ////////////////////////////////////////////////////////////////////////////////
+        /// /////////////////////////////////////////////////////////////////////////////
         var util = __webpack_require__(2)
         var Camera = __webpack_require__(95)
         var Point3d = __webpack_require__(34)
@@ -19051,7 +19043,7 @@
          * @returns {string}
          */
         function capitalize(str) {
-          if (str === undefined || str === '' || typeof str != 'string') {
+          if (str === undefined || str === '' || typeof str !== 'string') {
             return str
           }
 
@@ -19448,10 +19440,10 @@
          * @param {number} y offset by camera vertical
          */
         Camera.prototype.setOffset = function(x, y) {
-          var abs = Math.abs,
-            sign = _sign2['default'],
-            mul = this.offsetMultiplier,
-            border = this.armLength * mul
+          var abs = Math.abs
+          var sign = _sign2['default']
+          var mul = this.offsetMultiplier
+          var border = this.armLength * mul
 
           if (abs(x) > border) {
             x = sign(x) * border
@@ -19595,8 +19587,8 @@
           var za = this.cameraRotation.z
           var dx = this.cameraOffset.x
           var dy = this.cameraOffset.y
-          var sin = Math.sin,
-            cos = Math.cos
+          var sin = Math.sin
+          var cos = Math.cos
 
           this.cameraLocation.x =
             this.cameraLocation.x + dx * cos(za) + dy * -sin(za) * cos(xa)
@@ -20797,13 +20789,13 @@
          * @return {boolean} Returns true if the component is resized
          */
         ItemSet.prototype.redraw = function() {
-          var margin = this.options.margin,
-            range = this.body.range,
-            asSize = util.option.asSize,
-            options = this.options,
-            orientation = options.orientation.item,
-            resized = false,
-            frame = this.dom.frame
+          var margin = this.options.margin
+          var range = this.body.range
+          var asSize = util.option.asSize
+          var options = this.options
+          var orientation = options.orientation.item
+          var resized = false
+          var frame = this.dom.frame
 
           // recalculate absolute position (before redrawing groups)
           this.props.top =
@@ -21000,9 +20992,9 @@
          * @param {vis.DataSet | null} items
          */
         ItemSet.prototype.setItems = function(items) {
-          var me = this,
-            ids,
-            oldItemsData = this.itemsData
+          var me = this
+          var ids
+          var oldItemsData = this.itemsData
 
           // replace the dataset
           if (!items) {
@@ -21057,8 +21049,8 @@
          * @param {vis.DataSet} groups
          */
         ItemSet.prototype.setGroups = function(groups) {
-          var me = this,
-            ids
+          var me = this
+          var ids
 
           // unsubscribe from current dataset
           if (this.groupsData) {
@@ -21136,8 +21128,8 @@
          * @param {string | number} id
          */
         ItemSet.prototype.removeItem = function(id) {
-          var item = this.itemsData.get(id),
-            dataset = this.itemsData.getDataSet()
+          var item = this.itemsData.get(id)
+          var dataset = this.itemsData.getDataSet()
 
           if (item) {
             // confirm deletion
@@ -21720,7 +21712,7 @@
             var scale = this.body.util.getScale()
             var step = this.body.util.getStep()
 
-            //only calculate the new group for the item that's actually dragged
+            // only calculate the new group for the item that's actually dragged
             var selectedItem = this.touchParams.selectedItem
             var updateGroupAllowed =
               ((this.options.editable.overrideItems ||
@@ -21735,8 +21727,8 @@
                 // drag from one group to another
                 var group = me.groupFromTarget(event)
                 if (group) {
-                  //we know the offset for all items, so the new group for all items
-                  //will be relative to this one.
+                  // we know the offset for all items, so the new group for all items
+                  // will be relative to this one.
                   newGroupBase = this._getGroupIndex(group.groupId)
                 }
               }
@@ -21846,7 +21838,7 @@
                   if (itemData.group != undefined) {
                     var newOffset = newGroupBase - props.groupOffset
 
-                    //make sure we stay in bounds
+                    // make sure we stay in bounds
                     newOffset = Math.max(0, newOffset)
                     newOffset = Math.min(me.groupIds.length - 1, newOffset)
                     itemData.group = me.groupIds[newOffset]
@@ -22705,8 +22697,8 @@
          */
         exports.orderByEnd = function(items) {
           items.sort(function(a, b) {
-            var aTime = 'end' in a.data ? a.data.end : a.data.start,
-              bTime = 'end' in b.data ? b.data.end : b.data.start
+            var aTime = 'end' in a.data ? a.data.end : a.data.start
+            var bTime = 'end' in b.data ? b.data.end : b.data.start
 
             return aTime - bTime
           })
@@ -22797,7 +22789,7 @@
 
             if (item.stack && item.top === null) {
               // initialize top position
-              item.top = item.baseTop //margin.axis + item.baseTop;
+              item.top = item.baseTop // margin.axis + item.baseTop;
 
               do {
                 // TODO: optimize checking for overlap. when there is a gap without items,
@@ -22807,7 +22799,7 @@
                   var other = items[j]
                   if (
                     other.top !== null &&
-                    other !== item /*&& other.stack*/ &&
+                    other !== item /* && other.stack */ &&
                     exports.collision(
                       item,
                       other,
@@ -23587,7 +23579,7 @@
           } else {
             this.dom.content.style.marginLeft = 2 * this.props.dot.width + 'px'
           }
-          //this.dom.content.style.marginRight = ... + 'px'; // TODO: margin right
+          // this.dom.content.style.marginRight = ... + 'px'; // TODO: margin right
 
           // recalculate size
           this.width = sizes.point.width
@@ -23807,7 +23799,7 @@
 
             // Note: we do NOT attach this item as attribute to the DOM,
             //       such that background items cannot be selected
-            //this.dom.box['timeline-item'] = this;
+            // this.dom.box['timeline-item'] = this;
 
             this.dirty = true
           }
@@ -24074,12 +24066,12 @@
                   var maxHeight = this.frame.parentNode.clientHeight
                   var maxWidth = this.frame.parentNode.clientWidth
 
-                  var left = 0,
-                    top = 0
+                  var left = 0
+                  var top = 0
 
                   if (this.overflowMethod == 'flip') {
-                    var isLeft = false,
-                      isTop = true // Where around the position it's located
+                    var isLeft = false
+                    var isTop = true // Where around the position it's located
 
                     if (this.y - height < this.padding) {
                       isTop = false
@@ -24190,7 +24182,7 @@
             __type__: { object: object, boolean: bool, function: 'function' },
           },
 
-          //globals :
+          // globals :
           align: { string: string },
           rtl: { boolean: bool, undefined: 'undefined' },
           rollingMode: {
@@ -24380,10 +24372,10 @@
               },
             },
 
-            //groupOrder: {string, 'function': 'function'},
+            // groupOrder: {string, 'function': 'function'},
             groupsDraggable: false,
             height: '',
-            //hiddenDates: {object, array},
+            // hiddenDates: {object, array},
             locale: '',
             margin: {
               axis: [20, 0, 100, 1],
@@ -24400,12 +24392,12 @@
             moveable: false,
             multiselect: false,
             multiselectPerGroup: false,
-            //onAdd: {'function': 'function'},
-            //onUpdate: {'function': 'function'},
-            //onMove: {'function': 'function'},
-            //onMoving: {'function': 'function'},
-            //onRename: {'function': 'function'},
-            //order: {'function': 'function'},
+            // onAdd: {'function': 'function'},
+            // onUpdate: {'function': 'function'},
+            // onMove: {'function': 'function'},
+            // onMoving: {'function': 'function'},
+            // onRename: {'function': 'function'},
+            // order: {'function': 'function'},
             orientation: {
               axis: ['both', 'bottom', 'top'],
               item: ['bottom', 'top'],
@@ -24416,13 +24408,13 @@
             showMinorLabels: true,
             stack: true,
             stackSubgroups: true,
-            //snap: {'function': 'function', nada},
+            // snap: {'function': 'function', nada},
             start: '',
-            //template: {'function': 'function'},
-            //timeAxis: {
+            // template: {'function': 'function'},
+            // timeAxis: {
             //  scale: ['millisecond', 'second', 'minute', 'hour', 'weekday', 'day', 'week', 'month', 'year'],
             //  step: [1, 1, 10, 1]
-            //},
+            // },
             showTooltips: true,
             tooltip: {
               followMouse: false,
@@ -24508,8 +24500,8 @@
               size: 6,
               style: 'square', // square, circle
             },
-            dataAxis: {}, //Defaults are done on DataAxis level
-            legend: {}, //Defaults are done on Legend level
+            dataAxis: {}, // Defaults are done on DataAxis level
+            legend: {}, // Defaults are done on Legend level
             groups: {
               visibility: {},
             },
@@ -24575,7 +24567,7 @@
             me.svg.style.left = util.option.asSize(-me.props.width)
 
             me.forceGraphUpdate = true
-            //Is this local redraw necessary? (Core also does a change event!)
+            // Is this local redraw necessary? (Core also does a change event!)
             me.redraw.call(me)
           })
 
@@ -24725,7 +24717,7 @@
 
           // this is used to redraw the graph if the visibility of the groups is changed.
           if (this.dom.frame) {
-            //not on initial run?
+            // not on initial run?
             this.forceGraphUpdate = true
             this.body.emitter.emit('_change', { queue: true })
           }
@@ -24756,9 +24748,9 @@
          * @param {vis.DataSet | null} items
          */
         LineGraph.prototype.setItems = function(items) {
-          var me = this,
-            ids,
-            oldItemsData = this.itemsData
+          var me = this
+          var ids
+          var oldItemsData = this.itemsData
 
           // replace the dataset
           if (!items) {
@@ -24917,13 +24909,13 @@
             if (this.groups[groupId].options.yAxisOrientation == 'right') {
               this.yAxisRight.updateGroup(groupId, this.groups[groupId])
               this.legendRight.updateGroup(groupId, this.groups[groupId])
-              //If yAxisOrientation changed, clean out the group from the other axis.
+              // If yAxisOrientation changed, clean out the group from the other axis.
               this.yAxisLeft.removeGroup(groupId)
               this.legendLeft.removeGroup(groupId)
             } else {
               this.yAxisLeft.updateGroup(groupId, this.groups[groupId])
               this.legendLeft.updateGroup(groupId, this.groups[groupId])
-              //If yAxisOrientation changed, clean out the group from the other axis.
+              // If yAxisOrientation changed, clean out the group from the other axis.
               this.yAxisRight.removeGroup(groupId)
               this.legendRight.removeGroup(groupId)
             }
@@ -24951,7 +24943,7 @@
               })
             }
 
-            //pre-Determine array sizes, for more efficient memory claim
+            // pre-Determine array sizes, for more efficient memory claim
             var groupCounts = {}
             for (var i = 0; i < items.length; i++) {
               var item = items[i]
@@ -24964,7 +24956,7 @@
                 : (groupCounts[groupId] = 1)
             }
 
-            //Pre-load arrays from existing groups if items are not changed (not in ids)
+            // Pre-load arrays from existing groups if items are not changed (not in ids)
             var existingItemsMap = {}
             if (!groupIds && ids) {
               for (groupId in this.groups) {
@@ -24987,7 +24979,7 @@
               }
             }
 
-            //Now insert data into the arrays.
+            // Now insert data into the arrays.
             for (i = 0; i < items.length; i++) {
               item = items[i]
               groupId = item.group
@@ -25005,11 +24997,11 @@
               if (!groupsContent.hasOwnProperty(groupId)) {
                 groupsContent[groupId] = new Array(groupCounts[groupId])
               }
-              //Copy data (because of unmodifiable DataView input.
+              // Copy data (because of unmodifiable DataView input.
               var extended = util.bridgeObject(item)
               extended.x = util.convert(item.x, 'Date')
               extended.end = util.convert(item.end, 'Date')
-              extended.orginalY = item.y //real Y
+              extended.orginalY = item.y // real Y
               extended.y = Number(item.y)
               extended[fieldId] = item[fieldId]
 
@@ -25017,7 +25009,7 @@
               groupsContent[groupId][index] = extended
             }
 
-            //Make sure all groups are present, to allow removal of old groups
+            // Make sure all groups are present, to allow removal of old groups
             for (groupId in this.groups) {
               if (this.groups.hasOwnProperty(groupId)) {
                 if (!groupsContent.hasOwnProperty(groupId)) {
@@ -25026,7 +25018,7 @@
               }
             }
 
-            //Update legendas, style and axis
+            // Update legendas, style and axis
             for (groupId in groupsContent) {
               if (groupsContent.hasOwnProperty(groupId)) {
                 if (groupsContent[groupId].length == 0) {
@@ -25246,7 +25238,7 @@
                 this._convertYcoordinates(groupsData[groupIds[i]], group)
               }
 
-              //Precalculate paths and draw shading if appropriate. This will make sure the shading is always behind any lines.
+              // Precalculate paths and draw shading if appropriate. This will make sure the shading is always behind any lines.
               var paths = {}
               for (i = 0; i < groupIds.length; i++) {
                 group = this.groups[groupIds[i]]
@@ -25328,7 +25320,7 @@
                     // bar needs to be drawn enmasse
                     // eslint-disable-line no-fallthrough
                     default:
-                    //do nothing...
+                    // do nothing...
                   }
                 }
               }
@@ -25471,7 +25463,7 @@
 
                   // the global screen is used because changing the width of the yAxis may affect the increment, resulting in an endless loop
                   // of width changing of the yAxis.
-                  //TODO: This assumes sorted data, but that's not guaranteed!
+                  // TODO: This assumes sorted data, but that's not guaranteed!
                   var xDistance =
                     this.body.util.toGlobalScreen(
                       dataContainer[dataContainer.length - 1].x,
@@ -25564,12 +25556,12 @@
           var resized = false
           var yAxisLeftUsed = false
           var yAxisRightUsed = false
-          var minLeft = 1e9,
-            minRight = 1e9,
-            maxLeft = -1e9,
-            maxRight = -1e9,
-            minVal,
-            maxVal
+          var minLeft = 1e9
+          var minRight = 1e9
+          var maxLeft = -1e9
+          var maxRight = -1e9
+          var minVal
+          var maxVal
           // if groups are present
           if (groupIds.length > 0) {
             // this is here to make sure that if there are no items in the axis but there are groups, that there is no infinite draw/redraw loop.
@@ -25695,7 +25687,7 @@
           for (var i = 0; i < datapoints.length; i++) {
             datapoints[i].screen_x =
               toScreen(datapoints[i].x) + this.props.width
-            datapoints[i].screen_y = datapoints[i].y //starting point for range calculations
+            datapoints[i].screen_y = datapoints[i].y // starting point for range calculations
             if (datapoints[i].end != undefined) {
               datapoints[i].screen_end =
                 toScreen(datapoints[i].end) + this.props.width
@@ -26141,7 +26133,7 @@
               ? this.options[orientation].range
               : {}
 
-          //Override range with manual options:
+          // Override range with manual options:
           var autoScaleEnd = true
           if (customRange.max != undefined) {
             this.range.end = customRange.max
@@ -26168,7 +26160,7 @@
             this.scale.followScale(this.masterAxis.scale)
           }
 
-          //Is updated in side-effect of _redrawLabel():
+          // Is updated in side-effect of _redrawLabel():
           this.maxLabelSize = 0
 
           var lines = this.scale.getLines()
@@ -26294,7 +26286,7 @@
             'div',
             this.DOMelements.labels,
             this.dom.frame,
-          ) //this.dom.redundant.labels.shift();
+          ) // this.dom.redundant.labels.shift();
           label.className = className
           label.innerHTML = text
           if (orientation === 'left') {
@@ -26339,7 +26331,7 @@
               'div',
               this.DOMelements.lines,
               this.dom.lineContainer,
-            ) //this.dom.redundant.lines.shift();
+            ) // this.dom.redundant.lines.shift();
             line.className = className
             line.innerHTML = ''
 
@@ -26614,7 +26606,7 @@
             i += step
           ) {
             if (i != this._start) {
-              //Skip the bottom line
+              // Skip the bottom line
               lines.push({
                 major: this.is_major(i),
                 y: this.convertValue(i),
@@ -26642,9 +26634,9 @@
             (other.minorStepIdx <= 1 && this.minorStepIdx <= 1) ||
             (other.minorStepIdx > 1 && this.minorStepIdx > 1)
           ) {
-            //easy, no need to change stepIdx nor multiplication factor
+            // easy, no need to change stepIdx nor multiplication factor
           } else if (other.minorStepIdx < this.minorStepIdx) {
-            //I'm 5, they are 4 per major.
+            // I'm 5, they are 4 per major.
             this.minorStepIdx = 1
             if (oldStepIdx == 2) {
               increaseMagnitude()
@@ -26653,7 +26645,7 @@
               increaseMagnitude()
             }
           } else {
-            //I'm 4, they are 5 per major
+            // I'm 4, they are 5 per major
             this.minorStepIdx = 2
             if (oldStepIdx == 1) {
               decreaseMagnitude()
@@ -26663,21 +26655,21 @@
             }
           }
 
-          //Get masters stats:
+          // Get masters stats:
           var otherZero = other.convertValue(0)
           var otherStep = other.getStep() * other.scale
 
           var done = false
           var count = 0
-          //Loop until magnitude is correct for given constrains.
+          // Loop until magnitude is correct for given constrains.
           while (!done && count++ < 5) {
-            //Get my stats:
+            // Get my stats:
             this.scale =
               otherStep /
               (this.minorSteps[this.minorStepIdx] * this.magnitudefactor)
             var newRange = this.containerHeight / this.scale
 
-            //For the case the magnitudefactor has changed:
+            // For the case the magnitudefactor has changed:
             this._start = oldStart
             this._end = this._start + newRange
 
@@ -26700,7 +26692,7 @@
               }
             }
             if (!this.autoScaleEnd && this._end > oldEnd + 0.00001) {
-              //Need to decrease magnitude to prevent scale overshoot! (end)
+              // Need to decrease magnitude to prevent scale overshoot! (end)
               decreaseMagnitude()
               done = false
               continue
@@ -26711,7 +26703,7 @@
                   "Can't adhere to given 'min' range, due to zeroalign",
                 )
               } else {
-                //Need to decrease magnitude to prevent scale overshoot! (start)
+                // Need to decrease magnitude to prevent scale overshoot! (start)
                 decreaseMagnitude()
                 done = false
                 continue
@@ -26844,7 +26836,7 @@
             util.selectiveDeepExtend(fields, this.options, options)
 
             // if the group's drawPoints is a function delegate the callback to the onRender property
-            if (typeof options.drawPoints == 'function') {
+            if (typeof options.drawPoints === 'function') {
               options.drawPoints = {
                 onRender: options.drawPoints,
               }
@@ -26928,7 +26920,7 @@
             case 'line':
               Lines.drawIcon(this, x, y, iconWidth, iconHeight, framework)
               break
-            case 'points': //explicit no break
+            case 'points': // explicit no break
             case 'point':
               Points.drawIcon(this, x, y, iconWidth, iconHeight, framework)
               break
@@ -27196,7 +27188,7 @@
                 label: combinedData[i].label,
               }
               Points.draw([pointData], group, framework, drawData.offset)
-              //DOMutil.drawPoint(combinedData[i].x + drawData.offset, combinedData[i].y, group, framework.svgElements, framework.svg);
+              // DOMutil.drawPoint(combinedData[i].x + drawData.offset, combinedData[i].y, group, framework.svgElements, framework.svg);
             }
           }
         }
@@ -27613,7 +27605,7 @@
 
         Line.serializePath = function(pathArray, type, inverse) {
           if (pathArray.length < 2) {
-            //Too little data to create a path.
+            // Too little data to create a path.
             return ''
           }
           var d = type
@@ -28124,7 +28116,7 @@
             __type__: { object: object, boolean: bool, function: 'function' },
           },
 
-          //globals :
+          // globals :
           yAxisOrientation: { string: ['left', 'right'] },
           defaultGroup: { string: string },
           sort: { boolean: bool },
@@ -28312,7 +28304,7 @@
 
         var configureOptions = {
           global: {
-            //yAxisOrientation: ['left','right'], // TDOO: enable as soon as Grahp2d doesn't crash when changing this on the fly
+            // yAxisOrientation: ['left','right'], // TDOO: enable as soon as Grahp2d doesn't crash when changing this on the fly
             sort: true,
             sampling: true,
             stack: false,
@@ -28344,13 +28336,13 @@
               visible: true,
               alignZeros: true,
               left: {
-                //range: {min:'undefined': 'undefined'ined,max:'undefined': 'undefined'ined},
-                //format: function (value) {return value;},
+                // range: {min:'undefined': 'undefined'ined,max:'undefined': 'undefined'ined},
+                // format: function (value) {return value;},
                 title: { text: '', style: '' },
               },
               right: {
-                //range: {min:'undefined': 'undefined'ined,max:'undefined': 'undefined'ined},
-                //format: function (value) {return value;},
+                // range: {min:'undefined': 'undefined'ined,max:'undefined': 'undefined'ined},
+                // format: function (value) {return value;},
                 title: { text: '', style: '' },
               },
             },
@@ -29555,7 +29547,7 @@
                 brokenUrl,
                 imageToLoadBrokenUrlOn,
               ) {
-                //If these parameters aren't specified then exit the function because nothing constructive can be done
+                // If these parameters aren't specified then exit the function because nothing constructive can be done
                 if (url === undefined || imageToLoadBrokenUrlOn === undefined)
                   return
                 if (brokenUrl === undefined) {
@@ -29563,13 +29555,13 @@
                   return
                 }
 
-                //Clear the old subscription to the error event and put a new in place that only handle errors in loading the brokenImageUrl
+                // Clear the old subscription to the error event and put a new in place that only handle errors in loading the brokenImageUrl
                 imageToLoadBrokenUrlOn.onerror = function() {
                   console.error('Could not load brokenImage:', brokenUrl)
                   // cache item will contain empty image, this should be OK for default
                 }
 
-                //Set the source of the image to the brokenUrl, this is actually what kicks off the loading of the broken image
+                // Set the source of the image to the brokenUrl, this is actually what kicks off the loading of the broken image
                 imageToLoadBrokenUrlOn.image.src = brokenUrl
               },
 
@@ -29598,18 +29590,18 @@
               value: function load(url, brokenUrl) {
                 var _this = this
 
-                //Try and get the image from the cache, if successful then return the cached image
+                // Try and get the image from the cache, if successful then return the cached image
                 var cachedImage = this.images[url]
                 if (cachedImage) return cachedImage
 
-                //Create a new image
+                // Create a new image
                 var img = new _CachedImage2['default']()
 
                 // Need to add to cache here, otherwise final return will spawn different copies of the same image,
                 // Also, there will be multiple loads of the same image.
                 this.images[url] = img
 
-                //Subscribe to the event that is raised if the image loads successfully
+                // Subscribe to the event that is raised if the image loads successfully
                 img.image.onload = function() {
                   // Properly init the cached item and then request a redraw
                   _this._fixImageCoordinates(img.image)
@@ -29617,17 +29609,17 @@
                   _this._redrawWithImage(img)
                 }
 
-                //Subscribe to the event that is raised if the image fails to load
+                // Subscribe to the event that is raised if the image fails to load
                 img.image.onerror = function() {
                   console.error('Could not load image:', url)
-                  //Try and load the image specified by the brokenUrl using
+                  // Try and load the image specified by the brokenUrl using
                   _this._tryloadBrokenUrl(url, brokenUrl, img)
                 }
 
-                //Set the source of the image to the url, this is what actually kicks off the loading of the image
+                // Set the source of the image to the url, this is what actually kicks off the loading of the image
                 img.image.src = url
 
-                //Return the new image
+                // Return the new image
                 return img
               },
 
@@ -29959,10 +29951,10 @@
                   }
                 },
 
-                /////////////////////////////////////////////////////////
+                /// //////////////////////////////////////////////////////
                 // Methods for handling options piles
                 // Eventually, these will be moved to a separate class
-                /////////////////////////////////////////////////////////
+                /// //////////////////////////////////////////////////////
 
                 /**
                  * Add the font members of the passed list of option objects to the pile.
@@ -30133,9 +30125,9 @@
                   return result
                 },
 
-                /////////////////////////////////////////////////////////
+                /// //////////////////////////////////////////////////////
                 // End methods for handling options piles
-                /////////////////////////////////////////////////////////
+                /// //////////////////////////////////////////////////////
 
                 /**
                  * Collapse the font options for the multi-font to single objects, from
@@ -30313,16 +30305,16 @@
                         ctx.font = block.font
 
                         var _getColor2 = this._getColor(
-                            block.color,
-                            viewFontSize,
-                            block.strokeColor,
-                          ),
-                          _getColor3 = (0, _slicedToArray3['default'])(
-                            _getColor2,
-                            2,
-                          ),
-                          fontColor = _getColor3[0],
-                          strokeColor = _getColor3[1]
+                          block.color,
+                          viewFontSize,
+                          block.strokeColor,
+                        )
+                        var _getColor3 = (0, _slicedToArray3['default'])(
+                          _getColor2,
+                          2,
+                        )
+                        var fontColor = _getColor3[0]
+                        var strokeColor = _getColor3[1]
 
                         if (block.strokeWidth > 0) {
                           ctx.lineWidth = block.strokeWidth
@@ -30881,14 +30873,14 @@
                   // draw line
                   this._line(ctx, values, viaNode, fromPoint, toPoint)
                 } else {
-                  var _getCircleData2 = this._getCircleData(ctx),
-                    _getCircleData3 = (0, _slicedToArray3['default'])(
-                      _getCircleData2,
-                      3,
-                    ),
-                    x = _getCircleData3[0],
-                    y = _getCircleData3[1],
-                    radius = _getCircleData3[2]
+                  var _getCircleData2 = this._getCircleData(ctx)
+                  var _getCircleData3 = (0, _slicedToArray3['default'])(
+                    _getCircleData2,
+                    3,
+                  )
+                  var x = _getCircleData3[0]
+                  var y = _getCircleData3[1]
+                  var radius = _getCircleData3[2]
 
                   this._circle(ctx, values, x, y, radius)
                 }
@@ -30933,14 +30925,14 @@
                     // draw line
                     this._line(ctx, values, viaNode)
                   } else {
-                    var _getCircleData4 = this._getCircleData(ctx),
-                      _getCircleData5 = (0, _slicedToArray3['default'])(
-                        _getCircleData4,
-                        3,
-                      ),
-                      x = _getCircleData5[0],
-                      y = _getCircleData5[1],
-                      radius = _getCircleData5[2]
+                    var _getCircleData4 = this._getCircleData(ctx)
+                    var _getCircleData5 = (0, _slicedToArray3['default'])(
+                      _getCircleData4,
+                      3,
+                    )
+                    var x = _getCircleData5[0]
+                    var y = _getCircleData5[1]
+                    var radius = _getCircleData5[2]
 
                     this._circle(ctx, values, x, y, radius)
                   }
@@ -30961,14 +30953,14 @@
                       pattern,
                     )
                   } else {
-                    var _getCircleData6 = this._getCircleData(ctx),
-                      _getCircleData7 = (0, _slicedToArray3['default'])(
-                        _getCircleData6,
-                        3,
-                      ),
-                      _x = _getCircleData7[0],
-                      _y = _getCircleData7[1],
-                      _radius = _getCircleData7[2]
+                    var _getCircleData6 = this._getCircleData(ctx)
+                    var _getCircleData7 = (0, _slicedToArray3['default'])(
+                      _getCircleData6,
+                      3,
+                    )
+                    var _x = _getCircleData7[0]
+                    var _y = _getCircleData7[1]
+                    var _radius = _getCircleData7[2]
 
                     this._circle(ctx, values, _x, _y, _radius)
                   }
@@ -31016,15 +31008,15 @@
                   to = this._findBorderPosition(this.to, ctx)
                 } else {
                   var _getCircleData$slice = this._getCircleData(ctx).slice(
-                      0,
-                      2,
-                    ),
-                    _getCircleData$slice2 = (0, _slicedToArray3['default'])(
-                      _getCircleData$slice,
-                      2,
-                    ),
-                    x = _getCircleData$slice2[0],
-                    y = _getCircleData$slice2[1]
+                    0,
+                    2,
+                  )
+                  var _getCircleData$slice2 = (0, _slicedToArray3['default'])(
+                    _getCircleData$slice,
+                    2,
+                  )
+                  var x = _getCircleData$slice2[0]
+                  var y = _getCircleData$slice2[1]
 
                   from = this._findBorderPositionCircle(this.from, ctx, {
                     x: x,
@@ -31054,8 +31046,8 @@
             {
               key: '_getCircleData',
               value: function _getCircleData(ctx) {
-                var x = void 0,
-                  y = void 0
+                var x = void 0
+                var y = void 0
                 var node = this.from
                 var radius = this.options.selfReferenceSize
 
@@ -31117,11 +31109,11 @@
                 var maxIterations = 10
                 var iteration = 0
                 var radius = this.options.selfReferenceSize
-                var pos = void 0,
-                  angle = void 0,
-                  distanceToBorder = void 0,
-                  distanceToPoint = void 0,
-                  difference = void 0
+                var pos = void 0
+                var angle = void 0
+                var distanceToBorder = void 0
+                var distanceToPoint = void 0
+                var difference = void 0
                 var threshold = 0.05
                 var middle = (low + high) * 0.5
 
@@ -31212,8 +31204,8 @@
                       this.to.x,
                       this.to.y,
                     )
-                    var fromColor = void 0,
-                      toColor = void 0
+                    var fromColor = void 0
+                    var toColor = void 0
                     fromColor = this.from.options.color.highlight.border
                     toColor = this.to.options.color.highlight.border
 
@@ -31332,14 +31324,14 @@
                     via,
                   )
                 } else {
-                  var _getCircleData8 = this._getCircleData(undefined),
-                    _getCircleData9 = (0, _slicedToArray3['default'])(
-                      _getCircleData8,
-                      3,
-                    ),
-                    x = _getCircleData9[0],
-                    y = _getCircleData9[1],
-                    radius = _getCircleData9[2]
+                  var _getCircleData8 = this._getCircleData(undefined)
+                  var _getCircleData9 = (0, _slicedToArray3['default'])(
+                    _getCircleData8,
+                    3,
+                  )
+                  var x = _getCircleData9[0]
+                  var y = _getCircleData9[1]
+                  var radius = _getCircleData9[2]
 
                   var dx = x - x3
                   var dy = y - y3
@@ -31380,11 +31372,11 @@
                 var dx = x - x3
                 var dy = y - y3
 
-                //# Note: If the actual distance does not matter,
-                //# if you only want to compare what this function
-                //# returns to other results of this function, you
-                //# can just return the squared distance instead
-                //# (i.e. remove the sqrt) to gain a little performance
+                // # Note: If the actual distance does not matter,
+                // # if you only want to compare what this function
+                // # returns to other results of this function, you
+                // # can just return the squared distance instead
+                // # (i.e. remove the sqrt) to gain a little performance
 
                 return Math.sqrt(dx * dx + dy * dy)
               },
@@ -31467,14 +31459,14 @@
                   }
                 } else {
                   // draw circle
-                  var _getCircleData10 = this._getCircleData(ctx),
-                    _getCircleData11 = (0, _slicedToArray3['default'])(
-                      _getCircleData10,
-                      3,
-                    ),
-                    x = _getCircleData11[0],
-                    y = _getCircleData11[1],
-                    radius = _getCircleData11[2]
+                  var _getCircleData10 = this._getCircleData(ctx)
+                  var _getCircleData11 = (0, _slicedToArray3['default'])(
+                    _getCircleData10,
+                    3,
+                  )
+                  var x = _getCircleData11[0]
+                  var y = _getCircleData11[1]
+                  var radius = _getCircleData11[2]
 
                   if (position === 'from') {
                     arrowPoint = this.findBorderPosition(this.from, ctx, {
@@ -32061,9 +32053,9 @@
               value: function _getForceContribution(parentBranch, node) {
                 // we get no force contribution from an empty region
                 if (parentBranch.childrenCount > 0) {
-                  var dx = void 0,
-                    dy = void 0,
-                    distance = void 0
+                  var dx = void 0
+                  var dy = void 0
+                  var distance = void 0
 
                   // get the distance from the center of mass to the node.
                   dx = parentBranch.centerOfMass.x - node.x
@@ -32196,8 +32188,8 @@
                 var minimumTreeSize = 1e-5
                 var rootSize = Math.max(minimumTreeSize, Math.abs(maxX - minX))
                 var halfRootSize = 0.5 * rootSize
-                var centerX = 0.5 * (minX + maxX),
-                  centerY = 0.5 * (minY + maxY)
+                var centerX = 0.5 * (minX + maxX)
+                var centerY = 0.5 * (minY + maxY)
 
                 // construct the barnesHutTree
                 var barnesHutTree = {
@@ -32393,10 +32385,10 @@
             {
               key: '_insertRegion',
               value: function _insertRegion(parentBranch, region) {
-                var minX = void 0,
-                  maxX = void 0,
-                  minY = void 0,
-                  maxY = void 0
+                var minX = void 0
+                var maxX = void 0
+                var minY = void 0
+                var maxY = void 0
                 var childSize = 0.5 * parentBranch.size
                 switch (region) {
                   case 'NW':
@@ -32438,7 +32430,7 @@
                 }
               },
 
-              //---------------------------  DEBUGGING BELOW  ---------------------------//
+              // ---------------------------  DEBUGGING BELOW  ---------------------------//
 
               /**
                * This function is for debugging purposed, it draws the tree.
@@ -32573,10 +32565,10 @@
             {
               key: 'solve',
               value: function solve() {
-                var dx = void 0,
-                  dy = void 0,
-                  distance = void 0,
-                  node = void 0
+                var dx = void 0
+                var dy = void 0
+                var distance = void 0
+                var node = void 0
                 var nodes = this.body.nodes
                 var nodeIndices = this.physicsBody.physicsNodeIndices
                 var forces = this.physicsBody.forces
@@ -32951,8 +32943,8 @@
             hidden: { boolean: bool },
             icon: {
               face: { string: string },
-              code: { string: string }, //'\uf007',
-              size: { number: number }, //50,
+              code: { string: string }, // '\uf007',
+              size: { number: number }, // 50,
               color: { string: string },
               __type__: { object: object },
             },
@@ -33094,7 +33086,7 @@
             __type__: { object: object, boolean: bool },
           },
 
-          //globals :
+          // globals :
           autoResize: { boolean: bool },
           clickToUse: { boolean: bool },
           locale: { string: string },
@@ -33138,16 +33130,16 @@
               strokeWidth: [0, 0, 50, 1], // px
               strokeColor: ['color', '#ffffff'],
             },
-            //group: 'string',
+            // group: 'string',
             hidden: false,
             labelHighlightBold: true,
-            //icon: {
+            // icon: {
             //  face: 'string',  //'FontAwesome',
             //  code: 'string',  //'\uf007',
             //  size: [50, 0, 200, 1],  //50,
             //  color: ['color','#2B7CE9']   //'#aa00ff'
-            //},
-            //image: 'string', // --> URL
+            // },
+            // image: 'string', // --> URL
             physics: true,
             scaling: {
               min: [10, 0, 200, 1],
@@ -33269,8 +33261,8 @@
             width: [1, 0, 30, 1],
           },
           layout: {
-            //randomSeed: [0, 0, 500, 1],
-            //improvedLayout: true,
+            // randomSeed: [0, 0, 500, 1],
+            // improvedLayout: true,
             hierarchical: {
               enabled: false,
               levelSeparation: [150, 20, 500, 5],
@@ -33313,7 +33305,7 @@
           physics: {
             enabled: true,
             barnesHut: {
-              //theta: [0.5, 0.1, 1, 0.05],
+              // theta: [0.5, 0.1, 1, 0.05],
               gravitationalConstant: [-2000, -30000, 0, 50],
               centralGravity: [0.3, 0, 10, 0.05],
               springLength: [95, 0, 500, 5],
@@ -33322,7 +33314,7 @@
               avoidOverlap: [0, 0, 1, 0.01],
             },
             forceAtlas2Based: {
-              //theta: [0.5, 0.1, 1, 0.05],
+              // theta: [0.5, 0.1, 1, 0.05],
               gravitationalConstant: [-50, -500, 0, 1],
               centralGravity: [0.01, 0, 1, 0.005],
               springLength: [95, 0, 500, 5],
@@ -33353,7 +33345,7 @@
               'hierarchicalRepulsion',
             ],
             timestep: [0.5, 0.01, 1, 0.01],
-            //adaptiveTimestep: true
+            // adaptiveTimestep: true
           },
         }
 
@@ -33452,7 +33444,7 @@
       /* 128 */
       /***/ function(module, exports) {
         module.exports = function(it) {
-          if (typeof it != 'function')
+          if (typeof it !== 'function')
             throw TypeError(it + ' is not a function!')
           return it
         }
@@ -33605,7 +33597,7 @@
         var get = __webpack_require__(137)
         module.exports = __webpack_require__(7).getIterator = function(it) {
           var iterFn = get(it)
-          if (typeof iterFn != 'function')
+          if (typeof iterFn !== 'function')
             throw TypeError(it + ' is not iterable!')
           return anObject(iterFn.call(it))
         }
@@ -33744,7 +33736,7 @@
         var AllSymbols = shared('symbols')
         var OPSymbols = shared('op-symbols')
         var ObjectProto = Object[PROTOTYPE]
-        var USE_NATIVE = typeof $Symbol == 'function'
+        var USE_NATIVE = typeof $Symbol === 'function'
         var QObject = global.QObject
         // Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
         var setter =
@@ -33780,9 +33772,9 @@
         }
 
         var isSymbol =
-          USE_NATIVE && typeof $Symbol.iterator == 'symbol'
+          USE_NATIVE && typeof $Symbol.iterator === 'symbol'
             ? function(it) {
-                return typeof it == 'symbol'
+                return typeof it === 'symbol'
               }
             : function(it) {
                 return it instanceof $Symbol
@@ -34013,7 +34005,7 @@
                 var replacer, $replacer
                 while (arguments.length > i) args.push(arguments[i++])
                 replacer = args[1]
-                if (typeof replacer == 'function') $replacer = replacer
+                if (typeof replacer === 'function') $replacer = replacer
                 if ($replacer || !isArray(replacer))
                   replacer = function(key, value) {
                     if ($replacer) value = $replacer.call(this, key, value)
@@ -34067,9 +34059,9 @@
         var fastKey = function(it, create) {
           // return primitive with prefix
           if (!isObject(it))
-            return typeof it == 'symbol'
+            return typeof it === 'symbol'
               ? it
-              : (typeof it == 'string' ? 'S' : 'P') + it
+              : (typeof it === 'string' ? 'S' : 'P') + it
           if (!has(it, META)) {
             // can't set metadata to uncaught frozen object
             if (!isExtensible(it)) return 'F'
@@ -34151,7 +34143,7 @@
         var toString = {}.toString
 
         var windowNames =
-          typeof window == 'object' && window && Object.getOwnPropertyNames
+          typeof window === 'object' && window && Object.getOwnPropertyNames
             ? Object.getOwnPropertyNames(window)
             : []
 
@@ -34265,8 +34257,8 @@
             }
 
             function map(arr, fn) {
-              var res = [],
-                i
+              var res = []
+              var i
               for (i = 0; i < arr.length; ++i) {
                 res.push(fn(arr[i], i))
               }
@@ -34476,8 +34468,8 @@
             }
 
             function toInt(argumentForCoercion) {
-              var coercedNumber = +argumentForCoercion,
-                value = 0
+              var coercedNumber = +argumentForCoercion
+              var value = 0
 
               if (coercedNumber !== 0 && isFinite(coercedNumber)) {
                 value = absFloor(coercedNumber)
@@ -34488,10 +34480,10 @@
 
             // compare two arrays, return the number of differences
             function compareArrays(array1, array2, dontConvert) {
-              var len = Math.min(array1.length, array2.length),
-                lengthDiff = Math.abs(array1.length - array2.length),
-                diffs = 0,
-                i
+              var len = Math.min(array1.length, array2.length)
+              var lengthDiff = Math.abs(array1.length - array2.length)
+              var diffs = 0
+              var i
               for (i = 0; i < len; i++) {
                 if (
                   (dontConvert && array1[i] !== array2[i]) ||
@@ -34594,8 +34586,8 @@
             }
 
             function mergeConfigs(parentConfig, childConfig) {
-              var res = extend({}, parentConfig),
-                prop
+              var res = extend({}, parentConfig)
+              var prop
               for (prop in childConfig) {
                 if (hasOwnProp(childConfig, prop)) {
                   if (
@@ -34637,8 +34629,8 @@
               keys = Object.keys
             } else {
               keys = function(obj) {
-                var i,
-                  res = []
+                var i
+                var res = []
                 for (i in obj) {
                   if (hasOwnProp(obj, i)) {
                     res.push(i)
@@ -34672,8 +34664,8 @@
             }
 
             function longDateFormat(key) {
-              var format = this._longDateFormat[key],
-                formatUpper = this._longDateFormat[key.toUpperCase()]
+              var format = this._longDateFormat[key]
+              var formatUpper = this._longDateFormat[key.toUpperCase()]
 
               if (format || !formatUpper) {
                 return format
@@ -34749,9 +34741,9 @@
             }
 
             function normalizeObjectUnits(inputObject) {
-              var normalizedInput = {},
-                normalizedProp,
-                prop
+              var normalizedInput = {}
+              var normalizedProp
+              var prop
 
               for (prop in inputObject) {
                 if (hasOwnProp(inputObject, prop)) {
@@ -34783,9 +34775,9 @@
             }
 
             function zeroFill(number, targetLength, forceSign) {
-              var absNumber = '' + Math.abs(number),
-                zerosToFill = targetLength - absNumber.length,
-                sign = number >= 0
+              var absNumber = '' + Math.abs(number)
+              var zerosToFill = targetLength - absNumber.length
+              var sign = number >= 0
               return (
                 (sign ? (forceSign ? '+' : '') : '-') +
                 Math.pow(10, Math.max(0, zerosToFill))
@@ -34844,9 +34836,9 @@
             }
 
             function makeFormatFunction(format) {
-              var array = format.match(formattingTokens),
-                i,
-                length
+              var array = format.match(formattingTokens)
+              var i
+              var length
 
               for (i = 0, length = array.length; i < length; i++) {
                 if (formatTokenFunctions[array[i]]) {
@@ -34857,8 +34849,8 @@
               }
 
               return function(mom) {
-                var output = '',
-                  i
+                var output = ''
+                var i
                 for (i = 0; i < length; i++) {
                   output += isFunction(array[i])
                     ? array[i].call(mom, format)
@@ -34967,8 +34959,8 @@
             var tokens = {}
 
             function addParseToken(token, callback) {
-              var i,
-                func = callback
+              var i
+              var func = callback
               if (typeof token === 'string') {
                 token = [token]
               }
@@ -35260,10 +35252,10 @@
             }
 
             function handleStrictParse(monthName, format, strict) {
-              var i,
-                ii,
-                mom,
-                llc = monthName.toLocaleLowerCase()
+              var i
+              var ii
+              var mom
+              var llc = monthName.toLocaleLowerCase()
               if (!this._monthsParse) {
                 // this is not used
                 this._monthsParse = []
@@ -35456,11 +35448,11 @@
                 return b.length - a.length
               }
 
-              var shortPieces = [],
-                longPieces = [],
-                mixedPieces = [],
-                i,
-                mom
+              var shortPieces = []
+              var longPieces = []
+              var mixedPieces = []
+              var i
+              var mom
               for (i = 0; i < 12; i++) {
                 // make the regex if we don't have it already
                 mom = createUTC([2000, i])
@@ -35522,20 +35514,21 @@
             // start-of-first-week - start-of-year
             function firstWeekOffset(year, dow, doy) {
               var // first-week day -- which january is always in the first week (4 for iso, 1 for other)
-                fwd = 7 + dow - doy,
-                // first-week day local weekday -- which local weekday is fwd
-                fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7
+                fwd = 7 + dow - doy
+              // first-week day local weekday -- which local weekday is fwd
+              var fwdlw =
+                (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7
 
               return -fwdlw + fwd - 1
             }
 
             // https://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
             function dayOfYearFromWeeks(year, week, weekday, dow, doy) {
-              var localWeekday = (7 + weekday - dow) % 7,
-                weekOffset = firstWeekOffset(year, dow, doy),
-                dayOfYear = 1 + 7 * (week - 1) + localWeekday + weekOffset,
-                resYear,
-                resDayOfYear
+              var localWeekday = (7 + weekday - dow) % 7
+              var weekOffset = firstWeekOffset(year, dow, doy)
+              var dayOfYear = 1 + 7 * (week - 1) + localWeekday + weekOffset
+              var resYear
+              var resDayOfYear
 
               if (dayOfYear <= 0) {
                 resYear = year - 1
@@ -35555,10 +35548,10 @@
             }
 
             function weekOfYear(mom, dow, doy) {
-              var weekOffset = firstWeekOffset(mom.year(), dow, doy),
-                week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1,
-                resWeek,
-                resYear
+              var weekOffset = firstWeekOffset(mom.year(), dow, doy)
+              var week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1
+              var resWeek
+              var resYear
 
               if (week < 1) {
                 resYear = mom.year() - 1
@@ -35578,8 +35571,8 @@
             }
 
             function weeksInYear(year, dow, doy) {
-              var weekOffset = firstWeekOffset(year, dow, doy),
-                weekOffsetNext = firstWeekOffset(year + 1, dow, doy)
+              var weekOffset = firstWeekOffset(year, dow, doy)
+              var weekOffsetNext = firstWeekOffset(year + 1, dow, doy)
               return (daysInYear(year) - weekOffset + weekOffsetNext) / 7
             }
 
@@ -35779,10 +35772,10 @@
             }
 
             function handleStrictParse$1(weekdayName, format, strict) {
-              var i,
-                ii,
-                mom,
-                llc = weekdayName.toLocaleLowerCase()
+              var i
+              var ii
+              var mom
+              var llc = weekdayName.toLocaleLowerCase()
               if (!this._weekdaysParse) {
                 this._weekdaysParse = []
                 this._shortWeekdaysParse = []
@@ -36040,15 +36033,15 @@
                 return b.length - a.length
               }
 
-              var minPieces = [],
-                shortPieces = [],
-                longPieces = [],
-                mixedPieces = [],
-                i,
-                mom,
-                minp,
-                shortp,
-                longp
+              var minPieces = []
+              var shortPieces = []
+              var longPieces = []
+              var mixedPieces = []
+              var i
+              var mom
+              var minp
+              var shortp
+              var longp
               for (i = 0; i < 7; i++) {
                 // make the regex if we don't have it already
                 mom = createUTC([2000, 1]).day(i)
@@ -36277,11 +36270,11 @@
             // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
             // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
             function chooseLocale(names) {
-              var i = 0,
-                j,
-                next,
-                locale,
-                split
+              var i = 0
+              var j
+              var next
+              var locale
+              var split
 
               while (i < names.length) {
                 split = normalizeLocale(names[i]).split('-')
@@ -36298,7 +36291,7 @@
                     next.length >= j &&
                     compareArrays(split, next, true) >= j - 1
                   ) {
-                    //the next array item is better than a shallower substring of this one
+                    // the next array item is better than a shallower substring of this one
                     break
                   }
                   j--
@@ -36402,8 +36395,8 @@
 
             function updateLocale(name, config) {
               if (config != null) {
-                var locale,
-                  parentConfig = baseConfig
+                var locale
+                var parentConfig = baseConfig
                 // MERGE
                 if (locales[name] != null) {
                   parentConfig = locales[name]._config
@@ -36441,7 +36434,7 @@
               }
 
               if (!isArray(key)) {
-                //short-circuit everything else
+                // short-circuit everything else
                 locale = loadLocale(key)
                 if (locale) {
                   return locale
@@ -36533,11 +36526,11 @@
             // note: all values past the year are optional and will default to the lowest possible value.
             // [year, month, day , hour, minute, second, millisecond]
             function configFromArray(config) {
-              var i,
-                date,
-                input = [],
-                currentDate,
-                yearToUse
+              var i
+              var date
+              var input = []
+              var currentDate
+              var yearToUse
 
               if (config._d) {
                 return
@@ -36545,7 +36538,7 @@
 
               currentDate = currentDateArray(config)
 
-              //compute day of the year from weeks and weekdays
+              // compute day of the year from weeks and weekdays
               if (
                 config._w &&
                 config._a[DATE] == null &&
@@ -36554,7 +36547,7 @@
                 dayOfYearFromWeekInfo(config)
               }
 
-              //if the day of the year is set, figure out what it is
+              // if the day of the year is set, figure out what it is
               if (config._dayOfYear != null) {
                 yearToUse = defaults(config._a[YEAR], currentDate[YEAR])
 
@@ -36720,15 +36713,15 @@
 
             // date from iso format
             function configFromISO(config) {
-              var i,
-                l,
-                string = config._i,
-                match =
-                  extendedIsoRegex.exec(string) || basicIsoRegex.exec(string),
-                allowTime,
-                dateFormat,
-                timeFormat,
-                tzFormat
+              var i
+              var l
+              var string = config._i
+              var match =
+                extendedIsoRegex.exec(string) || basicIsoRegex.exec(string)
+              var allowTime
+              var dateFormat
+              var timeFormat
+              var tzFormat
 
               if (match) {
                 getParsingFlags(config).iso = true
@@ -36824,13 +36817,13 @@
               if (weekdayStr) {
                 // TODO: Replace the vanilla JS Date object with an indepentent day-of-week check.
                 var weekdayProvided = defaultLocaleWeekdaysShort.indexOf(
-                    weekdayStr,
-                  ),
-                  weekdayActual = new Date(
-                    parsedInput[0],
-                    parsedInput[1],
-                    parsedInput[2],
-                  ).getDay()
+                  weekdayStr,
+                )
+                var weekdayActual = new Date(
+                  parsedInput[0],
+                  parsedInput[1],
+                  parsedInput[2],
+                ).getDay()
                 if (weekdayProvided !== weekdayActual) {
                   getParsingFlags(config).weekdayMismatch = true
                   config._isValid = false
@@ -36861,8 +36854,8 @@
                 return 0
               } else {
                 var hm = parseInt(numOffset, 10)
-                var m = hm % 100,
-                  h = (hm - m) / 100
+                var m = hm % 100
+                var h = (hm - m) / 100
                 return h * 60 + m
               }
             }
@@ -36953,14 +36946,14 @@
               getParsingFlags(config).empty = true
 
               // This array is used to make a Date, either with `new Date` or `Date.UTC`
-              var string = '' + config._i,
-                i,
-                parsedInput,
-                tokens,
-                token,
-                skipped,
-                stringLength = string.length,
-                totalParsedInputLength = 0
+              var string = '' + config._i
+              var i
+              var parsedInput
+              var tokens
+              var token
+              var skipped
+              var stringLength = string.length
+              var totalParsedInputLength = 0
 
               tokens =
                 expandFormat(config._f, config._locale).match(
@@ -37077,7 +37070,7 @@
                 // if there is any input that was not parsed add a penalty for that format
                 currentScore += getParsingFlags(tempConfig).charsLeftOver
 
-                //or tokens
+                // or tokens
                 currentScore +=
                   getParsingFlags(tempConfig).unusedTokens.length * 10
 
@@ -37128,8 +37121,8 @@
             }
 
             function prepareConfig(config) {
-              var input = config._i,
-                format = config._f
+              var input = config._i
+              var format = config._f
 
               config._locale = config._locale || getLocale(config._l)
 
@@ -37324,16 +37317,16 @@
             }
 
             function Duration(duration) {
-              var normalizedInput = normalizeObjectUnits(duration),
-                years = normalizedInput.year || 0,
-                quarters = normalizedInput.quarter || 0,
-                months = normalizedInput.month || 0,
-                weeks = normalizedInput.week || 0,
-                days = normalizedInput.day || 0,
-                hours = normalizedInput.hour || 0,
-                minutes = normalizedInput.minute || 0,
-                seconds = normalizedInput.second || 0,
-                milliseconds = normalizedInput.millisecond || 0
+              var normalizedInput = normalizeObjectUnits(duration)
+              var years = normalizedInput.year || 0
+              var quarters = normalizedInput.quarter || 0
+              var months = normalizedInput.month || 0
+              var weeks = normalizedInput.week || 0
+              var days = normalizedInput.day || 0
+              var hours = normalizedInput.hour || 0
+              var minutes = normalizedInput.minute || 0
+              var seconds = normalizedInput.second || 0
+              var milliseconds = normalizedInput.millisecond || 0
 
               this._isValid = isDurationValid(normalizedInput)
 
@@ -37342,7 +37335,7 @@
                 +milliseconds +
                 seconds * 1e3 + // 1000
                 minutes * 6e4 + // 1000 * 60
-                hours * 1000 * 60 * 60 //using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
+                hours * 1000 * 60 * 60 // using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
               // Because of dateAddRemove treats 24 hours as different from a
               // day when working around DST, we need to store them separately
               this._days = +days + weeks * 7
@@ -37465,8 +37458,8 @@
             // _changeInProgress == true case, then we have to adjust, because
             // there is no such time in the given timezone.
             function getSetOffset(input, keepLocalTime, keepMinutes) {
-              var offset = this._offset || 0,
-                localAdjust
+              var offset = this._offset || 0
+              var localAdjust
               if (!this.isValid()) {
                 return input != null ? this : NaN
               }
@@ -37615,12 +37608,12 @@
             var isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/
 
             function createDuration(input, key) {
-              var duration = input,
-                // matching against regexp is expensive, do it on demand
-                match = null,
-                sign,
-                ret,
-                diffRes
+              var duration = input
+              // matching against regexp is expensive, do it on demand
+              var match = null
+              var sign
+              var ret
+              var diffRes
 
               if (isDuration(input)) {
                 duration = {
@@ -37635,7 +37628,7 @@
                 } else {
                   duration.milliseconds = input
                 }
-              } else if (!!(match = aspNetRegex.exec(input))) {
+              } else if ((match = aspNetRegex.exec(input))) {
                 sign = match[1] === '-' ? -1 : 1
                 duration = {
                   y: 0,
@@ -37645,7 +37638,7 @@
                   s: toInt(match[SECOND]) * sign,
                   ms: toInt(absRound(match[MILLISECOND] * 1000)) * sign, // the millisecond decimal point is included in the match
                 }
-              } else if (!!(match = isoRegex.exec(input))) {
+              } else if ((match = isoRegex.exec(input))) {
                 sign = match[1] === '-' ? -1 : match[1] === '+' ? 1 : 1
                 duration = {
                   y: parseIso(match[2], sign),
@@ -37735,7 +37728,7 @@
             function createAdder(direction, name) {
               return function(val, period) {
                 var dur, tmp
-                //invert the arguments, but complain about it
+                // invert the arguments, but complain about it
                 if (period !== null && !isNaN(+period)) {
                   deprecateSimple(
                     name,
@@ -37759,9 +37752,9 @@
             }
 
             function addSubtract(mom, duration, isAdding, updateOffset) {
-              var milliseconds = duration._milliseconds,
-                days = absRound(duration._days),
-                months = absRound(duration._months)
+              var milliseconds = duration._milliseconds
+              var days = absRound(duration._days)
+              var months = absRound(duration._months)
 
               if (!mom.isValid()) {
                 // No op
@@ -37807,9 +37800,9 @@
             function calendar$1(time, formats) {
               // We want to compare the start of today, vs this.
               // Getting start-of-today depends on whether we're local/utc/offset or not.
-              var now = time || createLocal(),
-                sod = cloneWithOffset(now, this).startOf('day'),
-                format = hooks.calendarFormat(this, sod) || 'sameElse'
+              var now = time || createLocal()
+              var sod = cloneWithOffset(now, this).startOf('day')
+              var format = hooks.calendarFormat(this, sod) || 'sameElse'
 
               var output =
                 formats &&
@@ -37879,8 +37872,8 @@
             }
 
             function isSame(input, units) {
-              var localInput = isMoment(input) ? input : createLocal(input),
-                inputMs
+              var localInput = isMoment(input) ? input : createLocal(input)
+              var inputMs
               if (!(this.isValid() && localInput.isValid())) {
                 return false
               }
@@ -37961,11 +37954,11 @@
             function monthDiff(a, b) {
               // difference in months
               var wholeMonthDiff =
-                  (b.year() - a.year()) * 12 + (b.month() - a.month()),
-                // b is in (anchor - 1 month, anchor + 1 month)
-                anchor = a.clone().add(wholeMonthDiff, 'months'),
-                anchor2,
-                adjust
+                (b.year() - a.year()) * 12 + (b.month() - a.month())
+              // b is in (anchor - 1 month, anchor + 1 month)
+              var anchor = a.clone().add(wholeMonthDiff, 'months')
+              var anchor2
+              var adjust
 
               if (b - anchor < 0) {
                 anchor2 = a.clone().add(wholeMonthDiff - 1, 'months')
@@ -37977,7 +37970,7 @@
                 adjust = (b - anchor) / (anchor2 - anchor)
               }
 
-              //check for negative zero, return zero if negative zero
+              // check for negative zero, return zero if negative zero
               return -(wholeMonthDiff + adjust) || 0
             }
 
@@ -38024,7 +38017,7 @@
               }
               var prefix = '[' + func + '("]'
               var year =
-                0 <= this.year() && this.year() <= 9999 ? 'YYYY' : 'YYYYYY'
+                this.year() >= 0 && this.year() <= 9999 ? 'YYYY' : 'YYYYYY'
               var datetime = '-MM-DD[T]HH:mm:ss.SSS'
               var suffix = zone + '[")]'
 
@@ -38340,17 +38333,17 @@
 
             function setWeekAll(weekYear, week, weekday, dow, doy) {
               var dayOfYearData = dayOfYearFromWeeks(
-                  weekYear,
-                  week,
-                  weekday,
-                  dow,
-                  doy,
-                ),
-                date = createUTCDate(
-                  dayOfYearData.year,
-                  0,
-                  dayOfYearData.dayOfYear,
-                )
+                weekYear,
+                week,
+                weekday,
+                dow,
+                doy,
+              )
+              var date = createUTCDate(
+                dayOfYearData.year,
+                0,
+                dayOfYearData.dayOfYear,
+              )
 
               this.year(date.getUTCFullYear())
               this.month(date.getUTCMonth())
@@ -38793,8 +38786,8 @@
                 format = format || ''
               }
 
-              var locale = getLocale(),
-                shift = localeSorted ? locale._week.dow : 0
+              var locale = getLocale()
+              var shift = localeSorted ? locale._week.dow : 0
 
               if (index != null) {
                 return get$1(format, (index + shift) % 7, field, 'day')
@@ -38841,17 +38834,17 @@
             getSetGlobalLocale('en', {
               dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
               ordinal: function(number) {
-                var b = number % 10,
-                  output =
-                    toInt((number % 100) / 10) === 1
-                      ? 'th'
-                      : b === 1
-                      ? 'st'
-                      : b === 2
-                      ? 'nd'
-                      : b === 3
-                      ? 'rd'
-                      : 'th'
+                var b = number % 10
+                var output =
+                  toInt((number % 100) / 10) === 1
+                    ? 'th'
+                    : b === 1
+                    ? 'st'
+                    : b === 2
+                    ? 'nd'
+                    : b === 3
+                    ? 'rd'
+                    : 'th'
                 return number + output
               },
             })
@@ -39421,7 +39414,7 @@
           // detect to determine the best RNG source, normalizing to a function that
           // returns 128-bits of randomness, since that's what's usually required
 
-          //var _rng = require('./rng');
+          // var _rng = require('./rng');
 
           // Maps for number <-> hex string conversion
           var _byteToHex = []
@@ -39433,8 +39426,8 @@
 
           // **`parse()` - Parse a UUID into it's component bytes**
           function parse(s, buf, offset) {
-            var i = (buf && offset) || 0,
-              ii = 0
+            var i = (buf && offset) || 0
+            var ii = 0
 
             buf = buf || []
             s.toLowerCase().replace(/[0-9a-f]{2}/g, function(oct) {
@@ -39454,8 +39447,8 @@
 
           // **`unparse()` - Convert UUID byte array (ala parse()) into a string**
           function unparse(buf, offset) {
-            var i = offset || 0,
-              bth = _byteToHex
+            var i = offset || 0
+            var bth = _byteToHex
             return (
               bth[buf[i++]] +
               bth[buf[i++]] +
@@ -39502,8 +39495,8 @@
           var _clockseq = ((_seedBytes[6] << 8) | _seedBytes[7]) & 0x3fff
 
           // Previous uuid creation time
-          var _lastMSecs = 0,
-            _lastNSecs = 0
+          var _lastMSecs = 0
+          var _lastNSecs = 0
 
           // See https://github.com/broofa/node-uuid for API details
           function v1(options, buf, offset) {
@@ -39581,7 +39574,7 @@
               b[i + n] = node[n]
             }
 
-            return buf ? buf : unparse(b)
+            return buf || unparse(b)
           }
 
           // **`v4()` - Generate random UUID**
@@ -39591,7 +39584,7 @@
             // Deprecated - 'format' argument, as supported in v1.2
             var i = (buf && offset) || 0
 
-            if (typeof options == 'string') {
+            if (typeof options === 'string') {
               buf = options == 'binary' ? new Array(16) : null
               options = null
             }
@@ -39714,11 +39707,11 @@
         var Settings = __webpack_require__(94)
         var Validator = __webpack_require__(15)['default']
 
-        var _require = __webpack_require__(15),
-          printStyle = _require.printStyle
+        var _require = __webpack_require__(15)
+        var printStyle = _require.printStyle
 
-        var _require2 = __webpack_require__(172),
-          allOptions = _require2.allOptions
+        var _require2 = __webpack_require__(172)
+        var allOptions = _require2.allOptions
 
         var DataGroup = __webpack_require__(173)
 
@@ -39905,10 +39898,10 @@
           // keep aspect ration between x and y scale if desired
           if (this.keepAspectRatio) {
             if (this.scale.x < this.scale.y) {
-              //noinspection JSSuspiciousNameCombination
+              // noinspection JSSuspiciousNameCombination
               this.scale.y = this.scale.x
             } else {
-              //noinspection JSSuspiciousNameCombination
+              // noinspection JSSuspiciousNameCombination
               this.scale.x = this.scale.y
             }
           }
@@ -39951,35 +39944,34 @@
          *                                camera.
          */
         Graph3d.prototype._convertPointToTranslation = function(point3d) {
-          var cameraLocation = this.camera.getCameraLocation(),
-            cameraRotation = this.camera.getCameraRotation(),
-            ax = point3d.x * this.scale.x,
-            ay = point3d.y * this.scale.y,
-            az = point3d.z * this.scale.z,
-            cx = cameraLocation.x,
-            cy = cameraLocation.y,
-            cz = cameraLocation.z,
-            // calculate angles
-            sinTx = Math.sin(cameraRotation.x),
-            cosTx = Math.cos(cameraRotation.x),
-            sinTy = Math.sin(cameraRotation.y),
-            cosTy = Math.cos(cameraRotation.y),
-            sinTz = Math.sin(cameraRotation.z),
-            cosTz = Math.cos(cameraRotation.z),
-            // calculate translation
-            dx =
-              cosTy * (sinTz * (ay - cy) + cosTz * (ax - cx)) -
-              sinTy * (az - cz),
-            dy =
-              sinTx *
-                (cosTy * (az - cz) +
-                  sinTy * (sinTz * (ay - cy) + cosTz * (ax - cx))) +
-              cosTx * (cosTz * (ay - cy) - sinTz * (ax - cx)),
-            dz =
-              cosTx *
-                (cosTy * (az - cz) +
-                  sinTy * (sinTz * (ay - cy) + cosTz * (ax - cx))) -
-              sinTx * (cosTz * (ay - cy) - sinTz * (ax - cx))
+          var cameraLocation = this.camera.getCameraLocation()
+          var cameraRotation = this.camera.getCameraRotation()
+          var ax = point3d.x * this.scale.x
+          var ay = point3d.y * this.scale.y
+          var az = point3d.z * this.scale.z
+          var cx = cameraLocation.x
+          var cy = cameraLocation.y
+          var cz = cameraLocation.z
+          // calculate angles
+          var sinTx = Math.sin(cameraRotation.x)
+          var cosTx = Math.cos(cameraRotation.x)
+          var sinTy = Math.sin(cameraRotation.y)
+          var cosTy = Math.cos(cameraRotation.y)
+          var sinTz = Math.sin(cameraRotation.z)
+          var cosTz = Math.cos(cameraRotation.z)
+          // calculate translation
+          var dx =
+            cosTy * (sinTz * (ay - cy) + cosTz * (ax - cx)) - sinTy * (az - cz)
+          var dy =
+            sinTx *
+              (cosTy * (az - cz) +
+                sinTy * (sinTz * (ay - cy) + cosTz * (ax - cx))) +
+            cosTx * (cosTz * (ay - cy) - sinTz * (ax - cx))
+          var dz =
+            cosTx *
+              (cosTy * (az - cz) +
+                sinTy * (sinTz * (ay - cy) + cosTz * (ax - cx))) -
+            sinTx * (cosTz * (ay - cy) - sinTz * (ax - cx))
 
           return new Point3d(dx, dy, dz)
         }
@@ -39993,12 +39985,12 @@
          * @returns {Point2d} point2d     A 2D point with parameters x, y
          */
         Graph3d.prototype._convertTranslationToScreen = function(translation) {
-          var ex = this.eye.x,
-            ey = this.eye.y,
-            ez = this.eye.z,
-            dx = translation.x,
-            dy = translation.y,
-            dz = translation.z
+          var ex = this.eye.x
+          var ey = this.eye.y
+          var ez = this.eye.z
+          var dx = translation.x
+          var dy = translation.y
+          var dz = translation.z
 
           // calculate position on screen from translation
           var bx
@@ -40203,7 +40195,7 @@
           this.frame.canvas = document.createElement('canvas')
           this.frame.canvas.style.position = 'relative'
           this.frame.appendChild(this.frame.canvas)
-          //if (!this.frame.canvas.getContext) {
+          // if (!this.frame.canvas.getContext) {
           {
             var noCanvas = document.createElement('DIV')
             noCanvas.style.color = 'red'
@@ -40506,7 +40498,7 @@
 
           if (this.style === Graph3d.STYLE.DOTSIZE) {
             var dotSize = this._dotSize()
-            //width =  dotSize / 2 + dotSize * 2;
+            // width =  dotSize / 2 + dotSize * 2;
             width = dotSize * this.dotSizeMaxFraction
           } else if (this.style === Graph3d.STYLE.BARSIZE) {
             width = this.xBarWidth
@@ -40520,7 +40512,7 @@
          * Redraw the legend based on size, dot color, or surface height
          */
         Graph3d.prototype._redrawLegend = function() {
-          //Return without drawing anything, if no legend is specified
+          // Return without drawing anything, if no legend is specified
           if (this.showLegend !== true) {
             return
           }
@@ -40528,7 +40520,7 @@
           // Do not draw legend when graph style does not support
           if (
             this.style === Graph3d.STYLE.LINE ||
-            this.style === Graph3d.STYLE.BARSIZE //TODO add legend support for BARSIZE
+            this.style === Graph3d.STYLE.BARSIZE // TODO add legend support for BARSIZE
           ) {
             return
           }
@@ -40582,7 +40574,7 @@
               widthMin =
                 width * (this.dotSizeMinFraction / this.dotSizeMaxFraction)
             } else if (this.style === Graph3d.STYLE.BARSIZE) {
-              //widthMin = this.xBarWidth * 0.2 this is wrong - barwidth measures in terms of xvalues
+              // widthMin = this.xBarWidth * 0.2 this is wrong - barwidth measures in terms of xvalues
             }
             ctx.strokeStyle = this.axisColor
             ctx.fillStyle = this.dataColor.fill
@@ -40655,7 +40647,7 @@
 
           // TODO: css here is not nice here...
           filter.style.padding = '10px'
-          //this.frame.filter.style.backgroundColor = '#EFEFEF';
+          // this.frame.filter.style.backgroundColor = '#EFEFEF';
 
           slider.setValues(dataFilter.values)
           slider.setPlayInterval(this.animationInterval)
@@ -40849,21 +40841,21 @@
          * Redraw the axis
          */
         Graph3d.prototype._redrawAxis = function() {
-          var ctx = this._getContext(),
-            from,
-            to,
-            step,
-            prettyStep,
-            text,
-            xText,
-            yText,
-            zText,
-            offset,
-            xOffset,
-            yOffset
+          var ctx = this._getContext()
+          var from
+          var to
+          var step
+          var prettyStep
+          var text
+          var xText
+          var yText
+          var zText
+          var offset
+          var xOffset
+          var yOffset
 
           // TODO: get the actual rendered style of the containerElement
-          //ctx.font = this.containerElement.style.font;
+          // ctx.font = this.containerElement.style.font;
           ctx.font = 24 / this.camera.getArmLength() + 'px arial'
 
           // calculate the length for the short grid lines
@@ -42026,9 +42018,9 @@
          * @private
          */
         Graph3d.prototype._insideTriangle = function(point, triangle) {
-          var a = triangle[0],
-            b = triangle[1],
-            c = triangle[2]
+          var a = triangle[0]
+          var b = triangle[1]
+          var c = triangle[2]
 
           /**
            *
@@ -42067,13 +42059,13 @@
          * @private
          */
         Graph3d.prototype._dataPointFromXY = function(x, y) {
-          var i,
-            distMax = 100,
-            // px
-            dataPoint = null,
-            closestDataPoint = null,
-            closestDist = null,
-            center = new Point2d(x, y)
+          var i
+          var distMax = 100
+          // px
+          var dataPoint = null
+          var closestDataPoint = null
+          var closestDist = null
+          var center = new Point2d(x, y)
 
           if (
             this.style === Graph3d.STYLE.BAR ||
@@ -42259,7 +42251,7 @@
           }
         }
 
-        /**--------------------------------------------------------------------------**/
+        /** --------------------------------------------------------------------------**/
 
         /**
          * Get the horizontal mouse position from a mouse event
@@ -42483,9 +42475,9 @@
         var number = 'number'
         var object = 'object' // should only be in a __type__ property
         // Following not used here, but useful for reference
-        //let array    = 'array';
-        //let dom      = 'dom';
-        //let any      = 'any';
+        // let array    = 'array';
+        // let dom      = 'dom';
+        // let any      = 'any';
 
         var colorOptions = {
           fill: { string: string },
@@ -42593,7 +42585,7 @@
           valueMin: { number: number, undefined: 'undefined' },
           verticalRatio: { number: number },
 
-          //globals :
+          // globals :
           height: { string: string },
           width: { string: string },
           __type__: { object: object },
@@ -43439,9 +43431,9 @@
                 stopped = true
               }
 
-              //wrap the srcEvent's stopPropagation to also stop hammer propagation:
+              // wrap the srcEvent's stopPropagation to also stop hammer propagation:
               var srcStop = event.srcEvent.stopPropagation.bind(event.srcEvent)
-              if (typeof srcStop == 'function') {
+              if (typeof srcStop === 'function') {
                 event.srcEvent.stopPropagation = function() {
                   srcStop()
                   event.stopPropagation()
@@ -43659,8 +43651,8 @@
            * @param {Object} [properties]
            */
           function inherit(child, base, properties) {
-            var baseP = base.prototype,
-              childP
+            var baseP = base.prototype
+            var childP
 
             childP = child.prototype = Object.create(baseP)
             childP.constructor = child
@@ -43691,7 +43683,7 @@
            * @returns {Boolean}
            */
           function boolOrFn(val, args) {
-            if (typeof val == TYPE_FUNCTION) {
+            if (typeof val === TYPE_FUNCTION) {
               return val.apply(args ? args[0] || undefined : undefined, args)
             }
             return val
@@ -44143,12 +44135,12 @@
            * @param {Object} input
            */
           function computeIntervalInputData(session, input) {
-            var last = session.lastInterval || input,
-              deltaTime = input.timeStamp - last.timeStamp,
-              velocity,
-              velocityX,
-              velocityY,
-              direction
+            var last = session.lastInterval || input
+            var deltaTime = input.timeStamp - last.timeStamp
+            var velocity
+            var velocityX
+            var velocityY
+            var direction
 
             if (
               input.eventType != INPUT_CANCEL &&
@@ -44221,9 +44213,9 @@
               }
             }
 
-            var x = 0,
-              y = 0,
-              i = 0
+            var x = 0
+            var y = 0
+            var i = 0
             while (i < pointersLength) {
               x += pointers[i].clientX
               y += pointers[i].clientY
@@ -44278,8 +44270,8 @@
             if (!props) {
               props = PROPS_XY
             }
-            var x = p2[props[0]] - p1[props[0]],
-              y = p2[props[1]] - p1[props[1]]
+            var x = p2[props[0]] - p1[props[0]]
+            var y = p2[props[1]] - p1[props[1]]
 
             return Math.sqrt(x * x + y * y)
           }
@@ -44295,8 +44287,8 @@
             if (!props) {
               props = PROPS_XY
             }
-            var x = p2[props[0]] - p1[props[0]],
-              y = p2[props[1]] - p1[props[1]]
+            var x = p2[props[0]] - p1[props[0]]
+            var y = p2[props[1]] - p1[props[1]]
             return (Math.atan2(y, x) * 180) / Math.PI
           }
 
@@ -44602,11 +44594,11 @@
               return [allTouches, allTouches]
             }
 
-            var i,
-              targetTouches,
-              changedTouches = toArray(ev.changedTouches),
-              changedTargetTouches = [],
-              target = this.target
+            var i
+            var targetTouches
+            var changedTouches = toArray(ev.changedTouches)
+            var changedTargetTouches = []
+            var target = this.target
 
             // get target touches from touches
             targetTouches = allTouches.filter(function(touch) {
@@ -44683,8 +44675,8 @@
              * @param {Object} inputData
              */
             handler: function TMEhandler(manager, inputEvent, inputData) {
-              var isTouch = inputData.pointerType == INPUT_TYPE_TOUCH,
-                isMouse = inputData.pointerType == INPUT_TYPE_MOUSE
+              var isTouch = inputData.pointerType == INPUT_TYPE_TOUCH
+              var isMouse = inputData.pointerType == INPUT_TYPE_MOUSE
 
               if (
                 isMouse &&
@@ -44740,12 +44732,12 @@
           }
 
           function isSyntheticEvent(eventData) {
-            var x = eventData.srcEvent.clientX,
-              y = eventData.srcEvent.clientY
+            var x = eventData.srcEvent.clientX
+            var y = eventData.srcEvent.clientY
             for (var i = 0; i < this.lastTouches.length; i++) {
               var t = this.lastTouches[i]
-              var dx = Math.abs(x - t.x),
-                dy = Math.abs(y - t.y)
+              var dx = Math.abs(x - t.x)
+              var dy = Math.abs(y - t.y)
               if (dx <= DEDUP_DISTANCE && dy <= DEDUP_DISTANCE) {
                 return true
               }
@@ -44848,7 +44840,7 @@
                 !TOUCH_ACTION_MAP[TOUCH_ACTION_PAN_X]
 
               if (hasNone) {
-                //do not prevent defaults if this is a tap gesture
+                // do not prevent defaults if this is a tap gesture
 
                 var isTapPointer = input.pointers.length === 1
                 var isTapMovement = input.distance < 2
@@ -46320,7 +46312,7 @@
             }.call(exports, __webpack_require__, exports, module)),
             __WEBPACK_AMD_DEFINE_RESULT__ !== undefined &&
               (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-          } else if (typeof module != 'undefined' && module.exports) {
+          } else if (typeof module !== 'undefined' && module.exports) {
             module.exports = Hammer
           } else {
             window[exportName] = Hammer
@@ -46462,10 +46454,10 @@
 
           // Create the DOM, props, and emitter
           this._create(container)
-          if (!options || (options && typeof options.rtl == 'undefined')) {
+          if (!options || (options && typeof options.rtl === 'undefined')) {
             this.dom.root.style.visibility = 'hidden'
-            var directionFromDom,
-              domNode = this.dom.root
+            var directionFromDom
+            var domNode = this.dom.root
             while (!directionFromDom && domNode) {
               directionFromDom = window.getComputedStyle(domNode, null)
                 .direction
@@ -46563,7 +46555,7 @@
             }
           }
 
-          //Single time autoscale/fit
+          // Single time autoscale/fit
           this.initialFitDone = false
           this.on('changed', function() {
             if (this.itemsData == null || this.options.rollingMode) return
@@ -48038,10 +48030,10 @@
                   ctx.clearRect(0, 0, w, h)
 
                   // draw hue circle
-                  var x = void 0,
-                    y = void 0,
-                    hue = void 0,
-                    sat = void 0
+                  var x = void 0
+                  var y = void 0
+                  var hue = void 0
+                  var sat = void 0
                   this.centerCoordinates = { x: w * 0.5, y: h * 0.5 }
                   this.r = 0.49 * w
                   var angleConvert = (2 * Math.PI) / 360
@@ -48258,7 +48250,7 @@
           // time axis
           this.timeAxis = new TimeAxis(this.body)
           this.components.push(this.timeAxis)
-          //this.body.util.snap = this.timeAxis.snap.bind(this.timeAxis);
+          // this.body.util.snap = this.timeAxis.snap.bind(this.timeAxis);
 
           // current time bar
           this.currentTime = new CurrentTime(this.body)
@@ -48600,12 +48592,12 @@
         var Configurator = __webpack_require__(71)['default']
         var Validator = __webpack_require__(15)['default']
 
-        var _require = __webpack_require__(15),
-          printStyle = _require.printStyle
+        var _require = __webpack_require__(15)
+        var printStyle = _require.printStyle
 
-        var _require2 = __webpack_require__(122),
-          allOptions = _require2.allOptions,
-          configureOptions = _require2.configureOptions
+        var _require2 = __webpack_require__(122)
+        var allOptions = _require2.allOptions
+        var configureOptions = _require2.configureOptions
 
         var KamadaKawai = __webpack_require__(238)['default']
 
@@ -48798,8 +48790,8 @@
               this.body.emitter.emit('refreshNodes')
             }
             // these two do not have options at the moment, here for completeness
-            //this.view.setOptions(options.view);
-            //this.clustering.setOptions(options.clustering);
+            // this.view.setOptions(options.view);
+            // this.clustering.setOptions(options.clustering);
 
             if ('configure' in options) {
               if (!this.configurator) {
@@ -49491,10 +49483,10 @@
             var r2d = Math.PI / 180
             if (w - 2 * r < 0) {
               r = w / 2
-            } //ensure that the radius isn't too large for x
+            } // ensure that the radius isn't too large for x
             if (h - 2 * r < 0) {
               r = h / 2
-            } //ensure that the radius isn't too large for y
+            } // ensure that the radius isn't too large for y
             this.beginPath()
             this.moveTo(x + r, y)
             this.lineTo(x + w - r, y)
@@ -49524,18 +49516,18 @@
             w,
             h,
           ) {
-            var kappa = 0.5522848,
-              ox = (w / 2) * kappa,
-              // control point offset horizontal
-              oy = (h / 2) * kappa,
-              // control point offset vertical
-              xe = x + w,
-              // x-end
-              ye = y + h,
-              // y-end
-              xm = x + w / 2,
-              // x-middle
-              ym = y + h / 2 // y-middle
+            var kappa = 0.5522848
+            var ox = (w / 2) * kappa
+            // control point offset horizontal
+            var oy = (h / 2) * kappa
+            // control point offset vertical
+            var xe = x + w
+            // x-end
+            var ye = y + h
+            // y-end
+            var xm = x + w / 2
+            // x-middle
+            var ym = y + h / 2 // y-middle
 
             this.beginPath()
             this.moveTo(x, ym)
@@ -49559,22 +49551,22 @@
             var wEllipse = w
             var hEllipse = h * f
 
-            var kappa = 0.5522848,
-              ox = (wEllipse / 2) * kappa,
-              // control point offset horizontal
-              oy = (hEllipse / 2) * kappa,
-              // control point offset vertical
-              xe = x + wEllipse,
-              // x-end
-              ye = y + hEllipse,
-              // y-end
-              xm = x + wEllipse / 2,
-              // x-middle
-              ym = y + hEllipse / 2,
-              // y-middle
-              ymb = y + (h - hEllipse / 2),
-              // y-midlle, bottom ellipse
-              yeb = y + h // y-end, bottom ellipse
+            var kappa = 0.5522848
+            var ox = (wEllipse / 2) * kappa
+            // control point offset horizontal
+            var oy = (hEllipse / 2) * kappa
+            // control point offset vertical
+            var xe = x + wEllipse
+            // x-end
+            var ye = y + hEllipse
+            // y-end
+            var xm = x + wEllipse / 2
+            // x-middle
+            var ym = y + hEllipse / 2
+            // y-middle
+            var ymb = y + (h - hEllipse / 2)
+            // y-midlle, bottom ellipse
+            var yeb = y + h // y-end, bottom ellipse
 
             this.beginPath()
             this.moveTo(xe, ym)
@@ -49735,7 +49727,7 @@
         }
         exports['es_ES'] = exports['es']
 
-        //Italiano
+        // Italiano
         exports['it'] = {
           edit: 'Modifica',
           del: 'Cancella la selezione',
@@ -50017,7 +50009,7 @@
                 width,
                 height,
               ) {
-                if (!this.initialized()) return //can't draw image yet not intialized
+                if (!this.initialized()) return // can't draw image yet not intialized
 
                 if (factor > 2) {
                   // Determine which zoomed image to use
@@ -50031,7 +50023,7 @@
                   if (iterations >= this.NUM_ITERATIONS) {
                     iterations = this.NUM_ITERATIONS - 1
                   }
-                  //console.log("iterations: " + iterations);
+                  // console.log("iterations: " + iterations);
 
                   var from = this.coordinates[iterations]
                   ctx.drawImage(
@@ -50441,10 +50433,10 @@
               group: undefined,
               hidden: false,
               icon: {
-                face: 'FontAwesome', //'FontAwesome',
-                code: undefined, //'\uf007',
-                size: 50, //50,
-                color: '#2B7CE9', //'#aa00ff'
+                face: 'FontAwesome', // 'FontAwesome',
+                code: undefined, // '\uf007',
+                size: 50, // 50,
+                color: '#2B7CE9', // '#aa00ff'
               },
               image: undefined, // --> URL
               label: undefined,
@@ -51140,7 +51132,7 @@
 
                     if (font.maxWdt > 0) {
                       // widthConstraint.maximum defined
-                      //console.log('Running widthConstraint multi, max: ' + this.fontOptions.maxWdt);
+                      // console.log('Running widthConstraint multi, max: ' + this.fontOptions.maxWdt);
                       for (var j = 0; j < blocks.length; j++) {
                         var mod = blocks[j].mod
                         var _text = blocks[j].text
@@ -51954,7 +51946,7 @@
             {
               key: 'finalize',
               value: function finalize() {
-                //console.log(JSON.stringify(this.lines, null, 2));
+                // console.log(JSON.stringify(this.lines, null, 2));
 
                 this.determineLineHeights()
                 this.determineLabelSize()
@@ -54955,10 +54947,10 @@
                 var dx = this.from.x - this.to.x
                 var dy = this.from.y - this.to.y
 
-                var x1 = void 0,
-                  y1 = void 0,
-                  x2 = void 0,
-                  y2 = void 0
+                var x1 = void 0
+                var y1 = void 0
+                var x2 = void 0
+                var y2 = void 0
                 var roundness = this.options.smooth.roundness
 
                 // horizontal if x > y or if direction is forced or if direction is horizontal
@@ -55025,12 +55017,12 @@
               key: '_getDistanceToEdge',
               value: function _getDistanceToEdge(x1, y1, x2, y2, x3, y3) {
                 var _ref =
-                    arguments.length > 6 && arguments[6] !== undefined
-                      ? arguments[6]
-                      : this._getViaCoordinates(),
-                  _ref2 = (0, _slicedToArray3['default'])(_ref, 2),
-                  via1 = _ref2[0],
-                  via2 = _ref2[1]
+                  arguments.length > 6 && arguments[6] !== undefined
+                    ? arguments[6]
+                    : this._getViaCoordinates()
+                var _ref2 = (0, _slicedToArray3['default'])(_ref, 2)
+                var via1 = _ref2[0]
+                var via2 = _ref2[1]
 
                 // x3,y3 is the point
                 return this._getDistanceToBezierEdge(
@@ -55058,12 +55050,12 @@
               key: 'getPoint',
               value: function getPoint(percentage) {
                 var _ref3 =
-                    arguments.length > 1 && arguments[1] !== undefined
-                      ? arguments[1]
-                      : this._getViaCoordinates(),
-                  _ref4 = (0, _slicedToArray3['default'])(_ref3, 2),
-                  via1 = _ref4[0],
-                  via2 = _ref4[1]
+                  arguments.length > 1 && arguments[1] !== undefined
+                    ? arguments[1]
+                    : this._getViaCoordinates()
+                var _ref4 = (0, _slicedToArray3['default'])(_ref3, 2)
+                var via1 = _ref4[0]
+                var via2 = _ref4[1]
 
                 var t = percentage
                 var vec = []
@@ -55189,10 +55181,10 @@
                 // x3,y3 is the point
                 var minDistance = 1e9
                 var distance = void 0
-                var i = void 0,
-                  t = void 0,
-                  x = void 0,
-                  y = void 0
+                var i = void 0
+                var t = void 0
+                var x = void 0
+                var y = void 0
                 var lastX = x1
                 var lastY = y1
                 var vec = [0, 0, 0, 0]
@@ -55307,7 +55299,7 @@
                 (0, _getPrototypeOf2['default'])(BezierEdgeDynamic)
               ).call(this, options, body, labelModule),
             )
-            //this.via = undefined; // Here for completeness but not allowed to defined before super() is invoked.
+            // this.via = undefined; // Here for completeness but not allowed to defined before super() is invoked.
 
             _this._boundFunction = function() {
               _this.positionBezierNode()
@@ -55485,17 +55477,17 @@
                     : this.via
 
                 var t = percentage
-                var x = void 0,
-                  y = void 0
+                var x = void 0
+                var y = void 0
                 if (this.from === this.to) {
-                  var _getCircleData = this._getCircleData(this.from),
-                    _getCircleData2 = (0, _slicedToArray3['default'])(
-                      _getCircleData,
-                      3,
-                    ),
-                    cx = _getCircleData2[0],
-                    cy = _getCircleData2[1],
-                    cr = _getCircleData2[2]
+                  var _getCircleData = this._getCircleData(this.from)
+                  var _getCircleData2 = (0, _slicedToArray3['default'])(
+                    _getCircleData,
+                    3,
+                  )
+                  var cx = _getCircleData2[0]
+                  var cy = _getCircleData2[1]
+                  var cr = _getCircleData2[2]
 
                   var a = 2 * Math.PI * (1 - t)
                   x = cx + cr * Math.sin(a)
@@ -56694,9 +56686,9 @@
             {
               key: '_evaluateStepQuality',
               value: function _evaluateStepQuality() {
-                var dx = void 0,
-                  dy = void 0,
-                  dpos = void 0
+                var dx = void 0
+                var dy = void 0
+                var dpos = void 0
                 var nodes = this.body.nodes
                 var reference = this.referenceState
                 var posThreshold = 0.3
@@ -57017,7 +57009,7 @@
                 this.ready = true
               },
 
-              //---------------------------  DEBUGGING BELOW  ---------------------------//
+              // ---------------------------  DEBUGGING BELOW  ---------------------------//
 
               /**
                * Debug function that display arrows for the forces currently active in the network.
@@ -57378,13 +57370,13 @@
             {
               key: 'solve',
               value: function solve() {
-                var edgeLength = void 0,
-                  edge = void 0
+                var edgeLength = void 0
+                var edge = void 0
                 var edgeIndices = this.physicsBody.physicsEdgeIndices
                 var edges = this.body.edges
-                var node1 = void 0,
-                  node2 = void 0,
-                  node3 = void 0
+                var node1 = void 0
+                var node2 = void 0
+                var node3 = void 0
 
                 // forces caused by the edges, modelled as springs
                 for (var i = 0; i < edgeIndices.length; i++) {
@@ -58135,9 +58127,9 @@ member:
                 options = this._checkOptions(options)
                 var clusters = []
                 var usedNodes = {}
-                var edge = void 0,
-                  edges = void 0,
-                  relevantEdgeCount = void 0
+                var edge = void 0
+                var edges = void 0
+                var relevantEdgeCount = void 0
                 // collect the nodes that will be in the cluster
 
                 var _loop = function _loop(i) {
@@ -58433,12 +58425,12 @@ member:
                 clusterNodeProperties,
                 clusterEdgeProperties,
               ) {
-                var edge = void 0,
-                  childNodeId = void 0,
-                  childNode = void 0,
-                  toId = void 0,
-                  fromId = void 0,
-                  otherNodeId = void 0
+                var edge = void 0
+                var childNodeId = void 0
+                var childNode = void 0
+                var toId = void 0
+                var fromId = void 0
+                var otherNodeId = void 0
 
                 // loop over all child nodes and their edges to find edges going out of the cluster
                 // these edges will be replaced by clusterEdges.
@@ -59954,7 +59946,7 @@ member:
           if (func === undefined) {
             // window or method not present, setting mock requestAnimationFrame
             window.requestAnimationFrame = function(callback) {
-              //console.log("Called mock requestAnimationFrame");
+              // console.log("Called mock requestAnimationFrame");
               callback()
             }
           } else {
@@ -60695,7 +60687,7 @@ member:
                 this.frame.style.overflow = 'hidden'
                 this.frame.tabIndex = 900 // tab index is required for keycharm to bind keystrokes to the div instead of the window
 
-                //////////////////////////////////////////////////////////////////
+                /// ///////////////////////////////////////////////////////////////
 
                 this.frame.canvas = document.createElement('canvas')
                 this.frame.canvas.style.position = 'relative'
@@ -61956,7 +61948,7 @@ member:
             {
               key: 'onDragStart',
               value: function onDragStart(event) {
-                //in case the touch event was triggered on an external div, do the initial touch now.
+                // in case the touch event was triggered on an external div, do the initial touch now.
                 if (this.drag.pointer === undefined) {
                   this.onTouch(event)
                 }
@@ -63960,8 +63952,8 @@ member:
                     ? arguments[1]
                     : {}
 
-                var i = void 0,
-                  id = void 0
+                var i = void 0
+                var id = void 0
 
                 if (!selection || (!selection.nodes && !selection.edges))
                   throw 'Selection must be an object with nodes and/or edges properties'
@@ -64191,9 +64183,9 @@ member:
         var util = __webpack_require__(2)
         var NetworkUtil = __webpack_require__(76)['default']
 
-        var _require = __webpack_require__(236),
-          HorizontalStrategy = _require.HorizontalStrategy,
-          VerticalStrategy = _require.VerticalStrategy
+        var _require = __webpack_require__(236)
+        var HorizontalStrategy = _require.HorizontalStrategy
+        var VerticalStrategy = _require.VerticalStrategy
 
         /**
          * Container for derived data on current network, relating to hierarchy.
@@ -64496,7 +64488,7 @@ member:
                 var isPresent = false
                 var curLevel = this.distributionOrdering[level]
                 for (var n in curLevel) {
-                  //if (curLevel[n].id === node.id) {
+                  // if (curLevel[n].id === node.id) {
                   if (curLevel[n] === node) {
                     isPresent = true
                     break
@@ -64874,7 +64866,7 @@ member:
                         indices.length > clusterThreshold &&
                         level <= MAX_LEVELS
                       ) {
-                        //console.time("clustering")
+                        // console.time("clustering")
                         level += 1
                         var before = indices.length
                         // if there are many nodes we do a hubsize cluster
@@ -64897,8 +64889,8 @@ member:
                           )
                           return
                         }
-                        //console.timeEnd("clustering")
-                        //console.log(before,level,after);
+                        // console.timeEnd("clustering")
+                        // console.log(before,level,after);
                       }
                       // increase the size of the edges
                       this.body.modules.kamadaKawai.setOptions({
@@ -65018,8 +65010,8 @@ member:
                   this.body.nodeIndices.length > 0
                 ) {
                   // get the size of the largest hubs and check if the user has defined a level for a node.
-                  var node = void 0,
-                    nodeId = void 0
+                  var node = void 0
+                  var nodeId = void 0
                   var definedLevel = false
                   var undefinedLevel = false
                   this.lastNodeOnLevel = {}
@@ -65164,15 +65156,13 @@ member:
                       // get the space around the node.
 
                       var _getSpaceAroundNode2 = _this3._getSpaceAroundNode(
-                          node,
-                          branchMap,
-                        ),
-                        _getSpaceAroundNode3 = (0, _slicedToArray3['default'])(
-                          _getSpaceAroundNode2,
-                          2,
-                        ),
-                        minSpaceNode = _getSpaceAroundNode3[0],
-                        maxSpaceNode = _getSpaceAroundNode3[1]
+                        node,
+                        branchMap,
+                      )
+                      var _getSpaceAroundNode3 = (0,
+                      _slicedToArray3['default'])(_getSpaceAroundNode2, 2)
+                      var minSpaceNode = _getSpaceAroundNode3[0]
+                      var maxSpaceNode = _getSpaceAroundNode3[1]
 
                       minSpace = Math.min(minSpaceNode, minSpace)
                       maxSpace = Math.min(maxSpaceNode, maxSpace)
@@ -65243,12 +65233,12 @@ member:
                       ? arguments[2]
                       : false
 
-                  //window.CALLBACKS.push(() => {
+                  // window.CALLBACKS.push(() => {
                   var pos1 = _this3.direction.getPosition(node1)
                   var pos2 = _this3.direction.getPosition(node2)
                   var diffAbs = Math.abs(pos2 - pos1)
                   var nodeSpacing = _this3.options.hierarchical.nodeSpacing
-                  //console.log("NOW CHECKING:", node1.id, node2.id, diffAbs);
+                  // console.log("NOW CHECKING:", node1.id, node2.id, diffAbs);
                   if (diffAbs > nodeSpacing) {
                     var branchNodes1 = {}
                     var branchNodes2 = {}
@@ -65270,17 +65260,17 @@ member:
                     var min2 = branchNodeBoundary2[0]
                     var minSpace2 = branchNodeBoundary2[2]
 
-                    //console.log(node1.id, getBranchBoundary(branchNodes1, maxLevel), node2.id,
+                    // console.log(node1.id, getBranchBoundary(branchNodes1, maxLevel), node2.id,
                     //            getBranchBoundary(branchNodes2, maxLevel), maxLevel);
                     var diffBranch = Math.abs(max1 - min2)
                     if (diffBranch > nodeSpacing) {
                       var offset = max1 - min2 + nodeSpacing
                       if (offset < -minSpace2 + nodeSpacing) {
                         offset = -minSpace2 + nodeSpacing
-                        //console.log("RESETTING OFFSET", max1 - min2 + this.options.hierarchical.nodeSpacing, -minSpace2, offset);
+                        // console.log("RESETTING OFFSET", max1 - min2 + this.options.hierarchical.nodeSpacing, -minSpace2, offset);
                       }
                       if (offset < 0) {
-                        //console.log("SHIFTING", node2.id, offset);
+                        // console.log("SHIFTING", node2.id, offset);
                         _this3._shiftBlock(node2.id, offset)
                         stillShifting = true
 
@@ -65288,14 +65278,14 @@ member:
                       }
                     }
                   }
-                  //this.body.emitter.emit("_redraw");})
+                  // this.body.emitter.emit("_redraw");})
                 }
 
                 var minimizeEdgeLength = function minimizeEdgeLength(
                   iterations,
                   node,
                 ) {
-                  //window.CALLBACKS.push(() => {
+                  // window.CALLBACKS.push(() => {
                   //  console.log("ts",node.id);
                   var nodeId = node.id
                   var allEdges = node.edges
@@ -65407,9 +65397,9 @@ member:
                     }
 
                     if (branchOffset != 0) {
-                      //console.log("moving branch:",branchOffset, maxSpaceBranch, minSpaceBranch)
+                      // console.log("moving branch:",branchOffset, maxSpaceBranch, minSpaceBranch)
                       _this3._shiftBlock(node.id, branchOffset)
-                      //this.body.emitter.emit("_redraw");
+                      // this.body.emitter.emit("_redraw");
                       stillShifting = true
                     }
                   }
@@ -65419,13 +65409,13 @@ member:
 
                     // position node if there is space
 
-                    var _getSpaceAroundNode4 = _this3._getSpaceAroundNode(node),
-                      _getSpaceAroundNode5 = (0, _slicedToArray3['default'])(
-                        _getSpaceAroundNode4,
-                        2,
-                      ),
-                      minSpace = _getSpaceAroundNode5[0],
-                      maxSpace = _getSpaceAroundNode5[1]
+                    var _getSpaceAroundNode4 = _this3._getSpaceAroundNode(node)
+                    var _getSpaceAroundNode5 = (0, _slicedToArray3['default'])(
+                      _getSpaceAroundNode4,
+                      2,
+                    )
+                    var minSpace = _getSpaceAroundNode5[0]
+                    var maxSpace = _getSpaceAroundNode5[1]
 
                     var diff = guess - nodePosition
                     // check if we are allowed to move the node:
@@ -65445,9 +65435,9 @@ member:
                     }
 
                     if (newPosition !== nodePosition) {
-                      //console.log("moving Node:",diff, minSpace, maxSpace);
+                      // console.log("moving Node:",diff, minSpace, maxSpace);
                       _this3.direction.setPosition(node, newPosition)
-                      //this.body.emitter.emit("_redraw");
+                      // this.body.emitter.emit("_redraw");
                       stillShifting = true
                     }
                   }
@@ -65456,7 +65446,7 @@ member:
                   moveBranch(guess)
                   guess = getGuess(iterations, allEdges)
                   moveNode(guess)
-                  //})
+                  // })
                 }
 
                 // method to remove whitespace between branches. Because we do bottom up, we can center the parents.
@@ -65476,7 +65466,7 @@ member:
                       }
                     }
                     if (stillShifting !== true) {
-                      //console.log("FINISHED minimizeEdgeLengthBottomUp IN " + i);
+                      // console.log("FINISHED minimizeEdgeLengthBottomUp IN " + i);
                       break
                     }
                   }
@@ -65492,7 +65482,7 @@ member:
                     stillShifting = false
                     shiftElementsCloser(branchShiftCallback, levels, true)
                     if (stillShifting !== true) {
-                      //console.log("FINISHED shiftBranchesCloserBottomUp IN " + (i+1));
+                      // console.log("FINISHED shiftBranchesCloserBottomUp IN " + (i+1));
                       break
                     }
                   }
@@ -65612,14 +65602,12 @@ member:
                       var position = this.direction.getPosition(parentNode)
 
                       var _getSpaceAroundNode6 = this._getSpaceAroundNode(
-                          parentNode,
-                        ),
-                        _getSpaceAroundNode7 = (0, _slicedToArray3['default'])(
-                          _getSpaceAroundNode6,
-                          2,
-                        ),
-                        minSpace = _getSpaceAroundNode7[0],
-                        maxSpace = _getSpaceAroundNode7[1]
+                        parentNode,
+                      )
+                      var _getSpaceAroundNode7 = (0,
+                      _slicedToArray3['default'])(_getSpaceAroundNode6, 2)
+                      var minSpace = _getSpaceAroundNode7[0]
+                      var maxSpace = _getSpaceAroundNode7[1]
 
                       var diff = position - newPosition
                       if (
@@ -65819,8 +65807,8 @@ member:
               key: '_getDistribution',
               value: function _getDistribution() {
                 var distribution = {}
-                var nodeId = void 0,
-                  node = void 0
+                var nodeId = void 0
+                var node = void 0
 
                 // we fix Y because the hierarchy is vertical,
                 // we fix X so we do not give a node an x position for a second time.
@@ -67367,7 +67355,7 @@ member:
                 }
               },
 
-              //********************************************** PRIVATE ***************************************//
+              //* ********************************************* PRIVATE ***************************************//
 
               /**
                * draw or remove the DOM
@@ -68484,11 +68472,11 @@ member:
                 var maxInnerIterations = 5
 
                 var maxEnergy = 1e9
-                var highE_nodeId = 0,
-                  dE_dx = 0,
-                  dE_dy = 0,
-                  delta_m = 0,
-                  subIterations = 0
+                var highE_nodeId = 0
+                var dE_dx = 0
+                var dE_dy = 0
+                var delta_m = 0
+                var subIterations = 0
 
                 while (maxEnergy > threshold && iterations < maxIterations) {
                   iterations += 1
@@ -68544,8 +68532,8 @@ member:
                 var nodes = this.body.nodes
                 var maxEnergy = 0
                 var maxEnergyNodeId = nodesArray[0]
-                var dE_dx_max = 0,
-                  dE_dy_max = 0
+                var dE_dx_max = 0
+                var dE_dy_max = 0
 
                 for (var nodeIdx = 0; nodeIdx < nodesArray.length; nodeIdx++) {
                   var m = nodesArray[nodeIdx]
@@ -68556,14 +68544,14 @@ member:
                     nodes[m].options.fixed.x === true ||
                     nodes[m].options.fixed.y === true
                   ) {
-                    var _getEnergy4 = this._getEnergy(m),
-                      _getEnergy5 = (0, _slicedToArray3['default'])(
-                        _getEnergy4,
-                        3,
-                      ),
-                      delta_m = _getEnergy5[0],
-                      dE_dx = _getEnergy5[1],
-                      dE_dy = _getEnergy5[2]
+                    var _getEnergy4 = this._getEnergy(m)
+                    var _getEnergy5 = (0, _slicedToArray3['default'])(
+                      _getEnergy4,
+                      3,
+                    )
+                    var delta_m = _getEnergy5[0]
+                    var dE_dx = _getEnergy5[1]
+                    var dE_dy = _getEnergy5[2]
 
                     if (maxEnergy < delta_m) {
                       maxEnergy = delta_m
@@ -68588,11 +68576,11 @@ member:
               key: '_getEnergy',
               value: function _getEnergy(m) {
                 var _E_sums$m = (0, _slicedToArray3['default'])(
-                    this.E_sums[m],
-                    2,
-                  ),
-                  dE_dx = _E_sums$m[0],
-                  dE_dy = _E_sums$m[1]
+                  this.E_sums[m],
+                  2,
+                )
+                var dE_dx = _E_sums$m[0]
+                var dE_dy = _E_sums$m[1]
 
                 var delta_m = Math.sqrt(Math.pow(dE_dx, 2) + Math.pow(dE_dy, 2))
                 return [delta_m, dE_dx, dE_dy]
@@ -68643,11 +68631,11 @@ member:
                   }
                 }
                 // make the variable names easier to make the solving of the linear system easier to read
-                var A = d2E_dx2,
-                  B = d2E_dxdy,
-                  C = dE_dx,
-                  D = d2E_dy2,
-                  E = dE_dy
+                var A = d2E_dx2
+                var B = d2E_dxdy
+                var C = dE_dx
+                var D = d2E_dy2
+                var E = dE_dy
 
                 // solve the linear system for dx and dy
                 var dy = (C / A + E / B) / (B / A - D / B)
@@ -68752,7 +68740,7 @@ member:
                       dE_dy += this.E_matrix[m][iIdx][1]
                     }
                   }
-                  //Store sum
+                  // Store sum
                   this.E_sums[m] = [dE_dx, dE_dy]
                 }
               },
@@ -68779,12 +68767,12 @@ member:
                 for (var iIdx = 0; iIdx < nodesArray.length; iIdx++) {
                   var i = nodesArray[iIdx]
                   if (i !== m) {
-                    //Keep old energy value for sum modification below
+                    // Keep old energy value for sum modification below
                     var cell = colm[iIdx]
                     var oldDx = cell[0]
                     var oldDy = cell[1]
 
-                    //Calc new energy:
+                    // Calc new energy:
                     var x_i = nodes[i].x
                     var y_i = nodes[i].y
                     var denominator =
@@ -68800,13 +68788,13 @@ member:
                     dE_dx += dx
                     dE_dy += dy
 
-                    //add new energy to sum of each column
+                    // add new energy to sum of each column
                     var sum = this.E_sums[i]
                     sum[0] += dx - oldDx
                     sum[1] += dy - oldDy
                   }
                 }
-                //Store sum at -1 index
+                // Store sum at -1 index
                 this.E_sums[m] = [dE_dx, dE_dy]
               },
             },

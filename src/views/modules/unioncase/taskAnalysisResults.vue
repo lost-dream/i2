@@ -242,17 +242,17 @@ export default {
     exportData() {},
     handleSizeChange(val) {
       this.pagination.size = val
-      /*var newArr = this.idList.map(function (item) {
+      /* var newArr = this.idList.map(function (item) {
           return item
         }).join(',')
-        this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr);*/
+        this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr); */
     },
     handleCurrentChange(val) {
       this.pagination.page = val
       /* var newArr = this.idList.map(function (item) {
            return item
          }).join(',')
-         this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr);*/
+         this.test(this.page, this.size, this.nm, this.orderBy, this.type, this.state, newArr); */
     },
   },
 }
