@@ -15,6 +15,7 @@ import * as filters from './filters'
 import './assets/icon/iconfont.css'
 import 'jquery'
 import global from './utils/global'
+import 'default-passive-events'
 
 Vue.use(Validate)
 Vue.use(ElementUI)

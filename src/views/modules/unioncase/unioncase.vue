@@ -150,21 +150,7 @@
         </sidebar>
       </div>
       <flyDialog :show.sync="show" class="caseMap" :width="width">
-        <el-button type="success" @click="addCaseNum">添加案件编号</el-button>
-        <div v-for="(item, index) in inputList" :key="index">
-          <el-input style="margin:10px;" v-model="item.caseNum">
-            <el-button
-              slot="append"
-              :disabled="inputList.length == 1 ? true : false"
-              @click="delectCase(index)"
-              icon="el-icon-close"
-            ></el-button>
-          </el-input>
-        </div>
-        <div class="caseButton">
-          <el-button @click="search2('222')" type="success">查询</el-button>
-          <el-button @click="cancel" type="warning">取消</el-button>
-        </div>
+
       </flyDialog>
       <div
         style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
@@ -359,18 +345,18 @@ export default {
               if (evt.geometry.type === 'point') {
                 var a1 = evt.geometry
                 var newX1 = a1.x
-                      var newY1 = a1.y
+                var newY1 = a1.y
                 var center1 = webMercatorUtils.xyToLngLat(newX1, newY1)
-                       var newObj1 = {
+                var newObj1 = {
                   longitude: center1[0].toFixed(6),
                   latitude: center1[1].toFixed(6),
                   type: '描点',
                   id,
                 }
-                       id++
+                id++
                 _this.mapTableData.push(newObj1)
                 var symbol
-                       symbol = drawTool.markerSymbol
+                symbol = drawTool.markerSymbol
               } else {
                 symbol = drawTool.fillSymbol
               }
@@ -417,14 +403,18 @@ export default {
     delectCase(index) {
       this.inputList.splice(index, 1)
     },
-    search2() {
-      console.log(11111111)
+
+    ss() {
+      alert(1)
+      this.show = false
+      alert(22222)
       var _this = this
       console.log(11111111)
       console.log(this.inputList)
-      let obj = {
-        caseNoArr: this.inputList,
-      }
+      // let obj = {
+      //   caseNoArr: this.inputList,
+      // }
+      let obj = ['18280502222']
       this.$api.queryTCase(obj).then(({ data }) => {
         _this.$message({
           message: '添加案件编号!',

@@ -380,11 +380,20 @@ export default {
   /**
    * 添加案件
    */
-  queryTCase(data) {
+  /*  queryTCase(data) {
     return http({
       url: http.adornUrl('queryTCase'),
       method: 'get',
-      params: http.adornParams(data, false),
+      params: { caseNoArr: data },
+    })
+  }, */
+  /**
+   * 添加案件
+   */
+  queryTCase(data) {
+    return http({
+      url: http.adornUrl('queryTCase?caseNoArr=[123]'),
+      method: 'get',
     })
   },
   /**
@@ -394,27 +403,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketDelete'),
       method: 'get',
-      params: http.adornParams(data, false),
-    })
-  },
-  /**
-   * 添加案件
-   */
-  ticketDelete(data) {
-    return http({
-      url: http.adornUrl('ticket/statement/ticketDelete'),
-      method: 'get',
-      params: http.adornParams(data, false),
-    })
-  },
-  /**
-   * 添加案件
-   */
-  ticketDelete(data) {
-    return http({
-      url: http.adornUrl('ticket/statement/ticketDelete'),
-      method: 'get',
-      params: http.adornParams(data, false),
+      query: http.adornParams({ caseNoArr: data }, false),
     })
   },
   /**

@@ -567,7 +567,20 @@ export default {
     delectCase(index) {
       this.inputList.splice(index, 1)
     },
-    search() {},
+    search() {
+      var _this = this
+      console.log(11111111)
+      console.log(this.inputList)
+      let obj = ['182', '145']
+      this.$api.queryTCase(obj).then(({ data }) => {
+        _this.$message({
+          message: '添加案件编号!',
+          type: 'success',
+        })
+        _this.onSubmit()
+        console.log(data)
+      })
+    },
     cancel() {
       this.show = false
     },
