@@ -23,8 +23,8 @@
       </el-form-item>
       <el-form-item>
         <el-button type="danger" @click="resetForm('morePhoneForm')"
-          >重置</el-button
-        >
+          >重置
+        </el-button>
       </el-form-item>
     </el-form>
     <div id="comPhone"></div>
@@ -32,11 +32,10 @@
 </template>
 
 <script>
+import { formatDate } from '../../../../utils/dateFormat.js'
 import echarts from 'echarts'
+
 export default {
-  mounted() {
-    this.comPhone()
-  },
   data() {
     return {
       pickerOptions: {
@@ -132,13 +131,265 @@ export default {
           target: '15311111111',
         },
       ],
+
+      morePhone: [],
+      morePhone2: [],
+      dataTest: [
+        {
+          list: [
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530051234',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '1353005123',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530053333',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530054455',
+            },
+          ],
+          phone: '13511114444',
+        },
+        {
+          list: [
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530052182',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '1353005222',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530053333',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530054455',
+            },
+          ],
+          phone: '13511111111',
+        },
+        {
+          list: [
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '1353005442',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '1353005222',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530053333',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530054455',
+            },
+          ],
+          phone: '13511114344',
+        },
+        {
+          list: [
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530053212',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '1353005222',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530053333',
+            },
+            {
+              baseStationCode: '1DF1',
+              otherPartyPhone: '13530054455',
+            },
+          ],
+          phone: '13512214444',
+        },
+      ],
     }
+  },
+  mounted() {
+    this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
+    this.comPhone()
   },
   methods: {
     onSubmit() {
-      console.log(this.timeChange(this.callForm.time))
-      console.log('submit!')
+      let data = this.morePhone
+      this.morePhone2 = data
+      console.log(data)
+      let conData2 = this.morePhoneForm
+      console.log('分析查询')
+      // 内
+      console.log(this.morePhone2)
+      conData2.time != null && this.eachPhone(this.morePhone2)
+      this.data = this.disposeData(data)
+      this.links = this.disposeLinks(this.data)
+      this.comPhone()
+      console.log(this.data)
+      console.log(this.links)
     },
+
+    // 分别计算时间范围
+    eachPhone(data) {
+      let eachPhone = []
+      data.forEach(item => {
+        eachPhone.push(this.timeSizer(item))
+      })
+      this.morePhone2 = eachPhone
+    },
+
+    // 时间筛选
+    timeSizer(data) {
+      let time = this.morePhoneForm.time
+      let phoneInfo = {}
+      let dataArr = []
+      data.list.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      phoneInfo.list = dataArr
+      phoneInfo.phone = data.phone
+      return phoneInfo
+    },
+
+    /**
+     * 判断是否在时间段内
+     * converseTime 要判断的时间 stime 开始时间 etime 结束时间
+     */
+    compareTime(changeTime, stime, etime) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 开始时间
+      let startTime = tranDate(stime)
+      // 结束时间
+      let endTime = tranDate(etime)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
+    // 处理数据
+    disposeData(data) {
+      let dataArr = []
+      let phoneList = {}
+
+      // 本人电话
+      let self = []
+      let selfx = 0
+
+      data.forEach((item, index) => {
+        let selfd = {}
+
+        if ((index + 1) % 2 === 0) {
+          selfx = 550 - 50 * (parseInt(index / 2) + 1)
+        } else {
+          selfx = 550 + 50 * (parseInt(index / 2) + 1)
+        }
+
+        /* (index + 1) % 2 === 0
+          ? (selfx = 550 - 50 * (index + 1))
+          : (selfx = 550 + 50 * (index + 1)) */
+        selfd.type = 1
+        selfd.name = item.phone
+        selfd.y = 300
+        selfd.x = selfx
+        self.push(selfd)
+      })
+
+      // 对方电话
+      let otherData = this.samePhone(data)
+      let other = []
+      let othery = 0
+
+      otherData.forEach((item, index) => {
+        let otherd = {}
+
+        if ((index + 1) % 2 === 0) {
+          othery = 300 - 10 * (parseInt(index / 2) + 1)
+        } else {
+          othery = 300 + 10 * (parseInt(index / 2) + 1)
+        }
+        /* index % 2 === 0
+          ? (othery = 300 - 50 * (index + 1))
+          : (othery = 300 + 50 * (index + 1)) */
+        otherd.type = 2
+        otherd.name = item.otherPartyPhone
+        otherd.x = 550
+        otherd.y = othery
+        other.push(otherd)
+      })
+
+      phoneList.self = self
+      phoneList.other = other
+      dataArr.push(...self, ...other)
+      return dataArr
+    },
+
+    // 处理连线
+    disposeLinks(data) {
+      let dataArr = []
+      let start = data.filter(function(item) {
+        return item.type === 1
+      })
+      let end = data.filter(function(item) {
+        return item.type === 2
+      })
+      for (let i = 0; i < start.length; i++) {
+        for (let j = 0; j < end.length; j++) {
+          let links = {}
+          links.source = start[i].name
+          links.target = end[j].name
+          dataArr.push(links)
+        }
+      }
+      return dataArr
+    },
+
+    samePhone(data2) {
+      // 提取相同电话
+
+      let data = this.dataTest
+      function repeat(arr1, arr2) {
+        return arr1.filter(element1 =>
+          arr2.some(
+            element2 => element1.otherPartyPhone === element2.otherPartyPhone,
+          ),
+        )
+      }
+      let sameDate = []
+      let temArr = data[0]
+      for (let i = 1; i < data.length - 1; i++) {
+        let arr1 = temArr.list
+        let arr2 = data[i].list
+        temArr.list = repeat(arr1, arr2)
+        sameDate = repeat(arr1, arr2)
+      }
+      return sameDate
+    },
+
     timeChange(time) {
       var newTime = time.map(function(item) {
         var d = new Date(item)
@@ -200,56 +451,72 @@ export default {
     width 100%
     height 500px
     margin 0 auto
+
 .tableMap
   position absolute
   left 60px
   z-index 100
   width 220px
->>>.el-dialog
+
+>>> .el-dialog
   left 90%
-#order >>>.el-dialog
+
+#order >>> .el-dialog
   left 50%
->>>#map
+
+>>> #map
   height 500px
->>>#BasemapToggle
+
+>>> #BasemapToggle
   position absolute
   right 40px
   top 236px
   z-index 50
->>>#HomeButton
+
+>>> #HomeButton
   left 81px
   position absolute
   top 318px
   z-index 50
->>>#LocateButton
+
+>>> #LocateButton
   left 81px
   position absolute
   top 348px
   z-index 50
->>>.esriOverviewMap.ovwBL .ovwContainer
+
+>>> .esriOverviewMap.ovwBL .ovwContainer
   left 60px
   bottom 60px
->>>.esriOverviewMap .ovwButton
+
+>>> .esriOverviewMap .ovwButton
   left 60px
   bottom 60px
->>>.esriSimpleSliderVertical .esriSimpleSliderIncrementButton:focus
+
+>>> .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:focus
   border none
   outline none
->>>.esriSimpleSliderVertical .esriSimpleSliderDecrementButton:focus
+
+>>> .esriSimpleSliderVertical .esriSimpleSliderDecrementButton:focus
   border none
   outline none
->>>.BasemapToggle .basemapImageContainer:focus
+
+>>> .BasemapToggle .basemapImageContainer:focus
   border none
   outline none
->>>#BasemapToggle:focus
+
+>>> #BasemapToggle:focus
   border none
   outline none
->>>#BasemapToggle .basemapContainer:focus
+
+>>> #BasemapToggle .basemapContainer:focus
   border none
   outline none
->>>.BasemapToggle .toggleButton
+
+>>> .BasemapToggle .toggleButton
   border none
   outline none
->>>.esriPopup .titleButton.maximize
+
+>>> .esriPopup .titleButton.maximize
   display none
 </style>

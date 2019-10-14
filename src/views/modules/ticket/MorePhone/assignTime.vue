@@ -54,7 +54,11 @@
           :key="index"
           align="center"
           :width="item.width"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.masterNum[index] }}</span>
+          </template>
+        </el-table-column>
       </template>
     </el-table>
   </div>
@@ -141,7 +145,7 @@ export default {
 
   mounted() {
     // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
-    this.morePhone = JSON.parse(localStorage.getItem('morePhone')).list
+    this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
     this.onSubmit()
   },
   methods: {
@@ -152,11 +156,12 @@ export default {
       console.log(data)
       console.log('分析查询')
       // 内
-      conData2.time != null && this.timeSizer()
-      // 外
-      this.morePhone3 = this.noSizer(this.morePhone2)
-      console.log(this.morePhone3)
       console.log(this.morePhone2)
+      conData2.time != null && this.eachPhone(this.morePhone2)
+      // 外
+      console.log(this.morePhone2)
+      this.morePhone3 = this.eachPhone2(this.morePhone2)
+      console.log(this.morePhone3)
       this.morePhone2 = this.dataSort2(this.morePhone2)
       this.morePhone3 = this.dataSort2(this.morePhone3)
       console.log(this.morePhone3)
@@ -165,21 +170,61 @@ export default {
       conData2.event === '1'
         ? (this.assign2 = this.dataSort3(this.morePhone3, this.morePhone2))
         : (this.assign2 = this.dataSort3(this.morePhone2, this.morePhone3))
-      /* this.tableHead = this.isHead(this.morePhone2)
+      this.tableHead = this.isHead(this.morePhone2)
       this.sameTime = this.morePhone2
       console.log(this.tableHead)
-      console.log(this.morePhone2) */
+      console.log(this.morePhone2)
+    },
+
+    // 分别计算时间范围
+    eachPhone(data) {
+      let eachPhone = []
+      data.forEach(item => {
+        eachPhone.push(this.timeSizer(item))
+      })
+      this.morePhone2 = eachPhone
+    },
+    eachPhone2(data) {
+      let eachPhone = []
+      data.forEach(item => {
+        eachPhone = this.noSizer(item)
+      })
+      return eachPhone
     },
 
     // 取不在时间段里的数据
     noSizer(data) {
-      let data2 = this.morePhone
-      let value1 = []
-      value1 = data2.filter(e => data.indexOf(e) === -1)
-      return value1
+      let eachPhone = []
+      let phoneInfo = {}
+      this.morePhone.forEach(item => {
+        phoneInfo.list = item.list.filter(e => data.list.indexOf(e) === -1)
+        phoneInfo.phone = item.phone
+        eachPhone.push(phoneInfo)
+      })
+      return eachPhone
     },
 
     // 表头生成
+    /* isHead(data) {
+      let data1 = {}
+      let value1 = []
+      data1.propName = 'phoneNum'
+      data1.label = '电话号码'
+      data1.fixed = true
+      data1.width = '200'
+      let i = 0
+      data.forEach(item => {
+        item.masterList.length > i && (i = item.masterList.length)
+        console.log(i)
+      })
+
+      for (let j = 0; j < i; j++) {
+        data1.label = data[0].masterList[j]
+        value1.push(data1)
+      }
+
+      return value1
+    }, */
     isHead(data) {
       let data1 = {}
       let value1 = []
@@ -189,16 +234,30 @@ export default {
       data1.width = '200'
       let i = 0
       data.forEach(item => {
-        item.phoneNum.length > i && (i = item.phoneNum.length)
+        item.masterList.length > i && (i = item.masterList.length)
       })
-      for (let j = 0; j < i; j++) {
+
+      for (let j = 0; j < i - 1; j++) {
+        data1.label = data[i - 1].masterList[j]
         value1.push(data1)
       }
+
       return value1
     },
 
     // 时间筛选
-    timeSizer() {
+    timeSizer(data) {
+      let time = this.assignForm.time
+      let phoneInfo = {}
+      let dataArr = []
+      data.list.forEach(item => {
+        this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+      })
+      phoneInfo.list = dataArr
+      phoneInfo.phone = data.phone
+      return phoneInfo
+    },
+    /* timeSizer() {
       let data = this.morePhone2
       let time = this.assignForm.time
       let dataArr = []
@@ -206,31 +265,46 @@ export default {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
       this.morePhone2 = dataArr
-    },
+    }, */
 
     // 数据重组
     dataSort2(data) {
       let data1 = {}
       let value1 = []
-      data.forEach(ai => {
-        let location = ai.location
-        let otherPartyPhone = ai.otherPartyPhone
-        if (!data1[otherPartyPhone]) {
-          value1.push({
-            otherPartyPhone: otherPartyPhone,
-            phoneTimes: 1,
-            location: location,
-          })
-          data1[otherPartyPhone] = ai
-        } else {
-          for (let j = 0; j < value1.length; j++) {
-            let dj = value1[j]
-            if (dj.otherPartyPhone === otherPartyPhone) {
-              dj.phoneTimes++
-              break
+      data.forEach(ai1 => {
+        let phone = ai1.phone
+        ai1.list.forEach(ai => {
+          let location = ai.location
+          let otherPartyPhone = ai.otherPartyPhone
+          if (!data1[otherPartyPhone]) {
+            value1.push({
+              otherPartyPhone: otherPartyPhone,
+              phoneTimes: 1,
+              location: location,
+
+              masterList: [phone],
+              phoneNum: [otherPartyPhone],
+              masterNum: [1],
+              masterPhone: phone,
+            })
+            data1[otherPartyPhone] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              if (dj.otherPartyPhone === otherPartyPhone) {
+                dj.phoneTimes++
+                if (dj.masterList.indexOf(phone) === -1) {
+                  dj.masterList.push(phone)
+                  dj.masterNum.push(1)
+                } else {
+                  dj.masterNum[dj.masterList.indexOf(phone)]++
+                }
+                dj.phoneNum.push(otherPartyPhone)
+                break
+              }
             }
           }
-        }
+        })
       })
       return value1
     },

@@ -41,6 +41,7 @@
       >
       </el-table-column>
       <!--:width="item.width"-->
+      <!--<template v-for="(item, index) in tableHead">-->
       <template v-for="(item, index) in tableHead">
         <el-table-column
           :prop="item.propName"
@@ -49,7 +50,7 @@
           align="center"
         >
           <template slot-scope="scope">
-            <span>{{ scope.row.phoneNum[index] }}</span>
+            <span>{{ scope.row.masterNum[index] }}</span>
           </template>
         </el-table-column>
       </template>
@@ -129,12 +130,17 @@ export default {
       console.log(this.morePhone2)
       conData.time != null && this.eachPhone(this.morePhone2)
       console.log(this.morePhone2)
+      this.morePhone2[0].list = [
+        ...this.morePhone2[0].list,
+        ...this.morePhone2[0].list,
+      ]
       this.morePhone2 = this.dataSort2(this.morePhone2)
+      console.log(999999)
       console.log(this.morePhone2)
-      /* this.tableHead = this.isHead(this.morePhone2)
-        this.sameTime = this.morePhone2
-        console.log(this.tableHead)
-        console.log(this.morePhone2) */
+      this.tableHead = this.isHead(this.morePhone2)
+      this.sameTime = this.morePhone2
+      console.log(this.tableHead)
+      console.log(this.morePhone2)
     },
 
     // 分别计算时间范围
@@ -156,13 +162,34 @@ export default {
       data1.width = '200'
       let i = 0
       data.forEach(item => {
+        item.masterList.length > i && (i = item.masterList.length)
+        console.log(i)
+      })
+
+      for (let j = 0; j < i; j++) {
+        data1.label = data[0].masterList[j]
+        value1.push(data1)
+      }
+
+      return value1
+    },
+
+    /* isHead(data) {
+      let data1 = {}
+      let value1 = []
+      data1.propName = 'phoneNum'
+      data1.label = '电话号码'
+      data1.fixed = true
+      data1.width = '200'
+      let i = 0
+      data.forEach(item => {
         item.phoneNum.length > i && (i = item.phoneNum.length)
       })
       for (let j = 0; j < i; j++) {
         value1.push(data1)
       }
       return value1
-    },
+    }, */
 
     // 时间筛选
     timeSizer(data) {
@@ -194,8 +221,10 @@ export default {
               housingEstateCode: housingEstateCode,
               phoneTimes: 1,
               baseStationLocation: baseStationLocation,
-              masterPhone: phone,
+              masterList: [phone],
               phoneNum: [otherPartyPhone],
+              masterNum: [1],
+              masterPhone: phone,
             })
             data1[housingEstateCode] = ai
           } else {
@@ -207,6 +236,12 @@ export default {
                 dj.housingEstateCode === housingEstateCode
               ) {
                 dj.phoneTimes++
+                if (dj.masterList.indexOf(phone) === -1) {
+                  dj.masterList.push(phone)
+                  dj.masterNum.push(1)
+                } else {
+                  dj.masterNum[dj.masterList.indexOf(phone)]++
+                }
                 dj.phoneNum.push(otherPartyPhone)
                 break
               }
@@ -214,7 +249,6 @@ export default {
           }
         })
       })
-      console.log(value1)
       return value1
     },
 
