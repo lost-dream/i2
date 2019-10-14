@@ -64,28 +64,19 @@ export default {
       },
     }
   },
-  mounted() {
-    this.testapi()
-  },
   methods: {
     testapi() {
-      // console.log(http.adornUrl('/timespace'))
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // searchList({
-          //   // params
           // }).then(({res})=> {
           //   if(res && res.code !== 0) {
           //     this.gotoList()
           //   }
           // })
-
           this.gotoList()
-        } else {
-          console.log('error submit!!')
-          return false
         }
       })
     },
@@ -98,6 +89,9 @@ export default {
         },
       })
     },
+  },
+  mounted() {
+    this.testapi()
   },
 }
 </script>

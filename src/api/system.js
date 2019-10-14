@@ -52,3 +52,76 @@ export function addUser(data) {
     data: http.adornData(data, false, 'qs'),
   })
 }
+
+// 删除 || 停用 || 启用用户
+export function operateUser(params) {
+  return http({
+    url: http.adornUrl('admin/userOnedandT'),
+    method: 'get',
+    params: http.adornParams(params, false),
+  })
+}
+
+// 重置密码
+export function resetPassword(params) {
+  return http({
+    url: http.adornUrl('admin/userCzPassword'),
+    method: 'get',
+    params: http.adornParams(params, false),
+  })
+}
+
+// 重置回答二级密码问题
+export function reset2ndPWD(params) {
+  return http({
+    url: http.adornUrl('admin/userSecondaryPassword'),
+    method: 'get',
+    params: http.adornParams(params, false),
+  })
+}
+
+// 查询机构
+export function queryDepartment(data) {
+  return http({
+    url: http.adornUrl(
+      `admin/queryDepartment?page=${data.page}&size=${data.size}`,
+    ),
+    method: 'post',
+  })
+}
+
+// 添加机构
+export function addDepartment(data) {
+  return http({
+    url: http.adornUrl(
+      `admin/addDepartment?userId=${data.userId}&title=${data.title}&coding=${
+        data.coding
+      }&describe=${data.describe}&parentId=${data.parentId}&roleCount=${
+        data.roleCount
+      }`,
+    ),
+    method: 'post',
+  })
+}
+
+// 编辑机构
+export function editDepartment(data) {
+  return http({
+    url: http.adornUrl(
+      `admin/compileDepartment?userId=${data.userId}&id=${data.id}&title=${
+        data.title
+      }&coding=${data.coding}&describe=${data.describe}&parentId=${
+        data.parentId
+      }&roleCount=${data.roleCount}`,
+    ),
+    method: 'post',
+  })
+}
+
+// 删除机构
+export function delDepartment(data) {
+  return http({
+    url: http.adornUrl(`admin/departmentDel?id=${data.id}`),
+    method: 'post',
+  })
+}

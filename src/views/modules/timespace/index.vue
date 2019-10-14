@@ -4,9 +4,8 @@
     <div class="dir">
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
-          <!--<el-button class="el-icon-circle-check" type="text">全部</el-button>-->
-          <span style="font-size: 20px;" class="el-icon-circle-check"></span
-          ><span>全部</span>
+          <span class="__icon el-icon-circle-check"></span>
+          <span>全部</span>
         </div>
       </router-link>
       <span style="display: inline-block">
@@ -16,9 +15,8 @@
       </span>
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
-          <!--<el-button class="el-icon-user" type="text">飞机</el-button>-->
-          <span style="font-size: 20px;" class="icon-zdy-feiji"></span
-          ><span>飞机</span>
+          <span class="__icon icon-zdy-feiji"></span>
+          <span>飞机</span>
         </div>
       </router-link>
       <span style="display: inline-block">
@@ -28,9 +26,8 @@
       </span>
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
-          <!--<el-button class="el-icon-user" type="text">火车</el-button>-->
-          <span style="font-size: 20px;" class="icon-zdy-huoche"></span
-          ><span>火车</span>
+          <span class="__icon icon-zdy-huoche"></span>
+          <span>火车</span>
         </div>
       </router-link>
       <span style="display: inline-block">
@@ -40,9 +37,8 @@
       </span>
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
-          <!--<el-button class="el-icon-user" type="text">火车</el-button>-->
-          <span style="font-size: 20px;" class="icon-zdy-daba"></span
-          ><span>汽车</span>
+          <span class="__icon icon-zdy-daba"></span>
+          <span>汽车</span>
         </div>
       </router-link>
       <span style="display: inline-block">
@@ -52,9 +48,8 @@
       </span>
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
-          <!--<el-button class="el-icon-user" type="text">旅馆</el-button>-->
-          <span style="font-size: 20px;" class="icon-zdy-fangzidichan"></span
-          ><span>旅馆</span>
+          <span class="__icon icon-zdy-fangzidichan"></span>
+          <span>旅馆</span>
         </div>
       </router-link>
       <span style="display: inline-block">
@@ -64,12 +59,8 @@
       </span>
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
-          <!--<el-button class="el-icon-monitor" type="text">网吧</el-button>-->
-          <span
-            style="font-size: 20px;"
-            class="icon-zdy-qitaleixianshiqi"
-          ></span
-          ><span>网吧</span>
+          <span class="__icon icon-zdy-qitaleixianshiqi"></span>
+          <span>网吧</span>
         </div>
       </router-link>
       <span style="display: inline-block">
@@ -79,8 +70,8 @@
       </span>
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 3">
-          <span style="font-size: 20px;" class="el-icon-search"></span
-          ><span>查询</span>
+          <span class="__icon el-icon-search"></span>
+          <span>查询</span>
         </div>
       </router-link>
     </div>
@@ -122,6 +113,8 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.__icon
+  font-size 20px
 .timespaceindex
      position absolute
      top 0
