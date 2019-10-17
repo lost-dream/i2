@@ -1,6 +1,6 @@
 <template>
   <fly-dialog
-    :title="!dataForm.id ? '新增': '修改'"
+    :title="!dataForm.id ? '新增' : '修改'"
     :show.sync="visible"
     @beforeCloseDialog="beforeClose"
   >
@@ -13,20 +13,11 @@
         label-width="80px"
       >
         <el-form-item label="名称">
-          <el-input
-            v-model="dataForm.name"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="文件夹">
-          <el-select
-            v-model="dataForm.foder"
-            placeholder="文件夹"
-          >
-            <el-option
-              label="请选择文件夹"
-              value=""
-            ></el-option>
+          <el-select v-model="dataForm.foder" placeholder="文件夹">
+            <el-option label="请选择文件夹" value=""></el-option>
             <el-option
               v-for="item in folderList"
               :key="item.value"
@@ -37,14 +28,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label="数据类型">
-          <el-select
-            v-model="dataForm.dataType"
-            placeholder="请选择数据类型"
-          >
-            <el-option
-              label="Person"
-              value="Person"
-            ></el-option>
+          <el-select v-model="dataForm.dataType" placeholder="请选择数据类型">
+            <el-option label="Person" value="Person"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="描述">
@@ -54,22 +39,13 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="关键字">
-          <el-input
-            v-model="dataForm.keywords"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="dataForm.keywords" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
     </div>
-    <span
-      slot="ft"
-      class="dialog-footer"
-    >
-      <el-button @click="visible=false">取消</el-button>
-      <el-button
-        type="primary"
-        @click="dataFormSubmit()"
-      >确定</el-button>
+    <span slot="ft" class="dialog-footer">
+      <el-button @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     </span>
   </fly-dialog>
 </template>
@@ -78,10 +54,10 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       folderList: [],
@@ -91,48 +67,51 @@ export default {
         foder: '',
         dataType: '',
         description: '',
-        keywords: ''
+        keywords: '',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init (id) {
-      this.dataForm.id = id || 0;
-      this.$api.getAllFolderByUserName('10011').then(({ data }) => {
-        let list = data && data.code === 200 ? data.result : [];
-        let arr = [];
-        for (let i in list) {
-          arr.push({
-            value: list[i].id,
-            label: list[i].folderName
-          })
-        }
-        this.folderList = arr;
-      }).then(() => {
-        this.visible = true;
-        this.$nextTick(() => {
-          this.$refs['dataForm'].resetFields();
+    init(id) {
+      this.dataForm.id = id || 0
+      this.$api
+        .getAllFolderByUserName('10011')
+        .then(({ data }) => {
+          let list = data && data.code === 200 ? data.result : []
+          let arr = []
+          for (let i in list) {
+            arr.push({
+              value: list[i].id,
+              label: list[i].folderName,
+            })
+          }
+          this.folderList = arr
         })
-      }).then(() => {
-        if (this.dataForm.id) {
-          this.$api.dataCacheGetById(this.dataForm.id).then(({ data }) => {
-            if (data && data.code === 200) {
-              this.dataForm.name = data.result.name;
-              this.dataForm.foder = data.result.folderId
-              this.dataForm.dataType = data.result.dataType;
-              this.dataForm.description = data.result.description;
-              this.dataForm.keywords = data.result.keywords;
-            }
+        .then(() => {
+          this.visible = true
+          this.$nextTick(() => {
+            this.$refs['dataForm'].resetFields()
           })
-        }
-      })
+        })
+        .then(() => {
+          if (this.dataForm.id) {
+            this.$api.dataCacheGetById(this.dataForm.id).then(({ data }) => {
+              if (data && data.code === 200) {
+                this.dataForm.name = data.result.name
+                this.dataForm.foder = data.result.folderId
+                this.dataForm.dataType = data.result.dataType
+                this.dataForm.description = data.result.description
+                this.dataForm.keywords = data.result.keywords
+              }
+            })
+          }
+        })
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           let obj = [{
             name: this.dataForm.name,
@@ -157,13 +136,13 @@ export default {
         }
       })
     },
-    beforeClose () {
+    beforeClose() {
       this.$emit('refreshDataList')
-      this.visible = false;
-    }
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

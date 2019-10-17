@@ -5,15 +5,21 @@
         <h3>全网通查询</h3>
       </div>
       <div class="nav">
-        <el-tabs v-model="activeName"
-                 type="card"
-                 @tab-click="handleClick">
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/allNetwork/allNetPhoneSearch">电话查询</router-link>
+        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/allNetwork/allNetPhoneSearch"
+                >电话查询</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/allNetwork/IMEISearch">IMEI查询</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/allNetwork/IMEISearch"
+                >IMEI查询</router-link
+              >
             </span>
           </el-tab-pane>
         </el-tabs>
@@ -27,43 +33,47 @@
 
 <script>
 export default {
-  mounted () {
-  },
-  data () {
+  mounted() {},
+  data() {
     return {
       activeName: 'first',
-      cases: [{
-        value: '双十一',
-        label: '双十一'
-      }, {
-        value: '双十二',
-        label: '双十二'
-      }],
+      cases: [
+        {
+          value: '双十一',
+          label: '双十一',
+        },
+        {
+          value: '双十二',
+          label: '双十二',
+        },
+      ],
       phoneList: [
         {
           value: '13111111111',
-          label: '13111111111'
-        }, {
+          label: '13111111111',
+        },
+        {
           value: '15111111111',
-          label: '15111111111'
-        }, {
+          label: '15111111111',
+        },
+        {
           value: '13111111112',
-          label: '13111111112'
-        }, {
+          label: '13111111112',
+        },
+        {
           value: '15111111112',
-          label: '15111111112'
-        }
+          label: '15111111112',
+        },
       ],
       select: {
         phone: '',
-        caseName: ''
-      }
-    };
+        caseName: '',
+      },
+    }
   },
   methods: {
-    handleClick (tab, event) {
-    }
-  }
+    handleClick(tab, event) {},
+  },
 }
 </script>
 <style lang="stylus" scoped>

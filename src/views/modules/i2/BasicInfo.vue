@@ -5,16 +5,17 @@
     </div>
     <div class="basic-content tab-content">
       <div class="basic-info">
-        <p><label class="key-info">证件号码</label>{{basicInfo.idNumber}}</p>
-        <p><label class="key-info">姓名</label>{{basicInfo.name}}</p>
-        <p><label class="key-info">民族</label>{{basicInfo.nation}}</p>
-        <p><label class="key-info">性别</label>{{basicInfo.sex}}</p>
-        <p><label class="key-info">出生日期</label>{{basicInfo.birthday}}</p>
-        <p><label class="key-info">联系电话</label>{{basicInfo.cellphone}}</p>
-        <p><label class="key-info">现居地</label>{{basicInfo.currentAddress}}</p>
-
+        <p><label class="key-info">证件号码</label>{{ basicInfo.idNumber }}</p>
+        <p><label class="key-info">姓名</label>{{ basicInfo.name }}</p>
+        <p><label class="key-info">民族</label>{{ basicInfo.nation }}</p>
+        <p><label class="key-info">性别</label>{{ basicInfo.sex }}</p>
+        <p><label class="key-info">出生日期</label>{{ basicInfo.birthday }}</p>
+        <p><label class="key-info">联系电话</label>{{ basicInfo.cellphone }}</p>
+        <p>
+          <label class="key-info">现居地</label>{{ basicInfo.currentAddress }}
+        </p>
       </div>
-      <div class="image-info"> <img src=""></div>
+      <div class="image-info"><img src="" /></div>
     </div>
     <div class="title tab-title">
       <span>个人标签</span>
@@ -33,7 +34,7 @@
         @close="handleCloseTag(tag)"
         class="tag-item"
       >
-        {{tag.content}}
+        {{ tag.content }}
       </el-tag>
     </div>
     <fly-dialog
@@ -51,21 +52,12 @@
         class="addTagForm"
       >
         <el-form-item label="标签名称">
-          <el-input
-            v-model="dataForm.content"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="dataForm.content" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <span
-        slot="ft"
-        class="dialog-footer"
-      >
-        <el-button @click="visible=false">取消</el-button>
-        <el-button
-          type="primary"
-          @click="dataFormSubmit()"
-        >确定</el-button>
+      <span slot="ft" class="dialog-footer">
+        <el-button @click="visible = false">取消</el-button>
+        <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
       </span>
     </fly-dialog>
   </div>
@@ -75,12 +67,12 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {
     basicInfo: {
       type: Object,
-      default: function () {
+      default: function() {
         return {
           idNumber: '',
           name: '',
@@ -88,34 +80,34 @@ export default {
           sex: '',
           birthday: '',
           cellphone: '',
-          currentAddress: ''
+          currentAddress: '',
         }
-      }
-    }
+      },
+    },
   },
-  data () {
+  data() {
     return {
       visible: false,
       dataForm: {
-        content: ''
+        content: '',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
   computed: {
     tagList: {
-      set (value) {
-        this.basicInfo.tagList.push(value);
+      set(value) {
+        this.basicInfo.tagList.push(value)
       },
-      get () {
-        return this.basicInfo.tagList;
-      }
-    }
+      get() {
+        return this.basicInfo.tagList
+      },
+    },
   },
   methods: {
     // 新增标签
-    addTagHandle () {
-      this.visible = true;
+    addTagHandle() {
+      this.visible = true
     },
     // 删除标签
     handleCloseTag (tag) {
@@ -126,12 +118,12 @@ export default {
       })
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           let param = {
             idNumber: this.basicInfo.idNumber,
-            content: this.dataForm.content
+            content: this.dataForm.content,
           }
           this.$api.savePersonTag(param).then(({ data }) => {
             if (data && data.code === 200) {
@@ -142,17 +134,16 @@ export default {
                 duration: 1500,
                 onClose: () => {
                   this.visible = false
-                }
+                },
               })
             }
           })
         }
       })
-    }
+    },
   },
-  created () {
-  },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

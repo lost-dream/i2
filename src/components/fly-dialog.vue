@@ -10,7 +10,7 @@
   >
     <div class="body-content">
       <div class="fly-dialog-title">
-        <span>{{title}}</span>
+        <span>{{ title }}</span>
       </div>
       <div class="fly-dialog-body">
         <template>
@@ -18,10 +18,7 @@
         </template>
       </div>
     </div>
-    <slot
-      name="ft"
-      slot="footer"
-    ></slot>
+    <slot name="ft" slot="footer"></slot>
   </el-dialog>
 </template>
 
@@ -31,40 +28,40 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     width: {
       type: String,
-      default: '620px'
+      default: '620px',
     },
     modal: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  data () {
+  data() {
     return {
       flag: false,
-      visible: this.show
+      visible: this.show,
     }
   },
   computed: {},
   watch: {
-    show () {
+    show() {
       this.visible = this.show
-    }
+    },
   },
   methods: {
-    handleClose () {
+    handleClose() {
       this.$emit('beforeCloseDialog')
-    }
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped></style>

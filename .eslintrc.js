@@ -4,17 +4,19 @@ module.exports = {
     node: true,
     jquery: true
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
-    '@vue/standard'
+    '@vue/standard',
+    'plugin:prettier/recommended',
   ],
+  plugins: ['vue', 'prettier'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'semi': 0,
-	  'no-tabs': 'off'
+    semi: 0,
+    'no-tabs': 'off',
   },
   parserOptions: {
-    parser: 'babel-eslint'
-  }
+    parser: 'babel-eslint',
+  },
 }

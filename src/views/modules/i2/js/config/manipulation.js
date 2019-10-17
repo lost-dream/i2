@@ -38,7 +38,7 @@ export function manipulation (vm) {
             edge = global.edges.get(edgeId);
           }
         } else {
-          edge = global.edges.get(edgeId);
+          edge = global.edges.get(edgeId)
         }
         _this.editEdgeVisible = true;
         _this.$nextTick(() => {

@@ -13,12 +13,12 @@ export default {
       background: '#97C2FC',
       highlight: {
         border: '#2B7CE9',
-        background: '#D2E5FF'
+        background: '#D2E5FF',
       },
       hover: {
         border: '#2B7CE9',
-        background: '#D2E5FF'
-      }
+        background: '#D2E5FF',
+      },
     },
     scaling: {
       min: 16,
@@ -30,7 +30,7 @@ export default {
       size: 12, // px
       face: 'Microsoft Yahei',
       background: 'none',
-      strokeWidth: 0
+      strokeWidth: 0,
     },
     shape: 'dot',
     shapeProperties: {
@@ -38,8 +38,8 @@ export default {
       borderRadius: 6, // only for box shape
       interpolation: false, // only for image and circularImage shapes
       useImageSize: false, // only for image and circularImage shapes
-      useBorderWithImage: false // only for image shape
+      useBorderWithImage: false, // only for image shape
     },
-    size: 18
-  }
+    size: 18,
+  },
 }

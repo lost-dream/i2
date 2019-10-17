@@ -12,5 +12,5 @@ export function Edge (node) {
     this.from = this.node.pid;
     this.to = this.node.id;
   }
-  this.init();
+  this.init()
 }

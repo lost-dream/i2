@@ -1,19 +1,10 @@
 <template>
   <div class="mod-sidefun">
-    <el-tabs
-      type="card"
-      v-model="activeName"
-    >
-      <el-tab-pane
-        label="基本信息"
-        name="0"
-      >
-        <basic-info :basicInfo='detail'></basic-info>
+    <el-tabs type="card" v-model="activeName">
+      <el-tab-pane label="基本信息" name="0">
+        <basic-info :basicInfo="detail"></basic-info>
       </el-tab-pane>
-      <el-tab-pane
-        label="统计信息"
-        name="1"
-      >
+      <el-tab-pane label="统计信息" name="1">
         <count-info></count-info>
       </el-tab-pane>
       <el-tab-pane
@@ -45,10 +36,10 @@ export default {
   },
   props: {
     detail: {
-      type: Object
-    }
+      type: Object,
+    },
   },
-  data () {
+  data() {
     return {
       activeName: '0',
       dynamicTab: '',
@@ -72,12 +63,10 @@ export default {
     /**
      * 判断侧边栏是否打开
      */
-    isSidebarOpening (num) {
-
-    }
+    isSidebarOpening(num) {},
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

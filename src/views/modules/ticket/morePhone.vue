@@ -5,46 +5,69 @@
         <h3>多话单分析</h3>
       </div>
       <div class="select">
-        <el-select v-model="select.caseName"
-                   filterable
-                   @change = "caseNameChange"
-                   placeholder="案件名称">
-          <el-option v-for="item in cases"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <el-select
+          v-model="select.caseName"
+          filterable
+          @change="caseNameChange1"
+          placeholder="案件名称"
+        >
+          <el-option
+            v-for="item in cases"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
-        <el-select v-model="select.phone"
-                   filterable
-                   multiple
-                   @change = "caseNameChange"
-                   placeholder="电话号码">
-          <el-option v-for="item in phoneList"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <el-select
+          v-model="select.id"
+          value-key="phone"
+          filterable
+          multiple
+          @change="caseNameChange2"
+          placeholder="电话号码"
+        >
+          <el-option
+            v-for="(item, index) in phoneList"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </el-select>
       </div>
       <div class="nav">
-        <el-tabs v-model="activeName"
-                 type="card"
-                 @tab-click="handleClick">
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/morePhone/sameTime">同时同基站</router-link>
+        <el-tabs v-model="activeName" type="card">
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/morePhone/sameTime"
+                >同时同基站</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/morePhone/assignTime">指定时间内新出或消失号码</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/morePhone/assignTime"
+                >指定时间内新出或消失号码</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/morePhone/morePhoneTrail">多手机轨迹</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/morePhone/morePhoneTrail"
+                >多手机轨迹</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/morePhone/commonPhone">共同联系人分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/morePhone/commonPhone"
+                >共同联系人分析</router-link
+              >
             </span>
           </el-tab-pane>
         </el-tabs>
@@ -58,73 +81,167 @@
 
 <script>
 export default {
-
-  data () {
+  data() {
     return {
       activeName: 'first',
-      cases: [{
-        value: '双十一',
-        label: '双十一'
-      }, {
-        value: '双十二',
-        label: '双十二'
-      }],
-      phoneList: [
+      cases: [
+        /* {
+          value: '双十一',
+          label: '双十一',
+        },
         {
+          value: '双十二',
+          label: '双十二',
+        }, */
+      ],
+      phoneList: [
+        /* {
           value: '13111111111',
-          label: '13111111111'
-        }, {
+          label: '13111111111',
+        },
+        {
           value: '15111111111',
-          label: '15111111111'
-        }, {
+          label: '15111111111',
+        },
+        {
           value: '13111111112',
-          label: '13111111112'
-        }, {
+          label: '13111111112',
+        },
+        {
           value: '15111111112',
-          label: '15111111112'
-        }
+          label: '15111111112',
+        }, */
       ],
       select: {
-        phone: '',
-        caseName: ''
-      }
-    };
+        id: '',
+        caseName: '',
+      },
+    }
   },
-  mounted () {
-    this.morePhoneList()
+  mounted() {
+    this.ticketOneName()
   },
   methods: {
-
-    // 选择值变动后调接口获取数据
-    caseNameChange(){
-      this.morePhoneList()
+    caseNameChange1() {
+      this.ticketOnePhone()
+      this.singlePhoneList()
     },
 
-    // 获取话单接口
-    morePhoneList(){
+    caseNameChange2() {
+      this.singlePhoneList()
+    },
+
+    // 获取话单案件名称
+    ticketOneName() {
       var _this = this
-      let obj = {
-        caseName: this.select.caseName,
-        phone: this.select.phone
-      }
-      this.$api.ticketOneAnalyze(obj).then(({ data }) => {
+      this.$api.ticketOneName().then(({ data }) => {
         console.log(data)
-        if(data.success){
-          _this.$message({
-            message: '获取话单成功！!',
-            type: 'success'
+        if (data.success) {
+          let casesArr = []
+          let caseList = data.result
+          caseList.forEach(item => {
+            let a = {}
+            a.value = item.caseName
+            a.label = item.caseName
+            casesArr.push(a)
           })
-        }else {
+          _this.cases = casesArr
+          // console.log(_this.cases)
+        } else {
           this.$message({
-            message: '获取话单失败!',
-            type: 'error'
+            message: '获取话单案件名称失败!',
+            type: 'error',
           })
         }
       })
     },
-    handleClick (tab, event) {
+
+    // 获取话单案件电话
+    ticketOnePhone() {
+      var _this = this
+      let obj = this.select.caseName
+      this.$api.ticketOnePhone(obj).then(({ data }) => {
+        console.log(data)
+        if (data.success) {
+          let phoneArr = []
+          let phoneList = data.result
+          phoneList.forEach(item => {
+            let a = {}
+            a.value = {}
+            a.value.id = item.recordId
+            a.value.phone = item.phoneNumber
+            a.label = item.phoneNumber
+            phoneArr.push(a)
+          })
+          console.log(phoneArr)
+          _this.phoneList = phoneArr
+          console.log(_this.phoneList)
+        } else {
+          this.$message({
+            message: '获取话单案件电话失败!',
+            type: 'error',
+          })
+        }
+      })
     },
-  }
+
+    // 获取话单列表
+    singlePhoneList() {
+      console.log(11111)
+      console.log(this.select)
+      console.log(22222)
+      var _this = this
+      let obj = this.select.id
+      // let obj = {
+      //   id: this.select.id,
+      // }
+
+      this.$api.ticketOneAnalyze2(obj).then(({ data }) => {
+        console.log(data)
+        if (data.success) {
+          // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
+          localStorage.setItem('morePhone', JSON.stringify(data.result))
+        } else {
+          this.$message({
+            message: '获取话单失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+  },
+
+  // 选择值变动后调接口获取数据
+  caseNameChange() {
+    // this.morePhoneList()
+    this.singlePhoneList()
+  },
+
+  // 获取话单接口
+  morePhoneList() {
+    var _this = this
+    let obj = {
+      caseName: this.select.caseName,
+      phone: this.select.phone,
+    }
+    this.$api.ticketOneAnalyze(obj).then(({ data }) => {
+      console.log(data)
+      if (data.success) {
+        _this.$message({
+          message: '获取话单成功！!',
+          type: 'success',
+        })
+      } else {
+        this.$message({
+          message: '获取话单失败!',
+          type: 'error',
+        })
+      }
+    })
+  },
+  handleClick(tab, event) {
+    console.log(tab, event)
+  },
 }
 </script>
 <style lang="stylus" scoped>

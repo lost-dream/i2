@@ -1,95 +1,48 @@
 <template>
   <div class="mod-home">
     <ul id="nav">
-      <li
-        class="nav"
-        @click="$router.push({ name: 'usercenter' })"
-      >
-        <img
-          src="../../assets/img/xiazai.png"
-          alt
-        />
+      <li class="nav" @click="toUserCenter">
+        <img src="../../assets/img/xiazai.png" alt />
         <p>个人中心</p>
       </li>
-      <li class="nav"
-          @click="$router.push({ name: 'sys' })"
-      >
-        <img
-          src="../../assets/img/shezhi.png"
-          alt
-        />
+      <li class="nav" @click="$router.push({ name: 'sys' })">
+        <img src="../../assets/img/shezhi.png" alt />
         <p>设置</p>
       </li>
       <li class="nav">
-        <img
-          src="../../assets/img/tuichu.png"
-          alt
-        />
+        <img src="../../assets/img/tuichu.png" alt />
         <p>退出</p>
       </li>
     </ul>
     <div id="title">
       <h1>情报智能分析系统</h1>
-      <img
-        src="../../assets/img/titleDown.png"
-        alt
-      />
+      <img src="../../assets/img/titleDown.png" alt />
     </div>
     <div id="content">
       <ul class="content">
         <li @click="$router.push({ name: 'i2' })">
-          <img
-            src="../../assets/img/i2.png"
-            alt
-          />
-          <img
-            src="../../assets/img/itemBg.png"
-            alt
-          />
+          <img src="../../assets/img/i2.png" alt />
+          <img src="../../assets/img/itemBg.png" alt />
           <p>i2</p>
         </li>
         <li @click="$router.push({ name: 'ticket' })">
-          <img
-            src="../../assets/img/phone.png"
-            alt
-          />
-          <img
-            src="../../assets/img/itemBg.png"
-            alt
-          />
+          <img src="../../assets/img/phone.png" alt />
+          <img src="../../assets/img/itemBg.png" alt />
           <p>话单分析</p>
         </li>
         <li @click="$router.push({ name: 'relation' })">
-          <img
-            src="../../assets/img/relation.png"
-            alt
-          />
-          <img
-            src="../../assets/img/itemBg.png"
-            alt
-          />
+          <img src="../../assets/img/relation.png" alt />
+          <img src="../../assets/img/itemBg.png" alt />
           <p>关系分析</p>
         </li>
         <li @click="$router.push({ name: 'timespaceindex' })">
-          <img
-            src="../../assets/img/timeSky.png"
-            alt
-          />
-          <img
-            src="../../assets/img/itemBg.png"
-            alt
-          />
+          <img src="../../assets/img/timeSky.png" alt />
+          <img src="../../assets/img/itemBg.png" alt />
           <p>时空分析</p>
         </li>
         <li @click="$router.push({ name: 'unioncase' })">
-          <img
-            src="../../assets/img/sanjiao.png"
-            alt
-          />
-          <img
-            src="../../assets/img/itemBg.png"
-            alt
-          />
+          <img src="../../assets/img/sanjiao.png" alt />
+          <img src="../../assets/img/itemBg.png" alt />
           <p>联案分析</p>
         </li>
       </ul>
@@ -102,47 +55,23 @@
         <div>
           <ul class="content">
             <li>
-              <img
-                src="../../assets/img/i2.png"
-                alt
-              />
-              <img
-                src="../../assets/img/itemBg.png"
-                alt
-              />
+              <img src="../../assets/img/i2.png" alt />
+              <img src="../../assets/img/itemBg.png" alt />
               <p>i2</p>
             </li>
             <li>
-              <img
-                src="../../assets/img/phone.png"
-                alt
-              />
-              <img
-                src="../../assets/img/itemBg.png"
-                alt
-              />
+              <img src="../../assets/img/phone.png" alt />
+              <img src="../../assets/img/itemBg.png" alt />
               <p>话单分析</p>
             </li>
             <li>
-              <img
-                src="../../assets/img/relation.png"
-                alt
-              />
-              <img
-                src="../../assets/img/itemBg.png"
-                alt
-              />
+              <img src="../../assets/img/relation.png" alt />
+              <img src="../../assets/img/itemBg.png" alt />
               <p>关系分析</p>
             </li>
             <li>
-              <img
-                src="../../assets/img/timeSky.png"
-                alt
-              />
-              <img
-                src="../../assets/img/itemBg.png"
-                alt
-              />
+              <img src="../../assets/img/timeSky.png" alt />
+              <img src="../../assets/img/itemBg.png" alt />
               <p>时空分析</p>
             </li>
           </ul>
@@ -155,127 +84,120 @@
         <div>
           <ul class="content">
             <li>
-              <img
-                src="../../assets/img/person.png"
-                alt
-              />
+              <img src="../../assets/img/person.png" alt />
               <p>在线用户数</p>
               <p>67人</p>
             </li>
             <li>
-              <img
-                src="../../assets/img/fangwen.png"
-                alt
-              />
+              <img src="../../assets/img/fangwen.png" alt />
               <p>今日访问量</p>
               <p>178次</p>
             </li>
             <li>
-              <img
-                src="../../assets/img/date.png"
-                alt
-              />
+              <img src="../../assets/img/date.png" alt />
               <p>历史访问量</p>
               <p>1.1万次</p>
             </li>
           </ul>
         </div>
       </div>
-      <canvas
-        id="can"
-        width="262"
-        height="262"
-      ></canvas>
+      <canvas id="can" width="262" height="262"></canvas>
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
-  data () {
-    return {
-    };
+  data() {
+    return {}
   },
-  mounted () {
-    this.initPage();
-    let _this = this;
+  mounted() {
+    this.initPage()
+    let _this = this
     _this.timer = setInterval(() => {
-      _this.date = new Date().toLocaleString();
-    });
+      _this.date = new Date().toLocaleString()
+    })
   },
   methods: {
-    initPage () {
-      let canvas = document.getElementById('can');
-      const _this = this;
+    initPage() {
+      let canvas = document.getElementById('can')
+      const _this = this
       if (canvas.getContext) {
-        let ctx = canvas.getContext('2d');
-        ctx.translate(131, 131);
+        let ctx = canvas.getContext('2d')
+        ctx.translate(131, 131)
         setInterval(() => {
-          _this.initCanvas(ctx);
-        }, 1000);
+          _this.initCanvas(ctx)
+        }, 1000)
       }
     },
-    initCanvas (ctx) {
-      this.clearCanvas(ctx);
-      let time = new Date();
-      let secondes = time.getSeconds();
-      let minutes = time.getMinutes();
-      let hours = time.getHours();
-      hours = hours > 12 ? hours - 12 : hours;
-      let minute = minutes + secondes / 60;
-      let hour = hours + minutes / 60;
+    toUserCenter() {
+      // 确认登录状态，未登录跳转登录
+      Cookies.get('ac_token')
+        ? this.$router.push({ name: 'usercenter' })
+        : this.$router.push({ name: 'login' })
+    },
+    initCanvas(ctx) {
+      this.clearCanvas(ctx)
+      let time = new Date()
+      let secondes = time.getSeconds()
+      let minutes = time.getMinutes()
+      let hours = time.getHours()
+      hours = hours > 12 ? hours - 12 : hours
+      let minute = minutes + secondes / 60
+      let hour = hours + minutes / 60
 
       // draw Numbers
-      ctx.font = '25px Arial';
-      ctx.fillStyle = 'rgb(44,239,255)';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
+      ctx.font = '25px Arial'
+      ctx.fillStyle = 'rgb(44,239,255)'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
       for (let i = 1; i < 13; i++) {
-        let theta = ((Math.PI * 2) / 12) * i - Math.PI / 2;
-        var x = 150 * 0.8 * Math.cos(theta);
-        var y = 150 * 0.8 * Math.sin(theta);
-        ctx.fillText(i, x, y);
+        let theta = ((Math.PI * 2) / 12) * i - Math.PI / 2
+        var x = 150 * 0.8 * Math.cos(theta)
+        var y = 150 * 0.8 * Math.sin(theta)
+        ctx.fillText(i, x, y)
       }
-      ctx.restore();
+      ctx.restore()
 
       // draw Hours
-      ctx.save();
-      ctx.rotate(((Math.PI * 2) / 12) * hour - Math.PI / 2);
-      ctx.fillStyle = 'rgb(44,239,255)';
-      ctx.beginPath();
-      ctx.moveTo(-15, -5);
-      ctx.lineTo(-15, 5);
-      ctx.lineTo(55, 1);
-      ctx.fill();
-      ctx.restore();
+      ctx.save()
+      ctx.rotate(((Math.PI * 2) / 12) * hour - Math.PI / 2)
+      ctx.fillStyle = 'rgb(44,239,255)'
+      ctx.beginPath()
+      ctx.moveTo(-15, -5)
+      ctx.lineTo(-15, 5)
+      ctx.lineTo(55, 1)
+      ctx.fill()
+      ctx.restore()
 
       // draw Minutes
-      ctx.save();
-      ctx.rotate(((Math.PI * 2) / 60) * minute - Math.PI / 2);
-      ctx.fillStyle = 'rgb(44,239,255)';
-      ctx.beginPath();
-      ctx.moveTo(-15, -4);
-      ctx.lineTo(-15, 4);
-      ctx.lineTo(95, 1);
-      ctx.fill();
-      ctx.restore();
+      ctx.save()
+      ctx.rotate(((Math.PI * 2) / 60) * minute - Math.PI / 2)
+      ctx.fillStyle = 'rgb(44,239,255)'
+      ctx.beginPath()
+      ctx.moveTo(-15, -4)
+      ctx.lineTo(-15, 4)
+      ctx.lineTo(95, 1)
+      ctx.fill()
+      ctx.restore()
 
       // draw seconds
-      ctx.save();
-      ctx.rotate(((Math.PI * 2) / 60) * secondes - Math.PI / 2);
-      ctx.fillStyle = 'rgb(44,239,255)';
-      ctx.beginPath();
-      ctx.moveTo(-15, -2);
-      ctx.lineTo(-15, 2);
-      ctx.lineTo(105, 1);
-      ctx.fill();
-      ctx.restore();
+      ctx.save()
+      ctx.rotate(((Math.PI * 2) / 60) * secondes - Math.PI / 2)
+      ctx.fillStyle = 'rgb(44,239,255)'
+      ctx.beginPath()
+      ctx.moveTo(-15, -2)
+      ctx.lineTo(-15, 2)
+      ctx.lineTo(105, 1)
+      ctx.fill()
+      ctx.restore()
     },
-    clearCanvas (ctx) {
-      ctx.clearRect(-150, -150, 300, 300);
-    }
-  }
-};
+    clearCanvas(ctx) {
+      ctx.clearRect(-150, -150, 300, 300)
+    },
+  },
+}
 </script>
 
 <style lang="stylus" scoped>

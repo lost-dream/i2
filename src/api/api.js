@@ -1,32 +1,16 @@
 import http from '@/utils/httpRequest'
-
 export default {
-  /**
-   * 通过用户和密码登录
-   * @param {*} username 用户名
-   * @param {*} password 密码
-   */
-  login (username, password) {
-    return http({
-      url: http.adornUrl('login'),
-      method: 'post',
-      data: http.adornData({
-        username: username,
-        password: password
-      })
-    })
-  },
   /**
    * 通过token获取用户信息
    * @param {*} token 令牌
    */
-  getUserInfo (token) {
+  getUserInfo(token) {
     return http({
       url: http.adornUrl('/user/info'),
       method: 'get',
       params: http.adornParams({
-        token
-      })
+        token,
+      }),
     })
   },
   // ------------------------------------I2---------------------------------------------//
@@ -42,68 +26,60 @@ export default {
     })
   },
   /**
-  * 数据缓存--通过id获取缓存数据
-  * @param {*} id
-  */
-  dataCacheGetById (id) {
+   * 数据缓存--通过id获取缓存数据
+   * @param {*} id
+   */
+  dataCacheGetById(id) {
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/get/' + id),
       method: 'get',
-      params: http.adornParams()
+      params: http.adornParams(),
     })
   },
   /**
    * 数据缓存--获取全部数据
    * @param {*}
    */
-  dataCacheGetAll () {
-
-  },
+  dataCacheGetAll() {},
   /**
    * 数据缓存--初始化缓存节点数据获取接口
    * @param {*}
    */
-  getAllCacheDataByUserName (data) {
+  getAllCacheDataByUserName(data) {
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/getAllCacheDataByUsername'),
       method: 'get',
-      params: http.adornParams(
-        data
-      )
+      params: http.adornParams(data),
     })
   },
   /**
    * 数据缓存--分页获取
    * @param {*}
    */
-  getByPage () {
-
-  },
+  getByPage() {},
   /**
    * 数据缓存--初始化缓存节点数据获取接口
    * @param {*}
    */
-  getCacheDataByFolderId () {
-
-  },
+  getCacheDataByFolderId() {},
   /**
    * 数据缓存--复制或移动缓存数据
    * @param {*}
    */
-  dataCacheMoveOrCopy (data) {
+  dataCacheMoveOrCopy(data) {
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/moveOrCopy'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data),
     })
   },
   /**
-  * 数据缓存--缓存数据新增接口
-  * @param {*}
-  */
-  dataCacheSaveOrUpdate (addr, data) {
+   * 数据缓存--缓存数据新增接口
+   * @param {*}
+   */
+  dataCacheSaveOrUpdate(addr, data) {
     if (addr) {
-      addr = addr === 'save' ? 'saveCacheData' : 'update';
+      addr = addr === 'save' ? 'saveCacheData' : 'update'
     }
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/' + addr),
@@ -112,77 +88,65 @@ export default {
     })
   },
   /**
-  * 数据缓存--缓存数据筛选接口
-  * @param {*}
-  */
-  dataCacheSearch (data) {
+   * 数据缓存--缓存数据筛选接口
+   * @param {*}
+   */
+  dataCacheSearch(data) {
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/searchCacheData'),
       method: 'get',
-      params: http.adornParams(data)
+      params: http.adornParams(data),
     })
   },
   /**
    * 数据缓存--缓存数据筛选接口
    * @param {*}
    */
-  dataCacheUpdate () {
-
-  },
+  dataCacheUpdate() {},
   /**
    * 数据缓存文件夹--；批量通过id删除
    * @param {*}
    */
-  folderDelByIds () {
-
-  },
+  folderDelByIds() {},
   /**
    * 数据缓存文件夹--；通过id获取
    * @param {*}
    */
-  getFolderById () {
-
-  },
+  getFolderById() {},
   /**
    * 数据缓存文件夹--；获取全部文件夹
    * @param {*}
    */
-  getAllFolder () {
+  getAllFolder() {
     return http({
       url: http.adornUrl('i2/folderCtlr/getAllFolderByUsername'),
       method: 'get',
-      params: http.adornParams()
+      params: http.adornParams(),
     })
   },
   /**
    * 数据缓存文件夹--；获取用户所有文件夹接口
    * @param {*}
    */
-  getAllFolderByUserName (username) {
+  getAllFolderByUserName(username) {
     return http({
       url: http.adornUrl('i2/folderCtlr/getAllFolderByUsername'),
       method: 'get',
-      params: http.adornParams(
-        {
-          username: username
-        }
-      )
+      params: http.adornParams({
+        username: username,
+      }),
     })
   },
   /**
-  * 数据缓存文件夹--文件夹保存
-  * @param {*}
-  */
-  folderSave () {
-
-  },
+   * 数据缓存文件夹--文件夹保存
+   * @param {*}
+   */
+  folderSave() {},
   /**
-  * 数据缓存文件夹--文件夹更新
-  * @param {*}
-  */
-  folderUpdate () {
-
-  },
+   * 数据缓存文件夹--文件夹更新
+   * @param {*}
+   */
+  folderUpdate() {},
   /**
   * 节点与关系操作--关系图谱关系挖掘接口
   * @param {*}
@@ -237,10 +201,10 @@ export default {
     })
   },
   /**
-  * 节点与关系操作--图谱分析添加节点接口
-  * @param {*}
-  */
-  queryNodeOrAdd (data) {
+   * 节点与关系操作--图谱分析添加节点接口
+   * @param {*}
+   */
+  queryNodeOrAdd(data) {
     return http({
       url: http.adornUrl('i2/nodeAndRelationCtlr/findNode'),
       method: 'post',
@@ -248,42 +212,38 @@ export default {
     })
   },
   /**
-  * 节点与关系操作--图谱分析单击节点展开关系
-  * @param {*}
-  */
-  nodeSpreadRelation () {
-
-  },
+   * 节点与关系操作--图谱分析单击节点展开关系
+   * @param {*}
+   */
+  nodeSpreadRelation() {},
   /**
    * 节点详情--人员标签删除接口
    * @param {*}
    */
-  nodeDetailDelTag () {
-
-  },
+  nodeDetailDelTag() {},
   /**
-  * 节点详情--查看节点详情
-  * @param {*}
-  */
-  nodeFindDetail ({ nodeType, keyword }) {
+   * 节点详情--查看节点详情
+   * @param {*}
+   */
+  nodeFindDetail({ nodeType, keyword }) {
     return http({
       url: http.adornUrl('i2/nodeDetailCtlr/findNodeDetail'),
       method: 'get',
       params: http.adornParams({
         nodeType,
-        keyword
-      })
+        keyword,
+      }),
     })
   },
   /**
-  * 节点详情--人员标签添加接口
-  * @param {*}
-  */
-  savePersonTag (data) {
+   * 节点详情--人员标签添加接口
+   * @param {*}
+   */
+  savePersonTag(data) {
     return http({
       url: http.adornUrl('i2/nodeDetailCtlr/saveTag'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data),
     })
   },
   /**
@@ -344,84 +304,163 @@ export default {
   /**
    * 新建话单
    */
-  newly (data) {
+  newly(data) {
     return http({
       url: http.adornUrl('ticket/statement/newly'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data),
     })
   },
   /**
    * 话单查询
    */
-  ticketQuery (data) {
+  ticketQuery(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketQuery'),
       method: 'post',
-      data: http.adornData(data, false)
+      data: http.adornData(data, false),
     })
   },
   /**
-   * (单/多)话单查询展示
+   * (单)话单查询展示
    */
-  ticketOneAnalyze (data) {
+  ticketOneAnalyze(data) {
+    console.log(process.env.VUE_APP_COMMON_REQUEST_URL)
     return http({
-      url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
+      url: http.adornUrl(
+        'ticket/statement/ticketOneAnalyze?id=' +
+          data.id +
+          '&phone=' +
+          data.phone,
+      ),
       method: 'post',
-      data: http.adornData(data, false)
+      // data: http.adornData(data, false),
+      // data: http.adornData(data, false),
+    })
+  },
+  /**
+   * (多)话单查询展示
+   */
+  /*  ticketOneAnalyze2(data) {
+    return http({
+      url: http.adornUrl(
+        'ticket/statement/ticketOneAnalyze2?id=' +
+          data.id +
+          '&phone=' +
+          data.phone,
+      ),
+      method: 'post',
+      // data: http.adornData(data, false),
+      // data: http.adornData(data, false),
+    })
+  }, */
+  ticketOneAnalyze2(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOneAnalyze2'),
+      method: 'post',
+      data: http.adornData(data, false),
     })
   },
   /**
    * 全网通查询展示
    */
-  ticketNoteQuery (data) {
+  ticketNoteQuery(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketNoteQuery'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data, false),
     })
   },
   /**
    * 话单删除
    */
-  ticketDelete (data) {
+  ticketDelete(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketDelete'),
       method: 'get',
-      data: http.adornData(data)
+      params: http.adornParams(data, false),
     })
   },
 
   /**
    * 通话查询展示
    */
-  ticketCallQuery (data) {
+  ticketCallQuery(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketCallQuery'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data, false),
     })
   },
 
   /**
    * 话单编辑
    */
-  ticketAlter (data) {
+  ticketAlter(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketAlter'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data),
     })
   },
 
   /**
    * 话单追加
    */
-  ticketAddTo (data) {
+  ticketAddTo(data) {
     return http({
       url: http.adornUrl('ticket/statement/ticketAddTo'),
       method: 'post',
-      data: http.adornData(data)
+      data: http.adornData(data),
+    })
+  },
+
+  /**
+   * 话单案件名称
+   */
+  ticketOneName() {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOneName'),
+      method: 'post',
+    })
+  },
+
+  /**
+   * 话单案件电话
+   */
+  ticketOnePhone(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketOnePhone?caseName=' + data),
+      method: 'post',
+      // data: http.adornData(data,false)
+    })
+  },
+
+  /**
+   * 话单追加
+   */
+  ticketAddTo(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAddTo'),
+      method: 'post',
+      data: http.adornData(data),
+    })
+  },
+
+  /**
+   * 数据筛选
+   */
+  callFilter(condition, data) {
+    return data.filter(item => {
+      return Object.keys(condition).every(key => {
+        return String(item[key])
+          .toLowerCase()
+          .includes(
+            String(condition[key])
+              .trim()
+              .toLowerCase(),
+          )
+      })
     })
   },
   // ------------------------------------relation---------------------------------------------//
@@ -436,18 +475,124 @@ export default {
    * @param {*} username 用户名
    * @param {*} password 密码
    */
-  spacequery (from) {
+  spacequery(from) {
     return http({
       url: http.adornUrl('/spacequery'),
       method: 'post',
-      data: http.adornData(from)
+      data: http.adornData(from),
     })
-  }
+  },
   // ------------------------------------unioncase---------------------------------------------//
   /**
-   * 通过用户和密码登录
-   * @param {*} username 用户名
-   * @param {*} password 密码
+   * 添加案件
    */
-
+  queryTCase(data) {
+    return http({
+      url: http.adornUrl('relations/queryTCase?caseNoArr=' + data),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-分析
+   */
+  analyze(data) {
+    return http({
+      url: http.adornUrl(
+        'relations/analyze?id=' + data.id + '&userId=' + data.userId,
+      ),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-查看分析结果
+   */
+  analyzeTaskResult(data) {
+    return http({
+      url: http.adornUrl(
+        'relations/analyzeTaskResult?id=' +
+          data.id +
+          '&page=' +
+          data.page +
+          '&pageSize=' +
+          data.pageSize,
+      ),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-逻辑删除
+   */
+  deleteTask(data) {
+    return http({
+      url: http.adornUrl('relations/deleteTask?id=' + data.id),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-获取编辑前信息
+   */
+  queryCompile(data) {
+    return http({
+      url: http.adornUrl('relations/queryCompile?queryTCase=' + data),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-查看list
+   */
+  queryTaskManagementList(data) {
+    return http({
+      url: http.adornUrl(
+        'relations/queryTaskManagementList?name=' +
+          data.name +
+          '&status=' +
+          data.status +
+          '&userId=' +
+          data.userId +
+          '&pageSize=' +
+          data.pageSize +
+          '&page=' +
+          data.page,
+      ),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-保存编辑信息
+   */
+  saveCompile(data) {
+    return http({
+      url: http.adornUrl('relations/saveCompile?queryTCase=' + data),
+      method: 'get',
+    })
+  },
+  /**
+   * 创建任务and串并案件
+   */
+  seriesParallel(data) {
+    console.log(data)
+    return http({
+      url: http.adornUrl('relations/seriesParallel'),
+      method: 'post',
+      data: http.adornData(data, false),
+    })
+  },
+  /**
+   * 任务管理-轨迹点查询返回网吧宾馆-坐标
+   */
+  tracing(data) {
+    return http({
+      url: http.adornUrl(
+        'relations/tracing?idNumber=' +
+          data.idNumber +
+          '&activeTimeBegin=' +
+          data.activeTimeBegin +
+          '&activeTimeEnd=' +
+          data.activeTimeEnd +
+          '&typeBgWb=' +
+          data.typeBgWb,
+      ),
+      method: 'get',
+    })
+  },
 }

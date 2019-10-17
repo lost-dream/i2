@@ -4,7 +4,7 @@ export default {
     arrows: {
       to: { enabled: true, scaleFactor: 0.5, type: 'arrow' },
       middle: { enabled: false, scaleFactor: 1, type: 'bar' },
-      from: { enabled: false, scaleFactor: 1, type: 'arrow' }
+      from: { enabled: false, scaleFactor: 1, type: 'arrow' },
     },
     // 当为false时，关系线会在箭头处断开
     arrowStrikethrough: false,
@@ -16,7 +16,7 @@ export default {
       highlight: '#e58628',
       hover: '#e58628',
       inherit: 'from',
-      opacity: 1.0
+      opacity: 1.0,
     },
     // 当为true时，边沿将绘制为虚线
     dashes: false,
@@ -25,7 +25,7 @@ export default {
       color: '#fff',
       size: 11, // px
       face: 'Microsoft Yahei',
-      strokeWidth: 0
+      strokeWidth: 0,
     },
     // 决定边缘在选择边缘时的宽度
     selectionWidth: 1,
@@ -33,7 +33,7 @@ export default {
     smooth: {
       enabled: true,
       type: 'continuous',
-      roundness: 0.5
-    }
-  }
+      roundness: 0.5,
+    },
+  },
 }

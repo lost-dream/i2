@@ -13,7 +13,7 @@ export default {
       editEdgeDescription: '单击控制点并将其拖动到节点以连接到它。',
       createEdgeError: '无法将边缘链接到集群。',
       deleteClusterError: '不能删除集群。',
-      editClusterError: '不能编辑集群。'
-    }
-  }
+      editClusterError: '不能编辑集群。',
+    },
+  },
 }

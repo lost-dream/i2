@@ -34,11 +34,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnCacheData"
-                    class="tab-li"
-                    @click="cacheDataHandle"
-                  >
+                  <dl id="btnCacheData" class="tab-li" @click="cacheDataHandle">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">数据缓存器</dd>
                   </dl>
@@ -47,11 +43,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnAddEdge"
-                    class="tab-li"
-                    @click="addEdgeHandle"
-                  >
+                  <dl id="btnAddEdge" class="tab-li" @click="addEdgeHandle">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">添加关系</dd>
                   </dl>
@@ -176,10 +168,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">显示</dd>
                   </dl>
@@ -300,10 +289,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">档案</dd>
                   </dl>
@@ -312,10 +298,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">轨迹</dd>
                   </dl>
@@ -324,10 +307,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">案件串并</dd>
                   </dl>
@@ -393,10 +373,7 @@
             <el-tab-pane label="协同工作">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">导入(JSON)</dd>
                   </dl>
@@ -405,10 +382,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
+                  <dl id="btnBatchAddNode" class="tab-li">
                     <dt class="operate-icon operate-addBatch"></dt>
                     <dd class="operate-desc">
                       <el-dropdown @command="handleCommand">
@@ -478,24 +452,14 @@
     </div>
     <div class="fun-sidebar">
       <sidebar type="tabpanel">
-        <sidefun
-          :detail='basicInfo'
-          ref="sidebarControl"
-        ></sidefun>
+        <sidefun :detail="basicInfo" ref="sidebarControl"></sidefun>
       </sidebar>
     </div>
-    <div
-      id="mainpanel"
-      class="mainpanel"
-    >
+    <div id="mainpanel" class="mainpanel">
       <div id="mynetwork"></div>
     </div>
     <!-- 弹窗, 新增节点 -->
-    <add-nodes
-      v-if="addNodesVisible"
-      ref="addNodes"
-    >
-    </add-nodes>
+    <add-nodes v-if="addNodesVisible" ref="addNodes"> </add-nodes>
     <!-- 弹窗，数据缓存器 -->
     <cache-data
       v-if="cacheDataVisible"
@@ -586,7 +550,7 @@ export default {
     RelationScore,
     PzAnalysis
   },
-  data () {
+  data() {
     return {
       addNodesVisible: false,
       cacheDataVisible: false,
@@ -606,26 +570,25 @@ export default {
         sex: '',
         birthday: '',
         cellphone: '',
-        currentAddress: ''
-      }
+        currentAddress: '',
+      },
     }
   },
   computed: {
-    network () {
-      return this.global.network;
-    }
+    network() {
+      return this.global.network
+    },
   },
   methods: {
-
     // 显示添加节点面板
-    addNodesHandle () {
+    addNodesHandle() {
       this.addNodesVisible = true
       this.$nextTick(() => {
-        this.$refs.addNodes.init();
+        this.$refs.addNodes.init()
       })
     },
     // 点击导入节点
-    importNodeHandle () {
+    importNodeHandle() {
       this.$nextTick(() => {
         this.$refs.sidebarControl.init('2', '导入节点', 'ImportNodes');
       })
@@ -634,7 +597,7 @@ export default {
     cacheDataHandle () {
       this.cacheDataVisible = true;
       this.$nextTick(() => {
-        this.$refs.cacheData.init();
+        this.$refs.cacheData.init()
       })
     },
     // 点击添加关系
@@ -965,31 +928,34 @@ export default {
       })
     },
     // network绑定事件
-    bindEvent () {
+    bindEvent() {
       // 单击节点查看详情
-      this.network.on('click', this.clickEvent);
+      this.network.on('click', this.clickEvent)
       // 双击节点展开关系
-      this.network.on('doubleClick', this.doubleclickEvent);
+      this.network.on('doubleClick', this.doubleclickEvent)
     },
     // 解绑事件
-    unbindEvent () {
-      this.network.off('click', this.clickEvent);
-      this.network.off('doubleClick', this.doubleclickEvent);
+    unbindEvent() {
+      this.network.off('click', this.clickEvent)
+      this.network.off('doubleClick', this.doubleclickEvent)
     },
     /**
      * 单击事件
      */
-    clickEvent (params) {
+    clickEvent(params) {
       // 框选时，不执行单击操作
-      if (params.event.changedPointers[0].shiftKey === true || this.global.mutilSelectStatus === true) {
-        return;
+      if (
+        params.event.changedPointers[0].shiftKey === true ||
+        this.global.mutilSelectStatus === true
+      ) {
+        return
       }
 
       if (params.nodes.length === 1) {
         // 点击的是节点
 
         // 查看节点详情
-        this.showBasicInfo(params);
+        this.showBasicInfo(params)
         // 刷新定向分析窗体
         // refreshDxAnalysisWind();
       } else if (params.edges.length === 1) {
@@ -1006,48 +972,46 @@ export default {
      * 双击事件
      * @param {*} params
      */
-    doubleclickEvent (params) {
+    doubleclickEvent(params) {
       if (params.nodes.length === 1) {
-        var curNode = this.global.nodes.get(params.nodes[0]);
-        expandNode(this, curNode);
+        var curNode = this.global.nodes.get(params.nodes[0])
+        expandNode(this, curNode)
       }
     },
     /**
      * 查看人节点基本信息
      */
-    showBasicInfo (params) {
+    showBasicInfo(params) {
       try {
-        let { nodeType, keyword } = this.global.nodes.get(params.nodes[0]);
+        let { nodeType, keyword } = this.global.nodes.get(params.nodes[0])
         if (this.isSideBarOpening()) {
           if (nodeType === 'Person') {
             this.$api.nodeFindDetail({ nodeType, keyword }).then(({ data }) => {
               if (data && data.code === 200) {
-                this.basicInfo = data.result;
+                this.basicInfo = data.result
               }
             })
           }
         }
       } catch (e) {
-        console.info(e);
+        console.info(e)
       }
     },
     /**
      *  判断sidebar 是否展开
      */
-    isSideBarOpening () {
-      return true;
-    }
+    isSideBarOpening() {
+      return true
+    },
   },
-  created () {
-
-  },
-  mounted () {
+  created() {},
+  mounted() {
     // 初始化画布
     /* eslint-disable no-new */
-    new Workbench('mynetwork', this);
+    new Workbench('mynetwork', this)
     // 绑定network事件
-    this.bindEvent();
-  }
+    this.bindEvent()
+  },
 }
 </script>
 <style lang="stylus" scoped>

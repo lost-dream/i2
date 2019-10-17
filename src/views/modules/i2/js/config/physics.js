@@ -9,7 +9,7 @@ export default {
       gravitationalConstant: -4000,
       springConstant: 0.01,
       springLength: 100,
-      centralGravity: 0
-    }
-  }
+      centralGravity: 0,
+    },
+  },
 }

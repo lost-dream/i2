@@ -8,7 +8,7 @@
         <el-select
           v-model="select.caseName"
           filterable
-          @change="caseNameChange"
+          @change="caseNameChange1"
           placeholder="案件名称"
         >
           <el-option
@@ -20,9 +20,9 @@
           </el-option>
         </el-select>
         <el-select
-          v-model="select.phone"
+          v-model="select.id"
           filterable
-          @change="caseNameChange"
+          @change="caseNameChange2"
           placeholder="电话号码"
         >
           <el-option
@@ -35,49 +35,86 @@
         </el-select>
       </div>
       <div class="nav">
-        <el-tabs
-          v-model="activeName"
-          type="card"
-          @tab-click="handleClick"
-        >
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/soonLate">最早最晚分析</router-link>
+        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/soonLate"
+                >最早最晚分析</router-link
+              >
+              <!--<router-link :to="{name:'soonLate',query:{modeInfo: JSON.stringify(item)}}">最早最晚分析</router-link>-->
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/periodAll">分时段分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/periodAll"
+                >分时段分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/continuePeriod">连续时段分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/continuePeriod"
+                >连续时段分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/differentPeriod">不同时段分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/differentPeriod"
+                >不同时段分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/callAnalyse">通话分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/callAnalyse"
+                >通话分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/callDetailAnalyse">通话详情分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/callDetailAnalyse"
+                >通话详情分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/phoneHomeLocation">号码归属分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/phoneHomeLocation"
+                >号码归属分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/singlePhone/phoneTravel">手机轨迹</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/phoneTravel"
+                >手机轨迹</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">移动设备分析</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/mobileAnalyse"
+                >移动设备分析</router-link
+              >
             </span>
           </el-tab-pane>
-          <el-tab-pane><span slot="label"><i class="el-icon-view"></i>
-              <router-link to="/ticket/newPhone">一周号码频次</router-link>
+          <el-tab-pane
+            ><span slot="label"
+              ><i class="el-icon-view"></i>
+              <router-link to="/ticket/singlePhone/weekPhone"
+                >一周号码频次</router-link
+              >
             </span>
           </el-tab-pane>
         </el-tabs>
@@ -91,64 +128,126 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       activeName: 'first',
-      cases: [{
-        value: '双十一',
-        label: '双十一'
-      }, {
-        value: '双十二',
-        label: '双十二'
-      }],
+      cases: [
+        // {
+        //   value: '双十一',
+        //   label: '双十一',
+        // },
+        // {
+        //   value: '双十二',
+        //   label: '双十二',
+        // },
+      ],
       phoneList: [
-        {
-          value: '13111111111',
-          label: '13111111111'
-        }, {
-          value: '15111111111',
-          label: '15111111111'
-        }
+        // {
+        //   value: '13111111111',
+        //   label: '13111111111',
+        // },
+        // {
+        //   value: '15111111111',
+        //   label: '15111111111',
+        // },
       ],
       select: {
-        phone: '',
-        caseName: ''
-      }
-    };
+        id: '',
+        caseName: '',
+      },
+    }
   },
-  mounted () {
-    this.singlePhoneList()
+  mounted() {
+    this.ticketOneName()
   },
   methods: {
-    handleClick (tab, event) {
+    handleClick(tab, event) {},
+
+    caseNameChange1() {
+      this.ticketOnePhone()
     },
 
-    caseNameChange () {
+    caseNameChange2() {
       this.singlePhoneList()
     },
-    // 获取话单列表
-    singlePhoneList () {
+
+    // 获取话单案件名称
+    ticketOneName() {
       var _this = this
+      this.$api.ticketOneName().then(({ data }) => {
+        console.log(data)
+        if (data.success) {
+          let casesArr = []
+          let caseList = data.result
+          caseList.forEach(item => {
+            let a = {}
+            a.value = item.caseName
+            a.label = item.caseName
+            casesArr.push(a)
+          })
+          _this.cases = casesArr
+          // console.log(_this.cases)
+        } else {
+          this.$message({
+            message: '获取话单案件名称失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 获取话单案件电话
+    ticketOnePhone() {
+      var _this = this
+      let obj = this.select.caseName
+      this.$api.ticketOnePhone(obj).then(({ data }) => {
+        console.log(data)
+        if (data.success) {
+          let phoneArr = []
+          let phoneList = data.result
+          phoneList.forEach(item => {
+            let a = {}
+            a.value = item.recordId
+            a.label = item.phoneNumber
+            phoneArr.push(a)
+          })
+          _this.phoneList = phoneArr
+          console.log(_this.phoneList)
+        } else {
+          this.$message({
+            message: '获取话单案件电话失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 获取话单列表
+    singlePhoneList() {
+      var _this = this
+      var data = this.phoneList.filter(function(item) {
+        return item.value === _this.select.id
+      })
+      console.log(data)
       let obj = {
-        caseName: this.select.caseName,
-        phone: this.select.phone
+        id: this.select.id,
+        phone: data[0].label,
       }
       this.$api.ticketOneAnalyze(obj).then(({ data }) => {
         console.log(data)
         if (data.success) {
-          _this.$message({
-            message: '获取话单成功！!',
-            type: 'success'
-          })
+          // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
+          localStorage.setItem('phoneInfo', JSON.stringify(data.result.list))
+          localStorage.setItem('phone', JSON.stringify(data.result.phone))
         } else {
           this.$message({
             message: '获取话单失败!',
-            type: 'error'
+            type: 'error',
           })
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="stylus" scoped>
