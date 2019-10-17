@@ -113,26 +113,30 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          let obj = [{
-            name: this.dataForm.name,
-            dataType: this.dataForm.dataType,
-            folderId: this.dataForm.foder,
-            description: this.dataForm.description,
-            keywords: this.dataForm.keywords
-          }]
-          this.$api.dataCacheSaveOrUpdate(!this.dataForm.id ? 'save' : 'update', obj).then(({ data }) => {
-            if (data && data.code === 200) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.visible = false
-                  this.$emit('refreshDataList')
-                }
-              })
-            }
-          })
+          let obj = [
+            {
+              name: this.dataForm.name,
+              dataType: this.dataForm.dataType,
+              folderId: this.dataForm.foder,
+              description: this.dataForm.description,
+              keywords: this.dataForm.keywords,
+            },
+          ]
+          this.$api
+            .dataCacheSaveOrUpdate(!this.dataForm.id ? 'save' : 'update', obj)
+            .then(({ data }) => {
+              if (data && data.code === 200) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success',
+                  duration: 1500,
+                  onClose: () => {
+                    this.visible = false
+                    this.$emit('refreshDataList')
+                  },
+                })
+              }
+            })
         }
       })
     },

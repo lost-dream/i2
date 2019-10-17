@@ -14,28 +14,16 @@
         label-width="60px"
       >
         <el-form-item label="名称">
-          <el-input
-            v-model="dataForm.label"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="dataForm.label" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="备注">
-          <el-input
-            v-model="dataForm.title"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="dataForm.title" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
     </div>
-    <span
-      slot="ft"
-      class="dialog-footer"
-    >
-      <el-button @click="visible=false">取消</el-button>
-      <el-button
-        type="primary"
-        @click="dataFormSubmit()"
-      >确定</el-button>
+    <span slot="ft" class="dialog-footer">
+      <el-button @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     </span>
   </fly-dialog>
 </template>
@@ -44,57 +32,56 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       node: [],
       dataForm: {
         label: '',
-        title: ''
+        title: '',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init (node) {
+    init(node) {
       this.dataForm.label = node.label
-      this.visible = true;
-      this.node = node;
+      this.visible = true
+      this.node = node
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          let label = this.dataForm.label;
-          let title = this.dataForm.title;
-          let nd = this.global.nodes.get(this.node.id);
-          nd.label = label;
-          nd.title = title;
-          this.global.nodes.update(nd);
+          let label = this.dataForm.label
+          let title = this.dataForm.title
+          let nd = this.global.nodes.get(this.node.id)
+          nd.label = label
+          nd.title = title
+          this.global.nodes.update(nd)
 
-          this.visible = false;
+          this.visible = false
         }
       })
     },
     /**
      * 保存或者修改关系
      */
-    saveOrUpdateGx () {
+    saveOrUpdateGx() {
       console.log(this.edge)
     },
 
-    beforeClose () {
+    beforeClose() {
       this.$emit('refreshDataList')
-      this.visible = false;
-    }
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

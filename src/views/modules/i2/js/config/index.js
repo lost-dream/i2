@@ -6,7 +6,7 @@ import layout from './layout'
 import { manipulation } from './manipulation'
 import physics from './physics'
 
-export function ops (vm) {
+export function ops(vm) {
   return {
     autoResize: true,
     width: '100%',
@@ -19,6 +19,6 @@ export function ops (vm) {
     ...interaction,
     ...layout,
     ...manipulation(vm),
-    ...physics
+    ...physics,
   }
 }

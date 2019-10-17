@@ -45,11 +45,11 @@ export default {
       this.visible = true
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
-        let { kw } = this.dataForm;
-        let kws = [];
-        kws.push(kw);
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
+        let { kw } = this.dataForm
+        let kws = []
+        kws.push(kw)
         if (valid) {
           // addNodes(this, this.dataForm.kw);
           this.$api.queryNodeOrAdd(kws).then(({ data }) => {

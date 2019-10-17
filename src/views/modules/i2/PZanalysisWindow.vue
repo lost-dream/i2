@@ -17,23 +17,18 @@
           <el-form-item label="碰撞源">
             <el-checkbox-group v-model="dataForm.checkList">
               <el-checkbox
-                v-for="(item,index) of relationTypeList"
-                :label=item.type
+                v-for="(item, index) of relationTypeList"
+                :label="item.type"
                 :key="index"
-              >{{item.name}}</el-checkbox>
+                >{{ item.name }}</el-checkbox
+              >
             </el-checkbox-group>
           </el-form-item>
         </el-form>
       </div>
-      <span
-        slot="ft"
-        class="dialog-footer"
-      >
-        <el-button @click="visible=false">取消</el-button>
-        <el-button
-          type="primary"
-          @click="dataFormSubmit()"
-        >分析</el-button>
+      <span slot="ft" class="dialog-footer">
+        <el-button @click="visible = false">取消</el-button>
+        <el-button type="primary" @click="dataFormSubmit()">分析</el-button>
       </span>
     </fly-dialog>
   </div>
@@ -43,59 +38,59 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       relationTypeList: [
         {
           type: 'Fugitive',
-          name: '在逃人员'
+          name: '在逃人员',
         },
         {
           type: 'ImportantControl',
-          name: '重点人'
+          name: '重点人',
         },
         {
           type: 'Car',
-          name: '车'
+          name: '车',
         },
         {
           type: 'RailwayReal',
-          name: '铁路实名制 '
+          name: '铁路实名制 ',
         },
         {
           type: 'Case',
-          name: '案件'
-        }
+          name: '案件',
+        },
       ],
       dataForm: {
         keywords: '',
         name: '',
         folderId: '',
-        checkList: []
+        checkList: [],
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init () {
-      this.$api.getAllFolderByUserName('10011').then(({ data }) => {
-
-      }).then(() => {
-        this.visible = true;
-        this.$nextTick(() => {
-          this.$refs['dataForm'].resetFields();
+    init() {
+      this.$api
+        .getAllFolderByUserName('10011')
+        .then(({ data }) => {})
+        .then(() => {
+          this.visible = true
+          this.$nextTick(() => {
+            this.$refs['dataForm'].resetFields()
+          })
         })
-      })
-    }
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

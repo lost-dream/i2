@@ -1,9 +1,9 @@
 <template>
   <div class="centrality">
-    <p
-      v-for="(item,index) of resultList"
-      :key="index"
-    ><label class="nodes">{{item.node.label}}</label>关系数量：{{item.count}}</p>
+    <p v-for="(item, index) of resultList" :key="index">
+      <label class="nodes">{{ item.node.label }}</label
+      >关系数量：{{ item.count }}
+    </p>
   </div>
 </template>
 
@@ -11,50 +11,53 @@
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
-      resultList: []
+      resultList: [],
     }
   },
   computed: {},
   methods: {
-    init () {
-      let selectNodes = this.global.network.getSelectedNodes();
-      let edges = this.global.edges;
-      var ids = edges.getIds();
-      let result = [];
-      let edgs = [];
+    init() {
+      let selectNodes = this.global.network.getSelectedNodes()
+      let edges = this.global.edges
+      var ids = edges.getIds()
+      let result = []
+      let edgs = []
       for (let i in selectNodes) {
-        var node = this.global.nodes.get(selectNodes[i]);
+        var node = this.global.nodes.get(selectNodes[i])
         result.push({
           node: node,
-          count: ''
+          count: '',
         })
       }
       for (let j in ids) {
-        var edg = this.global.edges.get(ids[j]);
+        var edg = this.global.edges.get(ids[j])
         edgs.push(edg)
       }
       for (let k in result) {
-        let ct = 0;
+        let ct = 0
         edgs.map(item => {
-          if (result[k].node.id === item.from || result[k].node.id === item.to) {
+          if (
+            result[k].node.id === item.from ||
+            result[k].node.id === item.to
+          ) {
             ct++
           }
         })
-        result[k].count = ct;
+        result[k].count = ct
       }
-      result.sort(function (a, b) {
+      result.sort(function(a, b) {
         return b.count - a.count
       })
       console.log(result)
-      this.resultList = result;
-    }
+      this.resultList = result
+    },
   },
-  created () {
-    this.init();
+  created() {
+    this.init()
   },
-  mounted () { }
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

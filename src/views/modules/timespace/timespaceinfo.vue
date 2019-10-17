@@ -81,7 +81,7 @@
             <div v-else-if="type == 'wb'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
                 <span style="font-size: 14px">
-                  &nbsp;&nbsp;{{userData.checkIn}} - {{userData.checkOut}}
+                  &nbsp;&nbsp;{{ userData.checkIn }} - {{ userData.checkOut }}
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">

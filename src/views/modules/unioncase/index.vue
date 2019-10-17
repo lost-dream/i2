@@ -619,7 +619,6 @@ export default {
                 // console.log(map.graphics)
                 // console.log(11111)
 
-
                 var symbol = new SimpleFillSymbol()
                   .setColor(null)
                   .outline.setColor('blue')
