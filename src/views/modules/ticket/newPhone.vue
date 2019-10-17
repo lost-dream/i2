@@ -328,7 +328,6 @@ export default {
   margin 0 auto
   padding 20px
   background-color rgba(44, 239, 255, 0.1)
-
 .bg
   background-color rgba(44, 239, 255, 0.1)
   padding 40px
@@ -336,17 +335,14 @@ export default {
 <style lang="stylus">
 .ticket .el-form-item__label
   color white
-
 .ticket .el-input__inner
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
   color white
-
 .ticket .el-textarea__inner
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
   color white
-
 .ticket .el-upload__tip
   color white
 </style>

@@ -168,6 +168,7 @@
 import FlyDialog from '@/components/fly-dialog'
 import AddOrUpdate from './CacheDataAddOrUpdate'
 import MoveOrCopy from './MoveOrCopy'
+import { renderNodes } from './js/renderNodes'
 export default {
   components: {
     FlyDialog,
@@ -223,9 +224,9 @@ export default {
       let params = {
         username: '10011',
       }
-      this.$api.getAllCacheDataByUserName(params).then(({ data }) => {
+      this.$api.dataCacheSearch(params).then(({ data }) => {
         if (data && data.code === 200) {
-          this.dataList = data.result
+          this.dataList = data.result.records;
         } else {
           this.dataList = []
           this.totalPage = 0
@@ -262,7 +263,30 @@ export default {
       })
     },
     // 添加至画布
-    addToCanvasHandle() {},
+    addToCanvasHandle () {
+      let kws = this.dataListSelections.map(item => {
+        return item.keywords;
+      });
+      if (kws.length > 0) {
+        // 去重
+        kws = this.unique(kws);
+      }
+      this.$api.queryNodeOrAdd(kws).then(({ data }) => {
+        if (data && data.code === 200) {
+          let ns = [];
+          let ns1 = data.result.nodes;
+          if (ns1 && ns1.length > 0) {
+            ns = ns.concat(ns1);
+          }
+          ns.map(function (e) {
+            e.isRoot = true;
+          })
+          // 渲染节点
+          renderNodes(this, ns);
+        }
+      })
+      console.log(kws)
+    },
     // 移动 或 复制至文件夹
     moveOrCopyToFoder(type) {
       this.moveOrCopyVisible = true
@@ -275,7 +299,41 @@ export default {
       })
     },
     // 批量删除
-    deleteHandle() {},
+    deleteHandle (id) {
+      let ids = id ? [id] : this.dataListSelections.map(item => {
+        return item.id
+      })
+      this.$confirm(`确定对[ID=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.dataCacheDelByIds(ids).then(({ data }) => {
+          if (data && data.code === 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.getDataList()
+              }
+            })
+          } else {
+            this.$message.error(data.message)
+          }
+        })
+      }).catch(() => { })
+    },
+    // 去掉重复的关键字
+    unique (arr) {
+      var tmp = [];
+      for (var i in arr) {
+        if (tmp.indexOf(arr[i]) === -1) {
+          tmp.push(arr[i]);
+        }
+      }
+      return tmp;
+    }
   },
   created() {},
   mounted() {},

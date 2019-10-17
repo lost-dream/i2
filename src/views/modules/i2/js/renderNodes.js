@@ -1,14 +1,20 @@
 import { addOrUpdateEdge, addOrUpdateNode } from './common'
+import { rectangle } from './layout'
 import { Edge } from './entity/Edge'
 import { Node } from './entity/Node'
-let nodes = null
-let edges = null
-let network = null
-export function renderNodes(vm, ns) {
-  nodes = vm.global.nodes
-  edges = vm.global.edges
-  network = vm.global.network
-  expandChilds(ns)
+let nodes = null;
+let edges = null;
+let network = null;
+export function renderNodes (vm, ns) {
+  nodes = vm.global.nodes;
+  edges = vm.global.edges;
+  network = vm.global.network;
+  expandChilds(ns);
+  var arr = [];
+  for (var i in ns) {
+    arr.push(ns[i].id);
+  }
+  rectangle(arr);
 }
 /**
  *
@@ -67,9 +73,9 @@ function addNodeToCanvas(childs, count) {
     let node = childs[idx]
     if (ids.indexOf(node.id) === -1 && !arrayExistsNode(subnodes, node.id)) {
       // 判断在聚合节点中是否已经存在
-      if (existsInCluster(node.pid, node.id)) continue
-      // var obj = new Node(network, node);
-      subnodes.push(node)
+      if (existsInCluster(node.pid, node.id)) continue;
+      var obj = new Node(node, network, nodes);
+      subnodes.push(obj);
     } else {
       var un = nodes.get(node.id)
       if (un) {
@@ -77,8 +83,10 @@ function addNodeToCanvas(childs, count) {
       }
     }
   }
-  addOrUpdateNode(subnodes, true)
-  nodes.update(updateNodes)
+  addOrUpdateNode(subnodes, true);
+  nodes.update(updateNodes);
+  // 自动布局
+  // if (AUTO_LAY === true) { expandLayout(subnodes); }
 }
 /**
  * 判断在聚合节点中是否已经存在

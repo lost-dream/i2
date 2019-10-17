@@ -8,8 +8,7 @@
     "build:prod": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:eslint": "eslint --ext .js,.vue src",
-    "format": "prettier --write \"src/**/*.vue\" \"src/**/*.js\"",
-    "precommit": "lint-staged"
+    "format": "prettier --write \"src/**/*.vue\" \"src/**/*.js\""
   },
   "dependencies": {
     "axios": "^0.18.1",
@@ -46,16 +45,6 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vis": "^4.21.0",
-    "vue-template-compiler": "^2.5.21"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "src/**/*.{js.json.vue,css}": [
-      "npm run format",
-      "npm run lint:eslint",
-      "git add"
-    ]
+    "vue-template-compiler": "^2.6.10"
   }
 }

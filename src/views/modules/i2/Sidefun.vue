@@ -7,7 +7,15 @@
       <el-tab-pane label="统计信息" name="1">
         <count-info></count-info>
       </el-tab-pane>
-      <el-tab-pane :label="dynamicTab" name="2"> </el-tab-pane>
+      <el-tab-pane
+        :label="dynamicTab"
+        name="2"
+      >
+        <component
+          v-bind:is="currentTabComponent"
+          :ref="currentRef"
+        ></component>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -15,10 +23,16 @@
 <script>
 import BasicInfo from './BasicInfo'
 import CountInfo from './CountInfo'
+import DynamicTabDX from './DynamicTabDX'
+import ImportNodes from './importNodesWindow'
+import Centrality from './CentralityWindow'
 export default {
   components: {
     BasicInfo,
     CountInfo,
+    DynamicTabDX,
+    ImportNodes,
+    Centrality
   },
   props: {
     detail: {
@@ -29,13 +43,22 @@ export default {
     return {
       activeName: '0',
       dynamicTab: '',
+      currentTabComponent: '',
+      currentRef: ''
     }
   },
   computed: {},
   methods: {
-    init(name, lable) {
-      this.activeName = name
-      this.dynamicTab = lable
+    init (name, lable, component) {
+      this.activeName = name;
+      this.dynamicTab = lable;
+      this.currentTabComponent = component || '';
+      if (component === 'Centrality') {
+        this.currentRef = 'centralityRef';
+        this.$nextTick(() => {
+          this.$refs.centralityRef.init();
+        })
+      }
     },
     /**
      * 判断侧边栏是否打开

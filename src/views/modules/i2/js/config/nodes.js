@@ -7,6 +7,7 @@ export default {
     borderWidthSelected: 2,
     brokenImage: undefined,
     chosen: true,
+    widthConstraint: 80, // 设置节点的宽度，超出换行
     color: {
       border: '#2B7CE9',
       background: '#97C2FC',
@@ -18,6 +19,10 @@ export default {
         border: '#2B7CE9',
         background: '#D2E5FF',
       },
+    },
+    scaling: {
+      min: 16,
+      max: 32 // 缩放效果比例
     },
     // 此对象定义标签的详细信息
     font: {
