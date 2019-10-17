@@ -110,8 +110,12 @@ export default {
       this.visible = true
     },
     // 删除标签
-    handleCloseTag(tag) {
-      this.tagList.splice(this.tagList.indexOf(tag), 1)
+    handleCloseTag (tag) {
+      this.$api.deletePersonTag({ tagId: tag.id }).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.tagList.splice(this.tagList.indexOf(tag), 1);
+        }
+      })
     },
     // 表单提交
     dataFormSubmit() {
@@ -123,7 +127,7 @@ export default {
           }
           this.$api.savePersonTag(param).then(({ data }) => {
             if (data && data.code === 200) {
-              this.tagList.push({ content: this.dataForm.content })
+              this.tagList.push(data.result)
               this.$message({
                 message: '操作成功',
                 type: 'success',

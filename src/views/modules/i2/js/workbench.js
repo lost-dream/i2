@@ -1,16 +1,13 @@
 import vis from 'vis/dist/vis'
-import options from './config/index'
+import { ops } from './config/index'
 let network
-export function Workbench(id, vm) {
-  this.container = document.getElementById(id)
-  this.nodes = new vis.DataSet([])
-  this.edges = new vis.DataSet([])
-  this.network = new vis.Network(
-    this.container,
-    { nodes: this.nodes, edges: this.edges },
-    options,
-  )
-  this.init(vm)
+export function Workbench (id, vm) {
+  let options = ops(vm);
+  this.container = document.getElementById(id);
+  this.nodes = new vis.DataSet([]);
+  this.edges = new vis.DataSet([]);
+  this.network = new vis.Network(this.container, { nodes: this.nodes, edges: this.edges }, options)
+  this.init(vm);
 }
 Workbench.prototype.init = function(vm) {
   vm.global.nodes = this.nodes

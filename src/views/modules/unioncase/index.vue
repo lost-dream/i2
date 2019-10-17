@@ -1122,7 +1122,6 @@ a:focus, a:hover
 .mod-ticket .dialog .el-date-editor.el-input:nth-child(2)
   margin-left 2%
 
-
   /*隐藏进度条*/
 .dialog .el-table__body-wrapper::-webkit-scrollbar {
   width: 0px;
