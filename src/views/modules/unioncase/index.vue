@@ -12,7 +12,13 @@
         </div>
         <el-tabs v-model="activeName" type="border-card">
           <el-tab-pane>
-            <div @click="addCase" slot="label">
+            <div
+              @click="
+                isInfo = true
+                addCase
+              "
+              slot="label"
+            >
               <img src="../../../assets/img/casexinzeng.png" alt="" />
               <p>添加案件</p>
             </div>
@@ -56,184 +62,117 @@
           <sidemenu-item></sidemenu-item>
         </sidebar>
       </div>
-      <div class="fun-sidebar">
-        <sidebar type="tabpanel" v-show="!isInfo">
-          <div class="rightPanel">
-            <div class="buttonNav">
-              <span style="color:white;margin-right:10px">设定条件</span>
-              <div>
-                <el-button @click="taskSave()" type="primary"
-                  >保存任务</el-button
-                >
-                <!-- <el-button @click="taskStaging()" type="success"
-                  >暂存</el-button
-                >-->
-                <el-button @click="taskReset()" type="warning">重置</el-button>
-              </div>
-            </div>
-            <div class="task">
-              <h4>任务名称</h4>
-              <p style="margin:5px 0;">任务名称</p>
-              <el-input v-model="taskInfo.taskName"></el-input>
-            </div>
-            <div class="condition">
-              <h4>条件参数</h4>
-              <div v-for="(item, index) in taskInfo.conditions" :key="index">
-                <div
-                  v-if="index === taskInfoSshow"
-                  class="conditionItem"
-                  style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
-                >
-                  <p>活动时间段</p>
-                  <div class="inputStyle">
-                    <p>起</p>
-                    <el-date-picker
-                      v-model="item.date1"
-                      type="date"
-                      placeholder="选择日期"
-                    >
-                    </el-date-picker>
-                  </div>
-                  <div class="inputStyle">
-                    <p>止</p>
-                    <el-date-picker
-                      v-model="item.date2"
-                      type="date"
-                      placeholder="选择日期"
-                    >
-                    </el-date-picker>
-                  </div>
-                  <div class="inputStyle">
-                    <p>范围</p>
-                    <el-input
-                      style="margin-left:10px;width:87%;"
-                      v-model="item.range"
-                    ></el-input>
-                  </div>
-                </div>
-                <div
-                  v-else
-                  @click="taskInfoSshow = index"
-                  style="border:1px solid white;padding:5px 10px;border-radius:5px;margin-top: 10px"
-                >
-                  条件参数{{ index + 1 }}
-                </div>
-              </div>
-            </div>
-            <div class="resource">
-              <div
-                style="display:flex;align-items:center;border-bottom:1px dashed white;margin-top:30px"
-              >
-                <h4 style="margin-right:20px;border:none;margin-top:0">
-                  资源参数
-                </h4>
-                <div class="resourceBtn">
-                  <el-button @click="taskInfo.type = 0" type="primary"
-                    >查人</el-button
-                  >
-                  <el-button @click="taskInfo.type = 1" type="primary"
-                    >查案</el-button
-                  >
-                </div>
-              </div>
-              <p>出生时间段</p>
-              <div class="inputStyle">
-                <p>起</p>
-                <el-date-picker
-                  v-model="taskInfo.date3"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </div>
-              <div class="inputStyle">
-                <p>止</p>
-                <el-date-picker
-                  v-model="taskInfo.date4"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </div>
-              <el-checkbox-group
-                v-model="taskInfo.checkedBox"
-                :min="1"
-                :max="2"
-              >
-                <el-checkbox
-                  v-for="(item, index) in boxs"
-                  :label="item.label"
-                  :key="index"
-                  >{{ item.name }}</el-checkbox
-                >
-              </el-checkbox-group>
-            </div>
-          </div>
-        </sidebar>
-      </div>
       <div
         class="taskAnalysisResults"
         style="position: absolute;width: 100%;top: 121px;z-index: 100;"
-        v-show="isInfo"
+        v-if="isInfo"
       >
         <task-analysis-results :id="showInfo"></task-analysis-results>
       </div>
-      <div class="dialog">
-        <flyDialog :show.sync="show" class="caseMap" :width="width">
-          <el-button type="success" @click="addCaseNum">添加案件编号</el-button>
-          <div v-for="(item, index) in inputList" :key="index">
-            <el-input style="margin:10px;" v-model="item.caseNum">
-              <el-button
-                slot="append"
-                :disabled="inputList.length == 1 ? true : false"
-                @click="delectCase(index)"
-                icon="el-icon-close"
-              ></el-button>
-            </el-input>
-          </div>
-          <div class="caseButton">
-            <!--<el-button id="casePlace" @click="search" type="success"-->
-            <el-button id="casePlace" type="success">查询</el-button>
-            <el-button @click="cancel" type="warning">取消</el-button>
-          </div>
-        </flyDialog>
-        <flyDialog
-          :show.sync="trackShow"
-          title="人员轨迹条件"
-          class="caseMap"
-          :width="width2"
-        >
-          <div class="form">
-            <el-form
-              :model="trackForm"
-              label-width="0px"
-              :rules="trackRule"
-              ref="trackForm"
-            >
-              <el-form-item prop="nameId">
-                <el-input
-                  v-model="trackForm.nameId"
-                  rows="6"
-                  placeholder="请输入身份证号码"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="trackDate">
-                <el-date-picker
-                  v-model="trackForm.startDate"
-                  type="date"
-                  placeholder="选择日期"
+      <div v-else>
+        <div class="fun-sidebar">
+          <sidebar type="tabpanel">
+            <div class="rightPanel">
+              <div class="buttonNav">
+                <span style="color:white;margin-right:10px">设定条件</span>
+                <div>
+                  <el-button @click="taskSave()" type="primary"
+                    >保存任务</el-button
+                  >
+                  <!-- <el-button @click="taskStaging()" type="success"
+                    >暂存</el-button
+                  >-->
+                  <el-button @click="taskReset()" type="warning"
+                    >重置</el-button
+                  >
+                </div>
+              </div>
+              <div class="task">
+                <h4>任务名称</h4>
+                <p style="margin:5px 0;">任务名称</p>
+                <el-input v-model="taskInfo.taskName"></el-input>
+              </div>
+              <div class="condition">
+                <h4>条件参数</h4>
+                <div v-for="(item, index) in taskInfo.conditions" :key="index">
+                  <div
+                    v-if="index === taskInfoSshow"
+                    class="conditionItem"
+                    style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
+                  >
+                    <p>活动时间段</p>
+                    <div class="inputStyle">
+                      <p>起</p>
+                      <el-date-picker
+                        v-model="item.date1"
+                        type="date"
+                        placeholder="选择日期"
+                      >
+                      </el-date-picker>
+                    </div>
+                    <div class="inputStyle">
+                      <p>止</p>
+                      <el-date-picker
+                        v-model="item.date2"
+                        type="date"
+                        placeholder="选择日期"
+                      >
+                      </el-date-picker>
+                    </div>
+                    <div class="inputStyle">
+                      <p>范围</p>
+                      <el-input
+                        style="margin-left:10px;width:87%;"
+                        v-model="item.range"
+                      ></el-input>
+                    </div>
+                  </div>
+                  <div
+                    v-else
+                    @click="taskInfoSshow = index"
+                    style="border:1px solid white;padding:5px 10px;border-radius:5px;margin-top: 10px"
+                  >
+                    条件参数{{ index + 1 }}
+                  </div>
+                </div>
+              </div>
+              <div class="resource">
+                <div
+                  style="display:flex;align-items:center;border-bottom:1px dashed white;margin-top:30px"
                 >
-                </el-date-picker>
-                <el-date-picker
-                  v-model="trackForm.endDate"
-                  type="date"
-                  placeholder="选择日期"
-                >
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item prop="checkedBox">
+                  <h4 style="margin-right:20px;border:none;margin-top:0">
+                    资源参数
+                  </h4>
+                  <div class="resourceBtn">
+                    <el-button @click="taskInfo.type = 0" type="primary"
+                      >查人</el-button
+                    >
+                    <el-button @click="taskInfo.type = 1" type="primary"
+                      >查案</el-button
+                    >
+                  </div>
+                </div>
+                <p>出生时间段</p>
+                <div class="inputStyle">
+                  <p>起</p>
+                  <el-date-picker
+                    v-model="taskInfo.date3"
+                    type="date"
+                    placeholder="选择日期"
+                  >
+                  </el-date-picker>
+                </div>
+                <div class="inputStyle">
+                  <p>止</p>
+                  <el-date-picker
+                    v-model="taskInfo.date4"
+                    type="date"
+                    placeholder="选择日期"
+                  >
+                  </el-date-picker>
+                </div>
                 <el-checkbox-group
-                  v-model="trackForm.checkedBox"
+                  v-model="taskInfo.checkedBox"
                   :min="1"
                   :max="2"
                 >
@@ -244,92 +183,171 @@
                     >{{ item.name }}</el-checkbox
                   >
                 </el-checkbox-group>
-              </el-form-item>
-            </el-form>
-          </div>
+              </div>
+            </div>
+          </sidebar>
+        </div>
+        <div class="dialog">
+          <flyDialog :show.sync="show" class="caseMap" :width="width">
+            <el-button type="success" @click="addCaseNum"
+              >添加案件编号</el-button
+            >
+            <div v-for="(item, index) in inputList" :key="index">
+              <el-input style="margin:10px;" v-model="item.caseNum">
+                <el-button
+                  slot="append"
+                  :disabled="inputList.length == 1 ? true : false"
+                  @click="delectCase(index)"
+                  icon="el-icon-close"
+                ></el-button>
+              </el-input>
+            </div>
+            <div class="caseButton">
+              <!--<el-button  @click="search" type="success"-->
+              <el-button id="casePlace" class="casePlace" type="success"
+                >查询</el-button
+              >
+              <el-button @click="cancel" type="warning">取消</el-button>
+            </div>
+          </flyDialog>
+          <flyDialog
+            :show.sync="trackShow"
+            title="人员轨迹条件"
+            class="caseMap"
+            :width="width2"
+          >
+            <div class="form">
+              <el-form
+                :model="trackForm"
+                label-width="0px"
+                :rules="trackRule"
+                ref="trackForm"
+              >
+                <el-form-item prop="nameId">
+                  <el-input
+                    v-model="trackForm.nameId"
+                    rows="6"
+                    placeholder="请输入身份证号码"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="trackDate">
+                  <el-date-picker
+                    v-model="trackForm.startDate"
+                    type="date"
+                    placeholder="选择日期"
+                  >
+                  </el-date-picker>
+                  <el-date-picker
+                    v-model="trackForm.endDate"
+                    type="date"
+                    placeholder="选择日期"
+                  >
+                  </el-date-picker>
+                </el-form-item>
+                <el-form-item prop="checkedBox">
+                  <el-checkbox-group
+                    v-model="trackForm.checkedBox"
+                    :min="1"
+                    :max="2"
+                  >
+                    <el-checkbox
+                      v-for="(item, index) in boxs"
+                      :label="item.label"
+                      :key="index"
+                      >{{ item.name }}</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </el-form-item>
+              </el-form>
+            </div>
 
-          <div class="caseButton">
-            <el-button @click="trackSearch('trackForm')" type="success"
-              >查询</el-button
-            >
-            <el-button @click="trackClear" type="warning">清空</el-button>
-          </div>
-        </flyDialog>
-        <flyDialog
-          :show.sync="trackShow2"
-          title="选择地图点位"
-          class="caseMap"
-          :width="width2"
+            <div class="caseButton">
+              <el-button @click="trackSearch('trackForm')" type="success"
+                >查询</el-button
+              >
+              <el-button @click="trackClear" type="warning">清空</el-button>
+            </div>
+          </flyDialog>
+          <flyDialog
+            :show.sync="trackShow2"
+            title="选择地图点位"
+            class="caseMap"
+            :width="width2"
+          >
+            <div class="form">
+              <el-table
+                :data="trackList"
+                height="245px"
+                :row-key="getRowKey"
+                @selection-change="handleSelectionChange"
+                style="width: 100%"
+              >
+                <el-table-column
+                  width="100"
+                  align="center"
+                  prop="organName"
+                  label="机构名称"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="area"
+                  align="center"
+                  width="200"
+                  label="所在区域"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="geographic_position"
+                  align="center"
+                  label="地图位置"
+                >
+                </el-table-column>
+                <el-table-column type="selection" width="55"> </el-table-column>
+              </el-table>
+            </div>
+            <div class="caseButton">
+              <el-button id="affirmLabel" @click="affirmLabel" type="success"
+                >确认标注</el-button
+              >
+              <el-button @click="trackClear" type="warning">清空</el-button>
+            </div>
+          </flyDialog>
+        </div>
+        <div
+          style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
+          class="mapTable"
         >
-          <div class="form">
-            <el-table
-              :data="trackList"
-              height="245px"
-              :row-key="getRowKey"
-              @selection-change="handleSelectionChange"
-              style="width: 100%"
+          <el-table
+            :data="mapTableData"
+            height="245px"
+            @current-change="handleCurrentChange"
+            @row-click="rowClick"
+            :row-key="getRowKey"
+            style="width: 100%"
+          >
+            <el-table-column
+              type="index"
+              width="100"
+              align="center"
+              label="编号"
             >
-              <el-table-column
-                width="100"
-                align="center"
-                prop="organName"
-                label="机构名称"
-              >
-              </el-table-column>
-              <el-table-column
-                prop="area"
-                align="center"
-                width="200"
-                label="所在区域"
-              >
-              </el-table-column>
-              <el-table-column
-                prop="geographic_position"
-                align="center"
-                label="地图位置"
-              >
-              </el-table-column>
-              <el-table-column type="selection" width="55"> </el-table-column>
-            </el-table>
-          </div>
-          <div class="caseButton">
-            <el-button id="affirmLabel" @click="affirmLabel" type="success"
-              >确认标注</el-button
-            >
-            <el-button @click="trackClear" type="warning">清空</el-button>
-          </div>
-        </flyDialog>
-      </div>
-      <div
-        v-show="!isInfo"
-        style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
-        class="mapTable"
-      >
-        <el-table
-          :data="mapTableData"
-          height="245px"
-          @current-change="handleCurrentChange"
-          @row-click="rowClick"
-          :row-key="getRowKey"
-          style="width: 100%"
-        >
-          <el-table-column type="index" width="100" align="center" label="编号">
-          </el-table-column>
-          <el-table-column prop="longitude" align="center" label="经度">
-          </el-table-column>
-          <el-table-column prop="latitude" align="center" label="纬度">
-          </el-table-column>
-          <el-table-column prop="type" align="center" label="类型">
-          </el-table-column>
-          <el-table-column label="操作" align="center">
-            <template slot-scope="scope">
-              <button
-                :data-index="scope.row.id"
-                class="el-icon-delete-solid removeLayer"
-              ></button>
-            </template>
-          </el-table-column>
-        </el-table>
+            </el-table-column>
+            <el-table-column prop="longitude" align="center" label="经度">
+            </el-table-column>
+            <el-table-column prop="latitude" align="center" label="纬度">
+            </el-table-column>
+            <el-table-column prop="type" align="center" label="类型">
+            </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template slot-scope="scope">
+                <button
+                  :data-index="scope.row.id"
+                  class="el-icon-delete-solid removeLayer"
+                ></button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
       <div class="content">
         <div id="map"></div>
@@ -372,7 +390,7 @@ export default {
       show: false,
       trackShow: false,
       trackShow2: false,
-      isInfo: true,
+      isInfo: false,
       width: '400px',
       width2: 'auto',
       inputList: [{ caseNum: '' }],
@@ -499,6 +517,7 @@ export default {
           'esri/layers/GraphicsLayer',
           'esri/geometry/Circle',
           'dojo/dom-attr',
+          'dojo/query',
         ],
         options,
       )
@@ -533,6 +552,7 @@ export default {
             GraphicsLayer,
             Circle,
             domAttr,
+            query,
           ]) => {
             esriBasemaps.delorme = {
               baseMapLayers: [
@@ -574,11 +594,14 @@ export default {
                 var point
                 var circle
                 var graphic
+                console.log(3333333)
                 // on(dom.byId('casePlace'), 'click', function() {
-                $('#casePlace').bind('click', function() {
+                // query('#casePlace').bind('click', function() {
+                query('#casePlace').on('click', function() {
+                  // query('#casePlace').click(function() {
                   // on($('#casePlace'), 'click', function() {
                   // _this.pointType = 2
-                  // _this.search()
+                  _this.search()
                   console.log(5555555555)
                   addPoint(104.069696, 30.677559, '案发地点')
                   // dom.byId('point')
@@ -618,7 +641,6 @@ export default {
                 // console.log(1111)
                 // console.log(map.graphics)
                 // console.log(11111)
-
 
                 var symbol = new SimpleFillSymbol()
                   .setColor(null)
@@ -863,7 +885,7 @@ export default {
       let _this = this
       console.log(this.taskInfo)
       let data = []
-      this.conditions.forEach(item => {
+      this.taskInfo.conditions.forEach(item => {
         let obj = {
           activeTimeBegin: item.date1,
           activeTimeEnd: item.date2,
