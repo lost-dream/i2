@@ -7,11 +7,7 @@
       @beforeCloseDialog="beforeClose"
     >
       <div class="mod-form">
-        <el-form
-          :inline="true"
-          :model="dataForm"
-          ref="dataForm"
-        >
+        <el-form :inline="true" :model="dataForm" ref="dataForm">
           <el-form-item>
             <el-input
               v-model="dataForm.keywords"
@@ -20,11 +16,9 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              @click="searchDataList()"
-              size="small"
-              type="success"
-            >检索</el-button>
+            <el-button @click="searchDataList()" size="small" type="success"
+              >检索</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
@@ -56,23 +50,16 @@
         <el-col :span="16">
           <div class="cont-info">
             <div class="info-title">积分大狼狗卡帝国时代</div>
-            <p class="content">阿里打击力度大沙发回来的机会 </p>
+            <p class="content">阿里打击力度大沙发回来的机会</p>
             <div class="btn-box">
-              <span
-                class="fly-btn"
-                @click="share()"
-              >发起共享</span>
+              <span class="fly-btn" @click="share()">发起共享</span>
             </div>
           </div>
         </el-col>
       </el-row>
     </fly-dialog>
     <!-- 发起共享 -->
-    <share
-      v-if="shareVisible"
-      ref="shareData"
-      @refreshDataList="init"
-    ></share>
+    <share v-if="shareVisible" ref="shareData" @refreshDataList="init"></share>
   </div>
 </template>
 
@@ -82,49 +69,48 @@ import Share from './ShareWindow'
 export default {
   components: {
     FlyDialog,
-    Share
+    Share,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       shareVisible: false,
       node: [],
       dataForm: {
         label: '',
-        title: ''
+        title: '',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init () {
-      this.visible = true;
+    init() {
+      this.visible = true
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.visible = false;
+          this.visible = false
         }
       })
     },
     // 发起共享
-    share () {
-      this.shareVisible = true;
-      this.visible = false;
+    share() {
+      this.shareVisible = true
+      this.visible = false
       this.$nextTick(() => {
-        this.$refs.shareData.init();
+        this.$refs.shareData.init()
       })
     },
-    beforeClose () {
-      this.visible = false;
-    }
+    beforeClose() {
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

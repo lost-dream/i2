@@ -8,29 +8,19 @@
     <div class="mode-add-update">
       <div
         class="line-block"
-        v-for="(item,index) of relationTypeList"
+        v-for="(item, index) of relationTypeList"
         :key="index"
       >
         <label>
-          {{item.name}}
-          <el-slider
-            :max="10"
-            @change="handleChange"
-          ></el-slider>
-          <span class="num">{{value1}}</span>
+          {{ item.name }}
+          <el-slider :max="10" @change="handleChange"></el-slider>
+          <span class="num">{{ value1 }}</span>
         </label>
-
       </div>
     </div>
-    <span
-      slot="ft"
-      class="dialog-footer"
-    >
-      <el-button @click="visible=false">取消</el-button>
-      <el-button
-        type="primary"
-        @click="dataFormSubmit()"
-      >确定</el-button>
+    <span slot="ft" class="dialog-footer">
+      <el-button @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     </span>
   </fly-dialog>
 </template>
@@ -41,46 +31,48 @@ import { renderNodes } from './js/renderNodes'
 import { Node } from './js/entity/Node'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       node: [],
       relationTypeList: [],
       value1: 0,
       dataForm: {
-        checkList: []
+        checkList: [],
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init (node) {
-      this.node = node;
-      this.$api.getAllRelationType().then(({ data }) => {
-        if (data && data.code === 200) {
-          this.relationTypeList = data.result.map(item => {
-            return {
-              type: item.type,
-              name: item.name
-            }
-          });
-        }
-      }).then(() => {
-        this.visible = true;
-      })
+    init(node) {
+      this.node = node
+      this.$api
+        .getAllRelationType()
+        .then(({ data }) => {
+          if (data && data.code === 200) {
+            this.relationTypeList = data.result.map(item => {
+              return {
+                type: item.type,
+                name: item.name,
+              }
+            })
+          }
+        })
+        .then(() => {
+          this.visible = true
+        })
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           let obj = {
             keyword: this.node.keyword,
-            param: this.dataForm.checkList.join(',')
+            param: this.dataForm.checkList.join(','),
           }
           this.$api.nodeDigRelation(obj).then(({ data }) => {
             if (data && data.code === 200) {
@@ -88,27 +80,27 @@ export default {
                 this.$message({
                   message: '没有查询到关系数据！',
                   type: 'error',
-                  duration: 1500
-                });
-                return false;
-              };
-              let edgesList = data.result.edges;
+                  duration: 1500,
+                })
+                return false
+              }
+              let edgesList = data.result.edges
               let nodesList = data.result.nodes.map(item => {
-                return new Node(item, this.global.network, this.global.nodes);
+                return new Node(item, this.global.network, this.global.nodes)
               })
               for (let i = 0; i < nodesList.length; i++) {
                 if (this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
-                  this.global.nodes.add(nodesList[i]);
+                  this.global.nodes.add(nodesList[i])
                 }
               }
               for (var j = 0; j < edgesList.length; j++) {
                 if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
-                  this.global.edges.add(edgesList[j]);
+                  this.global.edges.add(edgesList[j])
                 }
               }
-              this.dataForm.checkList = [];
-              this.global.network.unselectAll();
-              this.visible = false;
+              this.dataForm.checkList = []
+              this.global.network.unselectAll()
+              this.visible = false
             }
           })
         }
@@ -117,19 +109,19 @@ export default {
     /**
      * 保存或者修改关系
      */
-    saveOrUpdateGx () {
+    saveOrUpdateGx() {
       console.log(this.edge)
     },
-    handleChange (val) {
+    handleChange(val) {
       console.log(val)
     },
-    beforeClose () {
+    beforeClose() {
       this.$emit('refreshDataList')
-      this.visible = false;
-    }
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

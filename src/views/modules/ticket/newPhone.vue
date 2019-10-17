@@ -114,7 +114,7 @@ export default {
     }
   },
   mounted() {
-    this.$route.query.phoneDataList != undefined && this.getRoute()
+    this.$route.query.phoneDataList !== undefined && this.getRoute()
     console.log(this.oper)
   },
   methods: {
@@ -150,7 +150,6 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name,
           }
           this.$api.newly(obj).then(({ data }) => {
             if (data.success) {
@@ -173,40 +172,40 @@ export default {
       })
     },
     // 新建
-    submitForm(formName) {
-      var _this = this
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          let obj = {
-            name: this.ticketForm.name,
-            phone: this.ticketForm.phone,
-            caseName: this.ticketForm.case,
-            desc: this.ticketForm.depict,
-            flag: this.ticketForm.flag,
-            id: this.ticketForm.id,
-            recordId: this.ticketForm.recordId,
-            time: this.ticketForm.time,
-          }
-          this.$api.newly(obj).then(({ data }) => {
-            if (data.success) {
-              _this.reload()
-              _this.$message({
-                message: '创建话单成功！!',
-                type: 'success',
-              })
-            } else {
-              this.$message({
-                message: '创建话单失败!',
-                type: 'error',
-              })
-            }
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
+    // submitForm(formName) {
+    //   var _this = this
+    //   this.$refs[formName].validate(valid => {
+    //     if (valid) {
+    //       let obj = {
+    //         name: this.ticketForm.name,
+    //         phone: this.ticketForm.phone,
+    //         caseName: this.ticketForm.case,
+    //         desc: this.ticketForm.depict,
+    //         flag: this.ticketForm.flag,
+    //         id: this.ticketForm.id,
+    //         recordId: this.ticketForm.recordId,
+    //         time: this.ticketForm.time,
+    //       }
+    //       this.$api.newly(obj).then(({ data }) => {
+    //         if (data.success) {
+    //           _this.reload()
+    //           _this.$message({
+    //             message: '创建话单成功！!',
+    //             type: 'success',
+    //           })
+    //         } else {
+    //           this.$message({
+    //             message: '创建话单失败!',
+    //             type: 'error',
+    //           })
+    //         }
+    //       })
+    //     } else {
+    //       console.log('error submit!!')
+    //       return false
+    //     }
+    //   })
+    // },
     // 编辑
     ticketAlter(formName) {
       var _this = this
@@ -221,7 +220,6 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name,
           }
           this.$api.ticketAlter(obj).then(({ data }) => {
             if (data.success) {
@@ -257,7 +255,6 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name,
           }
           this.$api.ticketAddTo(obj).then(({ data }) => {
             if (data.success) {

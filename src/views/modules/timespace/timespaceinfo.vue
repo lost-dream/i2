@@ -942,7 +942,7 @@ export default {
       floors: [], // 旅馆所有的楼层
       hotelRooms: [], // 旅馆所有住了人的房间数
       hotelMember: {}, // 旅馆所有住户数据整合
-      roomMebers: [], //某个房间所有人的集合
+      roomMebers: [], // 某个房间所有人的集合
     }
   },
   computed: {

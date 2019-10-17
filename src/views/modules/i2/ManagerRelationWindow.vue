@@ -6,11 +6,7 @@
     @beforeCloseDialog="beforeClose"
   >
     <div class="mod-form">
-      <el-form
-        :inline="true"
-        :model="dataForm"
-        ref="dataForm"
-      >
+      <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item>
           <el-input
             v-model="dataForm.keywords"
@@ -19,11 +15,9 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button
-            @click="searchDataList()"
-            size="small"
-            type="success"
-          >检索</el-button>
+          <el-button @click="searchDataList()" size="small" type="success"
+            >检索</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -32,16 +26,20 @@
         <div class="resultList clearfix">
           <ul>
             <li
-              v-for="(item,index) of resultList"
+              v-for="(item, index) of resultList"
               :key="index"
-              :class="{active: index === activeLi }"
-              @click="resultLiClick(index,item.id)"
+              :class="{ active: index === activeLi }"
+              @click="resultLiClick(index, item.id)"
             >
               <dl class="clearfix">
-                <dt class="item-num fl"><i class="num">{{++index}}</i></dt>
+                <dt class="item-num fl">
+                  <i class="num">{{ ++index }}</i>
+                </dt>
                 <dd class="fl">
-                  <h3 class="title">[{{item.recordTitle}}]分析结果</h3>
-                  <p><span class="time">{{item.createTime}}</span></p>
+                  <h3 class="title">[{{ item.recordTitle }}]分析结果</h3>
+                  <p>
+                    <span class="time">{{ item.createTime }}</span>
+                  </p>
                 </dd>
               </dl>
             </li>
@@ -50,25 +48,17 @@
       </el-col>
       <el-col :span="16">
         <div class="cont-info">
-          <div class="info-title">{{activeInfo.recordTitle}}</div>
-          <p class="content">{{activeInfo.description}} </p>
-          <div
-            class="btn-box"
-            v-if="resultList.length>0"
-          >
+          <div class="info-title">{{ activeInfo.recordTitle }}</div>
+          <p class="content">{{ activeInfo.description }}</p>
+          <div class="btn-box" v-if="resultList.length > 0">
             <span
               class="fly-btn btn-denger"
               id="btnDelete"
               @click="deleteCacheHandle"
-            >删除</span>
-            <span
-              class="fly-btn btn-load"
-              @click="loadJson"
-            >加载</span>
-            <span
-              class="fly-btn btn-load"
-              @click="loadJson"
-            >重载</span>
+              >删除</span
+            >
+            <span class="fly-btn btn-load" @click="loadJson">加载</span>
+            <span class="fly-btn btn-load" @click="loadJson">重载</span>
           </div>
         </div>
       </el-col>
@@ -80,122 +70,128 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       resultList: [],
       activeInfo: {
         recordTitle: '',
-        description: ''
+        description: '',
       },
       activeLi: 0,
       currCacheNodes: [],
       dataForm: {
         label: '',
-        title: ''
+        title: '',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init () {
+    init() {
       let obj = {
         pageNumber: 1,
         pageSize: 10,
         sort: '',
-        order: 'desc'
+        order: 'desc',
       }
-      this.$api.listAllAnalyticalRecords(obj).then(({ data }) => {
-        this.resultList = data && data.code === 200 ? data.result : [];
-        if (this.resultList.length > 0) {
-          this.activeInfo = this.resultList[0];
-          this.currCacheNodes = this.resultList[0].json;
-        } else {
-          this.activeInfo = {
-            recordTitle: '',
-            description: ''
+      this.$api
+        .listAllAnalyticalRecords(obj)
+        .then(({ data }) => {
+          this.resultList = data && data.code === 200 ? data.result : []
+          if (this.resultList.length > 0) {
+            this.activeInfo = this.resultList[0]
+            this.currCacheNodes = this.resultList[0].json
+          } else {
+            this.activeInfo = {
+              recordTitle: '',
+              description: '',
+            }
           }
-        }
-        this.activeLi = 0;
-        console.log(data)
-      }).then(() => {
-        this.visible = true;
-      })
+          this.activeLi = 0
+          console.log(data)
+        })
+        .then(() => {
+          this.visible = true
+        })
     },
     // 列表点击
-    resultLiClick (index, id) {
-      this.activeLi = --index;
+    resultLiClick(index, id) {
+      this.activeLi = --index
       for (var i in this.resultList) {
         if (this.resultList[i].id === id) {
-          this.activeInfo = this.resultList[i];
-          break;
+          this.activeInfo = this.resultList[i]
+          break
         }
       }
     },
     /**
-		 * 删除保存的数据
-		 */
-    deleteCacheHandle (id) {
-      let ids = this.activeInfo.id;
+     * 删除保存的数据
+     */
+    deleteCacheHandle(id) {
+      let ids = this.activeInfo.id
       this.$confirm(`确定要进行删除操作？`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
-        this.$api.deleteAnalyticalRecords({ analyticalRecordsId: ids }).then(({ data }) => {
-          if (data && data.code === 200) {
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                this.init()
-              }
-            })
-          } else {
-            this.$message.error(data.message)
-          }
-        })
+        this.$api
+          .deleteAnalyticalRecords({ analyticalRecordsId: ids })
+          .then(({ data }) => {
+            if (data && data.code === 200) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.init()
+                },
+              })
+            } else {
+              this.$message.error(data.message)
+            }
+          })
       })
     },
     // 加载保存的数据
-    loadJson () {
-      this.$api.loadAnalyticalRecords({ analyticalRecordsId: this.activeInfo.id }).then(({ data }) => {
-        console.log(data)
-        let nodesList = JSON.parse(data.result).nodes;
-        let edgesList = JSON.parse(data.result).edges;
-        for (let i = 0; i < nodesList.length; i++) {
-          if (this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
-            this.global.nodes.add(nodesList[i]);
+    loadJson() {
+      this.$api
+        .loadAnalyticalRecords({ analyticalRecordsId: this.activeInfo.id })
+        .then(({ data }) => {
+          console.log(data)
+          let nodesList = JSON.parse(data.result).nodes
+          let edgesList = JSON.parse(data.result).edges
+          for (let i = 0; i < nodesList.length; i++) {
+            if (this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
+              this.global.nodes.add(nodesList[i])
+            }
           }
-        }
-        for (var j = 0; j < edgesList.length; j++) {
-          if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
-            this.global.edges.add(edgesList[j]);
+          for (var j = 0; j < edgesList.length; j++) {
+            if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
+              this.global.edges.add(edgesList[j])
+            }
           }
-        }
-      })
+        })
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.visible = false;
+          this.visible = false
         }
       })
     },
-    beforeClose () {
+    beforeClose() {
       this.$emit('refreshDataList')
-      this.visible = false;
-    }
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

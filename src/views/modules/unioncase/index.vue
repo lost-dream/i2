@@ -12,13 +12,7 @@
         </div>
         <el-tabs v-model="activeName" type="border-card">
           <el-tab-pane>
-            <div
-              @click="
-                isInfo = true
-                addCase
-              "
-              slot="label"
-            >
+            <div @click="addCase" slot="label">
               <img src="../../../assets/img/casexinzeng.png" alt="" />
               <p>添加案件</p>
             </div>
@@ -77,14 +71,14 @@
                 <span style="color:white;margin-right:10px">设定条件</span>
                 <div>
                   <el-button @click="taskSave()" type="primary"
-                    >保存任务</el-button
-                  >
+                    >保存任务
+                  </el-button>
                   <!-- <el-button @click="taskStaging()" type="success"
                     >暂存</el-button
                   >-->
                   <el-button @click="taskReset()" type="warning"
-                    >重置</el-button
-                  >
+                    >重置
+                  </el-button>
                 </div>
               </div>
               <div class="task">
@@ -145,11 +139,11 @@
                   </h4>
                   <div class="resourceBtn">
                     <el-button @click="taskInfo.type = 0" type="primary"
-                      >查人</el-button
-                    >
+                      >查人
+                    </el-button>
                     <el-button @click="taskInfo.type = 1" type="primary"
-                      >查案</el-button
-                    >
+                      >查案
+                    </el-button>
                   </div>
                 </div>
                 <p>出生时间段</p>
@@ -180,8 +174,8 @@
                     v-for="(item, index) in boxs"
                     :label="item.label"
                     :key="index"
-                    >{{ item.name }}</el-checkbox
-                  >
+                    >{{ item.name }}
+                  </el-checkbox>
                 </el-checkbox-group>
               </div>
             </div>
@@ -190,8 +184,8 @@
         <div class="dialog">
           <flyDialog :show.sync="show" class="caseMap" :width="width">
             <el-button type="success" @click="addCaseNum"
-              >添加案件编号</el-button
-            >
+              >添加案件编号
+            </el-button>
             <div v-for="(item, index) in inputList" :key="index">
               <el-input style="margin:10px;" v-model="item.caseNum">
                 <el-button
@@ -202,12 +196,19 @@
                 ></el-button>
               </el-input>
             </div>
-            <div class="caseButton">
-              <!--<el-button  @click="search" type="success"-->
-              <el-button id="casePlace" class="casePlace" type="success"
-                >查询</el-button
-              >
-              <el-button @click="cancel" type="warning">取消</el-button>
+            <!--<div class="caseButton">-->
+            <!--&lt;!&ndash;<el-button  @click="search" type="success"&ndash;&gt;-->
+            <!--<el-button class="casePlace" type="success">查询</el-button>-->
+            <!--<el-button @click="cancel" type="warning">取消</el-button>-->
+            <!--</div>-->
+            <div slot="ft">
+              <div class="caseButton">
+                <!--<el-button  @click="search" type="success"-->
+                <el-button id="casePlace" class="casePlace" type="success"
+                  >查询</el-button
+                >
+                <el-button @click="cancel" type="warning">取消</el-button>
+              </div>
             </div>
           </flyDialog>
           <flyDialog
@@ -254,8 +255,8 @@
                       v-for="(item, index) in boxs"
                       :label="item.label"
                       :key="index"
-                      >{{ item.name }}</el-checkbox
-                    >
+                      >{{ item.name }}
+                    </el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
               </el-form>
@@ -263,8 +264,8 @@
 
             <div class="caseButton">
               <el-button @click="trackSearch('trackForm')" type="success"
-                >查询</el-button
-              >
+                >查询
+              </el-button>
               <el-button @click="trackClear" type="warning">清空</el-button>
             </div>
           </flyDialog>
@@ -285,31 +286,39 @@
                 <el-table-column
                   width="100"
                   align="center"
-                  prop="organName"
+                  prop="name"
                   label="机构名称"
                 >
                 </el-table-column>
                 <el-table-column
-                  prop="area"
+                  prop="address"
                   align="center"
                   width="200"
                   label="所在区域"
                 >
                 </el-table-column>
-                <el-table-column
-                  prop="geographic_position"
-                  align="center"
-                  label="地图位置"
-                >
+                <el-table-column align="center" label="地图位置">
+                  <template slot-scope="scope">
+                    <span>{{
+                      (scope.row.longitude === '' ||
+                        scope.row.longitude === undefined ||
+                        scope.row.longitude === null) &&
+                      (scope.row.longitude === '' ||
+                        scope.row.longitude === undefined ||
+                        scope.row.longitude === null)
+                        ? '无'
+                        : '有'
+                    }}</span>
+                  </template>
                 </el-table-column>
-                <el-table-column type="selection" width="55"> </el-table-column>
+                <el-table-column type="selection" width="55"></el-table-column>
               </el-table>
             </div>
-            <div class="caseButton">
-              <el-button id="affirmLabel" @click="affirmLabel" type="success"
-                >确认标注</el-button
-              >
-              <el-button @click="trackClear" type="warning">清空</el-button>
+            <div slot="ft">
+              <div class="caseButton">
+                <el-button id="affirmLabel" type="success">确认标注 </el-button>
+                <el-button @click="trackClear" type="warning">清空</el-button>
+              </div>
             </div>
           </flyDialog>
         </div>
@@ -363,13 +372,6 @@ import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import flyDialog from '@/components/fly-dialog'
 
-document.addEventListener(
-  'touchstart',
-  function(event) {
-    event.preventDafault()
-  },
-  { passive: false },
-)
 export default {
   components: {
     Sidebar,
@@ -379,12 +381,12 @@ export default {
   },
   props: {},
   data() {
-    var trackDate = (rule, value, callback) => {
-      if (this.trackForm.startDate === '' || this.trackForm.endDate === '') {
-        callback(new Error('请输入始末时间'))
-      }
-      callback()
-    }
+    // var trackDate = (rule, value, callback) => {
+    //   if (this.trackForm.startDate === '' || this.trackForm.endDate === '') {
+    //     callback(new Error('请输入始末时间'))
+    //   }
+    //   callback()
+    // }
     return {
       activeName: 'Second',
       show: false,
@@ -442,6 +444,7 @@ export default {
       ],
       mapTableData: [],
       graphicItemS: [],
+      okTrack: [],
       taskInfo: {
         caseNo: '',
         createId: '',
@@ -585,38 +588,46 @@ export default {
 
                 // 定义点符号
                 var pSymbol = new SimpleMarkerSymbol()
-                  .setColor(null)
-                  .outline.setColor('red')
                 // 定义面符号
-                var fill = SimpleFillSymbol()
+                // var fill = SimpleFillSymbol()
                 var id = 0
                 // 声明一个类型和图形
                 var point
-                var circle
+                // var circle
                 var graphic
                 console.log(3333333)
                 // on(dom.byId('casePlace'), 'click', function() {
                 // query('#casePlace').bind('click', function() {
-                query('#casePlace').on('click', function() {
-                  // query('#casePlace').click(function() {
-                  // on($('#casePlace'), 'click', function() {
-                  // _this.pointType = 2
+                // query('#casePlace').on('click', function() {
+                //   // query('#casePlace').click(function() {
+                //   // on($('#casePlace'), 'click', function() {
+                //   // _this.pointType = 2
+                //   _this.search()
+                //   console.log(5555555555)
+                //   addPoint(104.069696, 30.677559, '案发地点')
+                //   // dom.byId('point')
+                //   // drawTool.activate(Draw['POINT'])
+                //   // drawEndEvent()
+                // })
+                on(dom.byId('casePlace'), 'click', function() {
                   _this.search()
-                  console.log(5555555555)
-                  addPoint(104.069696, 30.677559, '案发地点')
-                  // dom.byId('point')
-                  // drawTool.activate(Draw['POINT'])
-                  // drawEndEvent()
+                  _this.caseData.forEach(item => {
+                    addPoint(item.longitude, item.latitude, '案发地点')
+                  })
                 })
 
-                $('#affirmLabel').bind('click', function() {
-                  // _this.pointType = 2
-                  // _this.search()
-                  console.log(5555555555)
-                  addPoint(104.069696, 30.677559, '轨迹点')
-                  // dom.byId('point')
-                  // drawTool.activate(Draw['POINT'])
-                  // drawEndEvent()
+                on(dom.byId('affirmLabel'), 'click', function() {
+                  _this.affirmLabel()
+                  _this.okTrack.forEach(item => {
+                    addPoint(item.longitude, item.latitude, '轨迹点')
+                  })
+                })
+
+                // 删除图形
+                on(query('.removeLayer'), 'click', function(e) {
+                  console.log(12122)
+                  console.log(e)
+                  console.log(121212)
                 })
 
                 // // 圆心
@@ -646,10 +657,9 @@ export default {
                   .setColor(null)
                   .outline.setColor('blue')
                 var gl = new GraphicsLayer({ id: 'circles' })
-                var geodesic = dom.byId('geodesic')
                 map.addLayer(gl)
                 map.on('click', function(e) {
-                  var radius = map.extent.getWidth() / 10
+                  // var radius = map.extent.getWidth() / 10
                   var circle = new Circle({
                     center: e.mapPoint,
                     geodesic: false,
@@ -732,32 +742,35 @@ export default {
                   map.graphics.add(graphicItem)
                   console.log(map.graphics)
 
-                  // 删除图形
-                  setTimeout(
-                    () => {
-                      // off()click操作中的累积效果
-                      $('.removeLayer')
-                        .off('click')
-                        .on('click', e => {
-                          let id = Number(e.target.dataset.index)
-                          map.graphics.remove(_this.graphicItemS[id])
-                          _this.mapTableData.splice(
-                            _this.mapTableData.findIndex(fn),
-                            1,
-                          )
-                          function fn(num, numIndex, nums) {
-                            console.log(nums, num, id)
-                            return num.id === id
-                          }
-                          console.log(evt.geometry, map)
-                        })
-                    },
-                    500,
-                    evt,
-                    map,
-                    graphicItem,
-                  )
+                  // // 删除图形
+                  // setTimeout(
+                  //   () => {
+                  //     // off()click操作中的累积效果
+                  //     $('.removeLayer')
+                  //       .off('click')
+                  //       .on('click', e => {
+                  //         let id = Number(e.target.dataset.index)
+                  //         map.graphics.remove(_this.graphicItemS[id])
+                  //         _this.mapTableData.splice(
+                  //           _this.mapTableData.findIndex(fn),
+                  //           1,
+                  //         )
+                  //
+                  //         function fn(num, numIndex, nums) {
+                  //           console.log(nums, num, id)
+                  //           return num.id === id
+                  //         }
+                  //
+                  //         console.log(evt.geometry, map)
+                  //       })
+                  //   },
+                  //   500,
+                  //   evt,
+                  //   map,
+                  //   graphicItem,
+                  // )
                 }
+
                 function addPoint(x, y, type) {
                   // 104.069696,
                   // 30.677559,
@@ -786,6 +799,7 @@ export default {
     },
 
     addCase() {
+      this.isInfo = false
       this.show = true
     },
     addCaseNum() {
@@ -824,21 +838,20 @@ export default {
         console.log(data)
         console.log(data.data.data)
         console.log(_this.caseData)
-        _this.pointType = 2
         this.show = false
 
         /* _this.caseData.forEach(item => {
-          var newObj = {}
-          newObj.longitude = item.longitude
-          newObj.latitude = item.latitude
-          newObj.type = '案件发生地'
-          newObj.id = _this.mapTableData.length
+            var newObj = {}
+            newObj.longitude = item.longitude
+            newObj.latitude = item.latitude
+            newObj.type = '案件发生地'
+            newObj.id = _this.mapTableData.length
 
-          _this.mapTableData.length > 0
-            ? _this.mapTableData.indexOf(newObj) !== -1 &&
-              _this.mapTableData.push(newObj)
-            : _this.mapTableData.push(newObj)
-        }) */
+            _this.mapTableData.length > 0
+              ? _this.mapTableData.indexOf(newObj) !== -1 &&
+                _this.mapTableData.push(newObj)
+              : _this.mapTableData.push(newObj)
+          }) */
         console.log(_this.mapTableData)
       })
     },
@@ -858,6 +871,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var _this = this
+          console.log(this.trackForm.checkedBox.length)
           let obj = {
             idNumber: this.trackForm.nameId,
             activeTimeBegin: this.trackForm.startDate,
@@ -870,8 +884,8 @@ export default {
           this.$api.tracing(obj).then(({ data }) => {
             console.log(data)
             _this.trackShow = false
+            _this.trackList = data.data
             _this.trackShow2 = true
-            console.log(_this.trackForm.value1)
           })
         } else {
           console.log('error submit!!')
@@ -964,6 +978,7 @@ export default {
 
     // 清空轨迹点信息
     trackClear() {},
+
     // 确认标注
     affirmLabel() {
       this.trackShow2 = false
@@ -971,7 +986,9 @@ export default {
     getRowKey(row) {
       console.log(row)
     },
-    handleSelectionChange() {},
+    handleSelectionChange(selection) {
+      this.okTrack = selection
+    },
   },
 }
 </script>
@@ -992,8 +1009,10 @@ export default {
     content ''
     background url('~@/assets/img/i2bg.png') no-repeat center
     background-size cover
+
 .header-container .title
   background rgba(44, 239, 255, 0.5)
+
 .el-tabs--border-card
   display flex
   justify-content center
@@ -1003,91 +1022,121 @@ export default {
   border-right none
   height 72px
   align-items center
->>>.el-tabs__header
+
+>>> .el-tabs__header
   background rgba(44, 239, 255, 0) !important
   border none !important
->>>.el-tabs__item.is-active
+
+>>> .el-tabs__item.is-active
   background rgba(44, 239, 255, 0) !important
->>>.el-tabs__item
+
+>>> .el-tabs__item
   border none !important
+
 .title
   display flex
   justify-content center
-  &>h1
+  & > h1
     margin 0
     color white
     font-size 33px
+
 .el-tabs p
   margin 0
   transform translate(-14px, -14px)
-.menubar>.sidebar
-  position absolute!important
+
+.menubar > .sidebar
+  position absolute !important
   left 0
-.fun-sidebar >.sidebar
-  position absolute!important
+
+.fun-sidebar > .sidebar
+  position absolute !important
   right 0
   bottom 0
   width 295px
+
 .fun-sidebar .sidebar-inner
   width 320px
-  height 100%!important
+  height 100% !important
+
 .box
   display flex
+
 .content
   position relative
   margin-left 160px
   flex 0 1 auto
+
 .el-form-item__label
   color white
+
 a
   color #909399
+
 a:focus, a:hover
   color #e58627
+
 #map
   width 1225px
   height 850px
+
 .caseMap .el-input-group
   width 90%
+
 .caseButton
   display flex
   justify-content center
+
 .mapTable .el-table
   background-color #0d353f !important
+
 .rightPanel
   padding 20px
   font-size 14px
   color white
+
 .rightPanel .buttonNav
   display flex
   align-items center
-.rightPanel .buttonNav>div
+
+.rightPanel .buttonNav > div
   display flex
   align-items center
->>>.fun-sidebar .sidebar-inner
+
+>>> .fun-sidebar .sidebar-inner
   width 295px
   height 100%
+
 .buttonNav .el-button
   padding 5px
+
 .resourceBtn .el-button
   padding 5px
+
 .conditionItem p
   margin-left 10px
->>>.el-date-editor.el-input
+
+>>> .el-date-editor.el-input
   margin-left 10px
->>>.el-checkbox
+
+>>> .el-checkbox
   color #ffffff
->>>.el-checkbox-group
+
+>>> .el-checkbox-group
   display flex
   justify-content center
   align-items center
   height 50px
->>>h4
+
+>>> h4
   margin 0
   margin-top 30px
   padding-bottom 10px
   border-bottom 1px dashed white
+
 .inputStyle
   display flex
+
 .inputStyle p
   margin-right 20px
   width 30px
@@ -1097,16 +1146,19 @@ a:focus, a:hover
 .mod-ticket .box
   .dialog .form
     padding 10px 20px
+
 .mod-ticket .dialog .el-form
   margin 0 auto
+
 .mod-ticket .dialog .el-form-item
   margin 20px auto
+
 .mod-ticket .dialog .el-form-item__error
   top 40px
   left 0px
 
 .mod-ticket .dialog .el-dialog
-  background: rgba(8,52,56,0.6)!important
+  background: rgba(8, 52, 56, 0.6) !important
 
 .mod-ticket .el-dialog .el-dialog__body .body-content .fly-dialog-body
   padding 20px 0
@@ -1117,34 +1169,41 @@ a:focus, a:hover
   width: 49%;
 
 .mod-ticket .el-date-picker__header-label
-  color #606266!important
+  color #606266 !important
 
 .mod-ticket .dialog .el-date-editor.el-input:nth-child(2)
   margin-left 2%
 
-  /*隐藏进度条*/
+/*隐藏进度条*/
 .dialog .el-table__body-wrapper::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
+
 .dialog .el-table__body-wrapper::-webkit-scrollbar-button {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-webkit-scrollbar-track-piece {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-webkit-scrollbar-corner {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-webkit-scrollbar-resizer {
   background-color: rgba(0, 0, 0, 0);
 }
+
 /*o内核*/
 .dialog .el-table__body-wrapper .-o-scrollbar {
   width: 0px;
@@ -1152,24 +1211,31 @@ a:focus, a:hover
   -moz-appearance: none !important;
   background: rgba(0, 255, 0, 0) !important;
 }
+
 .dialog .el-table__body-wrapper::-o-scrollbar-button {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-o-scrollbar-track {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-o-scrollbar-track-piece {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-o-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-o-scrollbar-corner {
   background-color: rgba(0, 0, 0, 0);
 }
+
 .dialog .el-table__body-wrapper::-o-scrollbar-resizer {
   background-color: rgba(0, 0, 0, 0);
 }
+
 /*IE10,IE11,IE12*/
 .dialog .el-table__body-wrapper {
   -ms-scroll-chaining: chained;

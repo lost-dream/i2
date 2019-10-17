@@ -33,71 +33,73 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       props: {
         label: 'name',
-        children: 'zones'
+        children: 'zones',
       },
-      count: 1
+      count: 1,
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init () {
-      this.visible = true;
+    init() {
+      this.visible = true
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.visible = false;
+          this.visible = false
         }
       })
     },
-    handleCheckChange (data, checked, indeterminate) {
-      console.log(data, checked, indeterminate);
+    handleCheckChange(data, checked, indeterminate) {
+      console.log(data, checked, indeterminate)
     },
-    loadNode (node, resolve) {
+    loadNode(node, resolve) {
       if (node.level === 0) {
-        return resolve([{ name: 'region1' }]);
+        return resolve([{ name: 'region1' }])
       }
-      if (node.level > 3) return resolve([]);
+      if (node.level > 3) return resolve([])
 
-      var hasChild;
+      var hasChild
       if (node.data.name === 'region1') {
-        hasChild = true;
+        hasChild = true
       } else {
-        hasChild = Math.random() > 0.5;
+        hasChild = Math.random() > 0.5
       }
 
       setTimeout(() => {
-        var data;
+        var data
         if (hasChild) {
-          data = [{
-            name: 'zone' + this.count++
-          }, {
-            name: 'zone' + this.count++
-          }];
+          data = [
+            {
+              name: 'zone' + this.count++,
+            },
+            {
+              name: 'zone' + this.count++,
+            },
+          ]
         } else {
-          data = [];
+          data = []
         }
 
-        resolve(data);
-      }, 500);
+        resolve(data)
+      }, 500)
     },
-    beforeClose () {
+    beforeClose() {
       this.$emit('refreshDataList')
-      this.visible = false;
-    }
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

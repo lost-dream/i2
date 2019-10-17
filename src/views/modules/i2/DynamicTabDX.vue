@@ -1,10 +1,7 @@
 <template>
   <div class="mod-dynamictab">
     <el-collapse accordion>
-      <el-collapse-item
-        title="找车模型"
-        name="1"
-      >
+      <el-collapse-item title="找车模型" name="1">
         <div class="form-panel">
           <el-form
             :model="dataForm"
@@ -19,10 +16,7 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="型号">
-              <el-input
-                v-model="dataForm.carxh"
-                auto-complete="off"
-              ></el-input>
+              <el-input v-model="dataForm.carxh" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="颜色">
               <el-input
@@ -31,18 +25,14 @@
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="primary"
-                @click="dataFormSubmit('Car')"
-              >确定</el-button>
+              <el-button type="primary" @click="dataFormSubmit('Car')"
+                >确定</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
       </el-collapse-item>
-      <el-collapse-item
-        title="找案模型"
-        name="2"
-      >
+      <el-collapse-item title="找案模型" name="2">
         <div class="form-panel">
           <el-form
             :model="dataForm"
@@ -77,18 +67,14 @@
               ></el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="primary"
-                @click="dataFormSubmit('Case')"
-              >确定</el-button>
+              <el-button type="primary" @click="dataFormSubmit('Case')"
+                >确定</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
       </el-collapse-item>
-      <el-collapse-item
-        title="找人模型"
-        name="3"
-      >
+      <el-collapse-item title="找人模型" name="3">
         <div class="form-panel">
           <el-form
             :model="dataForm"
@@ -103,10 +89,7 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="姓名">
-              <el-input
-                v-model="dataForm.name"
-                auto-complete="off"
-              ></el-input>
+              <el-input v-model="dataForm.name" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="性别">
               <el-radio-group v-model="dataForm.sex">
@@ -123,10 +106,7 @@
                   style="width: 100%;"
                 ></el-date-picker>
               </el-col>
-              <el-col
-                class="line"
-                :span="2"
-              >-</el-col>
+              <el-col class="line" :span="2">-</el-col>
               <el-col :span="24">
                 <el-date-picker
                   type="date"
@@ -137,10 +117,9 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="primary"
-                @click="dataFormSubmit('Person')"
-              >确定</el-button>
+              <el-button type="primary" @click="dataFormSubmit('Person')"
+                >确定</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
@@ -154,7 +133,7 @@ import { Node } from './js/entity/Node'
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
       activeName: '1',
       node: {},
@@ -170,39 +149,39 @@ export default {
         case_name: null,
         location: null,
         case_time: null,
-        sex: '1'
+        sex: '1',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
   computed: {},
   methods: {
-    init () {
-      let arr = this.global.network.getSelectedNodes();
+    init() {
+      let arr = this.global.network.getSelectedNodes()
       for (let i in arr) {
-        let node = this.global.nodes.get(arr[i]);
-        this.node = node;
-        break;
+        let node = this.global.nodes.get(arr[i])
+        this.node = node
+        break
       }
     },
-    dataFormSubmit (modelType) {
+    dataFormSubmit(modelType) {
       let param = {
         keyword: this.node.keyword,
         modelType: modelType,
-        model: {}
-      };
+        model: {},
+      }
       if (modelType === 'Car') {
         param.model = {
           carNumber: this.dataForm.carnum,
           model: this.dataForm.carxh,
-          color: this.dataForm.carcolor
+          color: this.dataForm.carcolor,
         }
       } else if (modelType === 'Case') {
         param.model = {
           caseNo: this.dataForm.case_no,
           caseName: this.dataForm.case_name,
           location: this.dataForm.location,
-          caseTime: this.dataForm.case_time
+          caseTime: this.dataForm.case_time,
         }
       } else if (modelType === 'Person') {
         param.model = {
@@ -210,10 +189,10 @@ export default {
           name: this.dataForm.name,
           sex: this.dataForm.sex,
           beginDate: this.dataForm.beginDate,
-          end: this.dataForm.end
+          end: this.dataForm.end,
         }
       }
-      this.$refs['dataForm'].validate((valid) => {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           this.$api.directionalAnalyse(param).then(({ data }) => {
             if (data && data.code === 200) {
@@ -221,34 +200,34 @@ export default {
                 this.$message({
                   message: '没有查询到关系数据！',
                   type: 'error',
-                  duration: 1500
-                });
-                return false;
-              };
-              let edgesList = data.result.edges;
+                  duration: 1500,
+                })
+                return false
+              }
+              let edgesList = data.result.edges
               let nodesList = data.result.nodes.map(item => {
-                return new Node(item, this.global.network, this.global.nodes);
+                return new Node(item, this.global.network, this.global.nodes)
               })
               for (let i = 0; i < nodesList.length; i++) {
                 if (this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
-                  this.global.nodes.add(nodesList[i]);
+                  this.global.nodes.add(nodesList[i])
                 }
               }
               for (var j = 0; j < edgesList.length; j++) {
                 if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
-                  this.global.edges.add(edgesList[j]);
+                  this.global.edges.add(edgesList[j])
                 }
               }
             }
           })
         }
       })
-    }
+    },
   },
-  created () {
-    this.init();
+  created() {
+    this.init()
   },
-  mounted () { }
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

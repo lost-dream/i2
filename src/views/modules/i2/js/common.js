@@ -72,10 +72,10 @@ export function isDisabled(obj) {
 // 获取连接两个节点a和b的边的id ---自建关系
 export function getEdgesZjgxConnectings(a, b) {
   var edge = global.edges.get({
-    filter: function (edge) {
-      return edge.from === a && edge.to === b;
-    }
-  })[0];
+    filter: function(edge) {
+      return edge.from === a && edge.to === b
+    },
+  })[0]
 
   if (edge instanceof Object) {
     return edge.id
@@ -99,59 +99,63 @@ export function createZjgxEdge(from, to) {
  * 锁定---所点节点，不让其自动移动
  * @param node
  */
-export function lockNode (node) {
-  var _ns = [];
-  if ((node instanceof Array)) {
-    _ns = node;
+export function lockNode(node) {
+  var _ns = []
+  if (node instanceof Array) {
+    _ns = node
   } else {
-    _ns.push(node.id);
+    _ns.push(node.id)
   }
 
-  var arr = [];
+  var arr = []
   for (var i in _ns) {
-    node = global.nodes.get(_ns[i]);
-    if (!node) { continue; }
+    node = global.nodes.get(_ns[i])
+    if (!node) {
+      continue
+    }
 
-    node.physics = false;
-    arr.push(node);
+    node.physics = false
+    arr.push(node)
   }
 
-  global.nodes.update(arr);
+  global.nodes.update(arr)
 }
 /**
  * 解锁
  * @param node
  */
-export function unNockNode (node) {
-  var _ns = [];
-  if ((node instanceof Array)) {
-    _ns = node;
+export function unNockNode(node) {
+  var _ns = []
+  if (node instanceof Array) {
+    _ns = node
   } else {
-    _ns.push(node.id);
+    _ns.push(node.id)
   }
 
-  var arr = [];
+  var arr = []
   for (var i in _ns) {
-    node = global.nodes.get(_ns[i]);
-    if (!node) { continue; }
+    node = global.nodes.get(_ns[i])
+    if (!node) {
+      continue
+    }
 
-    node.x = undefined;
-    node.y = undefined;
-    node.physics = true;
+    node.x = undefined
+    node.y = undefined
+    node.physics = true
 
-    arr.push(node);
+    arr.push(node)
   }
-  global.nodes.update(arr);
+  global.nodes.update(arr)
 }
 /**
  * 删除节点 或 边
  */
-export function deleteOperation () {
-  var selNodes = global.network.getSelectedNodes();
-  var selEdges = global.network.getSelectedEdges();
+export function deleteOperation() {
+  var selNodes = global.network.getSelectedNodes()
+  var selEdges = global.network.getSelectedEdges()
 
   if (selNodes && selNodes.length > 0) {
-    deleteNode(selNodes);
+    deleteNode(selNodes)
   } else if (selEdges && selEdges.length > 0) {
     /**
 		 *使用弹窗提示进行删除的方式
@@ -168,37 +172,41 @@ export function deleteOperation () {
  * 删除节点和子节点
  * @param node
  */
-function deleteNode (node) {
-  var _ns = [];
-  if ((node instanceof Array)) {
-    _ns = node;
+function deleteNode(node) {
+  var _ns = []
+  if (node instanceof Array) {
+    _ns = node
   } else {
-    _ns.push(node.id);
+    _ns.push(node.id)
   }
 
-  if (_ns.length === 0) { return; }
+  if (_ns.length === 0) {
+    return
+  }
 
-  var msg = '';
+  var msg = ''
   if (_ns.length === 1) {
-    msg = '你确定要删除[' + global.nodes.get(_ns[0]).label + ']节点吗？';
+    msg = '你确定要删除[' + global.nodes.get(_ns[0]).label + ']节点吗？'
   } else {
-    msg = '你确定要删除选中的' + _ns.length + '个节点吗？';
+    msg = '你确定要删除选中的' + _ns.length + '个节点吗？'
   }
   if (!confirm(msg)) {
-    return;
+    return
   }
 
   for (var i in _ns) {
-    node = global.nodes.get(_ns[i]);
-    if (!node) { continue; }
+    node = global.nodes.get(_ns[i])
+    if (!node) {
+      continue
+    }
 
     // 1、删除节点和子节点
     // removeNode(node.id, false);
 
     // 2、只删除节点本身
-    var es = global.network.getConnectedEdges(node.id);
-    global.nodes.remove(node);
-    global.edges.remove(es);
+    var es = global.network.getConnectedEdges(node.id)
+    global.nodes.remove(node)
+    global.edges.remove(es)
   }
 }
 
@@ -206,12 +214,12 @@ function deleteNode (node) {
  * 保存关系图谱数据
  * @param mode ==> 1：保存, 2：共享 3：管理
  */
-export function managerRelationData (mode) {
+export function managerRelationData(mode) {
   switch (mode) {
     case '1':
-      break;
+      break
     case '2':
-      break;
+      break
     case '3':
       alert(2)
   }
@@ -220,41 +228,45 @@ export function managerRelationData (mode) {
  * 将节点固定于窗口中心
  * @param _nodes
  */
-export function centerNodes (_nodes) {
-  var arr = [];
+export function centerNodes(_nodes) {
+  var arr = []
   for (var i in _nodes) {
-    var node = global.nodes.get(_nodes[i]);
-    node.x = _XconvertDOMtoCanvas($('#mynetwork').width() / 2);
-    node.y = _YconvertDOMtoCanvas($('#mynetwork').height() / 2);
-    node.physics = false;
+    var node = global.nodes.get(_nodes[i])
+    node.x = _XconvertDOMtoCanvas($('#mynetwork').width() / 2)
+    node.y = _YconvertDOMtoCanvas($('#mynetwork').height() / 2)
+    node.physics = false
 
-    arr.push(node);
+    arr.push(node)
   }
 
-  addOrUpdateNode(arr, false, true);
+  addOrUpdateNode(arr, false, true)
 }
 /**
  * 判断画布中是否有数据
  * @returns {Boolean}
  */
-export function hasData () {
-  if (global.nodes && global.nodes.length > 0) { return true; } else { return false; }
-}
-export function buildExportData () {
-  var results = [];
-  var ids = global.nodes.getIds();
-  for (var i in ids) {
-    var root = global.nodes.get(ids[i]);
-    // findChilds(root);
-    results.push(root);
+export function hasData() {
+  if (global.nodes && global.nodes.length > 0) {
+    return true
+  } else {
+    return false
   }
-  var edIds = global.edges.getIds();
-  var edgs = [];
+}
+export function buildExportData() {
+  var results = []
+  var ids = global.nodes.getIds()
+  for (var i in ids) {
+    var root = global.nodes.get(ids[i])
+    // findChilds(root);
+    results.push(root)
+  }
+  var edIds = global.edges.getIds()
+  var edgs = []
   for (let i in edIds) {
     var edg = global.edges.get(edIds[i])
-    edgs.push(edg);
+    edgs.push(edg)
   }
-  return { nodes: results, edges: edgs };
+  return { nodes: results, edges: edgs }
 }
 // function findChilds (node, path) {
 //   node.childs = [];
@@ -282,29 +294,29 @@ export function buildExportData () {
 //     findChilds(n, path);
 //   }
 // }
-function buildNode (node, cedge, pointer) {
-  var attr = {};
-  var rels = [];
+function buildNode(node, cedge, pointer) {
+  var attr = {}
+  var rels = []
   // 克隆属性
   for (var key in node.attributes) {
-    attr[key] = node.attributes[key];
+    attr[key] = node.attributes[key]
   }
   // 克隆关系数据
   if (cedge) {
     for (var i in cedge.rels) {
-      var rel = { color: getCloneColor(node.color) };
+      var rel = { color: getCloneColor(node.color) }
       for (let key in cedge.rels[i]) {
-        rel[key] = cedge.rels[i][key];
+        rel[key] = cedge.rels[i][key]
       }
-      rels.push(rel);
+      rels.push(rel)
     }
   } else {
     for (let i in node.rels) {
-      let rel = { color: getCloneColor(node.color) };
+      let rel = { color: getCloneColor(node.color) }
       for (let key in node.rels[i]) {
-        rel[key] = node.rels[i][key];
+        rel[key] = node.rels[i][key]
       }
-      rels.push(rel);
+      rels.push(rel)
     }
   }
 
@@ -326,21 +338,27 @@ function buildNode (node, cedge, pointer) {
     childs: [],
     cached: node.cached,
     autoCached: node.autoCached,
-    relationData: node.relationData
-  };
-
-  if (node.isRoot) { n.isRoot = true; }
-
-  if (pointer) {
-    var pos = global.network.getPositions([n.id]);
-    n.x = pos[n.id].x;
-    n.y = pos[n.id].y;
+    relationData: node.relationData,
   }
 
-  return n;
+  if (node.isRoot) {
+    n.isRoot = true
+  }
+
+  if (pointer) {
+    var pos = global.network.getPositions([n.id])
+    n.x = pos[n.id].x
+    n.y = pos[n.id].y
+  }
+
+  return n
 }
-function getCloneColor (color) {
-  if (color && color.background) { return color.background; } else { return color; }
+function getCloneColor(color) {
+  if (color && color.background) {
+    return color.background
+  } else {
+    return color
+  }
 }
 /**
  * 坐标转换：canvas转DOM
@@ -350,8 +368,11 @@ function getCloneColor (color) {
 //   return { x: _XconvertCanvastoDOM(touch.x), y: _YconvertCanvastoDOM(touch.y) };
 // }
 
-function _XconvertDOMtoCanvas (x) {
-  return (x - global.network.canvas.body.view.translation.x) / global.network.canvas.body.view.scale;
+function _XconvertDOMtoCanvas(x) {
+  return (
+    (x - global.network.canvas.body.view.translation.x) /
+    global.network.canvas.body.view.scale
+  )
 }
 // function _XconvertCanvastoDOM (x) {
 //   return x * global.network.canvas.body.view.scale + global.network.canvas.body.view.translation.x;
@@ -361,8 +382,14 @@ function _XconvertDOMtoCanvas (x) {
  * @param y
  * @returns {Number}
  */
-function _YconvertDOMtoCanvas (y) {
-  return (y - global.network.canvas.body.view.translation.y) / global.network.canvas.body.view.scale - $('.mod-i2').height() - 121 + 'px' / global.network.canvas.body.view.scale;
+function _YconvertDOMtoCanvas(y) {
+  return (
+    (y - global.network.canvas.body.view.translation.y) /
+      global.network.canvas.body.view.scale -
+    $('.mod-i2').height() -
+    121 +
+    'px' / global.network.canvas.body.view.scale
+  )
 }
 // function _YconvertCanvastoDOM (y) {
 //   return y * network.canvas.body.view.scale + network.canvas.body.view.translation.y + getMenuHeight();
@@ -370,8 +397,8 @@ function _YconvertDOMtoCanvas (y) {
 /**
  * 导出JSON
  */
-export function exportJson () {
-  var datas = buildExportData();
-  let blob = new Blob([JSON.stringify(datas)]);
+export function exportJson() {
+  var datas = buildExportData()
+  let blob = new Blob([JSON.stringify(datas)])
   FileSaver.saveAs(blob, 'i2.json')
 }

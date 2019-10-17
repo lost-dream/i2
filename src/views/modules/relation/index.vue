@@ -2,14 +2,8 @@
   <div class="relation-mode relation-bg">
     <div class="fly-header header">
       <div class="">
-        <a
-          href="/"
-          class="logo"
-        >
-          <img
-            src="@/assets/img/logo.png"
-            alt=""
-          >
+        <a href="/" class="logo">
+          <img src="@/assets/img/logo.png" alt="" />
         </a>
         <span>情报智能分析系统</span>
       </div>
@@ -22,28 +16,12 @@
           v-model="input5"
           class="input-with-select"
         >
-          <el-select
-            v-model="select"
-            slot="prepend"
-            placeholder="关系模型选择"
-          >
-            <el-option
-              label="餐厅名"
-              value="1"
-            ></el-option>
-            <el-option
-              label="订单号"
-              value="2"
-            ></el-option>
-            <el-option
-              label="用户电话"
-              value="3"
-            ></el-option>
+          <el-select v-model="select" slot="prepend" placeholder="关系模型选择">
+            <el-option label="餐厅名" value="1"></el-option>
+            <el-option label="订单号" value="2"></el-option>
+            <el-option label="用户电话" value="3"></el-option>
           </el-select>
-          <el-button
-            slot="append"
-            icon="el-icon-search"
-          >分析</el-button>
+          <el-button slot="append" icon="el-icon-search">分析</el-button>
         </el-input>
       </div>
     </div>
@@ -54,16 +32,16 @@
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
       input5: '',
-      select: ''
+      select: '',
     }
   },
   computed: {},
   methods: {},
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>
