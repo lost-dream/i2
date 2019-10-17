@@ -80,9 +80,9 @@
             </div>
             <div v-else-if="type == 'wb'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
-                <span style="font-size: 14px"
-                  >&nbsp;&nbsp;2015年6月25日11:41</span
-                >
+                <span style="font-size: 14px">
+                  &nbsp;&nbsp;{{userData.checkIn}} - {{userData.checkOut}}
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
@@ -1173,9 +1173,9 @@ export default {
         break
       case '网吧':
         data = {
-          beginTime: this.userData.beginTime,
-          endTime: this.userData.endTime,
-          wbAndbgNameId: this.userData.wbAndbgNameId,
+          beginTime: this.userData.checkIn,
+          endTime: this.userData.checkOut,
+          wbAndbgNameId: this.userData.id,
           type: 4,
         }
         break
