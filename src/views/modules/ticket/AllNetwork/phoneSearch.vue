@@ -152,7 +152,6 @@ export default {
 
   methods: {
     onSubmit() {
-      var _this = this
       let obj = {
         phone: this.phoneSearchForm.phoneNum,
       }

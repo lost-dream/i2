@@ -187,10 +187,6 @@ export default {
 
     // 获取话单列表
     singlePhoneList() {
-      console.log(11111)
-      console.log(this.select)
-      console.log(22222)
-      var _this = this
       let obj = this.select.id
       // let obj = {
       //   id: this.select.id,

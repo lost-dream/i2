@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { lstat } from 'fs'
 export default {
   name: 'personalInfoCard',
   props: {

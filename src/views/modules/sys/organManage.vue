@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO singleDogNo.1 导入 -->
   <div class="organManage">
     <div class="coat1">
       <div class="coat2">
@@ -157,12 +156,16 @@
             <span class="content">导入</span>
             <el-upload
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              ref="upload"
+              :action="uploadURL"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
-              :file-list="fileList2"
-              accept=".xls, .xlsx"
-              list-type="picture"
+              :before-upload="beforeUpload"
+              :on-error="uploadError"
+              :on-success="uploadSuccess"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :auto-upload="false"
             >
               <el-button class="impBut" size="small" type="primary">
                 <span>点击上传</span>
@@ -173,11 +176,7 @@
               <el-button class="canBut" @click="importDialog = false">
                 <span>取 消</span>
               </el-button>
-              <el-button
-                class="okBut"
-                type="primary"
-                @click="importOrgan('form')"
-              >
+              <el-button class="okBut" type="primary" @click="importOrgan">
                 <span>确 定</span>
               </el-button>
             </div>
@@ -220,6 +219,7 @@ export default {
   },
   data() {
     return {
+      uploadURL: process.env.VUE_APP_COMMON_REQUEST_URL + 'admin/importExcelDe',
       currentPage: 1, // 当前页数
       pageSize: 10, // 每页显示信息条数
       totalPage: 1, // 总页数
@@ -319,6 +319,29 @@ export default {
     handlePreview(file) {
       console.log(file)
     },
+    beforeUpload(file) {
+      const isText = file.type === 'application/vnd.ms-excel'
+      const isTextComputer =
+        file.type ===
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      return isText | isTextComputer
+    },
+    uploadError() {
+      this.$message({
+        message: '文件上传失败!',
+        type: 'error',
+      })
+    },
+    uploadSuccess(res, file, fileList) {
+      console.log(res, file, fileList)
+      this.$message({
+        type: 'success',
+        message: '文件上传成功',
+      })
+    },
+    handleExceed() {
+      this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`)
+    },
     // 删除机构
     deleteOrgan() {
       const selectedDepartment = this.multipleSelection[0]
@@ -355,6 +378,7 @@ export default {
     },
     // 导入
     importOrgan() {
+      this.$refs.upload.submit()
       this.importDialog = false
     },
     // ------------------- edit by singleDogNo.1 -------------------

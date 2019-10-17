@@ -311,9 +311,9 @@ export default {
       time.replace(/分钟/g, '分')
       time.replace(/小时/g, '时')
       let hourIn, minIn, secIn
-      time.indexOf('时') == -1 ? (hourIn = 0) : (hourIn = time.indexOf('时'))
-      time.indexOf('分') == -1 ? (minIn = 0) : (minIn = time.indexOf('分'))
-      time.indexOf('秒') == -1 ? (secIn = 0) : (secIn = time.indexOf('秒'))
+      !time.includes('时') ? (hourIn = 0) : (hourIn = time.indexOf('时'))
+      !time.includes('分') ? (minIn = 0) : (minIn = time.indexOf('分'))
+      !time.includes('秒') ? (secIn = 0) : (secIn = time.indexOf('秒'))
       let hour = 0
       let min = 0
       let sec = 0

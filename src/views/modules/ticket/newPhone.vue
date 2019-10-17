@@ -136,7 +136,7 @@ export default {
         ? (this.rules.uploadPhone = this.filter_rules({ required: true }))
         : (this.rules.uploadPhone = this.filter_rules({ required: false }))
     },
-
+    // 新建
     submitForm(formName) {
       var _this = this
       this.$refs[formName].validate(valid => {
@@ -171,48 +171,12 @@ export default {
         }
       })
     },
-    // 新建
-    // submitForm(formName) {
-    //   var _this = this
-    //   this.$refs[formName].validate(valid => {
-    //     if (valid) {
-    //       let obj = {
-    //         name: this.ticketForm.name,
-    //         phone: this.ticketForm.phone,
-    //         caseName: this.ticketForm.case,
-    //         desc: this.ticketForm.depict,
-    //         flag: this.ticketForm.flag,
-    //         id: this.ticketForm.id,
-    //         recordId: this.ticketForm.recordId,
-    //         time: this.ticketForm.time,
-    //       }
-    //       this.$api.newly(obj).then(({ data }) => {
-    //         if (data.success) {
-    //           _this.reload()
-    //           _this.$message({
-    //             message: '创建话单成功！!',
-    //             type: 'success',
-    //           })
-    //         } else {
-    //           this.$message({
-    //             message: '创建话单失败!',
-    //             type: 'error',
-    //           })
-    //         }
-    //       })
-    //     } else {
-    //       console.log('error submit!!')
-    //       return false
-    //     }
-    //   })
-    // },
     // 编辑
     ticketAlter(formName) {
       var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            name: this.ticketForm.name,
             phone: this.ticketForm.phone,
             caseName: this.ticketForm.case,
             desc: this.ticketForm.depict,
@@ -220,6 +184,7 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
+            name: this.ticketForm.name,
           }
           this.$api.ticketAlter(obj).then(({ data }) => {
             if (data.success) {
@@ -247,7 +212,6 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            name: this.ticketForm.name,
             phone: this.ticketForm.phone,
             caseName: this.ticketForm.case,
             desc: this.ticketForm.depict,
@@ -255,6 +219,7 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
+            name: this.ticketForm.name,
           }
           this.$api.ticketAddTo(obj).then(({ data }) => {
             if (data.success) {
@@ -297,17 +262,17 @@ export default {
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       return isText | isTextComputer
     },
-    handleExceed(files, fileList) {
+    handleExceed() {
       this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`)
     },
-    uploadError(err, file, fileList) {
+    uploadError() {
       console.log('上传失败')
       this.$message({
         message: '文件上传失败!',
         type: 'error',
       })
     },
-    uploadSuccess(response, file, fileList) {
+    uploadSuccess(response, file) {
       this.ticketForm.uploadPhone = response.result
       this.ticketForm.time = response.timestamp
       this.ticketForm.recordId = file.uid

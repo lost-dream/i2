@@ -43,14 +43,14 @@
                   {{ userData.startSstation }} -
                   {{ userData.destination }}
                 </span>
-                <span class="el-icon-time">
-                  &nbsp;&nbsp;{{ userData.startTime }}
-                </span>
+                <span class="el-icon-time"
+                  >&nbsp;&nbsp;{{ userData.startTime }}</span
+                >
               </div>
               <div class="infoItem" style="width: 25%">
-                <span class="icon-zdy-facheshikebiao">
-                  &nbsp;&nbsp;{{ userData.toolNumber }}次
-                </span>
+                <span class="icon-zdy-facheshikebiao"
+                  >&nbsp;&nbsp;{{ userData.toolNumber }}次</span
+                >
               </div>
             </div>
             <div v-if="type == 'lg'" class="seatDesc clearfix">
@@ -60,28 +60,26 @@
                 >
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="el-icon-place noOne"></span
-                  >&nbsp;&nbsp;无住户</span
-                >
+                <span>
+                  <span class="el-icon-place noOne"></span>&nbsp;&nbsp;无住户
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="el-icon-place exist"></span
-                  >&nbsp;&nbsp;已有住户</span
-                >
+                <span>
+                  <span class="el-icon-place exist"></span>&nbsp;&nbsp;已有住户
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="el-icon-place parties"></span
-                  >&nbsp;&nbsp;当事人</span
-                >
+                <span>
+                  <span class="el-icon-place parties"></span>&nbsp;&nbsp;当事人
+                </span>
               </div>
             </div>
             <div v-else-if="type == 'wb'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
                 <span style="font-size: 14px"
-                  >&nbsp;&nbsp;2015年6月25日11:41</span
+                  >&nbsp;&nbsp;{{ userData.checkIn }} -
+                  {{ userData.checkOut }}</span
                 >
               </div>
               <div class="infoItem2" style="width: 20%">
@@ -91,16 +89,14 @@
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="icon-zdy-yizi exist"></span
-                  >&nbsp;&nbsp;有人</span
-                >
+                <span>
+                  <span class="icon-zdy-yizi exist"></span>&nbsp;&nbsp;有人
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="icon-zdy-yizi parties"></span
-                  >&nbsp;&nbsp;当事人</span
-                >
+                <span>
+                  <span class="icon-zdy-yizi parties"></span>&nbsp;&nbsp;当事人
+                </span>
               </div>
             </div>
             <div v-else class="seatDesc clearfix">
@@ -128,16 +124,14 @@
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="icon-zdy-yizi exist"></span
-                  >&nbsp;&nbsp;固定乘客</span
-                >
+                <span>
+                  <span class="icon-zdy-yizi exist"></span>&nbsp;&nbsp;固定乘客
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="icon-zdy-yizi parties"></span
-                  >&nbsp;&nbsp;当事人</span
-                >
+                <span>
+                  <span class="icon-zdy-yizi parties"></span>&nbsp;&nbsp;当事人
+                </span>
               </div>
             </div>
             <!-- 座位图 -->
@@ -157,7 +151,7 @@
                     <span>C</span>
                   </div>
                   <div class="list aisle">
-                    <span> 过道</span>
+                    <span>过道</span>
                   </div>
                   <div class="list">
                     <span>D</span>
@@ -357,7 +351,7 @@
                     <span>C</span>
                   </div>
                   <div class="list aisle">
-                    <span> 过道</span>
+                    <span>过道</span>
                   </div>
                   <div class="list">
                     <span>D</span>
@@ -372,7 +366,7 @@
                     <span>G</span>
                   </div>
                   <div class="list aisle">
-                    <span> 过道</span>
+                    <span>过道</span>
                   </div>
                   <div class="list">
                     <span>H</span>
@@ -668,7 +662,7 @@
                     <span>B</span>
                   </div>
                   <div class="list aisle">
-                    <span> 过道</span>
+                    <span>过道</span>
                   </div>
                   <div class="list">
                     <span>C</span>
@@ -1173,9 +1167,9 @@ export default {
         break
       case '网吧':
         data = {
-          beginTime: this.userData.beginTime,
-          endTime: this.userData.endTime,
-          wbAndbgNameId: this.userData.wbAndbgNameId,
+          beginTime: this.userData.checkIn,
+          endTime: this.userData.checkOut,
+          wbAndbgNameId: this.userData.id,
           type: 4,
         }
         break
@@ -1269,129 +1263,195 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.timespaceinfo
-    position relative
-  .seatInfoCoat1,
-  .seatInfoCoat2
-    padding 10px
-    background-color rgba(44, 239, 255, 0.1)
-  .seatInfoCoat1
-    width 840px
-    position relative
-    left 189px
-  .seatInfoCoat2
-    width 820px
-    border 1px solid rgba(44, 239, 255, 0.2)
-  .seatInfoCoat3
-    width 800px
-    height auto
-    overflow hidden
-  .seatInfo
-      width: 820px;
-      min-height: 100px;
-      background-color rgba(44, 239, 255, 0.2)
-      overflow-y  scroll
-    .noOne
-      display inline!important
-      color #333333!important
-    .exist
-      display inline!important
-      color #ffffff!important
-    .parties
-      display inline!important
-      color #e22929!important
-      font-weight 900
-    .journeyInfo
-        width 100%
-      .infoItem
-        float left
-        display inline-block
-        height 90px
-        padding 10px 0
-        border-bottom 1px solid #143d4b
-      .infoItem span
-        display inline-block
-        width 100%
-        text-align center
-        color #ffffff
-        font-size 16px
-        line-height: 30px;
-      .infoItem:nth-child(2) span
-        text-align initial
-        line-height: 38px;
-      .infoItem:nth-child(3),
-      .infoItem:nth-child(4)
-        span
-          line-height: 113px;
+.timespaceinfo {
+  position: relative;
+}
 
-    .seatDesc
-        width 100%
-        height 40px
-      .infoItem2
-        float left
-        display inline-block
-        height 40px
-        padding 10px 0
-        border-bottom 1px solid #143d4b
-      .infoItem2:nth-child(1)
-        padding 10px 20px
-      .infoItem2 span
-        display inline-block
-        width 100%
-        text-align center
-        color #ffffff
-        font-size 16px
-        line-height: 20px;
-      .infoItem2:nth-child(1) span
-        text-align initial
-  .seatInfoCoat3 .seatInfo .seatLayout
-    .columnName
-      width 100%
-      height 40px
-    .list
-      float left
-      display inline-block
-      width 14%
-      height 50px
-      padding 10px 0
-      text-align center
-      border-bottom 1px solid #143d4b
-    .list span
-      color #ffffff
-      font-size 18px
-    .hc_seatLayout .list
-         width 14%
-    .hc_seatLayout .aisle
-         width 16%
-    .fj_seatLayout .list
-         width 9%
-    .qc_seatLayout .list
-         width 16%
-    .lg_seatLayout .list,
-    .wb_seatLayout .list
-         width 7%
-    .wb_seatLayout .list:nth-child(27n+1) span
-         font-size 14px
-    .qc_seatLayout .aisle
-         width 20%
-  .passengerInfo
-      position absolute
-      left 1060px
-      top 120px
-    .cardList
-      display inline-block
-      margin 0px 10px 10px 0
-      padding 5px 10px
-      background-color rgba(44, 239, 255, 0.2)
-      color #ffffff
-    .okCard
-      background-color rgba(44, 239, 255, 0.4)
+.seatInfoCoat1, .seatInfoCoat2 {
+  padding: 10px;
+  background-color: rgba(44, 239, 255, 0.1);
+}
+
+.seatInfoCoat1 {
+  width: 840px;
+  position: relative;
+  left: 189px;
+}
+
+.seatInfoCoat2 {
+  width: 820px;
+  border: 1px solid rgba(44, 239, 255, 0.2);
+}
+
+.seatInfoCoat3 {
+  width: 800px;
+  height: auto;
+  overflow: hidden;
+}
+
+.seatInfo {
+  width: 820px;
+  min-height: 100px;
+  background-color: rgba(44, 239, 255, 0.2);
+  overflow-y: scroll;
+}
+
+.noOne {
+  display: inline !important;
+  color: #333333 !important;
+}
+
+.exist {
+  display: inline !important;
+  color: #ffffff !important;
+}
+
+.parties {
+  display: inline !important;
+  color: #e22929 !important;
+  font-weight: 900;
+}
+
+.journeyInfo {
+  width: 100%;
+}
+
+.infoItem {
+  float: left;
+  display: inline-block;
+  height: 90px;
+  padding: 10px 0;
+  border-bottom: 1px solid #143d4b;
+}
+
+.infoItem span {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 30px;
+}
+
+.infoItem:nth-child(2) span {
+  text-align: initial;
+  line-height: 38px;
+}
+
+.infoItem:nth-child(3), .infoItem:nth-child(4) {
+  span {
+    line-height: 113px;
+  }
+}
+
+.seatDesc {
+  width: 100%;
+  height: 40px;
+}
+
+.infoItem2 {
+  float: left;
+  display: inline-block;
+  height: 40px;
+  padding: 10px 0;
+  border-bottom: 1px solid #143d4b;
+}
+
+.infoItem2:nth-child(1) {
+  padding: 10px 20px;
+}
+
+.infoItem2 span {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.infoItem2:nth-child(1) span {
+  text-align: initial;
+}
+
+.seatInfoCoat3 .seatInfo .seatLayout {
+  .columnName {
+    width: 100%;
+    height: 40px;
+  }
+
+  .list {
+    float: left;
+    display: inline-block;
+    width: 14%;
+    height: 50px;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid #143d4b;
+  }
+
+  .list span {
+    color: #ffffff;
+    font-size: 18px;
+  }
+
+  .hc_seatLayout .list {
+    width: 14%;
+  }
+
+  .hc_seatLayout .aisle {
+    width: 16%;
+  }
+
+  .fj_seatLayout .list {
+    width: 9%;
+  }
+
+  .qc_seatLayout .list {
+    width: 16%;
+  }
+
+  .lg_seatLayout .list, .wb_seatLayout .list {
+    width: 7%;
+  }
+
+  .wb_seatLayout .list:nth-child(27n+1) span {
+    font-size: 14px;
+  }
+
+  .qc_seatLayout .aisle {
+    width: 20%;
+  }
+}
+
+.passengerInfo {
+  position: absolute;
+  left: 1060px;
+  top: 120px;
+}
+
+.cardList {
+  display: inline-block;
+  margin: 0px 10px 10px 0;
+  padding: 5px 10px;
+  background-color: rgba(44, 239, 255, 0.2);
+  color: #ffffff;
+}
+
+.okCard {
+  background-color: rgba(44, 239, 255, 0.4);
+}
 </style>
 <style lang="stylus">
-.atooltip[x-placement^=top] .popper__arrow
-  border-top-color #59bec6!important
-.atooltip[x-placement^=top] .popper__arrow:after
-  border-top-color #59bec6!important
-.atooltip
+.atooltip[x-placement^=top] .popper__arrow {
+  border-top-color: #59bec6 !important;
+}
+
+.atooltip[x-placement^=top] .popper__arrow:after {
+  border-top-color: #59bec6 !important;
+}
+
+.atooltip {
   background: #59bec6 !important;
+}
 </style>

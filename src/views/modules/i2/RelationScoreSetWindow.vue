@@ -27,7 +27,7 @@
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
-import { renderNodes } from './js/renderNodes'
+// import { renderNodes } from './js/renderNodes'
 import { Node } from './js/entity/Node'
 export default {
   components: {
