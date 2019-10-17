@@ -9,7 +9,7 @@
         <img src="../../assets/img/shezhi.png" alt />
         <p>设置</p>
       </li>
-      <li class="nav">
+      <li class="nav" @click="logout">
         <img src="../../assets/img/tuichu.png" alt />
         <p>退出</p>
       </li>
@@ -108,6 +108,7 @@
 
 <script>
 import Cookies from 'js-cookie'
+
 export default {
   data() {
     return {}
@@ -120,6 +121,12 @@ export default {
     })
   },
   methods: {
+    logout() {
+      Cookies.remove('ac_token')
+      Cookies.remove('user_info')
+      Cookies.remove('userId')
+      this.$router.push({ name: 'login' })
+    },
     initPage() {
       let canvas = document.getElementById('can')
       const _this = this

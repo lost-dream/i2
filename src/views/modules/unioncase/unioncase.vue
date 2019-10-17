@@ -243,7 +243,7 @@ export default {
   },
   methods: {
     mapDraw() {
-      var _this = this
+      // var _this = this
       const options = {
         // css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
         // url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'

@@ -294,7 +294,7 @@ export function buildExportData() {
 //     findChilds(n, path);
 //   }
 // }
-function buildNode(node, cedge, pointer) {
+/* function buildNode(node, cedge, pointer) {
   var attr = {}
   var rels = []
   // 克隆属性
@@ -352,14 +352,14 @@ function buildNode(node, cedge, pointer) {
   }
 
   return n
-}
-function getCloneColor(color) {
+} */
+/* function getCloneColor(color) {
   if (color && color.background) {
     return color.background
   } else {
     return color
   }
-}
+} */
 /**
  * 坐标转换：canvas转DOM
  * LGG 2017-3-8

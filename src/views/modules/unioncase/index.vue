@@ -361,12 +361,12 @@ export default {
   },
   props: {},
   data() {
-    var trackDate = (rule, value, callback) => {
-      if (this.trackForm.startDate === '' || this.trackForm.endDate === '') {
-        callback(new Error('请输入始末时间'))
-      }
-      callback()
-    }
+    // var trackDate = (rule, value, callback) => {
+    //   if (this.trackForm.startDate === '' || this.trackForm.endDate === '') {
+    //     callback(new Error('请输入始末时间'))
+    //   }
+    //   callback()
+    // }
     return {
       activeName: 'Second',
       show: false,
@@ -568,11 +568,11 @@ export default {
                   .setColor(null)
                   .outline.setColor('red')
                 // 定义面符号
-                var fill = SimpleFillSymbol()
+                // var fill = SimpleFillSymbol()
                 var id = 0
                 // 声明一个类型和图形
                 var point
-                var circle
+                // var circle
                 var graphic
                 // on(dom.byId('casePlace'), 'click', function() {
                 $('#casePlace').bind('click', function() {
@@ -623,10 +623,10 @@ export default {
                   .setColor(null)
                   .outline.setColor('blue')
                 var gl = new GraphicsLayer({ id: 'circles' })
-                var geodesic = dom.byId('geodesic')
+                // var geodesic = dom.byId('geodesic')
                 map.addLayer(gl)
                 map.on('click', function(e) {
-                  var radius = map.extent.getWidth() / 10
+                  // var radius = map.extent.getWidth() / 10
                   var circle = new Circle({
                     center: e.mapPoint,
                     geodesic: false,

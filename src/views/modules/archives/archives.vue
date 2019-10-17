@@ -798,6 +798,7 @@ export default {
     },
     // 导出Excel
     exportToExcel(Archives) {
+      console.log(Archives)
       require.ensure([], () => {
         const tHeader = []
         const filterVal = []

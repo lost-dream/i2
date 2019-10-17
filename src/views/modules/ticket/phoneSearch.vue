@@ -363,20 +363,20 @@ export default {
       var _phone = this.phoneForm.phone
       var _phoneData = []
       this.page.currentPage = 1
-      if (_name == '' && _phone == '') {
+      if (_name === '' && _phone === '') {
         _phoneData = this.phoneData
-      } else if (_name != '' && _phone != '') {
+      } else if (_name !== '' && _phone !== '') {
         this.phoneData.forEach(item => {
           item.name.indexOf(_name) >= 0 &&
             item.phone == _phone &&
             _phoneData.push(item)
         })
       } else {
-        _name != '' &&
+        _name !== '' &&
           this.phoneData.forEach(item => {
             item.name.indexOf(_name) >= 0 && _phoneData.push(item)
           })
-        _phone != '' &&
+        _phone !== '' &&
           this.phoneData.forEach(item => {
             item.phone == _phone && _phoneData.push(item)
           })
@@ -434,14 +434,14 @@ export default {
       console.log('通话查询')
       console.log(conData)
       console.log(conData.time == null)
-      conData.time != null && this.timeSizer()
-      conData.phone != '' &&
+      conData.time !== null && this.timeSizer()
+      conData.phone !== '' &&
         ((condition.partyPhone = conData.phone),
         (this.converseData2 = this.$api.callFilter(
           condition,
           this.converseData2,
         )))
-      conData.callTime != '' && this.callTimeSizer()
+      conData.callTime !== '' && this.callTimeSizer()
       console.log(this.converseData)
       console.log(this.converseData2)
     },
@@ -463,9 +463,9 @@ export default {
       time.replace(/分钟/g, '分')
       time.replace(/小时/g, '时')
       let hourIn, minIn, secIn
-      time.indexOf('时') == -1 ? (hourIn = 0) : (hourIn = time.indexOf('时'))
-      time.indexOf('分') == -1 ? (minIn = 0) : (minIn = time.indexOf('分'))
-      time.indexOf('秒') == -1 ? (secIn = 0) : (secIn = time.indexOf('秒'))
+      !time.includes('时') ? (hourIn = 0) : (hourIn = time.indexOf('时'))
+      !time.includes('分') ? (minIn = 0) : (minIn = time.indexOf('分'))
+      !time.includes('秒') ? (secIn = 0) : (secIn = time.indexOf('秒'))
       let hour = 0
       let min = 0
       let sec = 0

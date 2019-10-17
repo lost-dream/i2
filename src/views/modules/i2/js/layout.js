@@ -68,7 +68,7 @@ export function circle(_nodes, center, closed) {
 
   // 计算环形坐标
   var poss = []
-  for (var i = 0; i < _nodes.length; i++) {
+  for (let i = 0; i < _nodes.length; i++) {
     var x1 = x + radius * Math.sin((radian * i * Math.PI) / d)
     var y1 = y + radius * Math.cos((radian * i * Math.PI) / d)
 
@@ -77,7 +77,7 @@ export function circle(_nodes, center, closed) {
 
   // 将节点在环形坐标中显示
   var ns = []
-  for (var i = 0; i < _nodes.length; i++) {
+  for (let i = 0; i < _nodes.length; i++) {
     var node
     if (_nodes[i] instanceof Object) {
       node = _nodes[i]
@@ -116,7 +116,7 @@ function calculateCenter(arr) {
   var xsum = 0
   var ysum = 0
 
-  for (var key in poss) {
+  for (let key in poss) {
     var x1 = poss[key].x
     var y1 = poss[key].y
 

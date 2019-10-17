@@ -143,7 +143,6 @@ export default {
 
   methods: {
     onSubmit() {
-      var _this = this
       let obj = {
         imei: this.phoneSearchForm.IMEI,
       }
