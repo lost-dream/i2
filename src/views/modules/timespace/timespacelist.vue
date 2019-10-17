@@ -1,5 +1,21 @@
 <template>
+  <!-- TODO 翻页 -->
   <div class="timespacelist">
+    <div class="dir">
+      <div
+        v-for="(item, index) in navList"
+        :key="index"
+        class="list"
+        @click="clickNav(item.value)"
+      >
+        <span :class="['__icon', item.icon]"></span>
+        <span>{{ item.title }}</span>
+      </div>
+      <div class="list" @click="search">
+        <span class="__icon el-icon-search"></span>
+        <span>查询</span>
+      </div>
+    </div>
     <div class="tsimp">
       <el-form
         ref="form"
@@ -37,32 +53,150 @@
           <el-timeline :reverse="reverse">
             <el-timeline-item
               placement="top"
-              v-for="(activity, index) in activities"
+              v-for="(item, index) in totalData"
               :key="index"
-              :timestamp="activity.timestamp"
             >
               <div class="listCoat1">
                 <div class="listCoat2">
-                  <div v-if="tooltype == 'hc'">
+                  <div>
+                    <!-- 左侧图标部分 -->
                     <div class="infoItem" style="width: 17%">
                       <span
-                        ><img src="../../../assets/img/huoche.png" alt=""
-                      /></span>
-                      <span style="font-size: 14px">&nbsp;火车出行信息</span>
+                        class="icon-zdy-feiji"
+                        :style="iconStyle"
+                        v-if="item.typeCode === '飞机'"
+                      ></span>
+                      <span
+                        class="icon-zdy-huoche"
+                        :style="iconStyle"
+                        v-else-if="item.typeCode === '火车'"
+                      ></span>
+                      <span
+                        class="icon-zdy-daba"
+                        :style="iconStyle"
+                        v-else-if="item.typeCode === '汽车'"
+                      ></span>
+                      <span
+                        class="icon-zdy-fangzidichan"
+                        :style="iconStyle"
+                        v-else-if="item.typeCode === '旅馆'"
+                      ></span>
+                      <span
+                        class="icon-zdy-qitaleixianshiqi"
+                        :style="iconStyle"
+                        v-else-if="item.typeCode === '网吧'"
+                      ></span>
+                      <span style="font-size: 14px"
+                        >&nbsp;{{ item.typeCode }}出行信息</span
+                      >
                     </div>
-                    <div class="infoItem" style="width: 32%">
-                      <span style="font-size: 18px">成都东 to 广安南</span>
-                      <span class="el-icon-time">&nbsp;2015年6月25日11:41</span>
+                    <!-- 第二排信息 飞机 && 火车 && 汽车 -->
+                    <div
+                      class="infoItem"
+                      style="width: 32%"
+                      v-if="
+                        item.typeCode !== '旅馆' && item.typeCode !== '网吧'
+                      "
+                    >
+                      <span style="font-size: 18px"
+                        >{{ item.startSstation }} - {{ item.destination }}</span
+                      >
+                      <span class="el-icon-time"
+                        >&nbsp;{{ item.startTime }}</span
+                      >
                     </div>
-                    <div class="infoItem" style="width: 23%">
-                      <span class="icon-zdy-facheshikebiao">&nbsp;D5172次</span>
+                    <!-- 第二排信息 网吧 && 旅馆 -->
+                    <div class="infoItem" style="width: 32%" v-else>
+                      <span style="font-size: 18px">{{ item.name }}</span>
+                      <span class="el-icon-time"
+                        >&nbsp;{{ item.startTime }}</span
+                      >
                     </div>
-                    <div class="infoItem" style="width: 23%">
-                      <span class="icon-zdy-yizi">&nbsp;05车11F</span>
+                    <!-- 第三排信息 飞机 && 火车 && 汽车 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-if="
+                        item.typeCode !== '旅馆' && item.typeCode !== '网吧'
+                      "
+                    >
+                      <span class="icon-zdy-facheshikebiao"
+                        >班次：&nbsp;{{ item.toolNumber }}</span
+                      >
+                    </div>
+                    <!-- 第三排信息 网吧 && 旅馆 -->
+                    <div class="infoItem" style="width: 23%" v-else>
+                      <span class="icon-zdy-facheshikebiao"
+                        >&nbsp;{{ item.addr || item.address }}</span
+                      >
+                    </div>
+                    <!-- 第四排信息 飞机 **仓**座 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-if="item.typeCode === '飞机'"
+                    >
+                      <span class="icon-zdy-yizi"
+                        >&nbsp;{{ item.cabinPlace }}仓{{
+                          item.seatNumber
+                        }}</span
+                      >
+                    </div>
+                    <!-- 第四排信息 火车 **车**座 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-else-if="item.typeCode === '火车'"
+                    >
+                      <span class="icon-zdy-yizi"
+                        >&nbsp;{{ item.cabinPlace }}车{{
+                          item.seatNumber
+                        }}</span
+                      >
+                    </div>
+                    <!-- 第四排信息 大巴 **座 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-else-if="item.typeCode === '汽车'"
+                    >
+                      <span class="icon-zdy-yizi"
+                        >&nbsp;{{ item.seatNumber }}座</span
+                      >
+                    </div>
+                    <!-- 第四排信息 大巴 **座 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-else-if="item.typeCode === '汽车'"
+                    >
+                      <span class="icon-zdy-yizi"
+                        >&nbsp;{{ item.seatNumber }}座</span
+                      >
+                    </div>
+                    <!-- 第四排信息 宾馆 **房 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-else-if="item.typeCode === '旅馆'"
+                    >
+                      <span class="icon-zdy-yizi"
+                        >&nbsp;{{ item.roomNo }}房</span
+                      >
+                    </div>
+                    <!-- 第四排信息 网吧 **座 -->
+                    <div
+                      class="infoItem"
+                      style="width: 23%"
+                      v-else-if="item.typeCode === '网吧'"
+                    >
+                      <span class="icon-zdy-yizi"
+                        >&nbsp;{{ item.computerNo }}号机</span
+                      >
                     </div>
                     <div class="infoItem" style="width: 5%">
                       <span
-                        @click="gotoInfo"
+                        @click="gotoInfo(item)"
                         class="el-icon-d-arrow-right"
                       ></span>
                     </div>
@@ -82,6 +216,10 @@
 
 <script>
 import personalInfoCard from '@/views/common/personalInfoCard'
+import { searchList } from '@/api/timespace'
+import compare from '@/utils/sort'
+import Cookies from 'js-cookie'
+
 export default {
   name: 'timespacelist',
   components: {
@@ -89,12 +227,48 @@ export default {
   },
   data() {
     return {
+      isClick: 1,
+      // 导航列表
+      navList: [
+        {
+          title: '全部',
+          value: 'all',
+          icon: 'el-icon-circle-check',
+        },
+        {
+          title: '飞机',
+          value: 'air',
+          icon: 'icon-zdy-feiji',
+        },
+        {
+          title: '火车',
+          value: 'train',
+          icon: 'icon-zdy-huoche',
+        },
+        {
+          title: '汽车',
+          value: 'bus',
+          icon: 'icon-zdy-daba',
+        },
+        {
+          title: '旅馆',
+          value: 'hotel',
+          icon: 'icon-zdy-fangzidichan',
+        },
+        {
+          title: '网吧',
+          value: 'web',
+          icon: 'icon-zdy-qitaleixianshiqi',
+        },
+      ],
       form: {
-        idNumber: '',
-        startDate: '',
-        endDate: '',
+        // idNumber: '659001197006291256',
+        // startDate: '2017-05-09 11:05:00',
+        // endDate: '2019-05-10 11:05:00',
+        startDate: '2011-01-09 11:05:00',
+        endDate: '2014-05-10 11:05:00',
+        idNumber: '640102198603091217',
       },
-      tooltype: 'hc',
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
         startDate: [
@@ -106,102 +280,42 @@ export default {
       },
       reverse: false,
       showCard: true,
-      partiesInfo: {
-        name: 'fffff',
+      totalData: null,
+      dataList: [], // 需要渲染的列表数据
+      iconStyle: {
+        // icon样式
+        fontSize: '40px',
+        overflow: 'inherit',
       },
-      activities: [
-        {
-          content: '活动按期开始',
-          timestamp: '2018-04-15',
-        },
-        {
-          content: '通过审核',
-          timestamp: '2018-04-13',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-        {
-          content: '创建成功',
-          timestamp: '2018-04-11',
-        },
-      ],
     }
   },
   created() {
-    var _self = this
-    document.onkeydown = function(e) {
+    document.onkeydown = () => {
       var key = window.event.keyCode
       if (key === 13) {
-        _self.onSubmit('form')
-      }
-    }
-  },
-  beforeDestroy() {
-    document.onkeydown = function(e) {
-      var key = window.event.keyCode
-
-      if (key === 13) {
+        this.onSubmit('form')
       }
     }
   },
   mounted() {
     this.$route.params.form !== undefined && this.receiveRouter()
     document.addEventListener('click', this.handleDocumentClick)
+
+    this.getList()
   },
   methods: {
-    // 获取路由参数
     receiveRouter() {
       this.form = JSON.parse(JSON.stringify(this.$route.params.form))
+    },
+    search() {
+      this.getList()
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         console.log(this.form)
-        console.log(valid)
         if (valid) {
-          alert('submit!')
           console.log(this.form.oldPass, this.form.newPass, this.form.checkPass)
           this.getTimespaceList()
-        } else {
-          console.log('error submit!!')
-          return false
         }
       })
     },
@@ -210,12 +324,74 @@ export default {
         console.log(data)
       })
     },
-    gotoInfo() {
-      this.$router.push({
-        name: 'timespaceinfo',
-        params: {
-          partiesInfo: this.partiesInfo,
-        },
+    gotoInfo(item) {
+      Cookies.set('shikong_data', item)
+
+      const maps = {
+        fj: '飞机',
+        qc: '汽车',
+        hc: '火车',
+        lg: '旅馆',
+        wb: '网吧',
+      }
+
+      for (const key in maps) {
+        if (maps[key] === item.typeCode) {
+          this.$router.push({
+            name: 'timespaceinfo',
+            query: {
+              type: key,
+            },
+          })
+        }
+      }
+    },
+    getList(
+      beginTime = this.form.startDate,
+      endTime = this.form.endDate,
+      identityNumber = this.form.idNumber,
+    ) {
+      searchList({
+        beginTime,
+        endTime,
+        identityNumber,
+      }).then(({ data }) => {
+        if (data && parseInt(data.code) === 200) {
+          const originResult = data.result
+          // 网吧和宾馆数没有typecode字段，需要手动加上
+          originResult.bg.map(value => {
+            value.typeCode = '旅馆'
+          })
+          originResult.wb.map(value => {
+            value.typeCode = '网吧'
+          })
+          // 合并原始数据到同一层级
+          let result = [
+            ...originResult.fj, // 飞机
+            ...originResult.hc, // 火车
+            ...originResult.qc, // 汽车
+            ...originResult.bg, // 宾馆
+            ...originResult.wb, // 网吧
+          ]
+
+          result.map(value => {
+            if (value.checkIn) {
+              value.timestamp = new Date(value.checkIn).getTime()
+            }
+            if (value.startTime) {
+              value.timestamp = new Date(value.startTime).getTime()
+            }
+            if (value.checkIn && !value.startTime) {
+              value.startTime = value.checkIn
+            }
+          })
+
+          result = result.sort(compare('timestamp'))
+
+          this.totalData = result
+        } else {
+          this.$message.error(data.message)
+        }
       })
     },
   },
@@ -225,7 +401,11 @@ export default {
 <style lang="stylus" scoped>
 .timespacelist
       width 100%
-      position relative
+      position absolute
+      top 50px
+      bottom 0
+      display flex
+      flex-direction column
    .tsimp
        width 606px
        margin 0 auto
@@ -237,14 +417,14 @@ export default {
         left 0!important
    .infoCoat1
        width 1200px
-       max-height 720px
+       flex 1
        margin 0 auto
        margin-top 30px
+       margin-bottom 30px
        overflow hidden
-       /*padding 100px*/
    .infoCoat2
        width 1220px
-       max-height 860px
+       height 100%
        margin 0 auto
        overflow-y  scroll
        /*padding 100px*/
@@ -298,7 +478,7 @@ export default {
                float left
                display inline-block
                height 90px
-               padding 10px 0
+               padding 20px 0
              span
                display inline-block
                width 100%
@@ -306,11 +486,46 @@ export default {
                color #ffffff
                font-size 16px
                line-height: 30px;
+               overflow hidden
+               text-overflow ellipsis
+               white-space nowrap
            .infoItem:nth-child(2) span
                text-align initial
-               line-height: 38px;
+               line-height: 26px;
            .infoItem:nth-child(3),
            .infoItem:nth-child(4)
              span
                line-height: 113px;
+
+.dir
+  width: 100%;
+  height: 60px;
+  border-bottom:1px solid rgba(44, 239, 255, 0.4)
+  background rgba(44, 239, 255, 0.3)
+  text-align center
+  span
+    width: auto
+  .list
+    overflow hidden
+    padding 10px 20px 0 0
+
+    position relative
+    &:after
+        content ''
+        position absolute
+        right 0
+        top 0
+        transform translateX(10px)
+        width 10px
+        height 100%
+        border-radius 12px / 80px
+        box-shadow 0 0 2px #2cefff
+  .list,
+  .list span
+    display inline-block
+    width 100px
+    text-align center
+    color #ffffff
+    font-size 14px
+    line-height: 20px
 </style>
