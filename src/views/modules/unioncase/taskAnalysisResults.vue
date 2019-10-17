@@ -2,7 +2,7 @@
   <div class="taskAnalysisResultsCoat">
     <div class="taskAnalysisResults">
       <div class="analyzeInfo">
-        <div v-if="taskType == '查人'">
+        <div v-if="taskInfo.taskType == '查人'">
           <div class="infoTop">
             <span style="color: #ffffff;line-height: 30px"
               >共{{ pagination.total }}条记录</span
@@ -24,13 +24,13 @@
             <div class="list" v-for="(item, index) in infoData" :key="index">
               <div class="content">
                 <p>
-                  <span>证件号码:</span>&nbsp;<span>{{ item.a }}</span>
+                  <span>证件号码:</span>&nbsp;<span>{{ item.card }}</span>
                 </p>
                 <p>
-                  <span>出现次数:</span>&nbsp;<span>{{ item.b }}</span>
+                  <span>出现次数:</span>&nbsp;<span>{{ item.coun }}</span>
                 </p>
                 <p>
-                  <span>编号:</span>&nbsp;<span>{{ item.c }}</span>
+                  <span>编号:</span>&nbsp;<span>{{ item.code }}</span>
                 </p>
               </div>
               <div class="fgx"></div>
@@ -78,9 +78,9 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="pagination.page"
+          :pager-count="pagination.pagerCount"
           :page-size="pagination.size"
-          :pager-count="3"
-          layout=" prev, pager,next,jumper"
+          layout="prev,pager,next,jumper"
           :total="pagination.total"
         >
         </el-pagination>
@@ -94,45 +94,55 @@
         <div class="task">
           <h4>任务名称</h4>
           <div style="line-height: 30px;padding: 10px;">
-            <span>任务名称：{{ taskName }}</span
+            <span>任务名称：{{ taskInfo.taskName }}</span
             ><br />
-            <span>方式：{{ taskType }}</span>
+            <span>方式：{{ taskInfo.type == 0 ? '查人' : '查案' }}</span>
           </div>
         </div>
         <div class="condition">
           <h4>条件参数</h4>
-          <div
-            class="conditionItem"
-            style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
-          >
-            <p>活动时间段</p>
-            <div class="inputStyle">
-              <p>起</p>
-              <el-date-picker
-                v-model="date1"
-                :disabled="true"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
+          <div v-for="(item, index) in taskInfo.conditions" :key="index">
+            <div
+              v-if="index === taskInfoSshow"
+              class="conditionItem"
+              style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
+            >
+              <p>活动时间段</p>
+              <div class="inputStyle">
+                <p>起</p>
+                <el-date-picker
+                  v-model="item.date1"
+                  :disabled="true"
+                  type="date"
+                  placeholder="选择日期"
+                >
+                </el-date-picker>
+              </div>
+              <div class="inputStyle">
+                <p>止</p>
+                <el-date-picker
+                  v-model="item.date2"
+                  :disabled="true"
+                  type="date"
+                  placeholder="选择日期"
+                >
+                </el-date-picker>
+              </div>
+              <div class="inputStyle">
+                <p>范围</p>
+                <el-input
+                  style="margin-left:10px;width:87%;"
+                  :disabled="true"
+                  v-model="item.range"
+                ></el-input>
+              </div>
             </div>
-            <div class="inputStyle">
-              <p>止</p>
-              <el-date-picker
-                v-model="date2"
-                :disabled="true"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </div>
-            <div class="inputStyle">
-              <p>范围</p>
-              <el-input
-                style="margin-left:10px;width:87%;"
-                :disabled="true"
-                v-model="range"
-              ></el-input>
+            <div
+              v-else
+              @click="taskInfoSshow = index"
+              style="border:1px solid white;padding:5px 10px;border-radius:5px;margin-top: 10px"
+            >
+              条件参数{{ index + 1 }}
             </div>
           </div>
         </div>
@@ -146,7 +156,7 @@
           <div class="inputStyle">
             <p>起</p>
             <el-date-picker
-              v-model="date3"
+              v-model="taskInfo.date3"
               :disabled="true"
               type="date"
               placeholder="选择日期"
@@ -156,7 +166,7 @@
           <div class="inputStyle">
             <p>止</p>
             <el-date-picker
-              v-model="date4"
+              v-model="taskInfo.date4"
               :disabled="true"
               type="date"
               placeholder="选择日期"
@@ -164,14 +174,14 @@
             </el-date-picker>
           </div>
           <el-checkbox-group
-            v-model="checkedBox"
+            v-model="taskInfo.checkedBox"
             :disabled="true"
             :min="1"
             :max="2"
           >
             <el-checkbox
               v-for="(item, index) in boxs"
-              :label="item.name"
+              :label="item.label"
               :key="index"
               >{{ item.name }}</el-checkbox
             >
@@ -185,39 +195,40 @@
 <script>
 export default {
   name: 'taskAnalysisResults',
+  props: ['id'],
   data() {
     return {
       pagination: {
         page: 1,
         size: 10,
+        pagerCount: 5,
         total: 100,
       },
-      taskType: '查人',
-      taskName: '123',
-      date1: '',
-      date2: '',
-      date3: '1992-08-04 12:00:11',
-      date4: '',
-      range: '',
-      checkedBox: ['旅馆', '网吧'],
-      boxs: [{ name: '旅馆' }, { name: '网吧' }],
-      infoData: [
-        {
-          a: '1324679846546464654',
-          b: 2,
-          c: 'cirde_123456',
-        },
-        {
-          a: '1324679846546464654',
-          b: 2,
-          c: 'cirde_123456',
-        },
-        {
-          a: '1324679846546464654',
-          b: 2,
-          c: 'cirde_123456',
-        },
-      ],
+      taskInfoSshow: 0,
+      taskInfo: {
+        caseNo: '',
+        createId: '',
+        createName: '',
+        pointLatitude: '',
+        pointLongitude: '',
+        taskType: 0,
+        taskName: '',
+        conditions: [
+          {
+            date1: '',
+            date2: '',
+            range: 0,
+          },
+        ],
+        date3: '',
+        date4: '',
+        type: 0,
+        taskId: 0,
+        taskTarget: '',
+        checkedBox: [1],
+      },
+      boxs: [{ name: '旅馆', label: 1 }, { name: '网吧', label: 2 }],
+      infoData: [],
       infoData2: [
         {
           a: 'A1324679846546464654',
@@ -237,7 +248,64 @@ export default {
       ],
     }
   },
+  mounted() {
+    this.showData()
+  },
   methods: {
+    showData() {
+      let _this = this
+      let obj = {
+        id: this.id,
+        page: this.pagination.page,
+        pageSize: this.pagination.size,
+      }
+      this.$api.analyzeTaskResult(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.infoData = data.data.pageInfo.list
+          _this.pagination.total = data.data.pageInfo.total
+          let taskInfo = data.data.list
+          let data2 = []
+          let obj = {}
+          taskInfo.forEach(item => {
+            obj = {
+              birthdayBegin: item.date3,
+              birthdayEnd: item.date4,
+              caseNo: item.caseNo,
+              createId: item.createId,
+              createName: item.createName,
+              taskName: item.name,
+              pointLatitude: item.pointLatitude,
+              pointLongitude: item.pointLongitude,
+              taskId: item.taskId,
+              taskTarget: item.taskTarget,
+              taskType: item.taskType,
+              type: item.type,
+              checkedBox:
+                item.typeBgWb === 0 ? [1, 2] : item.typeBgWb === 1 ? [1] : [2],
+            }
+            let obj2 = {
+              date1: item.activeTimeBegin,
+              date2: item.activeTimeEnd,
+              range: item.radius,
+            }
+            data2.push(obj2)
+          })
+          obj.conditions = data2
+          _this.taskInfo = obj
+          console.log(obj)
+          _this.$message({
+            message: '获取详情列表成功!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '获取详情列表失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
     // 导出
     exportData() {},
     handleSizeChange(val) {
@@ -276,7 +344,7 @@ export default {
   display: inline-block;
   vertical-align: top
   margin-left 160px;
-  background-color: rgba(44, 239, 255, 0.3);
+  background-color: rgba(25, 97, 97, 0.9);
   width 30%
 
 .taskAnalysisResults .fgx
@@ -317,6 +385,7 @@ export default {
   align-items center
 >>>.fun-sidebar .sidebar-inner
   width 295px
+  height 100%
 .buttonNav .el-button
   padding 5px
 .resourceBtn .el-button

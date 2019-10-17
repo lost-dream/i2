@@ -47,6 +47,10 @@
               <p>任务管理</p>
             </div>
           </el-tab-pane>
+          <button>添加点</button>
+          <button>添加线</button>
+          <button>添加面</button>
+          <button>添加圆</button>
         </el-tabs>
       </div>
     </nav>
@@ -150,7 +154,22 @@
         </sidebar>
       </div>
       <flyDialog :show.sync="show" class="caseMap" :width="width">
-
+        <el-button type="success" @click="addCaseNum">添加案件编号</el-button>
+        <div v-for="(item, index) in inputList" :key="index">
+          <el-input style="margin:10px;" v-model="item.caseNum">
+            <el-button
+              slot="append"
+              :disabled="inputList.length == 1 ? true : false"
+              @click="delectCase(index)"
+              icon="el-icon-close"
+            ></el-button>
+          </el-input>
+        </div>
+        <div class="caseButton">
+          <!--<el-button id="casePlace" type="success"-->
+          <el-button id="casePlace" type="success">查询</el-button>
+          <el-button @click="cancel" type="warning">取消</el-button>
+        </div>
       </flyDialog>
       <div
         style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
@@ -235,6 +254,8 @@ export default {
         [
           'esri/basemaps',
           'esri/map',
+          'dojo/query',
+          'esri/layers/GraphicsLayer',
           'esri/dijit/Scalebar',
           'esri/layers/ArcGISTiledMapServiceLayer',
           'esri/dijit/HomeButton',
@@ -252,147 +273,157 @@ export default {
           'dojo/dom-construct',
           'dojo/dom',
           'dojo/on',
+          'dojo/colors',
           'esri/toolbars/draw',
           'esri/symbols/SimpleMarkerSymbol',
           'esri/symbols/SimpleFillSymbol',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/geometry/Point', // 点类
+          'esri/geometry/Polyline', // 折线类
+          'esri/geometry/Polygon', // 面类
+          'esri/geometry/Circle', // 圆类
           'esri/geometry/geometryEngine',
           'esri/geometry/Extent',
           'esri/geometry/Geometry',
           'dojo/domReady',
         ],
         options,
+      ).then(
+        ([
+          esriBasemaps,
+          Map,
+          query,
+          GraphicsLayer,
+          Scalebar,
+          ArcGISTiledMapServiceLayer,
+          HomeButton,
+          LocateButton,
+          BasemapToggle,
+          OverviewMap,
+          registry,
+          PictureMarkerSymbol,
+          Point,
+          Polyline,
+          Polygon,
+          Circle,
+          Graphic,
+          webMercatorUtils,
+          InfoTemplate,
+          SpatialReference,
+          InfoWindow,
+          domConstruct,
+          dom,
+          on,
+          Color,
+          Draw,
+          esri,
+          restoreMap,
+          SimpleMarkerSymbol,
+          SimpleFillSymbol,
+          SimpleLineSymbol,
+
+          geometryEngine,
+          Extent,
+          Geometry,
+        ]) => {
+          esriBasemaps.delorme = {
+            baseMapLayers: [
+              {
+                url:
+                  'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer',
+              },
+            ],
+          }
+          // var infoWindow = new InfoWindow({}, domConstruct.create('div'))
+          // infoWindow.startup()
+          var map = new Map('map', {
+            basemap: 'delorme',
+            center: [104.06667, 30.66667],
+            zoom: 15,
+            logo: false,
+          })
+          map.on('Load', function() {
+            console.log('地图加载完毕')
+            map.infoWindow.resize(250, 200)
+          })
+          // 创建客户端图层
+          var graphicsLayer = new GraphicsLayer()
+          // 将客户端图层添加到地图中
+          map.addLayer(graphicsLayer)
+          // 通过query查询到button对象
+          var casePlace = query('button')
+          on(casePlace, 'click', function(event) {
+            // 获得按钮的文本
+            var text = this.innerHTML
+            console.log(text)
+            // 定义线符号
+            var lineSymbol = new SimpleLineSymbol(
+              SimpleLineSymbol.STYLE_DASH,
+              new Color([255, 0, 0]),
+              3,
+            )
+            // 定义点符号
+            var pSymbol = new SimpleMarkerSymbol(
+              SimpleMarkerSymbol.STYLE_CIRCLE,
+              20,
+              lineSymbol,
+              new Color([255, 0, 0]),
+            )
+            // 定义面符号
+            var fill = SimpleFillSymbol(
+              SimpleFillSymbol.STYLE_SOLID,
+              lineSymbol,
+              new Color([255, 0, 0]),
+            )
+            // 声明一个类型和图形
+            var geometry
+            var graphic
+            // 根据文本定义相应的geometry
+            switch (text) {
+              case '添加点':
+                geometry = new Point({
+                  x: 510706,
+                  y: 3986100,
+                  spatialReference: map.spatialReference,
+                })
+                graphic = new Graphic(geometry, pSymbol)
+                break
+              case '添加线':
+                // 点的坐标对
+                var paths = []
+                paths[0] = [
+                  [510326, 3985702],
+                  [510994, 3985676],
+                  [511078, 3985903],
+                  [510433, 3985928],
+                ]
+                geometry = new Polyline({
+                  paths: paths,
+                  spatialReference: map.spatialReference,
+                })
+                graphic = new Graphic(geometry, lineSymbol)
+                break
+              case '添加圆':
+                // 圆心
+                var p = new Point({
+                  x: 510706,
+                  y: 3986100,
+                  spatialReference: map.spatialReference,
+                })
+                // 半径
+                var r = 20
+                geometry = new Circle(p, {
+                  radius: r,
+                })
+                graphic = new Graphic(geometry, fill)
+                break
+            }
+            // 将图形添加到图层中
+            console.log(graphic)
+            graphicsLayer.add(graphic)
+          })
+        },
       )
-        .then(
-          ([
-            esriBasemaps,
-            Map,
-            Scalebar,
-            ArcGISTiledMapServiceLayer,
-            HomeButton,
-            LocateButton,
-            BasemapToggle,
-            OverviewMap,
-            registry,
-            PictureMarkerSymbol,
-            Point,
-            Graphic,
-            webMercatorUtils,
-            InfoTemplate,
-            SpatialReference,
-            InfoWindow,
-            domConstruct,
-            dom,
-            on,
-            Draw,
-            SimpleMarkerSymbol,
-            SimpleFillSymbol,
-            geometryEngine,
-            Extent,
-            Geometry,
-          ]) => {
-            esriBasemaps.delorme = {
-              baseMapLayers: [
-                {
-                  url:
-                    'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer',
-                },
-              ],
-            }
-            var infoWindow = new InfoWindow({}, domConstruct.create('div'))
-            infoWindow.startup()
-            var map = new Map('map', {
-              basemap: 'delorme',
-              center: [104.06667, 30.66667],
-              infoWindow: infoWindow,
-              zoom: 15,
-              logo: false,
-            })
-            map.on('Load', function() {
-              console.log('地图加载完毕')
-              map.infoWindow.resize(250, 200)
-            })
-            var drawTool = new Draw(map)
-            drawTool.markerSymbol = new SimpleMarkerSymbol()
-            drawTool.fillSymbol = new SimpleFillSymbol()
-            on(dom.byId('circle'), 'click', function() {
-              drawTool.activate(Draw['CIRCLE'])
-            })
-            on(dom.byId('point'), 'click', function() {
-              drawTool.activate(Draw['POINT'])
-            })
-            var id = 0
-            drawTool.on('draw-complete', drawEndEvent)
-            function drawEndEvent(evt) {
-              console.log(evt)
-              if (evt.target._geometryType === 'circle') {
-                var length =
-                  geometryEngine.geodesicLength(evt.geometry, 'meters') /
-                  Math.PI // 长度公式
-                _this.range = length / 2
-                var a = evt.geometry.cache._extent
-                var newX = (a.xmin + a.xmax) / 2
-                var newY = (a.ymax + a.ymin) / 2
-                var center = webMercatorUtils.xyToLngLat(newX, newY)
-                var newObj = {
-                  longitude: center[0].toFixed(6),
-                  latitude: center[1].toFixed(6),
-                  type: '描圆',
-                  id,
-                }
-                id++
-                _this.mapTableData.push(newObj)
-              }
-              if (evt.geometry.type === 'point') {
-                var a1 = evt.geometry
-                var newX1 = a1.x
-                var newY1 = a1.y
-                var center1 = webMercatorUtils.xyToLngLat(newX1, newY1)
-                var newObj1 = {
-                  longitude: center1[0].toFixed(6),
-                  latitude: center1[1].toFixed(6),
-                  type: '描点',
-                  id,
-                }
-                id++
-                _this.mapTableData.push(newObj1)
-                var symbol
-                symbol = drawTool.markerSymbol
-              } else {
-                symbol = drawTool.fillSymbol
-              }
-              drawTool.deactivate()
-              let graphicItem = new Graphic(evt.geometry, symbol)
-              _this.graphicItemS.push(graphicItem)
-              map.graphics.add(graphicItem)
-              setTimeout(
-                () => {
-                  $('.removeLayer')
-                    .off('click')
-                    .on('click', e => {
-                      let id = Number(e.target.dataset.index)
-                      map.graphics.remove(_this.graphicItemS[id])
-                      _this.mapTableData.splice(
-                        _this.mapTableData.findIndex(fn),
-                        1,
-                      )
-                      function fn(num, numIndex, nums) {
-                        console.log(nums, num, id)
-                        return num.id === id
-                      }
-                      console.log(evt.geometry, map)
-                    })
-                },
-                500,
-                evt,
-                map,
-                graphicItem,
-              )
-            }
-          },
-        )
-        .catch(err => {
-          console.log(err.message)
-        })
     },
     addCase() {
       this.show = true
@@ -411,10 +442,9 @@ export default {
       var _this = this
       console.log(11111111)
       console.log(this.inputList)
-      // let obj = {
-      //   caseNoArr: this.inputList,
-      // }
-      let obj = ['18280502222']
+      let obj = {
+        caseNoArr: this.inputList,
+      }
       this.$api.queryTCase(obj).then(({ data }) => {
         _this.$message({
           message: '添加案件编号!',
@@ -520,6 +550,7 @@ a:focus, a:hover
   align-items center
 >>>.fun-sidebar .sidebar-inner
   width 295px
+  height 100%
 .buttonNav .el-button
   padding 5px
 .resourceBtn .el-button

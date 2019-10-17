@@ -65,8 +65,7 @@ export default {
     }
   },
   methods: {
-    testapi() {
-    },
+    testapi() {},
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -160,7 +159,7 @@ export default {
     background-color #187b87!important
     color #ffffff!important
     border 1px solid #2cefff!important
-  .el-date-picker__header-label,
-  .el-date-table th
+.tsimp .el-date-picker__header-label,
+.tsimp .el-date-table th
     color #ffffff!important
 </style>

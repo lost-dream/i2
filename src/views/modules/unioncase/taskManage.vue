@@ -49,37 +49,55 @@
               <el-table :data="taskData" style="width: 100%">
                 <el-table-column prop="name" label="任务名称">
                 </el-table-column>
-                <el-table-column prop="taskType" label="任务类型">
+                <el-table-column prop="type" label="任务类型">
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.type == 0 ? '查人' : '查案' }}</span>
+                  </template>
                 </el-table-column>
                 <el-table-column prop="status" label="执行状态">
+                  <template slot-scope="scope">
+                    <span>{{
+                      scope.row.status == 0
+                        ? '未开始'
+                        : scope.row.status == 1
+                        ? '执行中'
+                        : '完成'
+                    }}</span>
+                  </template>
                 </el-table-column>
-                <el-table-column prop="createDate" label="创建时间">
+                <el-table-column prop="createTime" label="创建时间">
                 </el-table-column>
-                <el-table-column prop="endDate" label="完成时间">
+                <el-table-column prop="endTime" label="完成时间">
                 </el-table-column>
                 <el-table-column label="操作" width="150">
                   <template slot-scope="scope">
                     <el-button
                       @click="handleClick(scope.row)"
-                      v-if="
-                        scope.row.status == '未开始' ||
-                          scope.row.status == '进行中'
-                      "
+                      v-if="scope.row.status == 0 || scope.row.status == 1"
                       type="text"
                       size="small"
                       >分析</el-button
                     >
                     <el-button
                       type="text"
-                      v-if="
-                        scope.row.status == '未开始' ||
-                          scope.row.status == '进行中'
-                      "
+                      @click="editorTask(scope.row)"
+                      v-if="scope.row.status == 0 || scope.row.status == 1"
                       size="small"
                       >编辑</el-button
                     >
-                    <el-button type="text" v-else size="small">查看</el-button>
-                    <el-button type="text" size="small">删除</el-button>
+                    <el-button
+                      type="text"
+                      @click="show(scope.row)"
+                      v-else
+                      size="small"
+                      >查看</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="deleteTask(scope.row)"
+                      size="small"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -111,28 +129,24 @@ export default {
       pagination: {
         page: 1,
         size: 10,
-        total: 100,
+        total: 0,
       },
       statusList: [
         {
-          value: '选项1',
-          label: '黄金糕',
+          value: '',
+          label: '全部',
         },
         {
-          value: '选项2',
-          label: '双皮奶',
+          value: '0',
+          label: '未开始',
         },
         {
-          value: '选项3',
-          label: '蚵仔煎',
+          value: '1',
+          label: '执行中',
         },
         {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
+          value: '2',
+          label: '完成',
         },
       ],
       criteria: {
@@ -162,15 +176,123 @@ export default {
           createDate: '2019-07-08 15:57:40',
         },
       ],
+      userId: 'a3ae1f4d5d85499d8e6fe71f6dd6177c',
     }
+  },
+  mounted() {
+    this.isSeek()
   },
   methods: {
     // 搜索
-    isSeek() {},
+    isSeek() {
+      let _this = this
+      let obj = {
+        userId: this.userId,
+        page: this.pagination.page,
+        pageSize: this.pagination.size,
+        name: this.criteria.taskName,
+        status: this.criteria.status,
+      }
+      this.$api.queryTaskManagementList(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.taskData = data.data.list
+          _this.pagination.total = data.data.total
+          _this.$message({
+            message: '获取列表成功!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '获取列表失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
     addTask() {},
+    // 分析
     handleClick(row) {
       console.log(row)
+      let _this = this
+      let obj = {
+        id: row.id,
+        userId: this.userId,
+      }
+      this.$api.analyze(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.isSeek()
+          _this.$message({
+            message: '分析成功!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '分析失败!',
+            type: 'error',
+          })
+        }
+      })
     },
+
+    // 查看
+    show(row) {
+      this.$router.push({
+        name: 'unioncase',
+        params: {
+          id: row.id,
+          flag: true,
+        },
+      })
+    },
+
+    // 编辑前数据获取
+    editorTask(row) {
+      let _this = this
+      let obj = {
+        id: row.id,
+      }
+      this.$api.queryCompile(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.$message({
+            message: '获取编辑信息成功!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '获取编辑信息失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 删除
+    deleteTask(row) {
+      let _this = this
+      let obj = {
+        id: row.id,
+      }
+      this.$api.deleteTask(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.isSeek()
+          _this.$message({
+            message: '删除成功!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '删除失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
     handleSizeChange(val) {
       this.pagination.size = val
       /* var newArr = this.idList.map(function (item) {

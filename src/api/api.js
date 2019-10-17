@@ -380,60 +380,113 @@ export default {
   /**
    * 添加案件
    */
-  /*  queryTCase(data) {
-    return http({
-      url: http.adornUrl('queryTCase'),
-      method: 'get',
-      params: { caseNoArr: data },
-    })
-  }, */
-  /**
-   * 添加案件
-   */
   queryTCase(data) {
     return http({
-      url: http.adornUrl('queryTCase?caseNoArr=[123]'),
+      url: http.adornUrl('relations/queryTCase?caseNoArr=' + data),
       method: 'get',
     })
   },
   /**
-   * 添加案件
+   * 任务管理-分析
    */
-  ticketDelete(data) {
+  analyze(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketDelete'),
+      url: http.adornUrl(
+        'relations/analyze?id=' + data.id + '&userId=' + data.userId,
+      ),
       method: 'get',
-      query: http.adornParams({ caseNoArr: data }, false),
     })
   },
   /**
-   * 添加案件
+   * 任务管理-查看分析结果
    */
-  ticketDelete(data) {
+  analyzeTaskResult(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketDelete'),
+      url: http.adornUrl(
+        'relations/analyzeTaskResult?id=' +
+          data.id +
+          '&page=' +
+          data.page +
+          '&pageSize=' +
+          data.pageSize,
+      ),
       method: 'get',
-      params: http.adornParams(data, false),
     })
   },
   /**
-   * 添加案件
+   * 任务管理-逻辑删除
    */
-  ticketDelete(data) {
+  deleteTask(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketDelete'),
+      url: http.adornUrl('relations/deleteTask?id=' + data.id),
       method: 'get',
-      params: http.adornParams(data, false),
     })
   },
   /**
-   * 添加案件
+   * 任务管理-获取编辑前信息
    */
-  ticketDelete(data) {
+  queryCompile(data) {
     return http({
-      url: http.adornUrl('ticket/statement/ticketDelete'),
+      url: http.adornUrl('relations/queryCompile?queryTCase=' + data),
       method: 'get',
-      params: http.adornParams(data, false),
+    })
+  },
+  /**
+   * 任务管理-查看list
+   */
+  queryTaskManagementList(data) {
+    return http({
+      url: http.adornUrl(
+        'relations/queryTaskManagementList?name=' +
+          data.name +
+          '&status=' +
+          data.status +
+          '&userId=' +
+          data.userId +
+          '&pageSize=' +
+          data.pageSize +
+          '&page=' +
+          data.page,
+      ),
+      method: 'get',
+    })
+  },
+  /**
+   * 任务管理-保存编辑信息
+   */
+  saveCompile(data) {
+    return http({
+      url: http.adornUrl('relations/saveCompile?queryTCase=' + data),
+      method: 'get',
+    })
+  },
+  /**
+   * 创建任务and串并案件
+   */
+  seriesParallel(data) {
+    console.log(data)
+    return http({
+      url: http.adornUrl('relations/seriesParallel'),
+      method: 'post',
+      data: http.adornData(data, false),
+    })
+  },
+  /**
+   * 任务管理-轨迹点查询返回网吧宾馆-坐标
+   */
+  tracing(data) {
+    return http({
+      url: http.adornUrl(
+        'relations/tracing?idNumber=' +
+          data.idNumber +
+          '&activeTimeBegin=' +
+          data.activeTimeBegin +
+          '&activeTimeEnd=' +
+          data.activeTimeEnd +
+          '&typeBgWb=' +
+          data.typeBgWb,
+      ),
+      method: 'get',
     })
   },
 }

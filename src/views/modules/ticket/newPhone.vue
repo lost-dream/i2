@@ -186,7 +186,6 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
-            name: this.ticketForm.name,
           }
           this.$api.newly(obj).then(({ data }) => {
             if (data.success) {

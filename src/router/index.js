@@ -324,6 +324,13 @@ const mainRoutes = [
       },
 
       {
+        path: '/unioncaseaaaaa',
+        component: _import('modules/unioncase/unioncase'),
+        name: 'unioncaseaaaaa',
+        meta: { title: 'unioncaseaaaaa' },
+      },
+
+      {
         path: '/taskManage',
         component: _import('modules/unioncase/taskManage'),
         name: 'taskManage',

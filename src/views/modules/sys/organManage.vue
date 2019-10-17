@@ -186,19 +186,12 @@
           <fly-dialog title="删除" :show.sync="deleteDialog">
             <span class="content">确定删除？</span>
             <div class="butCoat">
-              <el-button
-                class="canBut"
-                @click="deleteDialog = false"
-              >
+              <el-button class="canBut" @click="deleteDialog = false">
                 <span>取 消</span>
               </el-button>
-              <el-button
-                class="okBut"
-                type="primary"
-                @click="deleteOrgan()"
-              >
+              <el-button class="okBut" type="primary" @click="deleteOrgan()">
                 <span>确 定</span>
-                </el-button>
+              </el-button>
             </div>
           </fly-dialog>
         </div>
