@@ -134,13 +134,13 @@ export default {
     dataFormSubmit () {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          let obj = {
+          let obj = [{
             name: this.dataForm.name,
             dataType: this.dataForm.dataType,
             folderId: this.dataForm.foder,
             description: this.dataForm.description,
             keywords: this.dataForm.keywords
-          }
+          }]
           this.$api.dataCacheSaveOrUpdate(!this.dataForm.id ? 'save' : 'update', obj).then(({ data }) => {
             if (data && data.code === 200) {
               this.$message({

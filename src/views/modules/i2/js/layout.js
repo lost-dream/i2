@@ -28,13 +28,12 @@ export function rectangle (_nodes, left) {
 
   // 节点在矩阵中显示
   var ns = [];
-  for (var i = 0; i < _nodes.length; i++) {
+  for (let i = 0; i < _nodes.length; i++) {
     var node = global.nodes.get(_nodes[i]);
 
     node.x = poss[i].x;
     node.y = poss[i].y;
     node.physics = false;
-
     ns.push(node);
   }
 
@@ -83,7 +82,7 @@ export function circle (_nodes, center, closed) {
     ns.push(node);
   }
 
-  addOrUpdateNode(ns, false, true);
+  addOrUpdateNode(ns, false, false);
 }
 /**
  * 计算节点的左上角

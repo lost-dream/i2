@@ -59,9 +59,11 @@ export default {
     dataFormSubmit () {
       this.$refs['dataForm'].validate((valid) => {
         let { kw } = this.dataForm;
+        let kws = [];
+        kws.push(kw);
         if (valid) {
           // addNodes(this, this.dataForm.kw);
-          this.$api.queryNodeOrAdd(kw).then(({ data }) => {
+          this.$api.queryNodeOrAdd(kws).then(({ data }) => {
             if (data && data.code === 200) {
               let ns = [];
               let ns1 = data.result.nodes;

@@ -1,5 +1,6 @@
 import global from '@/utils/global'
 import { Edge } from './entity/Edge'
+import FileSaver from 'file-saver'
 /**
  * 添加或者更新节点
  * @param {*} node
@@ -215,6 +216,23 @@ export function managerRelationData (mode) {
   }
 }
 /**
+ * 将节点固定于窗口中心
+ * @param _nodes
+ */
+export function centerNodes (_nodes) {
+  var arr = [];
+  for (var i in _nodes) {
+    var node = global.nodes.get(_nodes[i]);
+    node.x = _XconvertDOMtoCanvas($('#mynetwork').width() / 2);
+    node.y = _YconvertDOMtoCanvas($('#mynetwork').height() / 2);
+    node.physics = false;
+
+    arr.push(node);
+  }
+
+  addOrUpdateNode(arr, false, true);
+}
+/**
  * 判断画布中是否有数据
  * @returns {Boolean}
  */
@@ -225,42 +243,44 @@ export function buildExportData () {
   var results = [];
   var ids = global.nodes.getIds();
   for (var i in ids) {
-    var root = buildNode(global.nodes.get(ids[i]), '', true);
+    var root = global.nodes.get(ids[i]);
     // findChilds(root);
     results.push(root);
   }
-  return results;
-}
-function findChilds (node, path) {
-  node.childs = [];
-
-  if (!path || path === '') { path = ','; }
-  path += node.id + ','
-
-  if (node.rels[0].resultType === 'cluster') {
-    node.childs = global.nodes.get(node.id).childs;
-  } else {
-    var cedges = global.edges.get({
-      filter: function (edge) {
-        return edge.from === node.id;
-      }
-    });
-
-    for (var i in cedges) {
-      var cnode = global.nodes.get(cedges[i].to);
-
-      if (path.indexOf(',' + cnode.id + ',') !== -1) { continue; }
-
-      if (path.split(',').length > 3) { continue; }
-
-      var n = buildNode(cnode, cedges[i], true);
-      n.pid = cedges[i].from;
-      node.childs.push(n);
-
-      findChilds(n, path);
-    }
+  var edIds = global.edges.getIds();
+  var edgs = [];
+  for (let i in edIds) {
+    var edg = global.edges.get(edIds[i])
+    edgs.push(edg);
   }
+  return { nodes: results, edges: edgs };
 }
+// function findChilds (node, path) {
+//   node.childs = [];
+
+//   if (!path || path === '') { path = ','; }
+//   path += node.id + ','
+
+//   var cedges = global.edges.get({
+//     filter: function (edge) {
+//       return edge.from === node.id;
+//     }
+//   });
+
+//   for (var i in cedges) {
+//     var cnode = global.nodes.get(cedges[i].to);
+
+//     if (path.indexOf(',' + cnode.id + ',') !== -1) { continue; }
+
+//     if (path.split(',').length > 3) { continue; }
+
+//     var n = buildNode(cnode, cedges[i], true);
+//     n.pid = cedges[i].from;
+//     node.childs.push(n);
+
+//     findChilds(n, path);
+//   }
+// }
 function buildNode (node, cedge, pointer) {
   var attr = {};
   var rels = [];
@@ -290,6 +310,8 @@ function buildNode (node, cedge, pointer) {
   var n = {
     id: node.id,
     pid: node.pid,
+    nodeType: node.nodeType,
+    keyword: node.keyword,
     label: node.label,
     level: node.level,
     fontSize: node.fontSize,
@@ -318,4 +340,37 @@ function buildNode (node, cedge, pointer) {
 }
 function getCloneColor (color) {
   if (color && color.background) { return color.background; } else { return color; }
+}
+/**
+ * 坐标转换：canvas转DOM
+ * LGG 2017-3-8
+ */
+// function getDomPointer (touch) {
+//   return { x: _XconvertCanvastoDOM(touch.x), y: _YconvertCanvastoDOM(touch.y) };
+// }
+
+function _XconvertDOMtoCanvas (x) {
+  return (x - global.network.canvas.body.view.translation.x) / global.network.canvas.body.view.scale;
+}
+// function _XconvertCanvastoDOM (x) {
+//   return x * global.network.canvas.body.view.scale + global.network.canvas.body.view.translation.x;
+// }
+/**
+ * 因为菜单的原因，Y坐标需要偏移120
+ * @param y
+ * @returns {Number}
+ */
+function _YconvertDOMtoCanvas (y) {
+  return (y - global.network.canvas.body.view.translation.y) / global.network.canvas.body.view.scale - $('.mod-i2').height() - 121 + 'px' / global.network.canvas.body.view.scale;
+}
+// function _YconvertCanvastoDOM (y) {
+//   return y * network.canvas.body.view.scale + network.canvas.body.view.translation.y + getMenuHeight();
+// }
+/**
+ * 导出JSON
+ */
+export function exportJson () {
+  var datas = buildExportData();
+  let blob = new Blob([JSON.stringify(datas)]);
+  FileSaver.saveAs(blob, 'i2.json')
 }

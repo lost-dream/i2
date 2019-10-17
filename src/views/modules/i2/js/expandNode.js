@@ -3,8 +3,8 @@ let _vm = null;
 export function expandNode (vm, curNode, auto) {
   _vm = vm;
   if (curNode.childs && curNode.childs.length > 0) { // 前台聚合的数据直接展开
-    for (let i in curNode.childs) {
-    }
+    // for (let i in curNode.childs) {
+    // }
     expandChilds(curNode.childs, 2);
   } else { // 后台聚合的需要先查询再展开
     // 从服务器端获取数据，并添加到画布
@@ -16,7 +16,7 @@ export function expandNode (vm, curNode, auto) {
       }
       var nodesList = nods;
       var edgesList = res.result.edges;
-      for (var i = 0; i < nodesList.length; i++) {
+      for (let i = 0; i < nodesList.length; i++) {
         if (_vm.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
           _vm.global.nodes.add(nodesList[i]);
         }

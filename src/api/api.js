@@ -37,8 +37,8 @@ export default {
   dataCacheDelByIds (ids) {
     return http({
       url: http.adornUrl('i2/cacheDataCtlr/delByIds'),
-      method: 'get',
-      params: http.adornParams(ids, false)
+      method: 'post',
+      data: http.adornData(ids, false)
     })
   },
   /**
@@ -187,8 +187,54 @@ export default {
   * 节点与关系操作--关系图谱关系挖掘接口
   * @param {*}
   */
-  nodeDigRelation () {
-
+  nodeDigRelation (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/digRelation'),
+      method: 'get',
+      params: http.adornParams(data)
+    })
+  },
+  /**
+   * 分析--- 两两分析
+   * @param {*} data
+   */
+  nodePairAnalyse (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/pairAnalyse'),
+      method: 'get',
+      params: http.adornParams(data)
+    })
+  },
+  /**
+   * 分析--- 定向分析
+   * @param {*} data
+   */
+  directionalAnalyse (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/directionalAnalyse'),
+      method: 'post',
+      data: http.adornData(data, false)
+    })
+  },
+  /**
+   * 获取所有关系类型
+   */
+  getAllRelationType () {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/getAllRelationType'),
+      method: 'get',
+      params: http.adornParams()
+    })
+  },
+  /**
+   * 六度空间
+   */
+  sixDegree (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/sixDegree'),
+      method: 'get',
+      params: http.adornParams(data)
+    })
   },
   /**
   * 节点与关系操作--图谱分析添加节点接口
@@ -197,10 +243,8 @@ export default {
   queryNodeOrAdd (data) {
     return http({
       url: http.adornUrl('i2/nodeAndRelationCtlr/findNode'),
-      method: 'get',
-      params: http.adornParams({
-        param: data
-      })
+      method: 'post',
+      data: http.adornData(data, false)
     })
   },
   /**
@@ -274,6 +318,28 @@ export default {
       params: http.adornParams(data)
     })
   },
+  /**
+   * 协同工作 -- 管理分析记录删除
+   * @param {*} data
+   */
+  deleteAnalyticalRecords (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/deleteAnalyticalRecords'),
+      method: 'get',
+      params: http.adornParams(data)
+    })
+  },
+  /**
+   * 协同工作 -- 管理分析记录加载
+   * @param {*} data
+   */
+  loadAnalyticalRecords (data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/loadAnalyticalRecords'),
+      method: 'get',
+      params: http.adornParams(data)
+    })
+  },
   // ------------------------------------ticket---------------------------------------------//
   /**
    * 新建话单
@@ -292,7 +358,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketQuery'),
       method: 'post',
-      data: http.adornData(data,false)
+      data: http.adornData(data, false)
     })
   },
   /**
@@ -302,7 +368,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketOneAnalyze'),
       method: 'post',
-      data: http.adornData(data,false)
+      data: http.adornData(data, false)
     })
   },
   /**

@@ -34,12 +34,14 @@
             <li
               v-for="(item,index) of resultList"
               :key="index"
+              :class="{active: index === activeLi }"
+              @click="resultLiClick(index,item.id)"
             >
               <dl class="clearfix">
                 <dt class="item-num fl"><i class="num">{{++index}}</i></dt>
                 <dd class="fl">
                   <h3 class="title">[{{item.recordTitle}}]分析结果</h3>
-                  <p><span class="time">2019/10/10 11:50:35</span></p>
+                  <p><span class="time">{{item.createTime}}</span></p>
                 </dd>
               </dl>
             </li>
@@ -48,12 +50,25 @@
       </el-col>
       <el-col :span="16">
         <div class="cont-info">
-          <div class="info-title">积分大狼狗卡帝国时代</div>
-          <p class="content">阿里打击力度大沙发回来的机会 </p>
-          <div class="btn-box">
-            <span class="fly-btn btn-denger">删除</span>
-            <span class="fly-btn">加载</span>
-            <span class="fly-btn">重载</span>
+          <div class="info-title">{{activeInfo.recordTitle}}</div>
+          <p class="content">{{activeInfo.description}} </p>
+          <div
+            class="btn-box"
+            v-if="resultList.length>0"
+          >
+            <span
+              class="fly-btn btn-denger"
+              id="btnDelete"
+              @click="deleteCacheHandle"
+            >删除</span>
+            <span
+              class="fly-btn btn-load"
+              @click="loadJson"
+            >加载</span>
+            <span
+              class="fly-btn btn-load"
+              @click="loadJson"
+            >重载</span>
           </div>
         </div>
       </el-col>
@@ -72,6 +87,12 @@ export default {
     return {
       visible: false,
       resultList: [],
+      activeInfo: {
+        recordTitle: '',
+        description: ''
+      },
+      activeLi: 0,
+      currCacheNodes: [],
       dataForm: {
         label: '',
         title: ''
@@ -83,7 +104,6 @@ export default {
   },
   methods: {
     init () {
-
       let obj = {
         pageNumber: 1,
         pageSize: 10,
@@ -92,9 +112,73 @@ export default {
       }
       this.$api.listAllAnalyticalRecords(obj).then(({ data }) => {
         this.resultList = data && data.code === 200 ? data.result : [];
+        if (this.resultList.length > 0) {
+          this.activeInfo = this.resultList[0];
+          this.currCacheNodes = this.resultList[0].json;
+        } else {
+          this.activeInfo = {
+            recordTitle: '',
+            description: ''
+          }
+        }
+        this.activeLi = 0;
         console.log(data)
       }).then(() => {
         this.visible = true;
+      })
+    },
+    // 列表点击
+    resultLiClick (index, id) {
+      this.activeLi = --index;
+      for (var i in this.resultList) {
+        if (this.resultList[i].id === id) {
+          this.activeInfo = this.resultList[i];
+          break;
+        }
+      }
+    },
+    /**
+		 * 删除保存的数据
+		 */
+    deleteCacheHandle (id) {
+      let ids = this.activeInfo.id;
+      this.$confirm(`确定要进行删除操作？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.deleteAnalyticalRecords({ analyticalRecordsId: ids }).then(({ data }) => {
+          if (data && data.code === 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.init()
+              }
+            })
+          } else {
+            this.$message.error(data.message)
+          }
+        })
+      })
+    },
+    // 加载保存的数据
+    loadJson () {
+      this.$api.loadAnalyticalRecords({ analyticalRecordsId: this.activeInfo.id }).then(({ data }) => {
+        console.log(data)
+        let nodesList = JSON.parse(data.result).nodes;
+        let edgesList = JSON.parse(data.result).edges;
+        for (let i = 0; i < nodesList.length; i++) {
+          if (this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
+            this.global.nodes.add(nodesList[i]);
+          }
+        }
+        for (var j = 0; j < edgesList.length; j++) {
+          if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
+            this.global.edges.add(edgesList[j]);
+          }
+        }
       })
     },
     // 表单提交
@@ -166,4 +250,12 @@ export default {
     color #fafafa
   .btn-box
     text-align right
+.resultList
+  li.active
+    h3.title
+      color #fa843d
+    .time
+      color #fa843d
+    .num
+      color #fe9b05
 </style>

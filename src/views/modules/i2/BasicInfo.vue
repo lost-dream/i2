@@ -135,7 +135,7 @@ export default {
           }
           this.$api.savePersonTag(param).then(({ data }) => {
             if (data && data.code === 200) {
-              this.tagList.push({ content: this.dataForm.content })
+              this.tagList.push(data.result)
               this.$message({
                 message: '操作成功',
                 type: 'success',
