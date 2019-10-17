@@ -82,7 +82,6 @@ export default {
           TODO updateUserInfo接口频繁失效
         */
         if (valid) {
-          // console.log('success submit!!')
           const userId = Cookie.get('userId')
           updateUserInfo(Object.assign(userId, this.form)).then(({ data }) => {
             if (data && data.code === 200) {

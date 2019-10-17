@@ -4,39 +4,56 @@
       <div class="seatInfoCoat2">
         <div class="seatInfoCoat3">
           <div class="seatInfo">
-            <!--<div v-for="item in 100" :key="item">
-                  {{item}}
-                </div>-->
             <div
-              v-if="tooltype == 'lg' || tooltype == 'wb'"
+              v-if="type == 'lg' || type == 'wb'"
               class="journeyInfo clearfix"
             >
               <div class="infoItem" style="width: 100%;height: auto!important;">
                 <span
                   style="font-size: 14px;text-align: initial;padding: 0 30px;height: auto;font-size: 18px;"
-                  >{{
-                    tooltype == 'lg' ? '旅馆名称' : '网吧名称'
-                  }}：背包十年</span
                 >
+                  {{ type == 'lg' ? '旅馆名称：' : '网吧名称：' }}
+                  {{ userData.name }}
+                </span>
               </div>
             </div>
             <div v-else class="journeyInfo clearfix">
               <div class="infoItem" style="width: 20%">
-                <span><img src="../../../assets/img/huoche.png" alt=""/></span>
-                <span style="font-size: 14px">火车出行信息</span>
+                <span
+                  class="icon-zdy-feiji"
+                  :style="iconStyle"
+                  v-if="userData.typeCode === '飞机'"
+                ></span>
+                <span
+                  class="icon-zdy-huoche"
+                  :style="iconStyle"
+                  v-else-if="userData.typeCode === '火车'"
+                ></span>
+                <span
+                  class="icon-zdy-daba"
+                  :style="iconStyle"
+                  v-else-if="userData.typeCode === '汽车'"
+                ></span>
+                <span style="font-size: 14px"
+                  >&nbsp;{{ userData.typeCode }}出行信息</span
+                >
               </div>
               <div class="infoItem" style="width: 30%">
-                <span style="font-size: 18px">成都东 to 广安南</span>
-                <span class="el-icon-time">&nbsp;&nbsp;2015年6月25日11:41</span>
+                <span style="font-size: 18px">
+                  {{ userData.startSstation }} -
+                  {{ userData.destination }}
+                </span>
+                <span class="el-icon-time">
+                  &nbsp;&nbsp;{{ userData.startTime }}
+                </span>
               </div>
               <div class="infoItem" style="width: 25%">
-                <span class="icon-zdy-facheshikebiao">&nbsp;&nbsp;D5172次</span>
-              </div>
-              <div class="infoItem" style="width: 25%">
-                <!--<span class="icon-zdy-yizi">&nbsp;&nbsp;05车11F</span>-->
+                <span class="icon-zdy-facheshikebiao">
+                  &nbsp;&nbsp;{{ userData.toolNumber }}次
+                </span>
               </div>
             </div>
-            <div v-if="tooltype == 'lg'" class="seatDesc clearfix">
+            <div v-if="type == 'lg'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
                 <span style="font-size: 14px"
                   >&nbsp;&nbsp;2015年6月25日11:41</span
@@ -61,17 +78,17 @@
                 >
               </div>
             </div>
-            <div v-else-if="tooltype == 'wb'" class="seatDesc clearfix">
+            <div v-else-if="type == 'wb'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
                 <span style="font-size: 14px"
                   >&nbsp;&nbsp;2015年6月25日11:41</span
                 >
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="icon-zdy-yizi noOne"></span
-                  >&nbsp;&nbsp;无人</span
-                >
+                <span>
+                  <span class="icon-zdy-yizi noOne"></span>
+                  &nbsp;&nbsp;无人
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span
@@ -88,13 +105,27 @@
             </div>
             <div v-else class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
-                <span style="font-size: 14px">&nbsp;&nbsp;第5车厢</span>
+                <span
+                  v-if="userData.typeCode === '飞机'"
+                  style="font-size: 14px"
+                  >&nbsp;&nbsp;第{{ userData.cabinPlace }}机舱</span
+                >
+                <span
+                  v-else-if="userData.typeCode === '火车'"
+                  style="font-size: 14px"
+                  >&nbsp;&nbsp;第{{ userData.carriageNumber }}</span
+                >
+                <span
+                  v-else-if="userData.typeCode === '汽车'"
+                  style="font-size: 14px"
+                  >&nbsp;&nbsp;{{ userData.carNo }}</span
+                >
               </div>
               <div class="infoItem2" style="width: 20%">
-                <span
-                  ><span class="icon-zdy-yizi noOne"></span
-                  >&nbsp;&nbsp;无乘客</span
-                >
+                <span>
+                  <span class="icon-zdy-yizi noOne"></span>
+                  &nbsp;&nbsp;无乘客
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span
@@ -109,8 +140,9 @@
                 >
               </div>
             </div>
+            <!-- 座位图 -->
             <div class="seatLayout">
-              <div v-if="tooltype == 'hc'" class="hc_seatLayout">
+              <div v-if="type == 'hc'" class="hc_seatLayout">
                 <div class="columnName clearfix">
                   <div class="list">
                     <span></span>
@@ -121,11 +153,11 @@
                   <div class="list">
                     <span>B</span>
                   </div>
-                  <div class="list aisle">
-                    <span> 过道</span>
-                  </div>
                   <div class="list">
                     <span>C</span>
+                  </div>
+                  <div class="list aisle">
+                    <span> 过道</span>
                   </div>
                   <div class="list">
                     <span>D</span>
@@ -137,24 +169,23 @@
                 <div
                   class="seatList clearfix"
                   @click.stop
-                  v-for="(item, index) in 11"
-                  :key="index"
+                  v-if="seatLine.length === 1"
                 >
                   <div class="list">
-                    <span>{{ item }}</span>
+                    <span>{{ seatLine[0] }}</span>
                   </div>
                   <div class="list">
                     <el-tooltip
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'A'"
+                      :content="seatLine[0] + 'A'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'A')"
-                        :class="seatType(item, 'A')"
+                        @click="showHCInfo(seatLine[0], 'A')"
+                        :class="addClass(seatLine[0], 'A')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -163,13 +194,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'B'"
+                      :content="seatLine[0] + 'B'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'B')"
-                        :class="seatType(item, 'B')"
+                        @click="showHCInfo(seatLine[0], 'B')"
+                        :class="addClass(seatLine[0], 'B')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -181,13 +212,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'C'"
+                      :content="seatLine[0] + 'C'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'C')"
-                        :class="seatType(item, 'C')"
+                        @click="showHCInfo(seatLine[0], 'C')"
+                        :class="addClass(seatLine[0], 'C')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -196,13 +227,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'D'"
+                      :content="seatLine[0] + 'D'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'D')"
-                        :class="seatType(item, 'D')"
+                        @click="showHCInfo(seatLine[0], 'D')"
+                        :class="addClass(seatLine[0], 'D')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -211,19 +242,110 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'F'"
+                      :content="seatLine[0] + 'F'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'F')"
-                        :class="seatType(item, 'F')"
+                        @click="showHCInfo(seatLine[0], 'F')"
+                        :class="addClass(seatLine[0], 'F')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <div
+                  class="seatList clearfix"
+                  v-else-if="seatLine.length > 1"
+                  @click.stop
+                  v-for="(item, index) in seatLine[seatLine.length - 1] -
+                    seatLine[0] +
+                    1"
+                  :key="index"
+                >
+                  <div class="list">
+                    <span>{{ item + seatLine[0] - 1 }}</span>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'A'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showHCInfo(item + seatLine[0] - 1, 'A')"
+                        :class="addClass(item + seatLine[0] - 1, 'A')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'B'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'B')"
+                        :class="addClass(item + seatLine[0] - 1, 'B')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'C'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'C')"
+                        :class="addClass(item + seatLine[0] - 1, 'C')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list aisle">
+                    <span></span>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'D'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'D')"
+                        :class="addClass(item + seatLine[0] - 1, 'D')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'F'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'F')"
+                        :class="addClass(item + seatLine[0] - 1, 'F')"
                       ></span>
                     </el-tooltip>
                   </div>
                 </div>
               </div>
-              <div v-else-if="tooltype == 'fj'" class="fj_seatLayout">
+              <div v-else-if="type == 'fj'" class="fj_seatLayout">
                 <div class="columnName clearfix">
                   <div class="list">
                     <span></span>
@@ -262,24 +384,23 @@
                 <div
                   class="seatList clearfix"
                   @click.stop
-                  v-for="(item, index) in 11"
-                  :key="index"
+                  v-if="seatLine.length === 1"
                 >
                   <div class="list">
-                    <span>{{ item }}</span>
+                    <span>{{ seatLine[0] }}</span>
                   </div>
                   <div class="list">
                     <el-tooltip
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'A'"
+                      :content="seatLine[0] + 'A'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'A')"
-                        :class="seatType(item, 'A')"
+                        @click="showInfo(seatLine[0], 'A')"
+                        :class="addClass(seatLine[0], 'A')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -288,13 +409,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'B'"
+                      :content="seatLine[0] + 'C'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'B')"
-                        :class="seatType(item, 'B')"
+                        @click="showInfo(seatLine[0], 'C')"
+                        :class="addClass(seatLine[0], 'C')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -306,13 +427,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'C'"
+                      :content="seatLine[0] + 'D'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'C')"
-                        :class="seatType(item, 'C')"
+                        @click="showInfo(seatLine[0], 'D')"
+                        :class="addClass(seatLine[0], 'D')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -321,13 +442,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'D'"
+                      :content="seatLine[0] + 'E'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'D')"
-                        :class="seatType(item, 'D')"
+                        @click="showInfo(seatLine[0], 'E')"
+                        :class="addClass(seatLine[0], 'E')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -336,13 +457,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item + 'E'"
+                      :content="seatLine[0] + 'F'"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
-                        @click="showInfo(item, 'E')"
-                        :class="seatType(item, 'E')"
+                        @click="showInfo(seatLine[0], 'F')"
+                        :class="addClass(seatLine[0], 'F')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -357,7 +478,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item, 'G')"
-                        :class="seatType(item, 'G')"
+                        :class="addClass(item, 'G')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -375,7 +496,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item, 'H')"
-                        :class="seatType(item, 'H')"
+                        :class="addClass(item, 'H')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -390,13 +511,152 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item, 'K')"
-                        :class="seatType(item, 'K')"
+                        :class="addClass(item, 'K')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <div
+                  class="seatList clearfix"
+                  v-else-if="seatLine.length > 1"
+                  @click.stop
+                  v-for="(item, index) in seatLine[seatLine.length - 1] -
+                    seatLine[0] +
+                    1"
+                  :key="index"
+                >
+                  <div class="list">
+                    <span>{{ item + seatLine[0] - 1 }}</span>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'A'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'A')"
+                        :class="addClass(item + seatLine[0] - 1, 'A')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'C'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'C')"
+                        :class="addClass(item + seatLine[0] - 1, 'C')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list aisle">
+                    <span></span>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'D'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'D')"
+                        :class="addClass(item + seatLine[0] - 1, 'D')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'E'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'E')"
+                        :class="addClass(item + seatLine[0] - 1, 'E')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'F'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'F')"
+                        :class="addClass(item + seatLine[0] - 1, 'F')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + 'G'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'G')"
+                        :class="addClass(item + seatLine[0] - 1, 'G')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list aisle">
+                    <span></span>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'H'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'H')"
+                        :class="addClass(item + seatLine[0] - 1, 'H')"
+                      ></span>
+                    </el-tooltip>
+                  </div>
+                  <div class="list">
+                    <el-tooltip
+                      popper-class="atooltip"
+                      class="item"
+                      effect="dark"
+                      :content="item + seatLine[0] - 1 + 'K'"
+                      placement="top"
+                    >
+                      <span
+                        class="icon-zdy-yizi"
+                        @click="showInfo(item + seatLine[0] - 1, 'K')"
+                        :class="addClass(item + seatLine[0] - 1, 'K')"
                       ></span>
                     </el-tooltip>
                   </div>
                 </div>
               </div>
-              <div v-else-if="tooltype == 'qc'" class="qc_seatLayout">
+              <div v-else-if="type == 'qc'" class="qc_seatLayout">
                 <div class="columnName clearfix">
                   <div class="list">
                     <span></span>
@@ -431,13 +691,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="(item - 1) * 4 + 1"
+                      :content="'' + (item - 1) * 4 + 1"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
                         @click="showQcInfo((item - 1) * 4 + 1)"
-                        :class="seatType(item, 'A')"
+                        :class="addQCClass((item - 1) * 4 + 1)"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -446,13 +706,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="(item - 1) * 4 + 2"
+                      :content="'' + (item - 1) * 4 + 2"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
                         @click="showQcInfo((item - 1) * 4 + 2)"
-                        :class="seatType(item, 'B')"
+                        :class="addQCClass((item - 1) * 4 + 2)"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -464,13 +724,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="(item - 1) * 4 + 3"
+                      :content="'' + (item - 1) * 4 + 3"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
                         @click="showQcInfo((item - 1) * 4 + 3)"
-                        :class="seatType(item, ' ')"
+                        :class="addClass((item - 1) * 4 + 3)"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -480,7 +740,9 @@
                       class="item"
                       effect="dark"
                       :content="
-                        item !== 11 ? (item - 1) * 4 + 3 : (item - 1) * 4 + 4
+                        '' + item !== 11
+                          ? (item - 1) * 4 + 3
+                          : (item - 1) * 4 + 4
                       "
                       placement="top"
                     >
@@ -493,7 +755,13 @@
                               : (item - 1) * 4 + 4,
                           )
                         "
-                        :class="seatType(item, 'C')"
+                        :class="
+                          addClass(
+                            item !== 11
+                              ? (item - 1) * 4 + 3
+                              : (item - 1) * 4 + 4,
+                          )
+                        "
                       ></span>
                     </el-tooltip>
                   </div>
@@ -503,7 +771,9 @@
                       class="item"
                       effect="dark"
                       :content="
-                        item !== 11 ? (item - 1) * 4 + 4 : (item - 1) * 4 + 5
+                        '' + item !== 11
+                          ? (item - 1) * 4 + 4
+                          : (item - 1) * 4 + 5
                       "
                       placement="top"
                     >
@@ -516,44 +786,61 @@
                               : (item - 1) * 4 + 5,
                           )
                         "
-                        :class="seatType(item, 'D')"
+                        :class="
+                          addClass(
+                            item !== 11
+                              ? (item - 1) * 4 + 4
+                              : (item - 1) * 4 + 5,
+                          )
+                        "
                       ></span>
                     </el-tooltip>
                   </div>
                 </div>
               </div>
-              <div v-else-if="tooltype == 'lg'" class="lg_seatLayout">
+              <div v-else-if="type == 'lg'" class="lg_seatLayout">
                 <div
                   class="seatList clearfix"
+                  v-if="floors.length > 0"
                   @click.stop
-                  v-for="(item, index) in 5"
-                  :key="index"
                 >
-                  <div class="list" style="height: 100px">
-                    <span>{{ item }}F</span>
-                  </div>
-                  <div
-                    class="list lgList"
-                    v-for="(item2, index2) in 26"
-                    :key="index2"
+                  <template
+                    v-for="(item, index) in floors[floors.length - 1] -
+                      floors[0] +
+                      1"
                   >
-                    <el-tooltip
-                      popper-class="atooltip"
-                      class="item"
-                      effect="dark"
-                      :content="item2 + ''"
-                      placement="top"
-                    >
-                      <span
-                        class="el-icon-place"
-                        @click="showLgInfo(item, item2)"
-                        :class="seatType(item, item2)"
-                      ></span>
-                    </el-tooltip>
-                  </div>
+                    <section :key="index">
+                      <div class="list" style="height: 100px">
+                        <span>{{ item + floors[0] - 1 }}F</span>
+                      </div>
+                      <div
+                        class="list lgList"
+                        v-for="(item2, index2) in 26"
+                        :key="index2"
+                      >
+                        <el-tooltip
+                          popper-class="atooltip"
+                          class="item"
+                          effect="dark"
+                          :content="
+                            item2 >= 10
+                              ? `${item + floors[0] - 1}${item2}房间`
+                              : `${item + floors[0] - 1}0${item2}房间`
+                          "
+                          placement="top"
+                        >
+                          <span
+                            class="icon-zdy-yizi"
+                            @click="showLgInfo(item + floors[0] - 1, item2)"
+                            :class="addLGClass(item + floors[0] - 1, item2)"
+                          ></span>
+                        </el-tooltip>
+                      </div>
+                    </section>
+                  </template>
                 </div>
               </div>
-              <div v-else-if="tooltype == 'wb'" class="wb_seatLayout">
+              <div v-else-if="type == 'wb'" class="wb_seatLayout">
                 <div
                   class="seatList clearfix"
                   @click.stop
@@ -572,13 +859,18 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="item2 + (item - 1) * 26"
+                      :style="{
+                        display: 'block !important',
+                        width: '100%',
+                        height: '100%',
+                      }"
+                      :content="item2 + (item - 1) * 26 + '号机'"
                       placement="top"
                     >
                       <span
-                        class="el-icon-place"
-                        @click="showWbInfo(item, item2 + (item - 1) * 26)"
-                        :class="seatType(item, item2 + (item - 1) * 26)"
+                        class="icon-zdy-yizi"
+                        @click="showWbInfo(item2 + (item - 1) * 26)"
+                        :class="addWBClass(item2 + (item - 1) * 26)"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -588,13 +880,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div>
-      <el-button type="primary" @click="tooltype = 'fj'">飞机</el-button>
-      <el-button type="primary" @click="tooltype = 'lg'">旅馆</el-button>
-      <el-button type="primary" @click="tooltype = 'hc'">火车</el-button>
-      <el-button type="primary" @click="tooltype = 'qc'">汽车</el-button>
-      <el-button type="primary" @click="tooltype = 'wb'">网吧</el-button>
     </div>
     <div class="infoCard">
       <personal-info-card></personal-info-card>
@@ -606,18 +891,32 @@
           v-for="(item, index) in personCard.length"
           :key="index"
         >
-          <span :class="{ okCard: okCard == item }" class="cardList"
+          <span
+            :class="{ okCard: okCard == item }"
+            class="cardList"
+            @click="changeMember(index)"
             >旅客{{ item }}</span
           >
         </span>
       </div>
-      <personal-info-card></personal-info-card>
+      <personal-info-card
+        :IDNum="showPassenger.idNnumber || showPassenger.idNumber"
+        :name="showPassenger.name"
+        :nationality="showPassenger.nation"
+        :sex="showPassenger.sex"
+        :birthday="showPassenger.birthday"
+        :mobile="showPassenger.cellphone"
+        :addr="showPassenger.currentAddress"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import personalInfoCard from '@/views/common/personalInfoCard'
+import Cookies from 'js-cookie'
+import { analyzedetailsApi } from '@/api/timespace'
+
 export default {
   name: 'timespaceinfo',
   components: {
@@ -626,10 +925,24 @@ export default {
   data() {
     return {
       passengerInfoShow: false,
-      tooltype: 'lg',
       okCard: 1,
       personCard: [],
-      partiesInfo: {},
+      type: this.$route.query.type, // 显示的详情类型
+      userData: JSON.parse(Cookies.get('shikong_data')),
+      iconStyle: {
+        // icon样式
+        fontSize: '40px',
+        overflow: 'inherit',
+        padding: '10px 0',
+      },
+      seatLine: [], // 座位号行数的限制 eg: [20, 30] => 最小20行最大30行
+      seats: [], // 所有的座位号
+      passengers: [], // 所有乘客名单
+      showPassenger: [], // 点击查看的乘客名单
+      floors: [], // 旅馆所有的楼层
+      hotelRooms: [], // 旅馆所有住了人的房间数
+      hotelMember: {}, // 旅馆所有住户数据整合
+      roomMebers: [], //某个房间所有人的集合
     }
   },
   computed: {
@@ -638,10 +951,11 @@ export default {
         let noOne = false
         let exist = false
         let parties = true
+
         return {
-          noOne: noOne,
-          exist: exist,
-          parties: parties,
+          noOne: true,
+          exist,
+          parties,
         }
       }
     },
@@ -679,46 +993,277 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$route.params.form !== undefined && this.receiveRouter()
-    document.addEventListener('click', this.handleDocumentClick)
-  },
   methods: {
-    // 获取路由参数
-    receiveRouter() {
-      this.partiesInfo = JSON.parse(
-        JSON.stringify(this.$route.params.partiesInfo),
-      )
+    // 判断位置有没有乘客，添加对应的座位图标className
+    addClass(x, y) {
+      x = (x + '').length === 1 ? '0' + x : x
+      return this.seats.map(value => {
+        if (y === 'F' || y === 'E') {
+          if (x - 0 === parseInt(this.userData.seatNumber)) {
+            return 'parties'
+          } else if (value === x + y) {
+            return 'exist'
+          } else {
+            return 'noOne'
+          }
+        } else {
+          if (x + y === this.userData.seatNumber) {
+            return 'parties'
+          } else if (value === x + y) {
+            return 'exist'
+          } else {
+            return 'noOne'
+          }
+        }
+      })
     },
-    // 显示座位乘客信息 x,y为座位信息
+    addQCClass(num) {
+      return this.seats.map(value => {
+        if (num - 0 === this.userData.seatNumber - 0) {
+          return 'parties'
+        } else if (num - 0 === value - 0) {
+          return 'exist'
+        } else {
+          return 'noOne'
+        }
+      })
+    },
+    addLGClass(x, y) {
+      y = (y + '').length === 1 ? '0' + y : y
+      return this.passengers.map(value => {
+        if (x + y - 0 === this.userData.roomNo - 0) {
+          return 'parties'
+        } else if (value.roomNo - 0 === x + y - 0) {
+          return 'exist'
+        } else {
+          return 'noOne'
+        }
+      })
+    },
+    addWBClass(num) {
+      return this.seats.map(value => {
+        if (num - 0 === this.userData.computerNo - 0) {
+          return 'parties'
+        } else if (num - 0 === value - 0) {
+          return 'exist'
+        } else {
+          return 'noOne'
+        }
+      })
+    },
+    // 显示飞机座位乘客信息 x,y为座位信息
     showInfo(x, y) {
-      this.personCard = [1]
-      this.passengerInfoShow = true
+      x = (x + '').length === 1 ? '0' + x : x
+      this.seats.map((value, index) => {
+        if (value === x + y) {
+          this.personCard = [1]
+          this.showPassenger = this.passengers[index].crewEntity
+          this.passengerInfoShow = true
+        } else {
+          // this.$message.error('该位置无乘客')
+        }
+      })
+    },
+    showHCInfo(x, y) {
+      x = (x + '').length === 1 ? '0' + x : x
+      this.seats.map((value, index) => {
+        if (y === 'E' || y === 'F') {
+          if (parseInt(value) === x - 0) {
+            this.personCard = [1]
+            this.showPassenger = this.passengers[index].crewEntity
+            this.passengerInfoShow = true
+          }
+        } else {
+          if (value === x + y) {
+            this.personCard = [1]
+            this.showPassenger = this.passengers[index].crewEntity
+            this.passengerInfoShow = true
+          } else {
+            // this.$message.error('该位置无乘客')
+          }
+        }
+      })
     },
     // 显示汽车座位乘客信息 x为座位信息
     showQcInfo(x) {
-      this.personCard = [1]
-      this.passengerInfoShow = true
+      this.seats.map((value, index) => {
+        if (value - 0 === x - 0) {
+          this.personCard = [1]
+          this.showPassenger = this.passengers[index].crewEntity
+          this.passengerInfoShow = true
+        } else {
+          // this.$message.error('该位置无乘客')
+        }
+      })
     },
     // 显示旅馆房间人员信息 x,y为房间坐标
     showLgInfo(x, y) {
-      this.personCard = [1, 2, 3]
-      this.passengerInfoShow = true
+      y = (y + '').length === 1 ? '0' + y : y
+      this.hotelRooms.map((value, index) => {
+        if (value + '' === '' + x + y) {
+          const roomData = this.hotelMember[value]
+          let arr = []
+          roomData.map((value, index) => {
+            arr.push(index)
+          })
+          this.personCard = arr
+          this.roomMebers = roomData
+          this.showPassenger = roomData[0]
+          this.passengerInfoShow = true
+        }
+      })
     },
-    // 显示网吧人员信息 x,y为位置坐标
-    showWbInfo(x, y) {
-      this.personCard = [1]
-      this.passengerInfoShow = true
+    // 显示网吧人员信息 x为机号
+    showWbInfo(x) {
+      this.seats.map((value, index) => {
+        if (value - 0 === x - 0) {
+          this.personCard = [1]
+          this.showPassenger = this.passengers[index]
+          this.passengerInfoShow = true
+        } else {
+          // this.$message.error('该位置无乘客')
+        }
+      })
     },
+    changeMember(index) {
+      this.showPassenger = this.roomMebers[index]
+    },
+  },
+  mounted() {
     // 点击空白地方隐藏乘客信息
-    handleDocumentClick(e) {
+    document.addEventListener('click', e => {
       if (this.passengerInfoShow) {
         let $passengerInfo = document.getElementById('passengerInfo')
         if (!$passengerInfo.contains(e.target)) {
           this.passengerInfoShow = false
         }
       }
-    },
+    })
+
+    let data = {}
+    switch (this.userData.typeCode) {
+      case '飞机':
+        data = {
+          destination: this.userData.destination,
+          startSstation: this.userData.startSstation,
+          startTime: this.userData.startTime,
+          toolNumber: this.userData.toolNumber,
+          fcNumber: this.userData.cabinPlace,
+          type: 1,
+        }
+        break
+      case '火车':
+        data = {
+          destination: this.userData.destination,
+          startSstation: this.userData.startSstation,
+          startTime: this.userData.startTime,
+          toolNumber: this.userData.toolNumber,
+          fcNumber: this.userData.carriageNumber,
+          type: 2,
+        }
+        break
+      case '汽车':
+        data = {
+          destination: this.userData.destination,
+          startSstation: this.userData.startSstation,
+          startTime: this.userData.startTime,
+          toolNumber: this.userData.toolNumber,
+          type: 3,
+        }
+        break
+      case '网吧':
+        data = {
+          beginTime: this.userData.beginTime,
+          endTime: this.userData.endTime,
+          wbAndbgNameId: this.userData.wbAndbgNameId,
+          type: 4,
+        }
+        break
+      case '旅馆':
+        data = {
+          beginTime: this.userData.checkIn,
+          endTime: this.userData.checkOut,
+          wbAndbgNameId: this.userData.id,
+          type: 5,
+        }
+        break
+    }
+
+    analyzedetailsApi(data).then(({ data }) => {
+      if (data && parseInt(data.code) === 200) {
+        // 计算座位号
+        let result = data.result.obj
+        this.passengers = result
+        let arr = []
+        let arr1 = []
+        switch (this.userData.typeCode) {
+          case '飞机':
+            result.map(value => {
+              this.seats.push(value.tripRecordEntity[0].seatNumber)
+              arr.push(parseInt(value.tripRecordEntity[0].seatNumber))
+            })
+
+            arr.sort((value1, value2) => value1 - value2)
+            arr1.push(arr[0])
+            arr1.push(arr[arr.length - 1])
+
+            this.seatLine = arr1
+            break
+          case '火车':
+            result.map(value => {
+              this.seats.push(value.tripRecordEntity[0].seatNumber)
+              arr.push(parseInt(value.tripRecordEntity[0].seatNumber))
+            })
+
+            arr.sort((value1, value2) => value1 - value2)
+            arr1.push(arr[0])
+            arr1.push(arr[arr.length - 1])
+
+            this.seatLine = arr1
+            break
+          case '汽车':
+            result.map(value => {
+              this.seats.push(value.tripRecordEntity[0].seatNumber)
+            })
+            break
+          case '旅馆':
+            result.map(value => {
+              this.hotelRooms.push(value.roomNo)
+              arr.push(Math.floor(value.roomNo / 100))
+              arr1.push(value.roomNo)
+            })
+            // 保存楼层号
+            arr = [...new Set(arr)]
+            arr.sort((value1, value2) => value1 - value2)
+            this.floors = arr
+
+            // 用规定的格式保存用户数据
+            arr1 = [...new Set(arr1)]
+            arr1.sort((value1, value2) => value1 - value2)
+            let userData = {}
+            arr1.forEach((value, index) => {
+              userData[value] = []
+            })
+            for (const key in userData) {
+              for (let index = 0; index < result.length; index++) {
+                if (result[index].roomNo - 0 === key - 0) {
+                  userData[key].push(result[index])
+                }
+              }
+            }
+            this.hotelMember = userData
+            break
+          case '网吧':
+            result.map(value => {
+              this.seats.push(value.computerNo)
+            })
+            break
+        }
+      }
+    })
+  },
+  beforeDestroy() {
+    Cookies.remove('shikong_data')
   },
 }
 </script>

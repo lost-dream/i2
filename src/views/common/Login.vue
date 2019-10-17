@@ -155,6 +155,8 @@ export default {
                 // 已设置过二级密码,登录成功
                 this.doLogin(data.result.user)
               }
+            } else {
+              this.$message.error(data.message)
             }
           })
         }

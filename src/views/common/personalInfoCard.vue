@@ -12,42 +12,47 @@
             ></el-button>
           </div>
           <div class="cardImg">
-            <img src="" alt="" />
+            <img :src="avatar" alt="" />
           </div>
           <div class="cardInfo">
             <div class="list">
               <span>证件号码</span>&nbsp;&nbsp;
-              <span>510184199912095586</span>
+              <span>{{ IDNum }}</span>
             </div>
             <div class="list">
               <span>姓名</span>&nbsp;&nbsp;
-              <span>丁小锐</span>
+              <span>{{ name }}</span>
             </div>
             <div class="list">
               <span>民族</span>&nbsp;&nbsp;
-              <span>汉族</span>
+              <span>{{ nationality }}</span>
             </div>
             <div class="list">
               <span>性别</span>&nbsp;&nbsp;
-              <span>女</span>
+              <span>{{ realSex }}</span>
             </div>
             <div class="list">
               <span>出生日期</span>&nbsp;&nbsp;
-              <span>1999年12月09日</span>
+              <span>{{ birthday }}</span>
             </div>
             <div class="list">
               <span>联系电话</span>&nbsp;&nbsp;
-              <span>15208177654</span>
+              <span>{{ mobile }}</span>
             </div>
             <div class="list">
               <span>现居地</span>&nbsp;&nbsp;
-              <span>四川省成都市青羊区清江东路锦绣花苑5栋2单元1120室</span>
+              <span>{{ addr }}</span>
             </div>
           </div>
           <div class="timespaceBut">
-            <el-button class="sureBut" size="mini" type="primary"
-              >添加到关系分析</el-button
+            <el-button
+              class="sureBut"
+              size="mini"
+              type="primary"
+              @click="addToRelationAnalysis"
             >
+              <span>添加到关系分析</span>
+            </el-button>
           </div>
         </el-card>
       </div>
@@ -56,8 +61,62 @@
 </template>
 
 <script>
+import { lstat } from 'fs'
 export default {
   name: 'personalInfoCard',
+  props: {
+    avatar: {
+      default: '',
+      required: false,
+      type: String,
+    },
+    IDNum: {
+      default: '',
+      required: false,
+      type: [Number, String],
+    },
+    name: {
+      default: '',
+      required: false,
+      type: String,
+    },
+    nationality: {
+      default: '',
+      required: false,
+      type: String,
+    },
+    sex: {
+      // 0 nv 1 nan
+      default: '',
+      required: false,
+      type: [String, Number],
+    },
+    birthday: {
+      default: '',
+      required: false,
+      type: String,
+    },
+    mobile: {
+      default: '',
+      required: false,
+      type: [String, Number],
+    },
+    addr: {
+      default: '',
+      required: false,
+      type: String,
+    },
+  },
+  computed: {
+    realSex(value) {
+      return value - 0 === 1 ? '女' : '男'
+    },
+  },
+  methods: {
+    addToRelationAnalysis() {
+      this.$emit('addToRelationAnalysis')
+    },
+  },
 }
 </script>
 

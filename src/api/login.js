@@ -29,6 +29,9 @@ export function setSecondaryPassword(data) {
   return http({
     url: http.adornUrl('admin/updateSecondary'),
     method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
     data: http.adornData(data, false, 'qs'),
   })
 }

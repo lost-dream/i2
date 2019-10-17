@@ -19,6 +19,7 @@
             popper-class="datePicker"
             v-model="form.startDate"
             type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择开始日期"
           >
           </el-date-picker>
@@ -28,13 +29,14 @@
             popper-class="datePicker"
             v-model="form.endDate"
             type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择结束日期"
           >
           </el-date-picker>
         </el-form-item>
       </el-form>
       <div class="timespaceBut">
-        <el-button class="sureBut" type="primary" @click="onSubmit('form')"
+        <el-button class="sureBut" type="primary" @click="onSubmit"
           >确定</el-button
         >
       </div>
@@ -49,9 +51,9 @@ export default {
   data() {
     return {
       form: {
-        idNumber: '',
-        startDate: '',
-        endDate: '',
+        idNumber: '640102198603091217',
+        startDate: '2011-01-09 11:05:00',
+        endDate: '2014-05-10 11:05:00',
       },
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
@@ -65,18 +67,20 @@ export default {
     }
   },
   methods: {
-    testapi() {
-    },
-    onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
+    onSubmit() {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          // searchList({
-          // }).then(({res})=> {
-          //   if(res && res.code !== 0) {
-          //     this.gotoList()
-          //   }
-          // })
-          this.gotoList()
+          searchList({
+            beginTime: this.form.startDate,
+            endTime: this.form.endDate,
+            identityNumber: this.form.idNumber,
+          }).then(({ data }) => {
+            if (data && parseInt(data.code) === 200) {
+              this.gotoList()
+            } else {
+              this.$message.error(data.message)
+            }
+          })
         }
       })
     },
@@ -90,9 +94,7 @@ export default {
       })
     },
   },
-  mounted() {
-    this.testapi()
-  },
+  mounted() {},
 }
 </script>
 

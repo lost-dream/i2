@@ -1,7 +1,7 @@
 <template>
   <div class="timespaceindex">
     <div class="title"><span class="title_a">时空分析</span></div>
-    <div class="dir">
+    <!-- <div class="dir">
       <router-link to="/timespacelist">
         <div class="list" @click="isClick = 1">
           <span class="__icon el-icon-circle-check"></span>
@@ -74,7 +74,7 @@
           <span>查询</span>
         </div>
       </router-link>
-    </div>
+    </div> -->
     <div class="menubar">
       <sidebar>
         <sidemenu-item></sidemenu-item>
@@ -107,9 +107,6 @@ export default {
     } */
   },
   created() {},
-  mounted() {
-    // this.refCli()
-  },
 }
 </script>
 <style lang="stylus" scoped>
@@ -195,6 +192,6 @@ export default {
 <style lang="stylus">
 .timespaceindex .infoCard
   position absolute
-  top 0
+  top 60px
   right 0
 </style>
