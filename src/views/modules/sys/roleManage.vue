@@ -4,7 +4,10 @@
       <el-button class="addBut" type="primary" @click="addDialog = true"
         >添加</el-button
       >
-      <el-button class="editBut" type="primary" @click="editDialog = true"
+      <el-button
+        class="editBut"
+        type="primary"
+        @click="pitchOn2() && editForm()"
         >编辑</el-button
       >
       <el-button
@@ -16,7 +19,13 @@
       <div class="menuList">
         <table border="1" cellspacing="1">
           <tr v-for="(item, index) in roleList" :key="index">
-            <td class="tal_tit">{{ item.name }}</td>
+            <td
+              class="tal_tit"
+              @click="isokRole(item), (roleActive = index)"
+              :class="{ active: roleActive == index }"
+            >
+              {{ item.description }}
+            </td>
           </tr>
         </table>
       </div>
@@ -33,6 +42,7 @@
               node-key="id"
               ref="tree"
               highlight-current
+              @check-change="handleCheckChange"
               :props="defaultProps"
             >
             </el-tree>
@@ -81,7 +91,7 @@
             class="demo-ruleForm"
           >
             <el-form-item label="角色名称" prop="name">
-              <el-input v-model="form.name"></el-input>
+              <el-input :disabled="true" v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="描述" prop="desc">
               <el-input v-model="form.desc"></el-input>
@@ -114,6 +124,14 @@
 </template>
 
 <script>
+import {
+  rolePermission,
+  queryRole,
+  deleteRole,
+  compileRole,
+  addRole,
+} from '@/api/system'
+import Cookies from 'js-cookie'
 import FlyDialog from '@/components/fly-dialog'
 export default {
   name: 'roleManage',
@@ -126,7 +144,10 @@ export default {
       addDialog: false,
       editDialog: false,
       deleteDialog: false,
+      roleActive: null,
+      okRole: '',
       roleList: [{ name: '管理员' }, { name: '超级管理员' }, { name: '游客' }],
+      menuList: [],
       data: [
         {
           id: 1,
@@ -191,19 +212,93 @@ export default {
       },
     }
   },
+  mounted() {
+    this.queryRole()
+  },
   methods: {
+    // 查看角色
+    queryRole() {
+      const $THIS = this
+      queryRole({
+        userId: Cookies.get('userId'),
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.roleList = data.data
+        } else {
+          this.$message({
+            message: '获取角色信息失败!',
+            type: 'error',
+          })
+        }
+      })
+      this.addDialog = false
+    },
+    // 添加角色和菜单关系
+    rolePermission() {
+      const $THIS = this
+      rolePermission({
+        userId: Cookies.get('userId'),
+        roleId: this.okRole.id,
+        permissionId: this.menuList,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.$message({
+            message: '角色和菜单关系修改成功！!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '角色和菜单关系修改失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+    isokRole(r) {
+      console.log(r)
+      this.okRole = r
+    },
     // 判断是否选择角色
     pitchOn2() {
       // let isPitchOn = false
-      let isPitchOn = true
-      // this.multipleSelection.length > 0 ? isPitchOn = true : this.$message.error('请至少选择一条数据!')
+      let isPitchOn = false
+      this.okRole !== ''
+        ? (isPitchOn = true)
+        : this.$message.error('请至少选择一条数据!')
       return isPitchOn
+    },
+    // 编辑表单
+    editForm() {
+      this.form.name = this.okRole.name
+      this.form.desc = this.okRole.description
+      this.editDialog = true
     },
     // 添加角色
     addRole(formName) {
+      const $THIS = this
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!')
+          addRole({
+            userId: Cookies.get('userId'),
+            name: this.form.name,
+            description: this.form.desc,
+            accessToken: Cookies.get('ac_token'),
+          }).then(({ data }) => {
+            if (data && data.code === 200) {
+              $THIS.queryRole()
+              $THIS.$message({
+                message: '添加角色成功！!',
+                type: 'success',
+              })
+            } else {
+              this.$message({
+                message: '添加角色失败!',
+                type: 'error',
+              })
+            }
+          })
           this.addDialog = false
         } else {
           console.log('error submit!!')
@@ -213,10 +308,29 @@ export default {
     },
     // 编辑角色
     editRole(formName) {
+      const $THIS = this
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!')
-          this.addDialog = false
+          compileRole({
+            userId: Cookies.get('userId'),
+            id: this.okRole.id,
+            description: this.form.desc,
+            accessToken: Cookies.get('ac_token'),
+          }).then(({ data }) => {
+            if (data && data.code === 200) {
+              $THIS.queryRole()
+              $THIS.$message({
+                message: '角色信息修改成功！!',
+                type: 'success',
+              })
+            } else {
+              this.$message({
+                message: '角色信息修改失败!',
+                type: 'error',
+              })
+            }
+          })
+          this.editDialog = false
         } else {
           console.log('error submit!!')
           return false
@@ -225,7 +339,41 @@ export default {
     },
     // 删除角色
     deleteRole() {
+      const $THIS = this
+      deleteRole({
+        id: this.okRole.id,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.queryRole()
+          $THIS.$message({
+            message: '删除角色成功！!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '删除角色失败!',
+            type: 'error',
+          })
+        }
+      })
       this.deleteDialog = false
+    },
+
+    deleteData(a, b) {
+      let index = a.indexOf(b)
+      if (index > -1) {
+        a.splice(index, 1)
+      }
+      this.menuList = a
+    },
+    // 权限菜单变化
+    handleCheckChange(data, checked, indeterminate) {
+      checked && data.children === undefined && this.menuList.push(data.id)
+      !checked &&
+        data.children === undefined &&
+        this.deleteData(this.menuList, data.id)
+      this.rolePermission()
     },
   },
 }
@@ -271,6 +419,8 @@ export default {
 .roleManage .leftMenu table .tal_tit
   background-color: rgba(44, 239, 255, 0.4)
   text-align center
+.roleManage .leftMenu table .active
+  background-color: rgba(44, 239, 255, 0.6)
 .right
   width 1200px
   margin 0 auto

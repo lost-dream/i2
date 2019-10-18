@@ -613,6 +613,7 @@ export default {
                   _this.search()
                   _this.caseData.forEach(item => {
                     addPoint(item.longitude, item.latitude, '案发地点')
+                    drawEndEvent()
                   })
                 })
 
@@ -624,11 +625,12 @@ export default {
                 })
 
                 // 删除图形
-                on(query('.removeLayer'), 'click', function(e) {
-                  console.log(12122)
-                  console.log(e)
-                  console.log(121212)
-                })
+                // query('.casePlace').on('click', function(e) {
+                //   console.log(12122)
+                //   console.log(e)
+                //   console.log(121212)
+                // })
+
 
                 // // 圆心
                 // var p = new Point(
@@ -742,33 +744,33 @@ export default {
                   map.graphics.add(graphicItem)
                   console.log(map.graphics)
 
-                  // // 删除图形
-                  // setTimeout(
-                  //   () => {
-                  //     // off()click操作中的累积效果
-                  //     $('.removeLayer')
-                  //       .off('click')
-                  //       .on('click', e => {
-                  //         let id = Number(e.target.dataset.index)
-                  //         map.graphics.remove(_this.graphicItemS[id])
-                  //         _this.mapTableData.splice(
-                  //           _this.mapTableData.findIndex(fn),
-                  //           1,
-                  //         )
-                  //
-                  //         function fn(num, numIndex, nums) {
-                  //           console.log(nums, num, id)
-                  //           return num.id === id
-                  //         }
-                  //
-                  //         console.log(evt.geometry, map)
-                  //       })
-                  //   },
-                  //   500,
-                  //   evt,
-                  //   map,
-                  //   graphicItem,
-                  // )
+                  // 删除图形
+                  setTimeout(
+                    () => {
+                      // off()click操作中的累积效果
+                      $('.removeLayer')
+                        .off('click')
+                        .on('click', e => {
+                          let id = Number(e.target.dataset.index)
+                          map.graphics.remove(_this.graphicItemS[id])
+                          _this.mapTableData.splice(
+                            _this.mapTableData.findIndex(fn),
+                            1,
+                          )
+
+                          function fn(num, numIndex, nums) {
+                            console.log(nums, num, id)
+                            return num.id === id
+                          }
+
+                          console.log(evt.geometry, map)
+                        })
+                    },
+                    500,
+                    evt,
+                    map,
+                    graphicItem,
+                  )
                 }
 
                 function addPoint(x, y, type) {
