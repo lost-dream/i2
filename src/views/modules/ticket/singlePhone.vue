@@ -128,6 +128,7 @@
 
 <script>
 export default {
+  inject: ['reload'],
   data() {
     return {
       activeName: 'first',
@@ -159,6 +160,12 @@ export default {
   },
   mounted() {
     this.ticketOneName()
+    JSON.parse(localStorage.getItem('phoneArr')) !== null &&
+      (this.phoneList = JSON.parse(localStorage.getItem('phoneArr')))
+    JSON.parse(localStorage.getItem('selectInfo')) !== null &&
+      (this.select = JSON.parse(localStorage.getItem('selectInfo')))
+
+    console.log(JSON.parse(localStorage.getItem('selectInfo')))
   },
   methods: {
     handleClick(tab, event) {},
@@ -168,6 +175,8 @@ export default {
     },
 
     caseNameChange2() {
+      localStorage.setItem('selectInfo', JSON.stringify(this.select))
+      localStorage.setItem('selectInfo', JSON.stringify(this.select))
       this.singlePhoneList()
     },
 
@@ -212,6 +221,7 @@ export default {
             phoneArr.push(a)
           })
           _this.phoneList = phoneArr
+          localStorage.setItem('phoneArr', JSON.stringify(phoneArr))
           console.log(_this.phoneList)
         } else {
           this.$message({
@@ -239,6 +249,7 @@ export default {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
           localStorage.setItem('phoneInfo', JSON.stringify(data.result.list))
           localStorage.setItem('phone', JSON.stringify(data.result.phone))
+          this.reload()
         } else {
           this.$message({
             message: '获取话单失败!',

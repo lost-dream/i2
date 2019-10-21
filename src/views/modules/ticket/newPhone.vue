@@ -150,6 +150,7 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
+            // accessToken: this.$Cookies.get('ac_token'),
           }
           this.$api.newly(obj).then(({ data }) => {
             if (data.success) {
@@ -185,6 +186,7 @@ export default {
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
             name: this.ticketForm.name,
+            accessToken: this.$Cookies.get('ac_token'),
           }
           this.$api.ticketAlter(obj).then(({ data }) => {
             if (data.success) {

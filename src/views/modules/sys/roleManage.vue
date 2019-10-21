@@ -42,6 +42,7 @@
               node-key="id"
               ref="tree"
               highlight-current
+              :default-checked-keys="defaultMenu"
               @check-change="handleCheckChange"
               :props="defaultProps"
             >
@@ -126,6 +127,7 @@
 <script>
 import {
   rolePermission,
+  queryRolePermission,
   queryRole,
   deleteRole,
   compileRole,
@@ -198,6 +200,7 @@ export default {
           ],
         },
       ],
+      defaultMenu: [],
       form: {
         name: '',
         desc: '',
@@ -256,9 +259,60 @@ export default {
         }
       })
     },
+    // 查看角色和菜单关系
+    queryRolePermission() {
+      const $THIS = this
+      queryRolePermission({
+        roleId: this.okRole.id,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.data = $THIS.meunData(data.data.permission)
+        } else {
+          this.$message({
+            message: '获取角色和菜单关系失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 菜单封装
+    meunData(a) {
+      let list = []
+
+      a.forEach(item => {
+        let lists = {}
+        if (item.list.length >= 1) {
+          lists = {
+            id: item.id,
+            label: item.name,
+            children: this.meunData(item.list),
+          }
+          list.push(lists)
+        } else {
+          lists = {
+            id: item.id,
+            label: item.name,
+            items: [],
+          }
+          list.push(lists)
+        }
+        item.bool && this.defaultMenu.push(item.id)
+      })
+      return list
+    },
+
     isokRole(r) {
       console.log(r)
       this.okRole = r
+      this.defaultMenu = []
+      this.menuList = []
+      this.queryRolePermission()
+      console.log(22222)
+      console.log(this.defaultMenu)
+      console.log(this.menuList)
+      this.menuList = this.defaultMenu
     },
     // 判断是否选择角色
     pitchOn2() {
@@ -359,11 +413,13 @@ export default {
       })
       this.deleteDialog = false
     },
-
+    // 删除权限
     deleteData(a, b) {
       let index = a.indexOf(b)
       if (index > -1) {
-        a.splice(index, 1)
+        a.length > 0
+          ? a.splice(index, 1)
+          : this.$message.error('请保留一条权限！')
       }
       this.menuList = a
     },
@@ -373,6 +429,9 @@ export default {
       !checked &&
         data.children === undefined &&
         this.deleteData(this.menuList, data.id)
+      console.log(data)
+      console.log(this.menuList)
+      console.log(111)
       this.rolePermission()
     },
   },

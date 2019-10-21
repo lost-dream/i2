@@ -101,6 +101,20 @@ export function addRole(data) {
   })
 }
 
+// 系统管理 -- 角色管理 -- 查看角色菜单权限
+export function queryRolePermission(data) {
+  return http({
+    url: http.adornUrl(
+      'admin/queryRolePermission?roleId=' +
+        data.roleId +
+        '&accessToken=' +
+        data.accessToken,
+    ),
+    method: 'post',
+    // data: http.adornData(data, false, 'qs'),
+  })
+}
+
 // 系统管理 -- 角色管理 -- 修改角色
 export function compileRole(data) {
   return http({

@@ -21,10 +21,7 @@
         >
           <label
             v-for="(item, index) in leftMenu"
-            @click="
-              addInfo(item)
-              menuActive = index
-            "
+            @click="menuActive = index"
             :key="index"
           >
             <el-submenu
@@ -40,22 +37,44 @@
                 :key="index2"
                 @click.stop="addInfo(item2, item)"
               >
-                <el-menu-item :index="item2.menuId">
-                  <template slot="title">
+                <el-menu-item
+                  v-if="item2.items.length < 1"
+                  :index="item2.menuId"
+                >
+                  <span>{{ item2.name }}</span>
+                  <!-- <template slot="title">
                     <span>{{ item2.name }}</span>
-                  </template>
-                  <label v-if="item2.items.length > 0">
-                    <label
-                      v-for="(item3, index3) in item2.items.list"
-                      :key="index3"
-                      @click.stop="addInfo(item3, item2)"
-                    >
-                      <el-menu-item :index="item3.menuId">
-                        {{ item3.name }}
-                      </el-menu-item>
-                    </label>
-                  </label>
+                  </template>-->
+                  <!--<label v-if="item2.items.length > 0">-->
+                  <!--<label-->
+                  <!--v-for="(item3, index3) in item2.items"-->
+                  <!--:key="index3"-->
+                  <!--@click.stop="addInfo(item3, item2)"-->
+                  <!--&gt;-->
+                  <!--<el-menu-item :index="item3.menuId">-->
+                  <!--&lt;!&ndash;<template slot="title">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span>{{ item3.name }}</span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</template>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span>{{ item3.name }}</span>&ndash;&gt;-->
+                  <!--</el-menu-item>-->
+                  <!--</label>-->
+                  <!--</label>-->
                 </el-menu-item>
+                <el-submenu v-else class="submenuList" :index="item2.menuId">
+                  <template slot="title">{{ item2.name }}</template>
+                  <label
+                    v-for="(item3, index3) in item2.items"
+                    :key="index3"
+                    @click.stop="addInfo(item3, item2)"
+                  >
+                    <el-menu-item :index="item3.menuId">
+                      <!--<template slot="title">-->
+                      <!--<span>{{ item3.name }}</span>-->
+                      <!--</template>-->
+                      <span>{{ item3.name }}</span>
+                    </el-menu-item>
+                  </label>
+                </el-submenu>
               </label>
             </el-submenu>
           </label>
@@ -797,22 +816,23 @@ export default {
     },
     // 点击菜单添加信息
     addInfo(info, ...args) {
-      // console.log(JSON.parse(JSON.stringify(info)));
+      console.log(JSON.parse(JSON.stringify(info)))
+      console.log(JSON.parse(JSON.stringify(args[0])))
       this.form = JSON.parse(JSON.stringify(info)).info
       this.isOKId = JSON.parse(JSON.stringify(info)).info.id
-      if (args.length > 0) {
-        console.log(this.form.higherUp)
-        this.form.higherUp = JSON.parse(JSON.stringify(args[0])).name
-      }
+      this.form.isModule = ''
+      // if (args.length > 0) {
+      //   this.form.higherUp = JSON.parse(JSON.stringify(args[0])).info.higherUp
+      // }
     },
 
     // 菜单封装
     meunData(a, b) {
-      let lists = {}
       let list = []
 
       a.forEach((item, index) => {
-        if (item.list.length > 1) {
+        let lists = {}
+        if (item.list.length >= 1) {
           lists = {
             name: item.name,
             info: {
@@ -820,8 +840,8 @@ export default {
               createBy: item.createBy,
               createTime: item.createTime,
               name: item.name,
-              higherUp: item.parentId,
-              isModule: item.module,
+              higherUp: item.module,
+              isModule: item.parentId,
               backStyle: item.style,
               frontStyle: item.style,
               chainedAddress: item.path,
@@ -829,21 +849,20 @@ export default {
               sortSubordinate: item.status,
               adjustSort: item.sortOrder,
             },
-            items: this.meunData(item.list, `${b}${index + 1}`),
+            items: this.meunData(item.list, `${b}-${index + 1}`),
           }
+          lists.menuId = `${b}-${index + 1}`
           list.push(lists)
-          console.log(2222)
-          console.log(list)
         } else {
-          /* lists = {
+          lists = {
             name: item.name,
             info: {
               id: item.id,
               createBy: item.createBy,
               createTime: item.createTime,
               name: item.name,
-              higherUp: item.parentId,
-              isModule: item.module,
+              higherUp: item.module,
+              isModule: item.parentId,
               backStyle: item.style,
               frontStyle: item.style,
               chainedAddress: item.path,
@@ -851,13 +870,10 @@ export default {
               sortSubordinate: item.status,
               adjustSort: item.sortOrder,
             },
-            items: this.meunData(item.list, `${b}${index + 1}`),
-          } */
-          list.menuId = `${b}${index + 1}`
-          list.items = []
+            items: [],
+          }
+          lists.menuId = `${b}-${index + 1}`
           list.push(lists)
-          console.log(3333)
-          console.log(list)
         }
       })
       return list
@@ -917,8 +933,8 @@ export default {
             userId: Cookies.get('userId'),
             id: $THIS.form.id,
             name: $THIS.form.name,
-            parentId: $THIS.form.higherUp,
-            module: $THIS.form.isModule,
+            module: $THIS.form.higherUp,
+            parentId: $THIS.form.isModule,
             style: $THIS.form.backStyle,
             icon: '',
             path: $THIS.form.chainedAddress,
@@ -946,8 +962,10 @@ export default {
 
     isModules(higherUp) {
       let isModuleList2 = []
-      console.log(this.leftMenu[higherUp])
-      this.leftMenu[higherUp - 1].list.forEach(item => {
+      console.log(higherUp)
+      console.log(this.leftMenu[higherUp - 1])
+      console.log(this.leftMenu)
+      this.leftMenu[higherUp - 1].items.forEach(item => {
         let moduleVal = {}
         moduleVal.value = item.info.id
         moduleVal.label = item.info.name
@@ -1022,11 +1040,8 @@ export default {
           // })
           // let list ={}
           // let info ={}
-          let lists = {}
-          let list = []
-          console.log(1111111111)
-          console.log($THIS.meunData(data.data, `1-${0 + 1}`))
-          console.log(1111111111)
+          // let lists = {}
+          // let list = []
           /* data.data.forEach((item, index) => {
             lists = {
               name: item.name,
@@ -1054,7 +1069,21 @@ export default {
           let menus = {}
           menus.menuId = '1' // 区分前后台目录标识(element-ui规定必须是string)
           menus.name = '前台'
-          menus.items = list
+          menus.info = {
+            id: '',
+            createBy: '',
+            createTime: '',
+            name: '前台',
+            higherUp: 1,
+            isModule: '',
+            backStyle: '',
+            frontStyle: '',
+            chainedAddress: '',
+            powerPath: 'sys',
+            sortSubordinate: '',
+            adjustSort: '',
+          }
+          menus.items = $THIS.meunData(data.data, `${0 + 1}`)
           $THIS.leftMenu.push(menus)
           console.log(menus)
         }
@@ -1066,7 +1095,7 @@ export default {
         accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          let lists = {}
+          /* let lists = {}
           let list = []
           data.data[0].list.forEach((item, index) => {
             lists = {
@@ -1090,12 +1119,26 @@ export default {
             list.menuId = `2-${index + 1}`
             list.items = []
             list.push(lists)
-          })
+          }) */
 
           let menus = {}
           menus.menuId = '2' // 区分前后台目录标识(element-ui规定必须是string)
           menus.name = '后台'
-          menus.list = list
+          menus.info = {
+            id: '',
+            createBy: '',
+            createTime: '',
+            name: '后台',
+            higherUp: 2,
+            isModule: '',
+            backStyle: '',
+            frontStyle: '',
+            chainedAddress: '',
+            powerPath: 'sys',
+            sortSubordinate: '',
+            adjustSort: '',
+          }
+          menus.list = $THIS.meunData(data.data, `${0 + 1}`)
           $THIS.leftMenu.push(menus)
           console.log($THIS.leftMenu)
         }
