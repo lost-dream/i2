@@ -24,7 +24,6 @@
 
 <script>
 export default {
-  components: {},
   props: {
     show: {
       type: Boolean,
@@ -49,19 +48,16 @@ export default {
       visible: this.show,
     }
   },
-  computed: {},
   watch: {
     show() {
       this.visible = this.show
     },
   },
   methods: {
-    handleClose() {
+    handleClose(done) {
       this.$emit('beforeCloseDialog')
+      done()
     },
   },
-  created() {},
-  mounted() {},
 }
 </script>
-<style lang="stylus" scoped></style>
