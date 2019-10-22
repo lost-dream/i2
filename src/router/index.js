@@ -58,6 +58,32 @@ const mainRoutes = [
         },
       },
       {
+        path: '/relation',
+        component: _import('modules/relation/index'),
+        name: 'relation',
+        meta: {
+          title: 'relation',
+        },
+        redirect: {
+          name: 'relationSearch',
+        },
+        children: [
+          {
+            path: '/relationSearch',
+            component: _import('modules/relation/relationSearch'),
+            name: 'relationSearch',
+            meta: { title: 'relationSearch' },
+          },
+          {
+            path: '/analyse',
+            component: _import('modules/relation/analyse'),
+            name: 'analyse',
+            meta: { title: 'analyse' },
+          },
+        ],
+      },
+
+      {
         path: '/ticket',
         component: _import('modules/ticket/index'),
         name: 'ticket',
@@ -342,15 +368,6 @@ const mainRoutes = [
         component: _import('modules/unioncase/taskAnalysisResults'),
         name: 'taskAnalysisResults',
         meta: { title: 'taskAnalysisResults' },
-      },
-
-      {
-        path: '/relation',
-        component: _import('modules/relation/index'),
-        name: 'relation',
-        meta: {
-          title: 'relation',
-        },
       },
       {
         path: '/timespaceindex',

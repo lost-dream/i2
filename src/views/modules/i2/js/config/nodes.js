@@ -22,7 +22,7 @@ export default {
     },
     scaling: {
       min: 16,
-      max: 32 // 缩放效果比例
+      max: 32, // 缩放效果比例
     },
     // 此对象定义标签的详细信息
     font: {

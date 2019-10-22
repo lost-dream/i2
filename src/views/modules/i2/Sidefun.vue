@@ -7,10 +7,7 @@
       <el-tab-pane label="统计信息" name="1">
         <count-info></count-info>
       </el-tab-pane>
-      <el-tab-pane
-        :label="dynamicTab"
-        name="2"
-      >
+      <el-tab-pane :label="dynamicTab" name="2">
         <component
           v-bind:is="currentTabComponent"
           :ref="currentRef"
@@ -32,7 +29,7 @@ export default {
     CountInfo,
     DynamicTabDX,
     ImportNodes,
-    Centrality
+    Centrality,
   },
   props: {
     detail: {
@@ -44,19 +41,19 @@ export default {
       activeName: '0',
       dynamicTab: '',
       currentTabComponent: '',
-      currentRef: ''
+      currentRef: '',
     }
   },
   computed: {},
   methods: {
-    init (name, lable, component) {
-      this.activeName = name;
-      this.dynamicTab = lable;
-      this.currentTabComponent = component || '';
+    init(name, lable, component) {
+      this.activeName = name
+      this.dynamicTab = lable
+      this.currentTabComponent = component || ''
       if (component === 'Centrality') {
-        this.currentRef = 'centralityRef';
+        this.currentRef = 'centralityRef'
         this.$nextTick(() => {
-          this.$refs.centralityRef.init();
+          this.$refs.centralityRef.init()
         })
       }
     },

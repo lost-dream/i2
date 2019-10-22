@@ -1,14 +1,25 @@
 <template>
-  <div class="relation-mode relation-bg">
-    <div class="fly-header header">
-      <div class="">
-        <a href="/" class="logo">
-          <img src="@/assets/img/logo.png" alt="" />
-        </a>
-        <span>情报智能分析系统</span>
-      </div>
+  <div class="fly-container">
+    <div class="poscenter">
+      <div class="lg">关系分析</div>
+      <el-input
+        placeholder="请输入证件号"
+        v-model="kws"
+        class="input-with-select"
+      >
+        <el-select v-model="relationType" slot="prepend" placeholder="模型选择">
+          <el-option
+            v-for="(item, index) of relationTypeList"
+            :label="item.name"
+            :value="item.type"
+            :key="index"
+          ></el-option>
+        </el-select>
+        <el-button slot="append" icon="el-icon-search" @click="submitHandle"
+          >分析</el-button
+        >
+      </el-input>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -38,18 +49,13 @@ export default {
       })
     },
     submitHandle() {
-      let params = {
+      let query = {
         keyword: this.kws,
-        param: this.relationType,
+        relationType: this.relationType,
       }
-      this.$api.nodeDigRelation(params).then(({ data }) => {
-        if (data && data.code === 200) {
-          console.log(data)
-          this.$router.push({
-            path: '/analyse',
-            params: { id: '1' },
-          })
-        }
+      this.$router.push({
+        name: 'analyse',
+        query: query,
       })
     },
   },
