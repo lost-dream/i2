@@ -762,7 +762,9 @@ export default {
     // 清空属性值
     clearValue() {
       for (let key in this.form) {
-        this.form[key] = ''
+        if (this.form.hasOwnProperty(key)) {
+          this.form[key] = ''
+        }
       }
     },
     // 添加选择值

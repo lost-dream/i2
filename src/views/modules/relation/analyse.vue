@@ -127,11 +127,43 @@
       @beforeCloseDialog="fillterVisible = false"
     ></fly-dialog>
     <fly-dialog
+      id="tjsx-dialog"
       width="400px"
       title="条件筛选"
       :show.sync="tjsxVisible"
       @beforeCloseDialog="tjsxVisible = false"
-    ></fly-dialog>
+    >
+      <div class="container">
+        <header v-if="nodeType === 'SameTrain'">同旅馆次数</header>
+        <header v-else>只写了旅馆标题，其他的还没区分</header>
+        <el-form label-position="left" label-width="80px" :model="TJSXForm">
+          <el-form-item label="证件号码">
+            <el-input v-model="TJSXForm.IDNum"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名">
+            <el-input v-model="TJSXForm.userName"></el-input>
+          </el-form-item>
+          <el-form-item label="旅馆名称" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.hotelName"></el-input>
+          </el-form-item>
+          <el-form-item label="旅馆编号" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.hotelID"></el-input>
+          </el-form-item>
+          <el-form-item label="旅馆地址" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.httelAddr"></el-input>
+          </el-form-item>
+          <el-form-item label="入住时间" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.checkIn"></el-input>
+          </el-form-item>
+          <el-form-item label="退房时间" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.checkOut"></el-input>
+          </el-form-item>
+          <div class="submit-btn">
+            <el-button @click.stop="filterItem">查询</el-button>
+          </div>
+        </el-form>
+      </div>
+    </fly-dialog>
     <!-- 弹窗, 协同工作保存 -->
     <details-info v-if="detailVisible" ref="detailInfo"></details-info>
   </div>
@@ -165,6 +197,22 @@ export default {
       dataForm: {
         kws: '',
         relationType: '',
+      },
+      nodeType: null,
+      TJSXForm: {
+        IDNum: null, // 身份证号
+        userName: null, // 姓名
+        hotelName: null, // 旅馆名称
+        hotelID: null, // 旅馆编号
+        httelAddr: null, // 旅馆地址
+        checkIn: null, // 开始时间（旅馆 && 网吧)
+        checkOut: null, // 结束时间（旅馆 && 网吧）
+        roomNo: null, // 房间号
+        computerNo: null, // 电脑号
+        carNo: null, // 车牌号码
+        // ...otherParams
+        // TODO 参数不全，还有其他的写的时候再加
+        // TODO 添加参数默认值设置为null，能保证直接提交TJSXForm没有填的内容不被提交
       },
     }
   },
@@ -345,6 +393,11 @@ export default {
       // 双击类型节点，进行条件筛选
       if (curNode.nodeType.substring(curNode.nodeType.length - 2) === 'RN') {
         this.tjsxVisible = true
+        this.nodeType = curNode.nodeType.substring(
+          0,
+          curNode.nodeType.length - 2,
+        )
+        console.log(`this.nodeType=====${this.nodeType}`)
       }
     },
     /**
@@ -477,6 +530,9 @@ export default {
         relationType: this.dataForm.relationType,
       }
       this.queryData(query)
+    },
+    filterItem() {
+      console.log(this.TJSXForm)
     },
   },
   created() {
@@ -631,4 +687,15 @@ export default {
     text-align center
     padding 7px 0
     margin-right 0
+#tjsx-dialog
+  .container
+    padding 10px
+    background rgba(44,239,255,0.3)
+    header
+      color #fff
+  >>>.el-form-item
+    margin 0
+    padding 10px 0
+  .submit-btn
+    text-align center
 </style>
