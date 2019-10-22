@@ -222,7 +222,7 @@ export default {
     getDataList() {
       this.dataListLoading = true
       let params = {
-        username: '10011',
+        userName: '10011',
       }
       this.$api.dataCacheSearch(params).then(({ data }) => {
         if (data && data.code === 200) {

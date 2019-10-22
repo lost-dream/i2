@@ -181,6 +181,17 @@ export default {
     })
   },
   /**
+   * 碰撞对比
+   * @param {*} data
+   */
+  collideAnalyse(data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/collideAnalyse'),
+      method: 'post',
+      data: http.adornData(data, false),
+    })
+  },
+  /**
    * 获取所有关系类型
    */
   getAllRelationType() {
@@ -298,6 +309,27 @@ export default {
       url: http.adornUrl('i2/nodeAndRelationCtlr/loadAnalyticalRecords'),
       method: 'get',
       params: http.adornParams(data),
+    })
+  },
+  /**
+   * 关系分析
+   */
+  aggregationAnalyse(data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/aggregationAnalyse'),
+      method: 'post',
+      data: http.adornData(data),
+    })
+  },
+  /**
+   *  关系分析--对比分析
+   * @param {*} data
+   */
+  compareAnalyse(data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/compareAnalyse'),
+      method: 'post',
+      data: http.adornData(data),
     })
   },
   // ------------------------------------ticket---------------------------------------------//
