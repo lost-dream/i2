@@ -12,7 +12,7 @@
       >
       <div class="menuList">
         <el-menu
-          default-active="2"
+          :default-active="defaultVal"
           class="el-menu-vertical-demo"
           active-text-color="#ffd04b"
           :unique-opened="uniqueOpened"
@@ -97,7 +97,7 @@
               <el-form-item label="名称" prop="name">
                 <el-input v-model="form.name"></el-input>
               </el-form-item>
-              <el-form-item label="上级" prop="higherUp">
+              <el-form-item label="所属模块" prop="higherUp">
                 <el-select
                   @change="change"
                   v-model="form.higherUp"
@@ -111,7 +111,7 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="所属模块" prop="isModule">
+              <el-form-item label="上级" prop="isModule">
                 <el-select v-model="form.isModule" popper-class="fromselect">
                   <el-option
                     v-for="item in isModuleList"
@@ -137,8 +137,8 @@
                 <el-button type="primary">为下级设置编号</el-button>
               </el-form-item>
               <el-form-item label="调整顺序" prop="adjustSort">
-                <el-button type="primary">上移</el-button
-                ><el-button type="primary">下移</el-button>
+                <el-button type="primary" @click="setSort(1)">上移</el-button
+                ><el-button type="primary" @click="setSort(2)">下移</el-button>
               </el-form-item>
             </el-form>
             <el-button
@@ -240,7 +240,13 @@
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
-import { getMenu, editorMenu, addMenu, delMenu } from '@/api/system'
+import {
+  getMenu,
+  editorMenu,
+  addMenu,
+  delMenu,
+  setSortOrder,
+} from '@/api/system'
 import Cookies from 'js-cookie'
 export default {
   name: 'menuManage',
@@ -254,11 +260,14 @@ export default {
       addDialog: false,
       deleteDialog: false,
       isOKId: '',
+      upInfo: '',
+      defaultVal: '',
       menuActive: 0,
+      levelCount: 0,
       form: {
         name: '',
         higherUp: '',
-        isModule: '2',
+        isModule: '',
         backStyle: '',
         frontStyle: '',
         chainedAddress: '',
@@ -820,10 +829,19 @@ export default {
       console.log(JSON.parse(JSON.stringify(args[0])))
       this.form = JSON.parse(JSON.stringify(info)).info
       this.isOKId = JSON.parse(JSON.stringify(info)).info.id
-      this.form.isModule = ''
-      // if (args.length > 0) {
-      //   this.form.higherUp = JSON.parse(JSON.stringify(args[0])).info.higherUp
-      // }
+      this.isModules(JSON.parse(JSON.stringify(info)).info.higherUp)
+      // this.form.isModule = ''
+
+      if (args.length > 0) {
+        // this.form.higherUp = JSON.parse(JSON.stringify(args[0])).info.higherUp
+        this.levelCount = JSON.parse(JSON.stringify(args[0])).items.length
+        this.upInfo = JSON.parse(JSON.stringify(args[0])).items
+        console.log(5555)
+        console.log(this.upInfo)
+        console.log(5555)
+      }
+      console.log(this.levelCount)
+      console.log(this.menuActive)
     },
 
     // 菜单封装
@@ -887,6 +905,7 @@ export default {
         : this.$message.error('请至少选择一条数据!')
       return isPitchOn
     },
+
     // 添加菜单
     addMenu(formName) {
       const $THIS = this
@@ -905,6 +924,7 @@ export default {
             accessToken: Cookies.get('ac_token'),
           }).then(({ data }) => {
             if (data && data.code === 200) {
+              this.menuList()
               $THIS.$message({
                 message: '添加菜单成功！!',
                 type: 'success',
@@ -923,6 +943,66 @@ export default {
         }
       })
     },
+
+    // 菜单排序
+    setSort(index) {
+      let count = this.levelCount
+      let sort = this.form.adjustSort
+      console.log(count)
+      console.log(sort)
+      console.log(88888888)
+      if (index === 1) {
+        if (sort <= 0) {
+          this.$message.error('已在菜单最顶端')
+        } else {
+          sort--
+          console.log(sort)
+          this.setSortOrder(sort)
+        }
+      }
+      if (index === 2) {
+        if (sort >= count) {
+          this.$message.error('已在菜单最底端')
+        } else {
+          sort++
+          console.log(sort)
+          this.setSortOrder(sort)
+        }
+      }
+      console.log(this.form)
+    },
+
+    // 菜单排序
+    setSortOrder(sort) {
+      const $THIS = this
+      setSortOrder({
+        id: this.form.id,
+        module: this.form.higherUp,
+        parentId: this.form.isModule,
+        sx: sort,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.form.adjustSort = sort
+          $THIS.defaultVal = $THIS.upInfo[sort].menuId
+          console.log(999)
+          console.log($THIS.menuActive)
+          $THIS.menuList()
+          $THIS.$message({
+            message: '菜单排序成功！!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '菜单排序失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+    // idOk(index){
+    //   this.menuActive = index
+    // },
 
     // 编辑菜单
     editorMenu(formName) {
@@ -965,12 +1045,17 @@ export default {
       console.log(higherUp)
       console.log(this.leftMenu[higherUp - 1])
       console.log(this.leftMenu)
+      isModuleList2.push({
+        value: this.leftMenu[higherUp - 1].info.id,
+        label: this.leftMenu[higherUp - 1].info.name,
+      })
       this.leftMenu[higherUp - 1].items.forEach(item => {
         let moduleVal = {}
         moduleVal.value = item.info.id
         moduleVal.label = item.info.name
         isModuleList2.push(moduleVal)
       })
+
       this.isModuleList = isModuleList2
       console.log(this.isModuleList)
     },
@@ -983,6 +1068,7 @@ export default {
         accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
+          $THIS.menuList()
           $THIS.$message({
             message: '删除菜单成功！!',
             type: 'success',
@@ -997,153 +1083,159 @@ export default {
         $THIS.initMenu()
       })
     },
+
+    // 获取菜单列表
+    menuList() {
+      const $THIS = this
+      ;(async function initMenu() {
+        // 获取前台目录 module 1
+        await getMenu({
+          module: 1,
+          parentId: 0,
+          accessToken: Cookies.get('ac_token'),
+        }).then(({ data }) => {
+          if (data && data.code === 200) {
+            console.log(data)
+            // list.list[0].info = {
+            //   name: '111',
+            //   higherUp: '444',
+            //   isModule: '2',
+            //   backStyle: '',
+            //   frontStyle: '',
+            //   chainedAddress: '#',
+            //   powerPath: '#',
+            //   sortSubordinate: '111',
+            //   adjustSort: '111',
+            // }
+
+            // list.list.map((value, index) => {
+            //   console.log(value, index)
+            //   value.info = {
+            //     name: '111',
+            //     higherUp: '444',
+            //     isModule: '2',
+            //     backStyle: '',
+            //     frontStyle: '',
+            //     chainedAddress: '#',
+            //     powerPath: '#',
+            //     sortSubordinate: '111',
+            //     adjustSort: '111',
+            //   }
+            //
+            //   value.menuId = `1-${index + 1}`
+            //   value.items = []
+            // })
+            // let list ={}
+            // let info ={}
+            // let lists = {}
+            // let list = []
+            /* data.data.forEach((item, index) => {
+                lists = {
+                  name: item.name,
+                  info: {
+                    id: item.id,
+                    createBy: item.createBy,
+                    createTime: item.createTime,
+                    name: item.name,
+                    higherUp: item.parentId,
+                    isModule: item.module,
+                    backStyle: item.style,
+                    frontStyle: item.style,
+                    chainedAddress: item.path,
+                    powerPath: 'sys',
+                    sortSubordinate: item.status,
+                    adjustSort: item.sortOrder,
+                  },
+                  items: this.meunData(item.list, `1-${index + 1}`),
+                }
+                list.menuId = `1-${index + 1}`
+                list.items = []
+                list.push(lists)
+              }) */
+
+            /* let menus = {}
+              menus.menuId = '1' // 区分前后台目录标识(element-ui规定必须是string)
+              menus.name = '前台'
+              menus.info = {
+                id: '',
+                createBy: '',
+                createTime: '',
+                name: '前台',
+                higherUp: 1,
+                isModule: '',
+                backStyle: '',
+                frontStyle: '',
+                chainedAddress: '',
+                powerPath: 'sys',
+                sortSubordinate: '',
+                adjustSort: '',
+              }
+              menus.items = $THIS.meunData(data.data, `${0 + 1}`) */
+            $THIS.leftMenu = []
+            $THIS.leftMenu.push($THIS.meunData(data.data, `${0 + 1}`)[0])
+            console.log($THIS.leftMenu)
+          }
+        })
+        // 获取后台目录 module 2
+        await getMenu({
+          module: 2,
+          parentId: 0,
+          accessToken: Cookies.get('ac_token'),
+        }).then(({ data }) => {
+          if (data && data.code === 200) {
+            /* let lists = {}
+              let list = []
+              data.data[0].list.forEach((item, index) => {
+                lists = {
+                  name: item.name,
+                  info: {
+                    id: item.id,
+                    createBy: item.createBy,
+                    createTime: item.createTime,
+                    name: item.name,
+                    higherUp: item.parentId,
+                    isModule: item.module,
+                    backStyle: item.style,
+                    frontStyle: item.style,
+                    chainedAddress: item.path,
+                    powerPath: 'sys',
+                    sortSubordinate: item.status,
+                    adjustSort: item.sortOrder,
+                  },
+                  items: [],
+                }
+                list.menuId = `2-${index + 1}`
+                list.items = []
+                list.push(lists)
+              }) */
+
+            let menus = {}
+            menus.menuId = '2' // 区分前后台目录标识(element-ui规定必须是string)
+            menus.name = '后台'
+            menus.info = {
+              id: '',
+              createBy: '',
+              createTime: '',
+              name: '后台',
+              higherUp: 2,
+              isModule: '',
+              backStyle: '',
+              frontStyle: '',
+              chainedAddress: '',
+              powerPath: 'sys',
+              sortSubordinate: '',
+              adjustSort: '',
+            }
+            menus.items = $THIS.meunData(data.data, `2`)
+            $THIS.leftMenu.push($THIS.meunData(data.data, `2`)[0])
+            console.log($THIS.leftMenu)
+          }
+        })
+      })()
+    },
   },
   mounted() {
-    const $THIS = this
-    ;(async function initMenu() {
-      // 获取前台目录 module 1
-      await getMenu({
-        module: 1,
-        parentId: 0,
-        accessToken: Cookies.get('ac_token'),
-      }).then(({ data }) => {
-        if (data && data.code === 200) {
-          console.log(data)
-          // list.list[0].info = {
-          //   name: '111',
-          //   higherUp: '444',
-          //   isModule: '2',
-          //   backStyle: '',
-          //   frontStyle: '',
-          //   chainedAddress: '#',
-          //   powerPath: '#',
-          //   sortSubordinate: '111',
-          //   adjustSort: '111',
-          // }
-
-          // list.list.map((value, index) => {
-          //   console.log(value, index)
-          //   value.info = {
-          //     name: '111',
-          //     higherUp: '444',
-          //     isModule: '2',
-          //     backStyle: '',
-          //     frontStyle: '',
-          //     chainedAddress: '#',
-          //     powerPath: '#',
-          //     sortSubordinate: '111',
-          //     adjustSort: '111',
-          //   }
-          //
-          //   value.menuId = `1-${index + 1}`
-          //   value.items = []
-          // })
-          // let list ={}
-          // let info ={}
-          // let lists = {}
-          // let list = []
-          /* data.data.forEach((item, index) => {
-            lists = {
-              name: item.name,
-              info: {
-                id: item.id,
-                createBy: item.createBy,
-                createTime: item.createTime,
-                name: item.name,
-                higherUp: item.parentId,
-                isModule: item.module,
-                backStyle: item.style,
-                frontStyle: item.style,
-                chainedAddress: item.path,
-                powerPath: 'sys',
-                sortSubordinate: item.status,
-                adjustSort: item.sortOrder,
-              },
-              items: this.meunData(item.list, `1-${index + 1}`),
-            }
-            list.menuId = `1-${index + 1}`
-            list.items = []
-            list.push(lists)
-          }) */
-
-          let menus = {}
-          menus.menuId = '1' // 区分前后台目录标识(element-ui规定必须是string)
-          menus.name = '前台'
-          menus.info = {
-            id: '',
-            createBy: '',
-            createTime: '',
-            name: '前台',
-            higherUp: 1,
-            isModule: '',
-            backStyle: '',
-            frontStyle: '',
-            chainedAddress: '',
-            powerPath: 'sys',
-            sortSubordinate: '',
-            adjustSort: '',
-          }
-          menus.items = $THIS.meunData(data.data, `${0 + 1}`)
-          $THIS.leftMenu.push(menus)
-          console.log(menus)
-        }
-      })
-      // 获取后台目录 module 2
-      await getMenu({
-        module: 2,
-        parentId: 0,
-        accessToken: Cookies.get('ac_token'),
-      }).then(({ data }) => {
-        if (data && data.code === 200) {
-          /* let lists = {}
-          let list = []
-          data.data[0].list.forEach((item, index) => {
-            lists = {
-              name: item.name,
-              info: {
-                id: item.id,
-                createBy: item.createBy,
-                createTime: item.createTime,
-                name: item.name,
-                higherUp: item.parentId,
-                isModule: item.module,
-                backStyle: item.style,
-                frontStyle: item.style,
-                chainedAddress: item.path,
-                powerPath: 'sys',
-                sortSubordinate: item.status,
-                adjustSort: item.sortOrder,
-              },
-              items: [],
-            }
-            list.menuId = `2-${index + 1}`
-            list.items = []
-            list.push(lists)
-          }) */
-
-          let menus = {}
-          menus.menuId = '2' // 区分前后台目录标识(element-ui规定必须是string)
-          menus.name = '后台'
-          menus.info = {
-            id: '',
-            createBy: '',
-            createTime: '',
-            name: '后台',
-            higherUp: 2,
-            isModule: '',
-            backStyle: '',
-            frontStyle: '',
-            chainedAddress: '',
-            powerPath: 'sys',
-            sortSubordinate: '',
-            adjustSort: '',
-          }
-          menus.list = $THIS.meunData(data.data, `${0 + 1}`)
-          $THIS.leftMenu.push(menus)
-          console.log($THIS.leftMenu)
-        }
-      })
-    })()
+    this.menuList()
   },
 }
 </script>
@@ -1153,11 +1245,11 @@ export default {
 .menuManage .leftMenu
   float left
 .menuManage .leftMenu
- width: 239px;
- height: 971px;
- background-color rgba(44, 239, 255, 0.2)
- overflow hidden
- padding 0 30px
+  width: 239px;
+  height: 971px;
+  background-color rgba(44, 239, 255, 0.2)
+  overflow hidden
+  padding 0 30px
 .menuManage .leftMenu .addBut,
 .menuManage .leftMenu .delBut
   color #ffffff
@@ -1170,104 +1262,104 @@ export default {
   background-color: #7f3237;
   border: 1px solid #7f3237;
 .menuList
- width 180px
- overflow hidden
+  width 180px
+  overflow hidden
 .menuList >>>.active
- background-color rgba(44, 239, 255, 0.4)
+  /* background-color rgba(44, 239, 255, 0.4)*/
 .menuList >>>.el-submenu__title
- color #ffffff
- border-bottom 1px solid #0d3644
+  color #ffffff
+  border-bottom 1px solid #0d3644
 .menuList >>>.el-submenu__title i
- color #ffffff
+  color #ffffff
 .menuList >>>.el-submenu__title:hover,
 .menuList >>>.el-submenu .el-menu-item:hover
- background-color rgba(44, 239, 255, 0.4)
+  background-color rgba(44, 239, 255, 0.4)
 .menuList >>>.el-menu
- border-right: none 1px;
- background-color rgba(44, 239, 255, 0.4)
+  border-right: none 1px;
+  background-color #187d8e
 .menuList >>>.el-submenu .el-menu-item
- border-bottom 1px solid #0d3644
- background-color #187d8e
- color: #ffffff;
+  border-bottom 1px solid #0d3644
+  background-color #187d8e
+  color: #ffffff;
 .right
- width 1200px
- margin 0 auto
- position relative
+  width 1200px
+  margin 0 auto
+  position relative
 .from
   width 600px
   height auto
   margin 0 auto
 .menuManage
-   .el-form-item
-     height 40px
-   .dialog
-     .el-form-item
-       width 180px
-       display inline-block
-       margin-right 8px
-     >>>.el-input__inner {
-       border-radius: 0px;
-       background-color: rgba(44, 239, 255, 0.2);
-       border: 1px none #DCDFE6;
-       color: #ffffff;
-     }
-     .content
-       min-width 50px
-       display block
-       color #ffffff
-       text-align center
+  .el-form-item
+    height 40px
+  .dialog
+    .el-form-item
+      width 180px
+      display inline-block
+      margin-right 8px
+    >>>.el-input__inner {
+      border-radius: 0px;
+      background-color: rgba(44, 239, 255, 0.2);
+      border: 1px none #DCDFE6;
+      color: #ffffff;
+    }
+    .content
+      min-width 50px
+      display block
+      color #ffffff
+      text-align center
 
-   .dialog
-     .el-button {
-       background-color: rgba(44, 239, 255, 0.3);
-       border: 1px solid rgba(44, 239, 255, 0.3);
-       color: #ffffff;
-       padding: 9px 20px;
-       margin-left: 1px;
-     }
+  .dialog
+    .el-button {
+      background-color: rgba(44, 239, 255, 0.3);
+      border: 1px solid rgba(44, 239, 255, 0.3);
+      color: #ffffff;
+      padding: 9px 20px;
+      margin-left: 1px;
+    }
 </style>
 <style lang="stylus">
- .menuManage .coat2 .el-form-item__label
-   background-color rgba(44, 239, 255, 0.4)
-   color: #ffffff;
+.menuManage .coat2 .el-form-item__label
+  background-color rgba(44, 239, 255, 0.4)
+  color: #ffffff;
 
- .menuManage .coat2 .el-input__inner {
-   border-radius: 0px;
-   background-color: rgba(44, 239, 255, 0.2);
-   border: 1px none #DCDFE6;
-   color: #ffffff;
-   margin-left: 1px;
- }
+.menuManage .coat2 .el-input__inner {
+  border-radius: 0px;
+  background-color: rgba(44, 239, 255, 0.2);
+  border: 1px none #DCDFE6;
+  color: #ffffff;
+  margin-left: 1px;
+}
 
- .menuManage .coat2 .el-form-item {
-   margin-bottom: 1px;
- }
+.menuManage .coat2 .el-form-item {
+  margin-bottom: 1px;
+}
 
- .menuManage .coat2 .el-form-item__error {
-   color: #F56C6C;
-   font-size: 12px;
-   width: 100px;
-   text-align: initial;
-   line-height: 1;
-   padding-top: 4px;
-   position: absolute;
-   top: 25%;
-   left: 105%;
- }
- .menuManage .coat2 .el-button {
-   background-color: rgba(44, 239, 255, 0.3);
-   border: 1px solid rgba(44, 239, 255, 0.3);
-   color: #ffffff;
-   padding: 9px 20px;
-   margin-left: 1px;
- }
- .menuManage .coat2 .el-select {
-   width 100%
- }
- .sureBut
-   display block!important
-   margin 30px auto!important
-   text-align center!important
+.menuManage .coat2 .el-form-item__error {
+  color: #F56C6C;
+  font-size: 12px;
+  width: 100px;
+  text-align: initial;
+  line-height: 1;
+  padding-top: 4px;
+  position: absolute;
+  top: 25%;
+  left: 105%;
+}
+.menuManage .coat2 .el-button {
+  background-color: rgba(44, 239, 255, 0.3);
+  border: 1px solid rgba(44, 239, 255, 0.3);
+  color: #ffffff;
+  padding: 9px 20px;
+  margin-left: 1px;
+}
+.menuManage .coat2 .el-select {
+  width 100%
+}
+.sureBut
+  display block!important
+  margin 30px auto!important
+  text-align center!important
 /* .fromselect {
       background-color: rgba(19, 81, 93, 1)!important;
       border: 1px solid rgba(19, 81, 93, 1);

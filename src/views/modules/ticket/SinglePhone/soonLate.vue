@@ -116,6 +116,7 @@
 import { formatDate } from '../../../../utils/dateFormat.js'
 
 export default {
+  inject: ['reload'],
   filters: {
     formatDate(time) {
       var date = new Date(time)

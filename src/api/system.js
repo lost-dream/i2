@@ -83,6 +83,26 @@ export function addMenu(data) {
   })
 }
 
+// 系统管理 -- 菜单管理 -- 菜单排序
+export function setSortOrder(data) {
+  return http({
+    url: http.adornUrl(
+      'admin/setSortOrder?id=' +
+        data.id +
+        '&parentId=' +
+        data.parentId +
+        '&sx=' +
+        data.sx +
+        '&module=' +
+        data.module +
+        '&accessToken=' +
+        data.accessToken,
+    ),
+    method: 'get',
+    // data: http.adornData(data, false, 'qs'),
+  })
+}
+
 // 系统管理 -- 角色管理 -- 添加角色
 export function addRole(data) {
   return http({

@@ -176,7 +176,6 @@ export default {
 
     caseNameChange2() {
       localStorage.setItem('selectInfo', JSON.stringify(this.select))
-      localStorage.setItem('selectInfo', JSON.stringify(this.select))
       this.singlePhoneList()
     },
 

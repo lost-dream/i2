@@ -48,6 +48,9 @@
             >
             </el-tree>
           </div>
+          <el-button class="addBut" type="primary" @click="menuList.length <=0 ? $message.error('请至少选择一条数据!') : rolePermission()"
+            >保存</el-button
+          >
         </div>
       </div>
     </div>
@@ -146,12 +149,12 @@ export default {
       addDialog: false,
       editDialog: false,
       deleteDialog: false,
-      roleActive: null,
+      roleActive: 0,
       okRole: '',
       roleList: [{ name: '管理员' }, { name: '超级管理员' }, { name: '游客' }],
       menuList: [],
       data: [
-        {
+        /* {
           id: 1,
           label: '前端',
           children: [
@@ -198,7 +201,7 @@ export default {
               label: '机构管理',
             },
           ],
-        },
+        }, */
       ],
       defaultMenu: [],
       form: {
@@ -228,6 +231,7 @@ export default {
       }).then(({ data }) => {
         if (data && data.code === 200) {
           $THIS.roleList = data.data
+          this.isokRole($THIS.roleList[0])
         } else {
           this.$message({
             message: '获取角色信息失败!',
@@ -243,7 +247,7 @@ export default {
       rolePermission({
         userId: Cookies.get('userId'),
         roleId: this.okRole.id,
-        permissionId: this.menuList,
+        permissionId: this.unique(this.menuList),
         accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
@@ -309,9 +313,6 @@ export default {
       this.defaultMenu = []
       this.menuList = []
       this.queryRolePermission()
-      console.log(22222)
-      console.log(this.defaultMenu)
-      console.log(this.menuList)
       this.menuList = this.defaultMenu
     },
     // 判断是否选择角色
@@ -413,15 +414,29 @@ export default {
       })
       this.deleteDialog = false
     },
+
+    // 数组去重
+    unique(ary) {
+      let newAry = [];
+      for (let i = 0; i<ary.length; i++) {
+        if (newAry.indexOf(ary[i]) === -1) {
+          newAry.push(ary[i]);
+        }
+      }
+      return newAry;
+    },
+
+
     // 删除权限
     deleteData(a, b) {
-      let index = a.indexOf(b)
-      if (index > -1) {
-        a.length > 0
-          ? a.splice(index, 1)
-          : this.$message.error('请保留一条权限！')
-      }
-      this.menuList = a
+      let newAry = this.unique(a)
+
+      let index = newAry.indexOf(b)
+      console.log(newAry.indexOf(b))
+      newAry.splice(index, 1)
+      console.log(2222)
+      console.log(newAry.indexOf(b))
+      this.menuList = newAry
     },
     // 权限菜单变化
     handleCheckChange(data, checked, indeterminate) {
@@ -432,7 +447,7 @@ export default {
       console.log(data)
       console.log(this.menuList)
       console.log(111)
-      this.rolePermission()
+      // this.rolePermission()
     },
   },
 }
@@ -448,12 +463,14 @@ export default {
   background-color rgba(44, 239, 255, 0.2)
   overflow hidden
   padding 0 30px
+.roleManage .right .addBut,
 .roleManage .leftMenu .addBut,
 .roleManage .leftMenu .editBut,
 .roleManage .leftMenu .delBut
   color: #ffffff;
   margin 20px 4px
   padding: 9px 10px;
+.roleManage .right .addBut,
 .roleManage .leftMenu .addBut,
 .roleManage .leftMenu .editBut
   background-color: rgba(70, 125, 68, 1);
@@ -490,6 +507,7 @@ export default {
   color #ffffff
   background-color rgba(44, 239, 255, 0.1)
 .right .coat2 .el-tree
+  padding 20px 0
   color #ffffff
   background-color rgba(44, 239, 255, 0.1)
 .right .coat2 >>> .el-tree-node__content:hover
