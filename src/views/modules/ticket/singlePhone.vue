@@ -220,6 +220,8 @@ export default {
             phoneArr.push(a)
           })
           _this.phoneList = phoneArr
+          _this.select.id = _this.phoneList[0].value
+          _this.caseNameChange2()
           localStorage.setItem('phoneArr', JSON.stringify(phoneArr))
           console.log(_this.phoneList)
         } else {

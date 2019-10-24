@@ -145,10 +145,16 @@
                     资源参数
                   </h4>
                   <div class="resourceBtn">
-                    <el-button @click="taskInfo.type = 0" type="primary"
+                    <el-button
+                      @click="taskInfo.type = 0"
+                      type="primary"
+                      :class="{ activeType: taskInfo.type === 0 }"
                       >查人
                     </el-button>
-                    <el-button @click="taskInfo.type = 1" type="primary"
+                    <el-button
+                      @click="taskInfo.type = 1"
+                      type="primary"
+                      :class="{ activeType: taskInfo.type === 1 }"
                       >查案
                     </el-button>
                   </div>
@@ -1294,8 +1300,8 @@ a:focus, a:hover
 .buttonNav .el-button
   padding 5px
 
-.resourceBtn .el-button
-  padding 5px
+.resourceBtn .activeType
+  background: rgba(99, 206, 202, 0.6) !important
 
 .conditionItem p
   margin-left 10px

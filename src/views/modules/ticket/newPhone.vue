@@ -40,13 +40,13 @@
             <el-button slot="trigger" size="small" type="primary"
               >选取文件
             </el-button>
-            <el-button
-              style="margin-left: 10px;"
-              size="small"
-              type="primary"
-              @click="submitUpload"
-              >上传到服务器
-            </el-button>
+            <!--<el-button-->
+            <!--style="margin-left: 10px;"-->
+            <!--size="small"-->
+            <!--type="primary"-->
+            <!--@click="submitUpload"-->
+            <!--&gt;上传到服务器-->
+            <!--</el-button>-->
             <div slot="tip" class="el-upload__tip">只能上传Excel文件</div>
           </el-upload>
         </el-form-item>
@@ -54,7 +54,6 @@
           <el-button
             type="primary"
             @click="
-              submitUpload
               oper == '新建话单'
                 ? submitForm('ticketForm')
                 : oper == '编辑话单'
@@ -138,6 +137,7 @@ export default {
     },
     // 新建
     submitForm(formName) {
+      this.submitUpload()
       var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {

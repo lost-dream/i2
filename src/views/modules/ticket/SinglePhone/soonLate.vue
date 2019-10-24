@@ -77,7 +77,7 @@
       <el-table :data="soonLateData3" border style="width: 100%">
         <el-table-column prop="minCount" label="最早基站次数" align="center">
         </el-table-column>
-        <el-table-column prop="min" label="通话时间" align="center">
+        <el-table-column prop="min" label="最早基站小区号" align="center">
           <template slot-scope="scope">
             <span>
               {{ scope.row.min.baseStationCode }}/
