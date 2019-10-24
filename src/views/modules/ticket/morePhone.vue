@@ -120,6 +120,10 @@ export default {
   },
   mounted() {
     this.ticketOneName()
+    JSON.parse(localStorage.getItem('morPphoneArr')) !== null &&
+      (this.phoneList = JSON.parse(localStorage.getItem('morPphoneArr')))
+    JSON.parse(localStorage.getItem('moreSelectInfo')) !== null &&
+      (this.select = JSON.parse(localStorage.getItem('moreSelectInfo')))
   },
   methods: {
     caseNameChange1() {
@@ -128,6 +132,7 @@ export default {
     },
 
     caseNameChange2() {
+      localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
       this.singlePhoneList()
     },
 
@@ -175,6 +180,7 @@ export default {
           })
           console.log(phoneArr)
           _this.phoneList = phoneArr
+          localStorage.setItem('morPphoneArr', JSON.stringify(phoneArr))
           console.log(_this.phoneList)
         } else {
           this.$message({
@@ -197,6 +203,7 @@ export default {
         if (data.success) {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
           localStorage.setItem('morePhone', JSON.stringify(data.result))
+          localStorage.setItem('more', JSON.stringify(data.result.phone))
         } else {
           this.$message({
             message: '获取话单失败!',

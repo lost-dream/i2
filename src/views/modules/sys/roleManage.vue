@@ -4,7 +4,10 @@
       <el-button class="addBut" type="primary" @click="addDialog = true"
         >添加</el-button
       >
-      <el-button class="editBut" type="primary" @click="editDialog = true"
+      <el-button
+        class="editBut"
+        type="primary"
+        @click="pitchOn2() && editForm()"
         >编辑</el-button
       >
       <el-button
@@ -16,7 +19,13 @@
       <div class="menuList">
         <table border="1" cellspacing="1">
           <tr v-for="(item, index) in roleList" :key="index">
-            <td class="tal_tit">{{ item.name }}</td>
+            <td
+              class="tal_tit"
+              @click="isokRole(item), (roleActive = index)"
+              :class="{ active: roleActive == index }"
+            >
+              {{ item.description }}
+            </td>
           </tr>
         </table>
       </div>
@@ -33,10 +42,22 @@
               node-key="id"
               ref="tree"
               highlight-current
+              :default-checked-keys="defaultMenu"
+              @check-change="handleCheckChange"
               :props="defaultProps"
             >
             </el-tree>
           </div>
+          <el-button
+            class="addBut"
+            type="primary"
+            @click="
+              menuList.length <= 0
+                ? $message.error('请至少选择一条数据!')
+                : rolePermission()
+            "
+            >保存</el-button
+          >
         </div>
       </div>
     </div>
@@ -81,7 +102,7 @@
             class="demo-ruleForm"
           >
             <el-form-item label="角色名称" prop="name">
-              <el-input v-model="form.name"></el-input>
+              <el-input :disabled="true" v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="描述" prop="desc">
               <el-input v-model="form.desc"></el-input>
@@ -114,6 +135,15 @@
 </template>
 
 <script>
+import {
+  rolePermission,
+  queryRolePermission,
+  queryRole,
+  deleteRole,
+  compileRole,
+  addRole,
+} from '@/api/system'
+import Cookies from 'js-cookie'
 import FlyDialog from '@/components/fly-dialog'
 export default {
   name: 'roleManage',
@@ -126,9 +156,12 @@ export default {
       addDialog: false,
       editDialog: false,
       deleteDialog: false,
+      roleActive: 0,
+      okRole: '',
       roleList: [{ name: '管理员' }, { name: '超级管理员' }, { name: '游客' }],
+      menuList: [],
       data: [
-        {
+        /* {
           id: 1,
           label: '前端',
           children: [
@@ -175,8 +208,9 @@ export default {
               label: '机构管理',
             },
           ],
-        },
+        }, */
       ],
+      defaultMenu: [],
       form: {
         name: '',
         desc: '',
@@ -191,19 +225,142 @@ export default {
       },
     }
   },
+  mounted() {
+    this.queryRole()
+  },
   methods: {
+    // 查看角色
+    queryRole() {
+      const $THIS = this
+      queryRole({
+        userId: Cookies.get('userId'),
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.roleList = data.data
+          this.isokRole($THIS.roleList[0])
+        } else {
+          this.$message({
+            message: '获取角色信息失败!',
+            type: 'error',
+          })
+        }
+      })
+      this.addDialog = false
+    },
+    // 添加角色和菜单关系
+    rolePermission() {
+      const $THIS = this
+      rolePermission({
+        userId: Cookies.get('userId'),
+        roleId: this.okRole.id,
+        permissionId: this.unique(this.menuList),
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.$message({
+            message: '角色和菜单关系修改成功！!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '角色和菜单关系修改失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+    // 查看角色和菜单关系
+    queryRolePermission() {
+      const $THIS = this
+      queryRolePermission({
+        roleId: this.okRole.id,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.data = $THIS.meunData(data.data.permission)
+        } else {
+          this.$message({
+            message: '获取角色和菜单关系失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 菜单封装
+    meunData(a) {
+      let list = []
+
+      a.forEach(item => {
+        let lists = {}
+        if (item.list.length >= 1) {
+          lists = {
+            id: item.id,
+            label: item.name,
+            children: this.meunData(item.list),
+          }
+          list.push(lists)
+        } else {
+          lists = {
+            id: item.id,
+            label: item.name,
+            items: [],
+          }
+          list.push(lists)
+        }
+        item.bool && this.defaultMenu.push(item.id)
+      })
+      return list
+    },
+
+    isokRole(r) {
+      console.log(r)
+      this.okRole = r
+      this.defaultMenu = []
+      this.menuList = []
+      this.queryRolePermission()
+      this.menuList = this.defaultMenu
+    },
     // 判断是否选择角色
     pitchOn2() {
       // let isPitchOn = false
-      let isPitchOn = true
-      // this.multipleSelection.length > 0 ? isPitchOn = true : this.$message.error('请至少选择一条数据!')
+      let isPitchOn = false
+      this.okRole !== ''
+        ? (isPitchOn = true)
+        : this.$message.error('请至少选择一条数据!')
       return isPitchOn
+    },
+    // 编辑表单
+    editForm() {
+      this.form.name = this.okRole.name
+      this.form.desc = this.okRole.description
+      this.editDialog = true
     },
     // 添加角色
     addRole(formName) {
+      const $THIS = this
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!')
+          addRole({
+            userId: Cookies.get('userId'),
+            name: this.form.name,
+            description: this.form.desc,
+            accessToken: Cookies.get('ac_token'),
+          }).then(({ data }) => {
+            if (data && data.code === 200) {
+              $THIS.queryRole()
+              $THIS.$message({
+                message: '添加角色成功！!',
+                type: 'success',
+              })
+            } else {
+              this.$message({
+                message: '添加角色失败!',
+                type: 'error',
+              })
+            }
+          })
           this.addDialog = false
         } else {
           console.log('error submit!!')
@@ -213,10 +370,29 @@ export default {
     },
     // 编辑角色
     editRole(formName) {
+      const $THIS = this
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!')
-          this.addDialog = false
+          compileRole({
+            userId: Cookies.get('userId'),
+            id: this.okRole.id,
+            description: this.form.desc,
+            accessToken: Cookies.get('ac_token'),
+          }).then(({ data }) => {
+            if (data && data.code === 200) {
+              $THIS.queryRole()
+              $THIS.$message({
+                message: '角色信息修改成功！!',
+                type: 'success',
+              })
+            } else {
+              this.$message({
+                message: '角色信息修改失败!',
+                type: 'error',
+              })
+            }
+          })
+          this.editDialog = false
         } else {
           console.log('error submit!!')
           return false
@@ -225,7 +401,59 @@ export default {
     },
     // 删除角色
     deleteRole() {
+      const $THIS = this
+      deleteRole({
+        id: this.okRole.id,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          $THIS.queryRole()
+          $THIS.$message({
+            message: '删除角色成功！!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '删除角色失败!',
+            type: 'error',
+          })
+        }
+      })
       this.deleteDialog = false
+    },
+
+    // 数组去重
+    unique(ary) {
+      let newAry = []
+      for (let i = 0; i < ary.length; i++) {
+        if (newAry.indexOf(ary[i]) === -1) {
+          newAry.push(ary[i])
+        }
+      }
+      return newAry
+    },
+
+    // 删除权限
+    deleteData(a, b) {
+      let newAry = this.unique(a)
+
+      let index = newAry.indexOf(b)
+      console.log(newAry.indexOf(b))
+      newAry.splice(index, 1)
+      console.log(2222)
+      console.log(newAry.indexOf(b))
+      this.menuList = newAry
+    },
+    // 权限菜单变化
+    handleCheckChange(data, checked, indeterminate) {
+      checked && data.children === undefined && this.menuList.push(data.id)
+      !checked &&
+        data.children === undefined &&
+        this.deleteData(this.menuList, data.id)
+      console.log(data)
+      console.log(this.menuList)
+      console.log(111)
+      // this.rolePermission()
     },
   },
 }
@@ -241,12 +469,14 @@ export default {
   background-color rgba(44, 239, 255, 0.2)
   overflow hidden
   padding 0 30px
+.roleManage .right .addBut,
 .roleManage .leftMenu .addBut,
 .roleManage .leftMenu .editBut,
 .roleManage .leftMenu .delBut
   color: #ffffff;
   margin 20px 4px
   padding: 9px 10px;
+.roleManage .right .addBut,
 .roleManage .leftMenu .addBut,
 .roleManage .leftMenu .editBut
   background-color: rgba(70, 125, 68, 1);
@@ -271,6 +501,8 @@ export default {
 .roleManage .leftMenu table .tal_tit
   background-color: rgba(44, 239, 255, 0.4)
   text-align center
+.roleManage .leftMenu table .active
+  background-color: rgba(44, 239, 255, 0.6)
 .right
   width 1200px
   margin 0 auto
@@ -281,6 +513,7 @@ export default {
   color #ffffff
   background-color rgba(44, 239, 255, 0.1)
 .right .coat2 .el-tree
+  padding 20px 0
   color #ffffff
   background-color rgba(44, 239, 255, 0.1)
 .right .coat2 >>> .el-tree-node__content:hover

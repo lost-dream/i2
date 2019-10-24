@@ -8,7 +8,7 @@
               <el-form :model="criteria" status-icon class="demo-ruleForm">
                 <el-form-item>
                   <el-input
-                    v-model="criteria.user"
+                    v-model="criteria.taskName"
                     placeholder="登录名（输入)"
                   ></el-input>
                 </el-form-item>
@@ -185,6 +185,7 @@ export default {
   methods: {
     // 搜索
     isSeek() {
+      console.log(this.criteria)
       let _this = this
       let obj = {
         userId: this.userId,

@@ -75,6 +75,8 @@ export default {
       positionArray: [
         { x: 104.06667, y: 30.66667 },
         { x: 104.06667, y: 30.66769 },
+        { x: 205.06667, y: 30.66769 },
+        { x: 30.06667, y: 200.66769 },
       ],
       phoneInfo: [],
       phoneInfo2: [],
@@ -91,8 +93,11 @@ export default {
       this.phoneInfo2 = data
       let conData = this.callForm
       console.log('分析查询')
-      console.log(this.positionArray)
+      console.log(this.phoneInfo2)
       conData.time != null && this.timeSizer()
+      console.log(555)
+      console.log(this.phoneInfo2)
+      console.log(555)
       this.positionArray = this.addPoint(this.phoneInfo2)
       this.mapDraw()
       console.log(this.positionArray)
@@ -119,7 +124,10 @@ export default {
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
-      this.phoneInfo2 = dataArr
+      this.phoneInfo2 = dataArr.sort(
+        (a, b) =>
+          new Date(a.beginTime).getTime() - new Date(b.beginTime).getTime(),
+      )
     },
     /**
      * 判断是否在时间段内
@@ -177,6 +185,7 @@ export default {
         [
           'esri/basemaps',
           'esri/map',
+          'esri/Color',
           'esri/dijit/Scalebar',
           'esri/layers/ArcGISTiledMapServiceLayer',
           'esri/dijit/HomeButton',
@@ -185,7 +194,9 @@ export default {
           'esri/dijit/OverviewMap',
           'dijit/registry',
           'esri/symbols/PictureMarkerSymbol',
+          'esri/symbols/SimpleLineSymbol',
           'esri/geometry/Point',
+          'esri/geometry/Polyline',
           'esri/graphic',
           'esri/geometry/webMercatorUtils',
           'esri/InfoTemplate',
@@ -198,6 +209,7 @@ export default {
           ([
             esriBasemaps,
             Map,
+            Color,
             Scalebar,
             ArcGISTiledMapServiceLayer,
             HomeButton,
@@ -206,7 +218,9 @@ export default {
             OverviewMap,
             registry,
             PictureMarkerSymbol,
+            SimpleLineSymbol,
             Point,
+            Polyline,
             Graphic,
             webMercatorUtils,
             InfoTemplate,
@@ -265,6 +279,7 @@ export default {
                 ),
               )
               var newPoint
+              var LineSymbol
               var picSymbol
               var picGraphic
               var infoTemplate
@@ -279,13 +294,29 @@ export default {
                   20,
                   25,
                 )
+
+                LineSymbol = SimpleLineSymbol()
+                LineSymbol.setMarker({
+                  style: 'arrow',
+                  placement: 'end',
+                })
+                LineSymbol.setColor(new Color([250, 150, 0, 1]))
                 picGraphic = new Graphic(newPoint, picSymbol)
+                map.graphics.add(picGraphic)
+              })
+              for (let i = 0; i <= 10; i++) {
+                console.log(1111111)
+                var polyline = Polyline([
+                  [_this.positionArray[i].x, _this.positionArray[i].y],
+                  [_this.positionArray[i + 1].x, _this.positionArray[i + 1].y],
+                ])
+                picGraphic = new Graphic(polyline, LineSymbol)
                 infoTemplate = new InfoTemplate()
                 infoTemplate.setTitle('手机轨迹')
                 infoTemplate.setContent('轨迹分析')
                 picGraphic.setInfoTemplate(infoTemplate)
                 map.graphics.add(picGraphic)
-              })
+              }
             }
           },
         )

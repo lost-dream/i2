@@ -141,15 +141,22 @@ export default {
 
   methods: {
     searchData() {
-      let data = this.differentData
-      this.differentData2 = data
-      let conData = this.callForm
-      console.log('分析查询')
-      conData.time != null && this.timeSizer()
-      console.log(this.differentData2)
-      this.differentData2 = this.dataSort2(this.differentData2)
-      console.log(this.differentData2)
-      // this.tableDataHandle()
+      if (this.arr.length > 0) {
+        let data = this.differentData
+        this.differentData2 = data
+        let conData = this.callForm
+        console.log('分析查询')
+        conData.time != null && this.timeSizer()
+        console.log(this.differentData2)
+        this.differentData2 = this.dataSort2(this.differentData2)
+        console.log(this.differentData2)
+        this.tableDataHandle()
+      } else {
+        this.$message({
+          message: '至少添加一个分段!',
+          type: 'error',
+        })
+      }
     },
 
     // 数据重组
@@ -173,7 +180,6 @@ export default {
             if (dj.otherPartyPhone === otherPartyPhone) {
               dj.beginTime.push(ai.beginTime)
               dj.periorTimes = this.differTotal(ai.beginTime)
-              break
             }
           }
         }
@@ -258,15 +264,20 @@ export default {
     },
     tableDataHandle() {
       this.tableDataReset()
+      console.log(33)
+      console.log(this.tableData)
+      console.log(this.arr)
       this.tableData = this.tableData.concat(
         this.arr.map(function(item, index) {
           return {
-            propName: `perior+${item.index}`,
+            propName: `beginTime.length`,
+            // propName: `periorNum`,
             label: `${item}`,
             width: '180',
           }
         }),
       )
+      console.log(this.tableData)
     },
     tableDataReset() {
       this.tableData = this.tableData.slice(0, 3)

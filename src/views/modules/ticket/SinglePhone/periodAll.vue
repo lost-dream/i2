@@ -114,9 +114,9 @@ export default {
      * converseTime 要判断的时间 stime 开始时间 etime 结束时间
      */
     compareTime(changeTime, stime, etime) {
-      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd')
-      stime = formatDate(new Date(stime), 'yyyy-MM-dd')
-      etime = formatDate(new Date(etime), 'yyyy-MM-dd')
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      stime = formatDate(new Date(stime), 'yyyy-MM-dd hh:mm:ss')
+      etime = formatDate(new Date(etime), 'yyyy-MM-dd hh:mm:ss')
 
       // 转换时间格式，并转换为时间戳
       function tranDate(time) {

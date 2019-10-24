@@ -20,52 +20,95 @@
         <el-button type="primary" @click="baseStation">基站查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="soonLateData2" border style="width: 100%">
-      <el-table-column label="序号" type="index" align="center" width="50">
-      </el-table-column>
-      <el-table-column prop="beginTime" label="日期" align="center" width="100">
-      </el-table-column>
-      <el-table-column prop="soonTime" align="center" label="最早时间">
-        <template slot-scope="scope">
-          <span>{{ scope.row.min.beginTime | formatDate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="min.otherPartyPhone"
-        align="center"
-        width="120"
-        label="最早对方号码"
-      >
-      </el-table-column>
-      <el-table-column prop="min.location" align="center" label="最早归属地">
-      </el-table-column>
-      <el-table-column
-        prop="min.baseStationLocation"
-        align="center"
-        label="最早基站"
-      >
-      </el-table-column>
-      <el-table-column prop="min.lateTime" align="center" label="最晚时间">
-        <template slot-scope="scope">
-          <span>{{ scope.row.max.beginTime | formatDate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="min.otherPartyPhone"
-        align="center"
-        width="120"
-        label="最晚对方号码"
-      >
-      </el-table-column>
-      <el-table-column prop="min.location" align="center" label="最晚归属地">
-      </el-table-column>
-      <el-table-column
-        prop="min.baseStationLocation"
-        align="center"
-        label="最晚基站"
-      >
-      </el-table-column>
-    </el-table>
+    <div v-show="queryType">
+      <el-table :data="soonLateData2" border style="width: 100%">
+        <el-table-column label="序号" type="index" align="center" width="50">
+        </el-table-column>
+        <el-table-column
+          prop="beginTime"
+          label="日期"
+          align="center"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column prop="soonTime" align="center" label="最早时间">
+          <template slot-scope="scope">
+            <span>{{ scope.row.min.beginTime | formatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="min.otherPartyPhone"
+          align="center"
+          width="120"
+          label="最早对方号码"
+        >
+        </el-table-column>
+        <el-table-column prop="min.location" align="center" label="最早归属地">
+        </el-table-column>
+        <!--    <el-table-column
+          prop="min.baseStationLocation"
+          align="center"
+          label="最早基站"
+        >
+        </el-table-column>-->
+        <el-table-column prop="min.lateTime" align="center" label="最晚时间">
+          <template slot-scope="scope">
+            <span>{{ scope.row.max.beginTime | formatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="min.otherPartyPhone"
+          align="center"
+          width="120"
+          label="最晚对方号码"
+        >
+        </el-table-column>
+        <el-table-column prop="min.location" align="center" label="最晚归属地">
+        </el-table-column>
+        <!--      <el-table-column
+          prop="min.baseStationLocation"
+          align="center"
+          label="最晚基站"
+        >
+        </el-table-column>-->
+      </el-table>
+    </div>
+    <div v-show="queryType2">
+      <el-table :data="soonLateData3" border style="width: 100%">
+        <el-table-column prop="minCount" label="最早基站次数" align="center">
+        </el-table-column>
+        <el-table-column prop="min" label="最早基站小区号" align="center">
+          <template slot-scope="scope">
+            <span>
+              {{ scope.row.min.baseStationCode }}/
+              {{ scope.row.min.housingEstateCode }}</span
+            >
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="min.location"
+          align="center"
+          label="最晚基站位置"
+        >
+        </el-table-column>
+        <el-table-column prop="maxCount" align="center" label="最晚基站次数">
+        </el-table-column>
+        <el-table-column align="center" label="最晚基站小区号">
+          <template slot-scope="scope">
+            <span>
+              {{ scope.row.max.baseStationCode }}/
+              {{ scope.row.max.housingEstateCode }}</span
+            >
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="max.location"
+          align="center"
+          label="最晚基站位置"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -73,6 +116,7 @@
 import { formatDate } from '../../../../utils/dateFormat.js'
 
 export default {
+  inject: ['reload'],
   filters: {
     formatDate(time) {
       var date = new Date(time)
@@ -112,6 +156,8 @@ export default {
           },
         ],
       },
+      queryType: false,
+      queryType2: false,
       callForm: {
         time: '',
       },
@@ -130,6 +176,7 @@ export default {
       ],
       soonLateData: [],
       soonLateData2: [],
+      soonLateData3: [],
     }
   },
   mounted() {
@@ -144,9 +191,12 @@ export default {
       this.soonLateData2 = data
       let conData = this.callForm
       console.log('分析查询')
-      conData.time != null && this.timeSizer()
+      conData.time != null &&
+        (this.soonLateData2 = this.timeSizer(this.soonLateData2))
       console.log(this.soonLateData2)
       this.soonLateData2 = this.dataSort(this.soonLateData2)
+      this.queryType2 = false
+      this.queryType = true
       console.log(this.soonLateData2)
     },
 
@@ -174,7 +224,56 @@ export default {
                 (dj.max = ai)
               this.timestamp(ai.beginTime) < this.timestamp(dj.min.beginTime) &&
                 (dj.min = ai)
-              break
+            }
+          }
+        }
+      })
+      return value1
+    },
+
+    // 数据重组
+    dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let beginTime = formatDate(new Date(ai.beginTime), 'yyyy-MM-dd')
+        if (!data1[beginTime]) {
+          value1.push({
+            beginTime: beginTime,
+            max: ai,
+            maxCount: 1,
+            min: ai,
+            minCount: 1,
+          })
+          data1[beginTime] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            let aiBeg = formatDate(new Date(ai.beginTime), 'yyyy-MM-dd')
+            if (dj.beginTime === aiBeg) {
+              console.log(dj.beginTime)
+              console.log(aiBeg)
+              if (
+                this.timestamp(ai.beginTime) > this.timestamp(dj.max.beginTime)
+              ) {
+                dj.max = ai
+              } else if (
+                this.timestamp(ai.beginTime) ===
+                this.timestamp(dj.max.beginTime)
+              ) {
+                dj.maxCount++
+              }
+
+              if (
+                this.timestamp(ai.beginTime) < this.timestamp(dj.min.beginTime)
+              ) {
+                dj.min = ai
+              } else if (
+                this.timestamp(ai.beginTime) ===
+                this.timestamp(dj.min.beginTime)
+              ) {
+                dj.minCount++
+              }
             }
           }
         }
@@ -195,14 +294,15 @@ export default {
     },
 
     // 时间筛选
-    timeSizer() {
-      let data = this.soonLateData2
+    timeSizer(data) {
+      // let data = this.soonLateData2
       let time = this.callForm.time
       let dataArr = []
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
-      this.soonLateData2 = dataArr
+      // this.soonLateData2 = dataArr
+      return dataArr
     },
     /**
      * 判断是否在时间段内
@@ -230,7 +330,19 @@ export default {
       return true
     },
 
-    baseStation() {},
+    baseStation() {
+      let data = this.soonLateData
+      this.soonLateData3 = data
+      let conData = this.callForm
+      console.log('分析查询')
+      conData.time != null &&
+        (this.soonLateData3 = this.timeSizer(this.soonLateData3))
+      console.log(this.soonLateData3)
+      this.soonLateData3 = this.dataSort2(this.soonLateData3)
+      this.queryType = false
+      this.queryType2 = true
+      console.log(this.soonLateData3)
+    },
 
     timeChange(time) {
       var newTime = time.map(function(item) {
