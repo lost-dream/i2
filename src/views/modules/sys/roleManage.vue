@@ -48,7 +48,14 @@
             >
             </el-tree>
           </div>
-          <el-button class="addBut" type="primary" @click="menuList.length <=0 ? $message.error('请至少选择一条数据!') : rolePermission()"
+          <el-button
+            class="addBut"
+            type="primary"
+            @click="
+              menuList.length <= 0
+                ? $message.error('请至少选择一条数据!')
+                : rolePermission()
+            "
             >保存</el-button
           >
         </div>
@@ -417,15 +424,14 @@ export default {
 
     // 数组去重
     unique(ary) {
-      let newAry = [];
-      for (let i = 0; i<ary.length; i++) {
+      let newAry = []
+      for (let i = 0; i < ary.length; i++) {
         if (newAry.indexOf(ary[i]) === -1) {
-          newAry.push(ary[i]);
+          newAry.push(ary[i])
         }
       }
-      return newAry;
+      return newAry
     },
-
 
     // 删除权限
     deleteData(a, b) {

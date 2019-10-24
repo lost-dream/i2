@@ -45,15 +45,54 @@
     </div>
     <div id="searchPanel" class="searchbox">
       <div>
-        <a id="btnReturnGxIndex" class="btn btn-blue" href="javascript:void(0);"
+        <a
+          @click="$router.push({ name: 'relationSearch' })"
+          id="btnReturnGxIndex"
+          class="btn btn-blue"
+          href="javascript:void(0);"
           ><i class="el-icon-back elicon"></i>返回</a
         >
-        <a id="btnClustering" class="btn btn-blue" href="javascript:void(0);"
+        <a
+          @click="clusteringHandle"
+          id="btnClustering"
+          class="btn btn-blue"
+          href="javascript:void(0);"
           ><i class="el-icon-share elicon"></i>聚类切换</a
         >
-        <a id="btnMaster" class="btn btn-blue" href="javascript:void(0);"
+        <a
+          id="btnMaster"
+          @click="masterHandle"
+          class="btn btn-blue"
+          href="javascript:void(0);"
           ><i class="el-icon-news elicon"></i>主要节点</a
         >
+        <div class="radarContainer">
+          <a
+            @click="radarHandle"
+            id="btnSearch"
+            class="btn btn-blue"
+            href="javascript:void(0);"
+            ><i class="el-icon-news elicon"></i>查询</a
+          >
+          <div class="tc-div tc-shadow">
+            <el-select
+              v-model="txtSearch"
+              size="200"
+              filterable
+              placeholder="请选择"
+              @change="searchChangeHandle"
+              v-if="cxVisble"
+            >
+              <el-option
+                v-for="item in allNodeOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -64,12 +103,30 @@
       <div class="menu_title">
         <span>操作</span>
       </div>
-      <ul class="menu_list">
+      <ul class="menu_list" v-if="contextNodeType == 'relationNode'">
+        <li>
+          <a
+            href="javascript:void(0);"
+            class="menu_item btn btn-blue"
+            @click="addRelationHandle"
+            >添加关系</a
+          >
+        </li>
         <li>
           <a
             href="javascript:void(0);"
             class="menu_item btn btn-blue"
             @click="fillterVisible = !fillterVisible"
+            >删除节点</a
+          >
+        </li>
+      </ul>
+      <ul class="menu_list" v-else-if="contextNodeType == 'node'">
+        <li>
+          <a
+            href="javascript:void(0);"
+            class="menu_item btn btn-blue"
+            @click="analysisHandle"
             >关系挖掘</a
           >
         </li>
@@ -77,16 +134,8 @@
           <a
             href="javascript:void(0);"
             class="menu_item btn btn-blue"
-            @click="fillterVisible = !fillterVisible"
-            >删除节点</a
-          >
-        </li>
-        <li>
-          <a
-            href="javascript:void(0);"
-            class="menu_item btn btn-blue"
-            @click="fillterVisible = !fillterVisible"
-            >删除节点</a
+            @click="deleteItem"
+            >删除关系</a
           >
         </li>
       </ul>
@@ -166,6 +215,8 @@
     </fly-dialog>
     <!-- 弹窗, 协同工作保存 -->
     <details-info v-if="detailVisible" ref="detailInfo"></details-info>
+    <!-- 弹窗，分析 关系挖掘 -->
+    <analysis v-if="analysisVisible" ref="analysis"></analysis>
   </div>
 </template>
 
@@ -173,10 +224,12 @@
 import FlyDialog from '@/components/fly-dialog'
 import Vis from 'vis'
 import DetailsInfo from './DetailsInfo'
+import Analysis from './AnalysisWindow'
 export default {
   components: {
     FlyDialog,
     DetailsInfo,
+    Analysis,
   },
   props: {},
   data() {
@@ -185,6 +238,11 @@ export default {
       fillterVisible: false,
       tjsxVisible: false,
       detailVisible: false,
+      addRelationVisible: false,
+      analysisVisible: false,
+      cxVisble: false,
+      isClustering: false,
+      allRemoveItems: '',
       nodes: [],
       edges: [],
       container: null,
@@ -193,7 +251,11 @@ export default {
       options: {},
       data: {},
       contextNsId: null, // 鼠标悬浮时，设置当前的id，离开时设置为null; 右键菜单使用
+      contextNodeType: '',
       relationTypeList: [],
+      xxNodecache: [], // 隐藏或者显示次要节点
+      xxEdgecache: [],
+      relationNodesTempArray: [],
       dataForm: {
         kws: '',
         relationType: '',
@@ -226,17 +288,66 @@ export default {
     },
     queryData(data) {
       this.$api.aggregationAnalyse(data).then(({ data }) => {
-        var edgIds = this.edges.getIds()
+        if (data && data.code === 200) {
+          if (data.result.edges.length === 0) {
+            this.$message({
+              message: '没有相关模型！',
+              type: 'error',
+              duration: 1500,
+            })
+            return
+          }
+        }
+        let resNodes = data.result.nodes
         let resEdges = data.result.edges
-        for (let idx in resEdges) {
-          let ed = resEdges[idx]
+        var edgIds = this.edges.getIds()
+        var ndsIds = this.nodes.getIds()
+        let addNodeArr = []
+        let addEdgeArr = []
+        for (let i in resNodes) {
+          if (ndsIds.indexOf(resNodes[i].id) === -1) {
+            addNodeArr.push(resNodes[i])
+          } else {
+            resNodes[i].id = resNodes[i].id + '1'
+            while (ndsIds.indexOf(resNodes[i].id) !== -1) {
+              resNodes[i].id = resNodes[i].id + '1'
+            }
+            addNodeArr.push(resNodes[i])
+          }
+        }
+        for (let j in resEdges) {
+          if (edgIds.indexOf(resEdges[j].id) === -1) {
+            if (ndsIds.indexOf(resEdges[j].to) === -1) {
+              addEdgeArr.push(resEdges[j])
+            } else {
+              resEdges[j].to = resEdges[j].to + '1'
+              addEdgeArr.push(resEdges[j])
+            }
+            while (ndsIds.indexOf(resEdges[j].to) !== -1) {
+              resEdges[j].to = resEdges[j].to + '1'
+            }
+          } else {
+            while (edgIds.indexOf(resEdges[j].id) !== -1) {
+              resEdges[j].id = resEdges[j].id + '1'
+              resEdges[j].to = resEdges[j].to + '1'
+              resEdges[j].from = resEdges[j].from + '1'
+            }
+            while (ndsIds.indexOf(resEdges[j].to) !== -1) {
+              resEdges[j].to = resEdges[j].to + '1'
+            }
+            addEdgeArr.push(resEdges[j])
+          }
+        }
+
+        for (let idx in addEdgeArr) {
+          let ed = addEdgeArr[idx]
           if (edgIds.indexOf(ed.id) === -1) {
             this.edges.add(ed)
           } else {
             this.edges.update(ed)
           }
         }
-        this.addNodeToCanvas(data.result.nodes)
+        this.addNodeToCanvas(addNodeArr)
       })
     },
     addNodeToCanvas(childs) {
@@ -372,6 +483,21 @@ export default {
       )
       this.bindNetwork()
     },
+    resetNetwork() {
+      var ns = []
+      var gs = []
+
+      this.nodes = new Vis.DataSet(ns)
+      this.edges = new Vis.DataSet(gs)
+      this.data = {
+        nodes: this.nodes,
+        edges: this.edges,
+      }
+      // 销毁之前的实例
+      if (this.network) this.network.destroy()
+      this.network = new Vis.Network(this.container, this.data, this.options)
+      this.bindNetwork()
+    },
     bindNetwork() {
       // 双击事件
       this.network.on('doubleClick', this.doubleClick)
@@ -460,9 +586,14 @@ export default {
     },
     // 显示右键菜单
     showContextMenu(contextNodeId, params) {
-      // let nodeId = contextNodeId
-      // let curNode = this.nodes.get(nodeId)
+      let nodeId = contextNodeId
+      let curNode = this.nodes.get(nodeId)
       this.showMenu(params)
+      if (curNode.nodeType.substring(curNode.nodeType.length - 2) === 'RN') {
+        this.contextNodeType = 'relationNode'
+      } else {
+        this.contextNodeType = 'node'
+      }
     },
     showMenu(params) {
       $('#contextMenu').css({ left: params.event.clientX })
@@ -473,6 +604,7 @@ export default {
     removeContextMenu() {
       $('#contextMenu').css({ display: 'none' })
     },
+    // 点击连线获取详情
     getDetails(ed) {
       let queryObj = {
         idsJson: ed.idArr,
@@ -527,9 +659,449 @@ export default {
     searchRelation() {
       let query = {
         keyword: this.dataForm.kws,
-        relationType: this.dataForm.relationType,
+        relationType: [this.dataForm.relationType],
       }
       this.queryData(query)
+    },
+    // 添加关系
+    addRelationHandle() {
+      this.addRelationVisible = true
+      this.removeContextMenu()
+    },
+    // 关系挖掘
+    analysisHandle() {
+      this.analysisVisible = true
+      let curNode = this.getCurrentNode()
+      this.removeContextMenu()
+      this.$nextTick(() => {
+        this.$refs.analysis.init(curNode, this.nodes, this.edges)
+      })
+    },
+    // 获取当前节点
+    getCurrentNode() {
+      return this.nodes.get(this.contextNsId)
+    },
+    // 聚类切换
+    clusteringHandle() {
+      if (!this.hasData()) {
+        this.$message({
+          message: '没有关系数据！',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      this.isClustering = !this.isClustering
+      if (this.isClustering) {
+        // 转换为聚类模式
+        this.countNodeFun()
+      } else {
+        this.disCountNodeFun()
+      }
+    },
+    // 主要节点
+    masterHandle() {
+      if (!this.hasData()) {
+        this.$message({
+          message: '没有关系数据！',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      if (this.xxNodecache && this.xxNodecache.length > 0) {
+        this.discoverNode()
+      } else {
+        this.coverNode()
+      }
+    },
+    /**
+     * 隐藏次要节点
+     */
+    coverNode() {
+      let selectNodes = this.network.getSelectedNodes()
+      if (!selectNodes || selectNodes.length < 2) {
+        this.$message({
+          message: '请使用Ctrl+鼠标左键选择多个节点后再执行此操作!',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      var results = this.getRelationPaths(selectNodes)
+      console.log(results)
+      if (results.length === 0) {
+        this.$message({
+          message: '没有找到相连路径!',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      var allNodes = []
+      var allEdges = []
+      for (var i in results) {
+        for (var j in results[i]) {
+          var relation = results[i][j]
+
+          for (var k in relation.nodes) {
+            var n = relation.nodes[k]
+            if (this.existsId(allNodes, n)) continue
+
+            allNodes.push(n)
+          }
+
+          for (let k in relation.edges) {
+            var l = relation.edges[k]
+            if (this.existsId(allEdges, l)) continue
+
+            allEdges.push(l)
+          }
+        }
+      }
+      var ids1 = this.nodes.getIds()
+      for (let i in ids1) {
+        if (this.existsId(allNodes, ids1[i])) continue
+
+        this.xxNodecache.push(this.nodes.get(ids1[i]))
+        this.nodes.remove(ids1[i])
+      }
+
+      var ids2 = this.edges.getIds()
+      for (let i in ids2) {
+        if (this.existsId(allEdges, ids2[i])) continue
+
+        this.xxEdgecache.push(this.edges.get(ids2[i]))
+        this.edges.remove(ids2[i])
+      }
+
+      return true
+    },
+    /**
+     * 显示次要节点
+     */
+    discoverNode() {
+      this.addNode(this.xxNodecache)
+      this.addEdge(this.xxEdgecache)
+      this.xxNodecache = []
+      this.xxEdgecache = []
+    },
+    addNode(node) {
+      var data = {
+        add: [],
+        update: [],
+      }
+
+      if (!(node instanceof Array)) {
+        node = [node]
+      }
+
+      for (var i in node) {
+        if (this.nodes.getIds().indexOf(node[i].id) === -1)
+          data.add.push(node[i])
+        else {
+          var n = this.nodes.get(node[i].id)
+          data.update.push(n)
+        }
+      }
+
+      if (data.add.length > 0) this.nodes.add(data.add)
+      if (data.update.length > 0) this.nodes.update(data.update)
+    },
+    addEdge(edge) {
+      var data = {
+        add: [],
+        update: [],
+      }
+
+      if (!(edge instanceof Array)) {
+        edge = [edge]
+      }
+
+      for (var i in edge) {
+        var ed = edge[i]
+
+        if (!this.getEdgeConnecting(ed.from, ed.to)) data.add.push(ed)
+        else {
+          var e = this.edges.get({
+            filter: function(edge) {
+              return edge.from == ed.from && edge.to == ed.to
+            },
+          })[0]
+          e.merge(ed)
+          e.updateLabel()
+          e.updateWidth()
+          data.update.push(ed)
+        }
+      }
+
+      if (data.add.length > 0) this.edges.add(data.add)
+      if (data.update.length > 0) this.edges.update(data.update)
+    },
+    // 获取关系路径
+    getRelationPaths(selectNodes) {
+      var results = []
+      for (let i = 0; i < selectNodes.length; i++) {
+        for (let j = i + 1; j < selectNodes.length; j++) {
+          let rs = this.getRelationNodes(selectNodes[i], selectNodes[j])
+          this.relationNodesTempArray = [] // 清空临时变量
+          if (rs.length === 0) return results
+
+          results.push(rs)
+        }
+      }
+
+      return results
+    },
+    // 获取关系节点
+    getRelationNodes(n1, n2, path) {
+      if (!path) {
+        path = ','
+      }
+      path += n1 + ','
+
+      var nodePaths = []
+      var cedges = this.network.getConnectedEdges(n1)
+      if (!cedges || cedges.length === 0) return nodePaths
+
+      for (var i in cedges) {
+        var node
+        var edge = this.edges.get(cedges[i])
+        if (edge.from === n1) {
+          node = edge.to
+        } else {
+          node = edge.from
+        }
+
+        if (path.indexOf(',' + node + ',') !== -1)
+          // 防止死循环
+          continue
+
+        // 该路径抵达目标
+        if (node === n2) {
+          var _nodes = (path + n2).split(',')
+          var exists = true // 如果已经存在则不在添加，以免冗余数据增加计算量
+          for (var j in _nodes) {
+            if (!this.existsId(this.relationNodesTempArray, _nodes[j])) {
+              this.relationNodesTempArray.push(_nodes[j])
+              exists = false
+            }
+          }
+
+          if (!exists) {
+            var relation = {
+              nodes: _nodes,
+              edges: this.getTraceBackEdges(_nodes),
+            }
+            nodePaths.push(relation)
+          }
+        } else {
+          // 如果没抵达目标，则递归子节点
+          var newPath = path
+          var results = this.getRelationNodes(node, n2, newPath)
+          for (let i in results) {
+            nodePaths.push(results[i])
+          }
+        }
+      }
+
+      return nodePaths
+    },
+    // 回到起始节点的边
+    getTraceBackEdges(tbnodes) {
+      tbnodes.reverse()
+      var path = []
+      for (var i = 0; i < tbnodes.length - 1; i++) {
+        // 不迭代最后一个节点
+        var l = this.getEdgeConnecting(tbnodes[i], tbnodes[i + 1])
+        if (l) {
+          path.push(l)
+        } else {
+          path.push(this.getEdgeConnecting(tbnodes[i + 1], tbnodes[i]))
+        }
+      }
+      return path
+    },
+    // 获取连接两节点的边
+    getEdgeConnecting(a, b) {
+      // let edge = this.getAllEdges().filter(item => {
+      //   return item.from === a && item.to === b
+      // })[0]
+      let edge = this.getAllEdges().filter(item => {
+        if (item.from == a && item.to == b) {
+          return item
+        }
+      })[0]
+      console.log(edge)
+      if (edge instanceof Object) {
+        return edge.id
+      }
+    },
+    // 判断数组中是否存在id
+    existsId(arr, id) {
+      var b = false
+      for (var a in arr) {
+        if (parseInt(arr[a]) === id) {
+          b = true
+        }
+      }
+      return b
+    },
+    // 非聚类模式
+    disCountNodeFun() {
+      // 重置画布
+      this.resetNetwork()
+      let nodes = JSON.parse(sessionStorage.getItem('nodes') || '[]')
+      let edges = JSON.parse(sessionStorage.getItem('edges') || '[]')
+      this.nodes.add(nodes)
+      this.edges.add(edges)
+    },
+    // 聚类模式
+    countNodeFun() {
+      sessionStorage.setItem('nodes', JSON.stringify(this.getAllNodes()))
+      sessionStorage.setItem('edges', JSON.stringify(this.getAllEdges()))
+      // 找出画布上所有的关系类型节点
+      let relNodes = this.findRelationNodes()
+      if (!relNodes || relNodes.length === 0) {
+        return
+      }
+      console.log(relNodes)
+      let nodes = []
+      let edges = []
+      let allEdges = this.getAllEdges()
+      for (let i in relNodes) {
+        let cedges = allEdges.filter(item => {
+          return relNodes[i].id === item.to
+        })
+        let pedge = allEdges.filter(item => {
+          return relNodes[i].id === item.from
+        })
+        let n = this.buildNodes(pedge, cedges)
+        let eg = this.buildEdges(pedge, cedges)
+        nodes = nodes.concat(n)
+        edges = edges.concat(eg)
+        console.log(n)
+        console.log(eg)
+      }
+      console.log(nodes)
+      console.log(edges)
+      let nids = nodes.map((item, index) => {
+        return item.id
+      })
+      nids = nids.filter((item, index) => {
+        return nids.indexOf(item) == index
+      })
+      nodes = nids.map(item => {
+        return this.nodes.get(item)
+      })
+      console.log(nids)
+      // 重置画布
+      this.resetNetwork()
+      this.rendNode(nodes, edges)
+    },
+    rendNode(nodes, edges) {
+      this.nodes.add(nodes)
+      this.edges.add(edges)
+    },
+    buildNodes(pedge, cedges) {
+      let pnode = [this.nodes.get(pedge[0].to)]
+      let cnode = cedges.map(item => {
+        return this.nodes.get(item.from)
+      })
+      return pnode.concat(cnode)
+    },
+    buildEdges(pedge, cedges) {
+      let pid = pedge[0].to
+      let label = pedge[0].label
+      let eg = cedges.map(item => {
+        item.to = pid
+        item.label = label + '(' + item.label + ')'
+        return item
+      })
+      return eg
+    },
+    findRelationNodes() {
+      let relaIds = this.getAllNodes().filter(item => {
+        if (item.nodeType.substring(item.nodeType.length - 2) === 'RN') {
+          return item
+        }
+      })
+      return relaIds
+    },
+    findChilds() {},
+    // 查询
+    radarHandle() {
+      this.cxVisble = !this.cxVisble
+      this.buildeRadarItem()
+    },
+    buildeRadarItem() {
+      let nds = this.getAllNodes()
+      // let key = this.txtSearch
+      let arr = []
+      for (let i in nds) {
+        var node = nds[i]
+        if (node.nodeType.substring(node.nodeType.length - 2) === 'RN') {
+          continue
+        }
+        arr.push({
+          value: node.id,
+          label: node.label,
+        })
+      }
+      this.allNodeOption = arr
+    },
+    searchChangeHandle(val) {
+      console.log(val)
+      this.focusNode(val)
+    },
+    // 获取页面上所有节点数据
+    getAllNodes() {
+      let datas = []
+      if (this.nodes) {
+        let ids = this.nodes.getIds()
+        for (let i in ids) {
+          datas.push(this.nodes.get(ids[i]))
+        }
+      }
+      return datas
+    },
+    getAllEdges() {
+      let datas = []
+      if (this.edges) {
+        let ids = this.edges.getIds()
+        for (let i in ids) {
+          datas.push(this.edges.get(ids[i]))
+        }
+      }
+      return datas
+    },
+    // 删除关系
+    deleteItem() {
+      let curNode = this.getCurrentNode()
+      this.removeContextMenu()
+      this.nodes.remove(curNode.id)
+    },
+    /**
+     * 定位到某个节点
+     */
+    focusNode(nodeId) {
+      var options = {
+        scale: 1.5,
+        offset: { x: 0, y: 0 },
+        animation: {
+          duration: 1000,
+          easingFunction: 'easeInOutQuad',
+        },
+      }
+      this.network.focus(nodeId, options)
+      this.network.selectNodes([nodeId], false)
+    },
+    /**
+     * 判断画布中是否有数据
+     */
+    hasData() {
+      if (this.nodes && this.nodes.length > 0) return true
+      else return false
     },
     filterItem() {
       console.log(this.TJSXForm)
@@ -553,6 +1125,9 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+>>>.el-select .el-input
+  width auto
+  color #fff
 >>>.custompos .el-dialog
   position absolute
   top 194px
@@ -687,6 +1262,14 @@ export default {
     text-align center
     padding 7px 0
     margin-right 0
+.mode-layout
+  padding 10px
+.radarContainer
+  display inline-block
+.tc-div
+  position absolute
+  top 42px
+  right 0px
 #tjsx-dialog
   .container
     padding 10px
