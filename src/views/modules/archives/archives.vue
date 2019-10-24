@@ -368,10 +368,7 @@
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
-import { exportJsonToExcel } from '@/assets/js/Export2Excel'
 import { archivesDetailApi } from '@/api/archives'
-
-const PAGE_SIZE = 4
 
 export default {
   components: {
@@ -380,7 +377,8 @@ export default {
   props: {},
   data() {
     return {
-      keyword: this.$route.query.keyword, // TODO 节点分析传过来的数据是什么？
+      // TODO 节点分析传过来的数据是什么？
+      keyword: this.$route.query.keyword,
       curPage: 1, // 当前分页
       totalPage: 1, // 总页数
       userInfo: {},
@@ -411,8 +409,7 @@ export default {
     // 截取前8列
     showTableCN(val) {
       return val => {
-        let showTable = JSON.parse(JSON.stringify(val)).slice(0, 4)
-        return showTable
+        return JSON.parse(JSON.stringify(val)).slice(0, 4)
       }
     },
   },
@@ -649,7 +646,7 @@ export default {
       font-weight: normal;
       font-stretch: normal;
       line-height: 55px;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       color: #ffffff;
   .archivesCoat1
     width 1130px
@@ -719,7 +716,7 @@ export default {
           background-color rgba(44, 239, 255, 0.4)
           color: #ffffff;
         .el-input__inner {
-          border-radius: 0px;
+          border-radius: 0;
           background-color: rgba(44, 239, 255, 0.2);
           border: 1px none #DCDFE6;
           color: #ffffff;

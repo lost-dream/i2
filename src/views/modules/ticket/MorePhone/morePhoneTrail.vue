@@ -82,19 +82,23 @@ export default {
       morePhoneForm: {
         time: '',
       },
-      positionArray: [
-        { x: 104.06667, y: 30.66667 },
-        { x: 104.06667, y: 30.66769 },
-      ],
+      // positionArray: [
+      //   { x: 104.06667, y: 30.66667 },
+      //   { x: 104.06667, y: 30.66769 },
+      // ],
 
       morePhone: [],
       morePhone2: [],
+      morePhoneList: [],
+      morePosition: [],
     }
   },
 
   mounted() {
     // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
-    this.morePhone = JSON.parse(localStorage.getItem('morePhone')).list
+    this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
+    console.log(1111)
+    console.log(JSON.parse(localStorage.getItem('morePhone')))
     // this.mapDraw()
   },
 
@@ -104,14 +108,29 @@ export default {
       this.morePhone2 = data
       let conData = this.morePhoneForm
       console.log('分析查询')
-      console.log(this.positionArray)
-      conData.time != null && this.timeSizer()
-      console.log('分析查询')
-      this.positionArray = this.addPoint(this.morePhone2)
-      console.log('分析查询')
-      this.mapDraw()
-      console.log(this.positionArray)
+      console.log(data)
       console.log(this.morePhone2)
+      this.morePhone2.forEach(item => {
+        if (conData.time != null) {
+          let obj = {
+            phone: item.phone,
+            list: this.timeSizer(item.list),
+          }
+          this.morePhoneList.push(obj)
+        }
+      })
+      this.morePhoneList.forEach(item => {
+        let obj = {
+          phone: item.phone,
+          list: this.addPoint(item.list),
+        }
+        this.morePosition.push(obj)
+      })
+      // this.positionArray = this.addPoint(this.morePhone2)
+      console.log('分析查询')
+      console.log(this.morePosition)
+      console.log(55555)
+      this.mapDraw()
     },
 
     // 添加经纬度坐标
@@ -127,14 +146,17 @@ export default {
     },
 
     // 时间筛选
-    timeSizer() {
-      let data = this.morePhone2
+    timeSizer(data) {
+      // let data = this.morePhone2
       let time = this.morePhoneForm.time
       let dataArr = []
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
-      this.morePhone2 = dataArr
+      return dataArr.sort(
+        (a, b) =>
+          new Date(a.beginTime).getTime() - new Date(b.beginTime).getTime(),
+      )
     },
     /**
      * 判断是否在时间段内
@@ -192,6 +214,7 @@ export default {
         [
           'esri/basemaps',
           'esri/map',
+          'esri/Color',
           'esri/dijit/Scalebar',
           'esri/layers/ArcGISTiledMapServiceLayer',
           'esri/dijit/HomeButton',
@@ -200,7 +223,9 @@ export default {
           'esri/dijit/OverviewMap',
           'dijit/registry',
           'esri/symbols/PictureMarkerSymbol',
+          'esri/symbols/SimpleLineSymbol',
           'esri/geometry/Point',
+          'esri/geometry/Polyline',
           'esri/graphic',
           'esri/geometry/webMercatorUtils',
           'esri/InfoTemplate',
@@ -213,6 +238,7 @@ export default {
           ([
             esriBasemaps,
             Map,
+            Color,
             Scalebar,
             ArcGISTiledMapServiceLayer,
             HomeButton,
@@ -221,7 +247,9 @@ export default {
             OverviewMap,
             registry,
             PictureMarkerSymbol,
+            SimpleLineSymbol,
             Point,
+            Polyline,
             Graphic,
             webMercatorUtils,
             InfoTemplate,
@@ -280,26 +308,66 @@ export default {
                 ),
               )
               var newPoint
+              var LineSymbol
               var picSymbol
               var picGraphic
               var infoTemplate
-              _this.positionArray.map(function(item) {
-                newPoint = new Point(
-                  item.x,
-                  item.y,
-                  new SpatialReference({ wkid: 4326 }),
-                )
-                picSymbol = new PictureMarkerSymbol(
-                  require('../../../../assets/img/tubiao.png'),
-                  20,
-                  25,
-                )
-                picGraphic = new Graphic(newPoint, picSymbol)
-                infoTemplate = new InfoTemplate()
-                infoTemplate.setTitle('手机轨迹')
-                infoTemplate.setContent('轨迹分析')
-                picGraphic.setInfoTemplate(infoTemplate)
-                map.graphics.add(picGraphic)
+              // _this.positionArray.map(function(item) {
+              //   newPoint = new Point(
+              //     item.x,
+              //     item.y,
+              //     new SpatialReference({ wkid: 4326 }),
+              //   )
+              //   picSymbol = new PictureMarkerSymbol(
+              //     require('../../../../assets/img/tubiao.png'),
+              //     20,
+              //     25,
+              //   )
+              //   picGraphic = new Graphic(newPoint, picSymbol)
+              //   infoTemplate = new InfoTemplate()
+              //   infoTemplate.setTitle('手机轨迹')
+              //   infoTemplate.setContent('轨迹分析')
+              //   picGraphic.setInfoTemplate(infoTemplate)
+              //   map.graphics.add(picGraphic)
+              // })
+
+              _this.morePosition.map(function(item2) {
+                item2.list.forEach(item => {
+                  newPoint = new Point(
+                    item.x,
+                    item.y,
+                    new SpatialReference({ wkid: 4326 }),
+                  )
+                  picSymbol = new PictureMarkerSymbol(
+                    require('../../../../assets/img/tubiao.png'),
+                    20,
+                    25,
+                  )
+
+                  LineSymbol = SimpleLineSymbol()
+                  LineSymbol.setMarker({
+                    style: 'arrow',
+                    placement: 'end',
+                  })
+                  LineSymbol.setColor(new Color([250, 150, 0, 1]))
+                  picGraphic = new Graphic(newPoint, picSymbol)
+                  map.graphics.add(picGraphic)
+                })
+              })
+              _this.morePosition.map(function(item) {
+                for (let i = 0; i <= 10; i++) {
+                  console.log(1111111)
+                  var polyline = Polyline([
+                    [item.list[i].x, item.list[i].y],
+                    [item.list[i + 1].x, item.list[i + 1].y],
+                  ])
+                  picGraphic = new Graphic(polyline, LineSymbol)
+                  infoTemplate = new InfoTemplate()
+                  infoTemplate.setTitle('手机轨迹')
+                  infoTemplate.setContent('轨迹分析')
+                  picGraphic.setInfoTemplate(infoTemplate)
+                  map.graphics.add(picGraphic)
+                }
               })
             }
           },

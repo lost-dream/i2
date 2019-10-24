@@ -16,7 +16,7 @@
       </span>
       <router-link to="/menuManage">
         <div class="list" @click="isClick = 2">
-          <span style="font-size: 20px;" class="el-icon-user"></span
+          <span style="font-size: 20px;" class="el-icon-setting"></span
           ><span>菜单管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 2 }"></div>

@@ -27,7 +27,7 @@
           <el-upload
             class="upload-demo"
             ref="upload"
-            action="http://192.168.1.186:8087/statement/importEmp"
+            :action="uploadURL"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-upload="beforeUpload"
@@ -40,13 +40,13 @@
             <el-button slot="trigger" size="small" type="primary"
               >选取文件
             </el-button>
-            <el-button
-              style="margin-left: 10px;"
-              size="small"
-              type="primary"
-              @click="submitUpload"
-              >上传到服务器
-            </el-button>
+            <!--<el-button-->
+            <!--style="margin-left: 10px;"-->
+            <!--size="small"-->
+            <!--type="primary"-->
+            <!--@click="submitUpload"-->
+            <!--&gt;上传到服务器-->
+            <!--</el-button>-->
             <div slot="tip" class="el-upload__tip">只能上传Excel文件</div>
           </el-upload>
         </el-form-item>
@@ -54,7 +54,6 @@
           <el-button
             type="primary"
             @click="
-              submitUpload
               oper == '新建话单'
                 ? submitForm('ticketForm')
                 : oper == '编辑话单'
@@ -77,6 +76,7 @@ export default {
   inject: ['reload'],
   data() {
     return {
+      uploadURL: process.env.VUE_APP_UPLOAD_REQUEST_URL + 'statement/importEmp',
       ticketForm: {
         name: '',
         phone: '',
@@ -138,6 +138,7 @@ export default {
     },
     // 新建
     submitForm(formName) {
+      this.submitUpload()
       var _this = this
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -150,6 +151,7 @@ export default {
             id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
+            // accessToken: this.$Cookies.get('ac_token'),
           }
           this.$api.newly(obj).then(({ data }) => {
             if (data.success) {
@@ -185,6 +187,7 @@ export default {
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
             name: this.ticketForm.name,
+            accessToken: this.$Cookies.get('ac_token'),
           }
           this.$api.ticketAlter(obj).then(({ data }) => {
             if (data.success) {
