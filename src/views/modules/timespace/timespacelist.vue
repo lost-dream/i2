@@ -1,12 +1,11 @@
 <template>
-  <!-- TODO 翻页 -->
   <div class="timespacelist">
     <div class="dir">
       <div
         v-for="(item, index) in navList"
         :key="index"
         class="list"
-        @click="clickNav(item.value)"
+        @click="filterList(item.value)"
       >
         <span :class="['__icon', item.icon]"></span>
         <span>{{ item.title }}</span>
@@ -53,7 +52,7 @@
           <el-timeline :reverse="reverse">
             <el-timeline-item
               placement="top"
-              v-for="(item, index) in totalData"
+              v-for="(item, index) in dataList"
               :key="index"
             >
               <div class="listCoat1">
@@ -98,12 +97,12 @@
                         item.typeCode !== '旅馆' && item.typeCode !== '网吧'
                       "
                     >
-                      <span style="font-size: 18px"
-                        >{{ item.startSstation }} - {{ item.destination }}</span
-                      >
-                      <span class="el-icon-time"
-                        >&nbsp;{{ item.startTime }}</span
-                      >
+                      <span style="font-size: 18px">
+                        {{ item.startSstation }} - {{ item.destination }}
+                      </span>
+                      <span class="el-icon-time">
+                        &nbsp;{{ item.startTime }}
+                      </span>
                     </div>
                     <!-- 第二排信息 网吧 && 旅馆 -->
                     <div class="infoItem" style="width: 32%" v-else>
@@ -207,6 +206,13 @@
           </el-timeline>
         </div>
       </div>
+      <el-pagination
+        @current-change="changePage"
+        :current-page="page"
+        :page-size="pageSize"
+        layout="total, prev, pager, next, jumper"
+        :total="totalSize"
+      ></el-pagination>
     </div>
     <div class="infoCard" v-show="showCard">
       <personal-info-card></personal-info-card>
@@ -227,7 +233,6 @@ export default {
   },
   data() {
     return {
-      isClick: 1,
       // 导航列表
       navList: [
         {
@@ -262,12 +267,13 @@ export default {
         },
       ],
       form: {
-        // idNumber: '659001197006291256',
-        // startDate: '2017-05-09 11:05:00',
-        // endDate: '2019-05-10 11:05:00',
+        // TODO 清空默认数据
         startDate: '2011-01-09 11:05:00',
         endDate: '2014-05-10 11:05:00',
         idNumber: '640102198603091217',
+        // startDate: '',
+        // endDate: '',
+        // idNumber: '',
       },
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
@@ -287,12 +293,14 @@ export default {
         fontSize: '40px',
         overflow: 'inherit',
       },
+      page: 1,
+      pageSize: 10,
+      totalSize: 1,
     }
   },
   created() {
     document.onkeydown = () => {
-      var key = window.event.keyCode
-      if (key === 13) {
+      if (window.event.keyCode === 13) {
         this.onSubmit('form')
       }
     }
@@ -307,22 +315,30 @@ export default {
     receiveRouter() {
       this.form = JSON.parse(JSON.stringify(this.$route.params.form))
     },
+    filterList(type) {
+      this.page = 1
+      this.totalSize = 1
+      const [oldList, newList] = [this.totalData, []]
+      oldList.map(value => {
+        if (value.typeCode === type) {
+          newList.push(value)
+        }
+      })
+      this.totalData = newList
+      this.dataList = newList.slice(0, this.pageSize)
+    },
     search() {
       this.getList()
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        console.log(this.form)
         if (valid) {
-          console.log(this.form.oldPass, this.form.newPass, this.form.checkPass)
           this.getTimespaceList()
         }
       })
     },
     getTimespaceList() {
-      this.$api.spacequery(this.from).then(({ data }) => {
-        console.log(data)
-      })
+      this.$api.spacequery(this.from).then(({ data }) => {})
     },
     gotoInfo(item) {
       Cookies.set('shikong_data', item)
@@ -345,6 +361,12 @@ export default {
           })
         }
       }
+    },
+    changePage(page) {
+      this.dataList = this.totalData.slice(
+        this.pageSize * (page - 1),
+        page * this.pageSize,
+      )
     },
     getList(
       beginTime = this.form.startDate,
@@ -389,6 +411,8 @@ export default {
           result = result.sort(compare('timestamp'))
 
           this.totalData = result
+          this.totalSize = result.length
+          this.dataList = this.totalData.slice(0, this.pageSize)
         } else {
           this.$message.error(data.message)
         }
