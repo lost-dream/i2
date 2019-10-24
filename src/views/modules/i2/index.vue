@@ -58,7 +58,7 @@
                     @click="addDataCacheHandle"
                   >
                     <dt class="operate-icon operate-addBatch cacheData"></dt>
-                    <dd class="operate-desc">缓存数据</dd>
+                    <dd class="operate-desc">数据缓存</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -1059,7 +1059,7 @@ ul.tab-list>li
       $iconList = addnode importNode dataCacher addRelation cacheData lock unlock
       for item, index in $iconList
         &.{item}
-          background: url('./icons/' + item + '.png') center center no-repeat
+          background: url('./icons/' + item + '.png') 0 / contain
     .operate-desc
       color #fff
       height 25px
