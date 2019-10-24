@@ -20,15 +20,9 @@
         ></el-input>
       </el-form>
     </div>
-    <span
-      slot="ft"
-      class="dialog-footer"
-    >
-      <el-button @click="visible=false">取消</el-button>
-      <el-button
-        type="primary"
-        @click="dataFormSubmit()"
-      >确定</el-button>
+    <span slot="ft" class="dialog-footer">
+      <el-button @click="visible = false">取消</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     </span>
   </fly-dialog>
 </template>
@@ -37,54 +31,53 @@
 import FlyDialog from '@/components/fly-dialog'
 export default {
   components: {
-    FlyDialog
+    FlyDialog,
   },
   props: {},
-  data () {
+  data() {
     return {
       visible: false,
       edge: [],
       callback: null,
       dataForm: {
-        relation: ''
+        relation: '',
       },
-      dataRule: {}
+      dataRule: {},
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    init (edge, callback) {
-      this.visible = true;
-      this.edge = edge;
-      this.callback = callback;
+    init(edge, callback) {
+      this.visible = true
+      this.edge = edge
+      this.callback = callback
     },
     // 表单提交
-    dataFormSubmit () {
-      this.$refs['dataForm'].validate((valid) => {
+    dataFormSubmit() {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.edge.label = this.dataForm.relation;
-          this.global.edges.add(this.edge);
-          this.global.network.redraw();
+          this.edge.label = this.dataForm.relation
+          this.global.edges.add(this.edge)
+          this.global.network.redraw()
           // this.callback(this.edge)
-          this.visible = false;
+          this.visible = false
         }
       })
     },
     /**
      * 保存或者修改关系
      */
-    saveOrUpdateGx () {
+    saveOrUpdateGx() {
       console.log(this.edge)
     },
 
-    beforeClose () {
+    beforeClose() {
       this.$emit('refreshDataList')
-      this.visible = false;
-    }
+      this.visible = false
+    },
   },
-  created () { },
-  mounted () { }
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>
