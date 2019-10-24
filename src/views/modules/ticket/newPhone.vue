@@ -27,7 +27,7 @@
           <el-upload
             class="upload-demo"
             ref="upload"
-            action="http://192.168.1.186:8087/statement/importEmp"
+            :action="uploadURL"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-upload="beforeUpload"
@@ -76,6 +76,7 @@ export default {
   inject: ['reload'],
   data() {
     return {
+      uploadURL: process.env.VUE_APP_UPLOAD_REQUEST_URL + 'statement/importEmp',
       ticketForm: {
         name: '',
         phone: '',
