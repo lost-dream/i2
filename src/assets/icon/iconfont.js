@@ -1,3 +1,4 @@
+/* eslint-disable */
 !(function(h) {
   var t
   var c =

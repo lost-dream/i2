@@ -1,8 +1,0 @@
-## utils/httpRequest
-- baseURL可以放在vue.config.js管理
-- api层是否可以拆分
-
-
-## 关于代码规范和代码提交的问题
-- 具体的代码规范 eslint || prettier ？？
-- 创建了dev_zcm分支，添加了格式化代码的功能，问题：这个分支有120+文件产生了变化，该怎么合并到master

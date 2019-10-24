@@ -144,7 +144,6 @@ export default {
         let { username, password } = this.loginForm
         if (valid) {
           login({ username, password }).then(({ data }) => {
-            this.loginForm.tips = data.msg
             if (data && data.code === 200) {
               Cookies.set('userId', data.result.user.id)
               Cookies.set('ac_token', data.result.accessToken)

@@ -255,6 +255,7 @@ export default {
               visible: true,
             })
             overviewMapDijit.startup()
+            // eslint-disable-next-line
             dojo.connect(map, 'onLoad', graphicLoad)
             function graphicLoad() {
               console.log(

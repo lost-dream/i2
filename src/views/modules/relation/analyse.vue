@@ -176,43 +176,44 @@
       @beforeCloseDialog="fillterVisible = false"
     ></fly-dialog>
     <fly-dialog
+      id="tjsx-dialog"
       width="400px"
       title="条件筛选"
       :show.sync="tjsxVisible"
       @beforeCloseDialog="tjsxVisible = false"
-    ></fly-dialog>
-    <fly-dialog
-      width="400px"
-      title="添加关系"
-      :show.sync="addRelationVisible"
-      @beforeCloseDialog="addRelationVisible = false"
     >
-      <div class="mode-layout">
-        <el-form
-          :model="addRelationForm"
-          ref="addRelationForm"
-          label-width="80px"
-        >
+      <div class="container">
+        <header v-if="nodeType === 'SameTrain'">同旅馆次数</header>
+        <header v-else>只写了旅馆标题，其他的还没区分</header>
+        <el-form label-position="left" label-width="80px" :model="TJSXForm">
+          <el-form-item label="证件号码">
+            <el-input v-model="TJSXForm.IDNum"></el-input>
+          </el-form-item>
           <el-form-item label="姓名">
-            <el-input
-              v-model="addRelationForm.name"
-              auto-complete="off"
-            ></el-input>
+            <el-input v-model="TJSXForm.userName"></el-input>
           </el-form-item>
-          <el-form-item label="证件号">
-            <el-input
-              v-model="addRelationForm.idCard"
-              auto-complete="off"
-            ></el-input>
+          <el-form-item label="旅馆名称" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.hotelName"></el-input>
           </el-form-item>
+          <el-form-item label="旅馆编号" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.hotelID"></el-input>
+          </el-form-item>
+          <el-form-item label="旅馆地址" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.httelAddr"></el-input>
+          </el-form-item>
+          <el-form-item label="入住时间" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.checkIn"></el-input>
+          </el-form-item>
+          <el-form-item label="退房时间" v-if="nodeType === 'SameHotel'">
+            <el-input v-model="TJSXForm.checkOut"></el-input>
+          </el-form-item>
+          <div class="submit-btn">
+            <el-button @click.stop="filterItem">查询</el-button>
+          </div>
         </el-form>
       </div>
-      <span slot="ft" class="dialog-footer">
-        <el-button @click="addRelationVisible = false">取消</el-button>
-        <el-button type="primary">确定</el-button>
-      </span>
     </fly-dialog>
-    <!-- 弹窗, 查看详情 -->
+    <!-- 弹窗, 协同工作保存 -->
     <details-info v-if="detailVisible" ref="detailInfo"></details-info>
     <!-- 弹窗，分析 关系挖掘 -->
     <analysis v-if="analysisVisible" ref="analysis"></analysis>
@@ -259,17 +260,22 @@ export default {
         kws: '',
         relationType: '',
       },
-      addRelationForm: {
-        name: '',
-        idCard: '',
+      nodeType: null,
+      TJSXForm: {
+        IDNum: null, // 身份证号
+        userName: null, // 姓名
+        hotelName: null, // 旅馆名称
+        hotelID: null, // 旅馆编号
+        httelAddr: null, // 旅馆地址
+        checkIn: null, // 开始时间（旅馆 && 网吧)
+        checkOut: null, // 结束时间（旅馆 && 网吧）
+        roomNo: null, // 房间号
+        computerNo: null, // 电脑号
+        carNo: null, // 车牌号码
+        // ...otherParams
+        // TODO 参数不全，还有其他的写的时候再加
+        // TODO 添加参数默认值设置为null，能保证直接提交TJSXForm没有填的内容不被提交
       },
-      allNodeOption: [
-        {
-          value: '选项1',
-          label: '黄金糕',
-        },
-      ],
-      txtSearch: '',
     }
   },
   computed: {},
@@ -513,6 +519,11 @@ export default {
       // 双击类型节点，进行条件筛选
       if (curNode.nodeType.substring(curNode.nodeType.length - 2) === 'RN') {
         this.tjsxVisible = true
+        this.nodeType = curNode.nodeType.substring(
+          0,
+          curNode.nodeType.length - 2,
+        )
+        console.log(`this.nodeType=====${this.nodeType}`)
       }
     },
     /**
@@ -522,7 +533,7 @@ export default {
       this.removeContextMenu()
       if (params.nodes.length === 1) {
         // 点击的是节点
-        let node = this.nodes.get(params.nodes[0])
+        // let node = this.nodes.get(params.nodes[0])
       } else if (params.edges.length === 1) {
         // 点击的是连线，显示详情
         var edge = this.edges.get(params.edges[0])
@@ -1092,6 +1103,9 @@ export default {
       if (this.nodes && this.nodes.length > 0) return true
       else return false
     },
+    filterItem() {
+      console.log(this.TJSXForm)
+    },
   },
   created() {
     this.$api.getAllRelationType().then(({ data }) => {
@@ -1256,4 +1270,15 @@ export default {
   position absolute
   top 42px
   right 0px
+#tjsx-dialog
+  .container
+    padding 10px
+    background rgba(44,239,255,0.3)
+    header
+      color #fff
+  >>>.el-form-item
+    margin 0
+    padding 10px 0
+  .submit-btn
+    text-align center
 </style>

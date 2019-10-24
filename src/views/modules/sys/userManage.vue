@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO singleDogNo.1  导入 && 导出 -->
   <div id="userManage">
     <div class="coat1">
       <div class="coat2">
@@ -99,29 +98,51 @@
               @selection-change="handleSelectionChange"
             >
               <el-table-column type="selection" width="50"></el-table-column>
-              <el-table-column prop="username" label="登录名" width="100">
-              </el-table-column>
-              <el-table-column prop="nickName" label="姓名" width="100">
-              </el-table-column>
-              <el-table-column prop="description" label="部门" width="110">
-              </el-table-column>
-              <el-table-column prop="userGroup" label="用户组" width="120">
-              </el-table-column>
+              <el-table-column
+                prop="username"
+                label="登录名"
+                width="100"
+              ></el-table-column>
+              <el-table-column
+                prop="nickName"
+                label="姓名"
+                width="100"
+              ></el-table-column>
+              <el-table-column
+                prop="description"
+                label="部门"
+                width="110"
+              ></el-table-column>
+              <el-table-column
+                prop="userGroup"
+                label="用户组"
+                width="120"
+              ></el-table-column>
               <el-table-column
                 prop="endTime"
                 label="最后登录时间"
                 width="180"
                 show-overflow-tooltip
-              >
-              </el-table-column>
-              <el-table-column prop="loginWay" label="登录类型" width="120">
-              </el-table-column>
-              <el-table-column prop="status" label="状态" width="100">
-              </el-table-column>
-              <el-table-column prop="policeType" label="警种类别" width="100">
-              </el-table-column>
-              <el-table-column prop="berichtenDepartment" label="上报部门">
-              </el-table-column>
+              ></el-table-column>
+              <el-table-column
+                prop="loginWay"
+                label="登录类型"
+                width="120"
+              ></el-table-column>
+              <el-table-column
+                prop="status"
+                label="状态"
+                width="100"
+              ></el-table-column>
+              <el-table-column
+                prop="policeType"
+                label="警种类别"
+                width="100"
+              ></el-table-column>
+              <el-table-column
+                prop="berichtenDepartment"
+                label="上报部门"
+              ></el-table-column>
             </el-table>
           </div>
           <Pagination
@@ -203,7 +224,7 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-form-item> -->
+              </el-form-item>-->
               <el-form-item label="状态" prop="status">
                 <el-select
                   v-model="form.status"
@@ -315,7 +336,7 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-form-item> -->
+              </el-form-item>-->
               <el-form-item label="状态" prop="status">
                 <el-select
                   v-model="form.status"
@@ -360,12 +381,12 @@
               </el-form-item>
             </el-form>
             <div class="butCoat">
-              <el-button class="canBut" @click="editDialog = false"
-                ><span>取 消</span></el-button
-              >
+              <el-button class="canBut" @click="editDialog = false">
+                <span>取 消</span>
+              </el-button>
               <el-button class="okBut" type="primary" @click="editUser">
-                <span>确 定</span></el-button
-              >
+                <span>确 定</span>
+              </el-button>
             </div>
           </fly-dialog>
           <!--查看-->
@@ -381,11 +402,13 @@
               </div>
               <div>
                 <span>部门:</span>
-                <span>{{
-                  lookInfo.description === '' || lookInfo.description === null
-                    ? '暂无数据'
-                    : lookInfo.description
-                }}</span>
+                <span>
+                  {{
+                    lookInfo.description === '' || lookInfo.description === null
+                      ? '暂无数据'
+                      : lookInfo.description
+                  }}
+                </span>
               </div>
               <div>
                 <span>用户组:</span>
@@ -394,7 +417,7 @@
               <!-- <div>
                 <span>登录类型:</span>
                 <span>{{ lookInfo.loginType }}</span>
-              </div> -->
+              </div>-->
               <div>
                 <span>状态:</span>
                 <span>{{ lookInfo.status }}</span>
@@ -405,12 +428,14 @@
               </div>
               <div>
                 <span>上报部门:</span>
-                <span>{{
-                  lookInfo.berichtenDepartment === '' ||
-                  lookInfo.berichtenDepartment === null
-                    ? '暂无数据'
-                    : lookInfo.berichtenDepartment
-                }}</span>
+                <span>
+                  {{
+                    lookInfo.berichtenDepartment === '' ||
+                    lookInfo.berichtenDepartment === null
+                      ? '暂无数据'
+                      : lookInfo.berichtenDepartment
+                  }}
+                </span>
               </div>
               <div class="butCoat">
                 <el-button class="canBut" @click="lookDialog = false">
@@ -436,12 +461,16 @@
             <span class="content">导入</span>
             <el-upload
               class="upload-demo"
+              ref="upload"
               :action="uploadURL"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
-              :file-list="fileList2"
-              accept=".xls, .xlsx"
-              list-type="picture"
+              :before-upload="beforeUpload"
+              :on-error="uploadError"
+              :on-success="uploadSuccess"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :auto-upload="false"
             >
               <el-button class="impBut" size="small" type="primary"
                 >点击上传</el-button
@@ -538,6 +567,7 @@ import {
 
 import FlyDialog from '@/components/fly-dialog'
 import Pagination from '@/components/Pagination'
+import { exportJsonToExcel } from '@/assets/js/Export2Excel'
 
 export default {
   name: 'userManage',
@@ -732,7 +762,9 @@ export default {
     // 清空属性值
     clearValue() {
       for (let key in this.form) {
-        this.form[key] = ''
+        if (this.form.hasOwnProperty(key)) {
+          this.form[key] = ''
+        }
       }
     },
     // 添加选择值
@@ -757,6 +789,7 @@ export default {
     },
     // 导入
     importUser() {
+      this.$refs.upload.submit()
       this.importDialog = false
     },
     handleRemove(file, fileList) {
@@ -765,9 +798,93 @@ export default {
     handlePreview(file) {
       console.log(file)
     },
+    beforeUpload(file) {
+      const isText = file.type === 'application/vnd.ms-excel'
+      const isTextComputer =
+        file.type ===
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      return isText | isTextComputer
+    },
+    uploadError() {
+      this.$message({
+        message: '文件上传失败!',
+        type: 'error',
+      })
+    },
+    uploadSuccess(res, file, fileList) {
+      console.log(res, file, fileList)
+      this.$message({
+        type: 'success',
+        message: '文件上传成功',
+      })
+    },
+    handleExceed() {
+      this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`)
+    },
     // 导出
     exportUser() {
-      this.exportDialog = false
+      const tableCN = [
+        {
+          label: '登录名',
+          width: '',
+          prop: 'username',
+        },
+        {
+          label: '姓名',
+          width: '',
+          prop: 'nickName',
+        },
+        {
+          label: '部门',
+          width: '',
+          prop: 'description',
+        },
+        {
+          label: '用户组',
+          width: '',
+          prop: 'userGroup',
+        },
+        {
+          label: '最后登录时间',
+          width: '',
+          prop: 'endTime',
+        },
+        {
+          label: '登录类型',
+          width: '',
+          prop: 'loginWay',
+        },
+        {
+          label: '状态',
+          width: '',
+          prop: 'status',
+        },
+        {
+          label: '警种类别',
+          width: '',
+          prop: 'policeType',
+        },
+        {
+          label: '上报部门',
+          width: '',
+          prop: 'berichtenDepartment',
+        },
+      ]
+      require.ensure([], () => {
+        let tHeader = []
+        let filterVal = []
+        tableCN.forEach(val => {
+          tHeader.push(val.label)
+          filterVal.push(val.prop)
+        })
+        const list = this.multipleSelection
+        const data = this.formatJson(filterVal, list)
+        exportJsonToExcel(tHeader, data, '用户信息')
+        this.exportDialog = false
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -1038,164 +1155,212 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-#userManage
-  margin 0 auto
-  position relative
-  ul
-    display inline-block
-    li
-      float left
-      padding 8px 18px
-      margin 0 3px
-      color #ffffff
-      background-color rgba(44, 239, 255, 0.3)
-      border-radius: 2px;
-  .operateMenu
-    text-align center
-    margin 0 auto
-  .fgx
-    width 95%
-    margin 10px auto
-    border-bottom 2px solid rgba(44, 239, 255, 0.4)
-  .criteria,
-  .dialog
-    >>>#uesrInfo
-        width 70%
-        margin 0 auto
-        padding 30px
-        color #ffffff
-        & div>span
-          margin 1px
-          display inline-block
-          width 65%
-          height 34px
-          line-height 34px
-          padding 0 15px
-        & div>span:nth-child(1)
-          width 30%
-          text-align right
-          background-color rgba(44, 239, 255, 0.4)
-    .el-form-item
-      /*width 180px*/
-      display inline-block
-      margin-right 8px
-    .seekBut
+#userManage {
+  margin: 0 auto;
+  position: relative;
+
+  ul {
+    display: inline-block;
+
+    li {
+      float: left;
+      padding: 8px 18px;
+      margin: 0 3px;
       color: #ffffff;
-      margin 20px 14px
+      background-color: rgba(44, 239, 255, 0.3);
+      border-radius: 2px;
+    }
+  }
+
+  .operateMenu {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .fgx {
+    width: 95%;
+    margin: 10px auto;
+    border-bottom: 2px solid rgba(44, 239, 255, 0.4);
+  }
+
+  .criteria, .dialog {
+    >>>#uesrInfo {
+      width: 70%;
+      margin: 0 auto;
+      padding: 30px;
+      color: #ffffff;
+
+      & div>span {
+        margin: 1px;
+        display: inline-block;
+        width: 65%;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 15px;
+      }
+
+      & div>span:nth-child(1) {
+        width: 30%;
+        text-align: right;
+        background-color: rgba(44, 239, 255, 0.4);
+      }
+    }
+
+    .el-form-item {
+      /* width 180px */
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .seekBut {
+      color: #ffffff;
+      margin: 20px 14px;
       padding: 9px 15px;
       background-color: rgba(70, 125, 68, 1);
       border: 1px solid rgba(70, 125, 68, 1);
+    }
+
     >>>.el-input__inner {
       border-radius: 0px;
       background-color: rgba(44, 239, 255, 0.2);
       border: 1px none #DCDFE6;
       color: #ffffff;
     }
-    .content
-      min-width 50px
-      display block
-      color #ffffff
-      text-align center
 
-  .userList >>>
-    .el-table th,
-    .el-table tr
-      background-color rgba(44, 239, 255, 0.2)!important
-    .el-table,
-    .el-table__expanded-cell
-      background-color rgba(44, 239, 255, 0)!important
-      color #ffffff
-    .el-table--enable-row-hover .el-table__body tr:hover>td
-      background-color rgba(44, 239, 255, 0.2)!important
-    .el-table thead
-      color #ffffff
-    .organTable
-     .el-table td,
-     .el-table th.is-leaf
-       border: 1px solid #143d4b!important;
-     .el-table--border::after,
-     .el-table--group::after,
-     .el-table::before
-       background-color transparent;
+    .content {
+      min-width: 50px;
+      display: block;
+      color: #ffffff;
+      text-align: center;
+    }
+  }
+
+  .userList >>> {
+    .el-table th, .el-table tr {
+      background-color: rgba(44, 239, 255, 0.2) !important;
+    }
+
+    .el-table, .el-table__expanded-cell {
+      background-color: rgba(44, 239, 255, 0) !important;
+      color: #ffffff;
+    }
+
+    .el-table--enable-row-hover .el-table__body tr:hover>td {
+      background-color: rgba(44, 239, 255, 0.2) !important;
+    }
+
+    .el-table thead {
+      color: #ffffff;
+    }
+
+    .organTable {
+      .el-table td, .el-table th.is-leaf {
+        border: 1px solid #143d4b !important;
+      }
+
+      .el-table--border::after, .el-table--group::after, .el-table::before {
+        background-color: transparent;
+      }
+    }
+  }
+}
 </style>
 <style lang="stylus">
-.coat1
-  width 1200px
-  position relative
-  top 0
-  left 0
-  right 0
-  bottom 0
-  margin 0 auto
-  background-color rgba(44, 239, 255, 0.1)
-  padding 20px
-.coat2
-  width 1160px
-  margin-top 18px
-  margin-bottom 20px
-  padding 20px 15px 20px 15px
+.coat1 {
+  width: 1200px;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  background-color: rgba(44, 239, 255, 0.1);
+  padding: 20px;
+}
 
-  position relative
-  top 0
-  left 0
-  right 0
-  bottom 0
-  margin 0 auto
-  background-color rgba(44, 239, 255, 0.1)
+.coat2 {
+  width: 1160px;
+  margin-top: 18px;
+  margin-bottom: 20px;
+  padding: 20px 15px 20px 15px;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  background-color: rgba(44, 239, 255, 0.1);
+}
 
-.user-list-pagination
-  margin-top 20px
-.dialog
-  .el-dialog
-    /*background: rgba(44, 239, 255, 0.5)!important*/
-    background: #083438 !important
-    top 30%
-  .butCoat
-    text-align center
-  .impBut
+.user-list-pagination {
+  margin-top: 20px;
+}
+
+.dialog {
+  .el-dialog {
+    /* background: rgba(44, 239, 255, 0.5)!important */
+    background: #083438 !important;
+    top: 30%;
+  }
+
+  .butCoat {
+    text-align: center;
+  }
+
+  .impBut {
     background-color: rgba(44, 239, 255, 0.3);
     border: 1px solid rgba(44, 239, 255, 0.3);
     color: #ffffff;
     padding: 9px 20px;
     margin-left: 1px;
-  .canBut,
-  .okBut
-    color: #ffffff
-    margin 20px 14px
-    padding: 9px 15px
+  }
 
-  .okBut
-    background-color: rgba(70, 125, 68, 1)
-    border: 1px solid rgba(70, 125, 68, 1)
-
-  .canBut
-    background-color: #7f3237
-    border: 1px solid #7f3237
-
-  .el-form
-    width 300px
-    height auto
-    margin 30px auto
-  .el-dialog .el-dialog__body .body-content
-    background-color rgba(44, 239, 255, 0.2)
-
-  .el-form-item__label
-    background-color rgba(44, 239, 255, 0.4)
+  .canBut, .okBut {
     color: #ffffff;
+    margin: 20px 14px;
+    padding: 9px 15px;
+  }
 
-  .el-input__inner
+  .okBut {
+    background-color: rgba(70, 125, 68, 1);
+    border: 1px solid rgba(70, 125, 68, 1);
+  }
+
+  .canBut {
+    background-color: #7f3237;
+    border: 1px solid #7f3237;
+  }
+
+  .el-form {
+    width: 300px;
+    height: auto;
+    margin: 30px auto;
+  }
+
+  .el-dialog .el-dialog__body .body-content {
+    background-color: rgba(44, 239, 255, 0.2);
+  }
+
+  .el-form-item__label {
+    background-color: rgba(44, 239, 255, 0.4);
+    color: #ffffff;
+  }
+
+  .el-input__inner {
     border-radius: 0px;
     background-color: rgba(44, 239, 255, 0.2);
     border: 1px none #DCDFE6;
     color: #ffffff;
     margin-left: 1px;
+  }
 
-  .el-form-item
-    margin 0 auto
+  .el-form-item {
+    margin: 0 auto;
     margin-bottom: 1px;
-    width 295px!important
+    width: 295px !important;
+  }
 
-  .el-form-item__error
+  .el-form-item__error {
     color: #F56C6C;
     font-size: 12px;
     width: 100px;
@@ -1205,4 +1370,6 @@ export default {
     position: absolute;
     top: 25%;
     left: 105%;
+  }
+}
 </style>
