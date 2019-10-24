@@ -13,7 +13,7 @@
                     class="tab-li"
                     @click="addNodesHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch addnode"></dt>
                     <dd class="operate-desc">添加节点</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -26,7 +26,7 @@
                     class="tab-li"
                     @click="importNodeHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch importNode"></dt>
                     <dd class="operate-desc">导入节点</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -35,7 +35,7 @@
                 </li>
                 <li>
                   <dl id="btnCacheData" class="tab-li" @click="cacheDataHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch dataCacher"></dt>
                     <dd class="operate-desc">数据缓存器</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -44,7 +44,7 @@
                 </li>
                 <li>
                   <dl id="btnAddEdge" class="tab-li" @click="addEdgeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch addRelation"></dt>
                     <dd class="operate-desc">添加关系</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -57,7 +57,7 @@
                     class="tab-li"
                     @click="addDataCacheHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch cacheData"></dt>
                     <dd class="operate-desc">缓存数据</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -66,7 +66,7 @@
                 </li>
                 <li>
                   <dl id="btnLock" class="tab-li" @click="lockNodeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch lock"></dt>
                     <dd class="operate-desc">锁定</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -75,7 +75,7 @@
                 </li>
                 <li>
                   <dl id="btnUnlock" class="tab-li" @click="unLockNodeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch unlock"></dt>
                     <dd class="operate-desc">解锁</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -1053,11 +1053,13 @@ ul.tab-list>li
     height 100%
     display block
     .operate-icon
-      margin-top 12px !important
-      background url('~@/assets/img/addnode.png') center center no-repeat
       width 31px
       height 27px
-      margin 0 auto
+      margin 12px auto 0
+      $iconList = addnode importNode dataCacher addRelation cacheData lock unlock
+      for item, index in $iconList
+        &.{item}
+          background: url('./icons/' + item + '.png') center center no-repeat
     .operate-desc
       color #fff
       height 25px
