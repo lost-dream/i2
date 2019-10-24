@@ -257,12 +257,14 @@ export default {
                 this.timestamp(ai.beginTime) > this.timestamp(dj.max.beginTime)
               ) {
                 dj.max = ai
-              } else if (
-                this.timestamp(ai.beginTime) ===
-                this.timestamp(dj.max.beginTime)
-              ) {
-                dj.maxCount++
               }
+              // else if (
+              //   // this.timestamp(ai.beginTime) ===
+              //   // this.timestamp(dj.max.beginTime)
+              //   ai.stationCode === ai.stationCode
+              // ) {
+              //   dj.maxCount++
+              // }
 
               if (
                 this.timestamp(ai.beginTime) < this.timestamp(dj.min.beginTime)
