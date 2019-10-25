@@ -212,7 +212,9 @@ export default {
       })
     },
 
-    addTask() {},
+    addTask() {
+      this.$router.push({ name: 'unioncase' })
+    },
     // 分析
     handleClick(row) {
       console.log(row)

@@ -236,7 +236,7 @@ export default {
       stime = formatDate(new Date(stime), 'h')
       etime = formatDate(new Date(etime), 'h')
       // 如果当前时间处于时间段内，返回true，否则返回false
-      if (changeTime <= stime || changeTime >= etime) {
+      if (changeTime < stime || changeTime > etime) {
         return false
       }
       return true

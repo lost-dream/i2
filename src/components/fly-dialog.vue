@@ -5,7 +5,7 @@
     :before-close="handleClose"
     :width="width"
     :close-on-click-modal="flag"
-    :modal-append-to-body="flag"
+    :modal-append-to-body="flag2"
     :modal="modal"
   >
     <div class="body-content">
@@ -41,10 +41,14 @@ export default {
       type: Boolean,
       default: true,
     },
+    flag: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      flag: false,
+      flag2: false,
       visible: this.show,
     }
   },

@@ -51,19 +51,19 @@
           label="最早基站"
         >
         </el-table-column>-->
-        <el-table-column prop="min.lateTime" align="center" label="最晚时间">
+        <el-table-column prop="max.lateTime" align="center" label="最晚时间">
           <template slot-scope="scope">
             <span>{{ scope.row.max.beginTime | formatDate }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          prop="min.otherPartyPhone"
+          prop="max.otherPartyPhone"
           align="center"
           width="120"
           label="最晚对方号码"
         >
         </el-table-column>
-        <el-table-column prop="min.location" align="center" label="最晚归属地">
+        <el-table-column prop="max.location" align="center" label="最晚归属地">
         </el-table-column>
         <!--      <el-table-column
           prop="min.baseStationLocation"
@@ -251,30 +251,34 @@ export default {
             let dj = value1[j]
             let aiBeg = formatDate(new Date(ai.beginTime), 'yyyy-MM-dd')
             if (dj.beginTime === aiBeg) {
+              console.log(111111)
               console.log(dj.beginTime)
+              console.log(dj.max)
+              console.log(dj.min)
               console.log(aiBeg)
+              console.log(111111)
               if (
                 this.timestamp(ai.beginTime) > this.timestamp(dj.max.beginTime)
               ) {
                 dj.max = ai
+                dj.max.maxCount = 1
+              } else {
+                if (ai.baseStationCode === dj.max.baseStationCode) {
+                  dj.maxCount++
+                }
               }
-              // else if (
-              //   // this.timestamp(ai.beginTime) ===
-              //   // this.timestamp(dj.max.beginTime)
-              //   ai.stationCode === ai.stationCode
-              // ) {
-              //   dj.maxCount++
-              // }
 
               if (
                 this.timestamp(ai.beginTime) < this.timestamp(dj.min.beginTime)
               ) {
                 dj.min = ai
-              } else if (
-                this.timestamp(ai.beginTime) ===
-                this.timestamp(dj.min.beginTime)
-              ) {
-                dj.minCount++
+                dj.min.minCount = 1
+              } else {
+                if (ai.baseStationCode === dj.min.baseStationCode) {
+                  // this.timestamp(ai.beginTime) ===
+                  // this.timestamp(dj.min.beginTime)
+                  dj.minCount++
+                }
               }
             }
           }

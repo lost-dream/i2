@@ -136,7 +136,7 @@ export default {
   mounted() {
     // this.differentData = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.differentData = JSON.parse(localStorage.getItem('phoneInfo'))
-    this.searchData()
+    // this.searchData()
   },
 
   methods: {
@@ -146,7 +146,7 @@ export default {
         this.differentData2 = data
         let conData = this.callForm
         console.log('分析查询')
-        conData.time != null && this.timeSizer()
+        // conData.time != null && this.timeSizer()
         console.log(this.differentData2)
         this.differentData2 = this.dataSort2(this.differentData2)
         console.log(this.differentData2)
@@ -168,8 +168,8 @@ export default {
         if (!data1[otherPartyPhone]) {
           value1.push({
             otherPartyPhone: otherPartyPhone,
-            beginTime: [ai.beginTime],
-            periorTimes: this.differTotal(ai.beginTime),
+            beginTime: this.differTotal(ai.beginTime, 0, []).beg,
+            periorTimes: this.differTotal(ai.beginTime, 0, []).count,
             location: ai.location,
           })
           data1[otherPartyPhone] = ai
@@ -178,28 +178,53 @@ export default {
             let dj = value1[j]
             let otherPartyPhone = ai.otherPartyPhone
             if (dj.otherPartyPhone === otherPartyPhone) {
-              dj.beginTime.push(ai.beginTime)
-              dj.periorTimes = this.differTotal(ai.beginTime)
+              dj.beginTime = this.differTotal(
+                ai.beginTime,
+                dj.periorTimes,
+                dj.beginTime,
+              ).beg
+
+              if (
+                dj.periorTimes <
+                this.differTotal(ai.beginTime, dj.periorTimes, []).count
+              ) {
+                dj.periorTimes = this.differTotal(
+                  ai.beginTime,
+                  dj.periorTimes,
+                  [],
+                ).count
+              }
             }
           }
         }
       })
+      value1.sort((a, b) => b.periorTimes - a.periorTimes)
       return value1
     },
 
     // 时段计算
-    differTotal(data) {
-      let count = 0
+    differTotal(data, count, beg) {
+      let numList = {}
+      // numList.count = count
+      numList.beg = beg
+      numList.count = 0
+      // numList.beg = []
 
       // 分割字段
       function points(time) {
         return time.split('至')
       }
-      this.callForm.timeList.forEach(item => {
-        this.compareTime(data.beginTime, points(item)[0], points(item)[1]) &&
-          count++
+      this.callForm.timeList.forEach((item, index) => {
+        if (this.compareTime(data, points(item)[0], points(item)[1])) {
+          numList.count++
+          numList.beg[index] === undefined || numList.beg[index] === 0
+            ? (numList.beg[index] = 1)
+            : numList.beg[index]++
+        } else {
+          numList.beg[index] === undefined && (numList.beg[index] = 0)
+        }
       })
-      return count
+      return numList
     },
 
     // 时间筛选
@@ -264,13 +289,10 @@ export default {
     },
     tableDataHandle() {
       this.tableDataReset()
-      console.log(33)
-      console.log(this.tableData)
-      console.log(this.arr)
       this.tableData = this.tableData.concat(
         this.arr.map(function(item, index) {
           return {
-            propName: `beginTime.length`,
+            propName: `beginTime[${index}]`,
             // propName: `periorNum`,
             label: `${item}`,
             width: '180',

@@ -118,6 +118,9 @@
         >
         </el-table-column>
         <el-table-column prop="beginTime" label="通话时间" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.beginTime | formatDate }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="communicationTime"
@@ -184,7 +187,7 @@ export default {
       },
       callForm: {
         time: '',
-        communicationTime: '',
+        communicationTime: 0,
         callTimes: '',
       },
       callAnalyse: [
@@ -225,7 +228,7 @@ export default {
       this.callAnalyseData2 = this.dataSort2(this.callAnalyseData2)
       conData.callTimes != null && this.callTimesCount()
       conData.communicationTime != null && this.callTimeSizer()
-      console.log(this.callAnalyseData2)
+      // console.log(this.callAnalyseData2)
     },
 
     // 通话频次计算
@@ -300,6 +303,7 @@ export default {
       let callTime = this.callForm.communicationTime
       let dataArr = []
       data.forEach(item => {
+        callTime === '' && (callTime = 0)
         this.timeToSec(callTime) <= this.timeToSec(item.communicationTime) &&
           dataArr.push(item)
       })
@@ -307,9 +311,9 @@ export default {
     },
 
     // 时间转为毫秒
-    timeToSec(time) {
-      time.replace(/分钟/g, '分')
-      time.replace(/小时/g, '时')
+    timeToSec(times) {
+      let str = times.toString().replace(/分钟/g, '分')
+      let time = str.toString().replace(/小时/g, '时')
       let hourIn, minIn, secIn
       !time.includes('时') ? (hourIn = 0) : (hourIn = time.indexOf('时'))
       !time.includes('分') ? (minIn = 0) : (minIn = time.indexOf('分'))
@@ -317,10 +321,11 @@ export default {
       let hour = 0
       let min = 0
       let sec = 0
-      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
-      hourIn != 0 && (hour = time.substring(0, hourIn))
-      minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
-      secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
+      hourIn === 0 && minIn === 0 && secIn === 0 && (sec = time)
+      hourIn !== 0 && (hour = time.substring(0, hourIn))
+      minIn !== 0 &&
+        (min = time.substring(hourIn === 0 ? 0 : hourIn + 1, minIn))
+      secIn !== 0 && (sec = time.substring(minIn === 0 ? 0 : minIn + 1, secIn))
       var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
       return s * 1000
     },

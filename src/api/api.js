@@ -20,7 +20,7 @@ export default {
    */
   dataCacheDelByIds(ids) {
     return http({
-      url: http.adornUrl('i2/cacheDataCtlr/delByIds'),
+      url: http.adornUrl('i2s/i2/cacheDataCtlr/delByIds'),
       method: 'post',
       data: http.adornData(ids, false),
     })
@@ -31,7 +31,7 @@ export default {
    */
   dataCacheGetById(id) {
     return http({
-      url: http.adornUrl('i2/cacheDataCtlr/get/' + id),
+      url: http.adornUrl('i2s/i2/cacheDataCtlr/get/' + id),
       method: 'get',
       params: http.adornParams(),
     })
@@ -47,7 +47,7 @@ export default {
    */
   getAllCacheDataByUserName(data) {
     return http({
-      url: http.adornUrl('i2/cacheDataCtlr/getAllCacheDataByUsername'),
+      url: http.adornUrl('i2s/i2/cacheDataCtlr/getAllCacheDataByUsername'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -68,7 +68,7 @@ export default {
    */
   dataCacheMoveOrCopy(data) {
     return http({
-      url: http.adornUrl('i2/cacheDataCtlr/moveOrCopy'),
+      url: http.adornUrl('i2s/i2/cacheDataCtlr/moveOrCopy'),
       method: 'post',
       data: http.adornData(data),
     })
@@ -82,7 +82,7 @@ export default {
       addr = addr === 'save' ? 'saveCacheData' : 'update'
     }
     return http({
-      url: http.adornUrl('i2/cacheDataCtlr/' + addr),
+      url: http.adornUrl('i2s/i2/cacheDataCtlr/' + addr),
       method: 'post',
       data: data,
     })
@@ -93,7 +93,7 @@ export default {
    */
   dataCacheSearch(data) {
     return http({
-      url: http.adornUrl('i2/cacheDataCtlr/searchCacheData'),
+      url: http.adornUrl('i2s/i2/cacheDataCtlr/searchCacheData'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -119,7 +119,7 @@ export default {
    */
   getAllFolder() {
     return http({
-      url: http.adornUrl('i2/folderCtlr/getAllFolderByUsername'),
+      url: http.adornUrl('i2s/i2/folderCtlr/getAllFolderByUsername'),
       method: 'get',
       params: http.adornParams(),
     })
@@ -130,7 +130,7 @@ export default {
    */
   getAllFolderByUserName(username) {
     return http({
-      url: http.adornUrl('i2/folderCtlr/getAllFolderByUsername'),
+      url: http.adornUrl('i2s/i2/folderCtlr/getAllFolderByUsername'),
       method: 'get',
       params: http.adornParams({
         username: username,
@@ -153,7 +153,7 @@ export default {
    */
   nodeDigRelation(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/digRelation'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/digRelation'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -164,7 +164,7 @@ export default {
    */
   nodePairAnalyse(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/pairAnalyse'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/pairAnalyse'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -175,7 +175,7 @@ export default {
    */
   directionalAnalyse(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/directionalAnalyse'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/directionalAnalyse'),
       method: 'post',
       data: http.adornData(data, false),
     })
@@ -186,7 +186,7 @@ export default {
    */
   collideAnalyse(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/collideAnalyse'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/collideAnalyse'),
       method: 'post',
       data: http.adornData(data, false),
     })
@@ -196,7 +196,7 @@ export default {
    */
   getAllRelationType() {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/getAllRelationType'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/getAllRelationType'),
       method: 'get',
       params: http.adornParams(),
     })
@@ -206,7 +206,7 @@ export default {
    */
   sixDegree(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/sixDegree'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/sixDegree'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -217,7 +217,7 @@ export default {
    */
   queryNodeOrAdd(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/findNode'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/findNode'),
       method: 'post',
       data: http.adornData(data, false),
     })
@@ -238,7 +238,7 @@ export default {
    */
   nodeFindDetail({ nodeType, keyword }) {
     return http({
-      url: http.adornUrl('i2/nodeDetailCtlr/findNodeDetail'),
+      url: http.adornUrl('i2s/i2/nodeDetailCtlr/findNodeDetail'),
       method: 'get',
       params: http.adornParams({
         nodeType,
@@ -252,7 +252,7 @@ export default {
    */
   savePersonTag(data) {
     return http({
-      url: http.adornUrl('i2/nodeDetailCtlr/saveTag'),
+      url: http.adornUrl('i2s/i2/nodeDetailCtlr/saveTag'),
       method: 'post',
       data: http.adornData(data),
     })
@@ -263,7 +263,7 @@ export default {
    */
   deletePersonTag(data) {
     return http({
-      url: http.adornUrl('i2/nodeDetailCtlr/deleteTag'),
+      url: http.adornUrl('i2s/i2/nodeDetailCtlr/deleteTag'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -273,7 +273,7 @@ export default {
    */
   saveAnalyticalRecords(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/saveAnalyticalRecords'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/saveAnalyticalRecords'),
       method: 'post',
       data: http.adornData(data),
     })
@@ -284,7 +284,7 @@ export default {
    */
   listAllAnalyticalRecords(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/listAllAnalyticalRecords'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/listAllAnalyticalRecords'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -295,7 +295,7 @@ export default {
    */
   deleteAnalyticalRecords(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/deleteAnalyticalRecords'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/deleteAnalyticalRecords'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -306,7 +306,7 @@ export default {
    */
   loadAnalyticalRecords(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/loadAnalyticalRecords'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/loadAnalyticalRecords'),
       method: 'get',
       params: http.adornParams(data),
     })
@@ -316,7 +316,7 @@ export default {
    */
   aggregationAnalyse(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/aggregationAnalyse'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/aggregationAnalyse'),
       method: 'post',
       data: http.adornData(data),
     })
@@ -327,7 +327,7 @@ export default {
    */
   compareAnalyse(data) {
     return http({
-      url: http.adornUrl('i2/nodeAndRelationCtlr/compareAnalyse'),
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/compareAnalyse'),
       method: 'post',
       data: http.adornData(data),
     })
