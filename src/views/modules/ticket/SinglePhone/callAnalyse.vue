@@ -219,6 +219,14 @@ export default {
   methods: {
     // 查询
     onSubmit() {
+      let a = ['38秒', '1分52秒', '40秒']
+      let b = ''
+      a.forEach(item => {
+        b = this.timeTotal(b, item)
+      })
+      console.log(333333333)
+      console.log(b)
+
       let data = this.callAnalyseData
       this.callAnalyseData2 = data
       let conData = this.callForm
@@ -284,17 +292,31 @@ export default {
 
     // 毫秒转换时分秒
     formatDuring(mss) {
-      var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      /* var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60))
       var seconds = parseInt((mss % (1000 * 60)) / 1000)
-      return hours > 0
-        ? hours + ' 小时 '
-        : 0 + minutes > 0
-        ? minutes + ' 分钟 '
-        : 0 + seconds > 0
-        ? seconds + ' 秒 '
-        : '0 秒 '
-      // return hours + ' 小时 ' + minutes + ' 分钟 ' + seconds + ' 秒 '
+      // let str =
+      //   hours > 0
+      //     ? hours + ' 小时 '
+      //     : 0 + minutes > 0
+      //     ? minutes + ' 分钟 '
+      //     : 0 + seconds > 0
+      //     ? seconds + ' 秒 '
+      //     : '0 秒 '
+      // return str
+      return hours + ' 小时 ' + minutes + ' 分钟 ' + seconds + ' 秒 ' */
+      var time = parseInt(mss) + '秒'
+      if (parseInt(mss) > 60) {
+        var second = parseInt(mss) % 60
+        var min = parseInt(mss / 60)
+        time = min + '分' + second + '秒'
+        if (min > 60) {
+          min = parseInt(mss / 60) % 60
+          var hour = parseInt(parseInt(mss / 60) / 60)
+          time = hour + '小时' + min + '分钟' + second + '秒'
+        }
+      }
+      return time
     },
 
     // 时长筛选

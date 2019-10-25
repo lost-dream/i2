@@ -115,6 +115,9 @@
           >
           </el-table-column>
           <el-table-column prop="beginTime" label="通话时间" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.beginTime | formatDate }}</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="communicationTime"
@@ -149,6 +152,12 @@ require('echarts/map/js/china.js')
 export default {
   components: {
     flyDialog,
+  },
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss ')
+    },
   },
   data() {
     return {

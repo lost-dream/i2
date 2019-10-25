@@ -31,6 +31,12 @@
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
       <el-table-column prop="housingEstateCode" label="基站小区" align="center">
+        <!--   <template slot-scope="scope">
+          <span>
+            {{ scope.row.min.baseStationCode }}/
+            {{ scope.row.min.housingEstateCode }}</span
+          >
+        </template>-->
       </el-table-column>
       <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
       </el-table-column>
@@ -130,10 +136,10 @@ export default {
       console.log(this.morePhone2)
       conData.time != null && this.eachPhone(this.morePhone2)
       console.log(this.morePhone2)
-      this.morePhone2[0].list = [
+      /* this.morePhone2[0].list = [
         ...this.morePhone2[0].list,
         ...this.morePhone2[0].list,
-      ]
+      ] */
       this.morePhone2 = this.dataSort2(this.morePhone2)
       console.log(999999)
       console.log(this.morePhone2)
@@ -219,6 +225,49 @@ export default {
             value1.push({
               beginTime: beginTime,
               housingEstateCode: housingEstateCode,
+              baseStationLocation: baseStationLocation,
+              list: [
+                {
+                  otherPartyPhone: otherPartyPhone,
+                  phone: phone,
+                },
+              ],
+            })
+            data1[housingEstateCode] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              if (
+                dj.beginTime === beginTime &&
+                dj.baseStationLocation === baseStationLocation &&
+                dj.housingEstateCode === housingEstateCode
+              ) {
+                let obj = {
+                  otherPartyPhone: otherPartyPhone,
+                  phone: phone,
+                }
+                dj.list.push(ai)
+              }
+            }
+          }
+        })
+      })
+      return value1
+    },
+    /* dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai1 => {
+        let phone = ai1.phone
+        ai1.list.forEach(ai => {
+          let otherPartyPhone = ai.otherPartyPhone
+          let beginTime = ai.beginTime
+          let housingEstateCode = ai.housingEstateCode
+          let baseStationLocation = ai.baseStationLocation
+          if (!data1[housingEstateCode]) {
+            value1.push({
+              beginTime: beginTime,
+              housingEstateCode: housingEstateCode,
               phoneTimes: 1,
               baseStationLocation: baseStationLocation,
               masterList: [phone],
@@ -250,7 +299,7 @@ export default {
         })
       })
       return value1
-    },
+    }, */
 
     /**
      * 判断是否在时间段内
