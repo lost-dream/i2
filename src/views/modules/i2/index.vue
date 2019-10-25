@@ -13,7 +13,7 @@
                     class="tab-li"
                     @click="addNodesHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch addnode"></dt>
                     <dd class="operate-desc">添加节点</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -26,7 +26,7 @@
                     class="tab-li"
                     @click="importNodeHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch importNode"></dt>
                     <dd class="operate-desc">导入节点</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -35,7 +35,7 @@
                 </li>
                 <li>
                   <dl id="btnCacheData" class="tab-li" @click="cacheDataHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch dataCacher"></dt>
                     <dd class="operate-desc">数据缓存器</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -44,7 +44,7 @@
                 </li>
                 <li>
                   <dl id="btnAddEdge" class="tab-li" @click="addEdgeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch addRelation"></dt>
                     <dd class="operate-desc">添加关系</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -57,8 +57,8 @@
                     class="tab-li"
                     @click="addDataCacheHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">缓存数据</dd>
+                    <dt class="operate-icon operate-addBatch cacheData"></dt>
+                    <dd class="operate-desc">数据缓存</dd>
                   </dl>
                   <div class="or-spacer-vertical">
                     <div class="mask"></div>
@@ -66,7 +66,7 @@
                 </li>
                 <li>
                   <dl id="btnLock" class="tab-li" @click="lockNodeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch lock"></dt>
                     <dd class="operate-desc">锁定</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -75,7 +75,7 @@
                 </li>
                 <li>
                   <dl id="btnUnlock" class="tab-li" @click="unLockNodeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch unlock"></dt>
                     <dd class="operate-desc">解锁</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -97,7 +97,7 @@
               <ul class="tab-list clearfix">
                 <li>
                   <dl id="btnEidt" class="tab-li" @click="eidtNodeHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch edit"></dt>
                     <dd class="operate-desc">编辑</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -110,7 +110,7 @@
                     class="tab-li"
                     @click="deleteNodeHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch del"></dt>
                     <dd class="operate-desc">删除</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -119,7 +119,7 @@
                 </li>
                 <li>
                   <dl id="btnTagging" class="tab-li" @click="taggingHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch mark"></dt>
                     <dd class="operate-desc">一键标注</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -128,7 +128,7 @@
                 </li>
                 <li>
                   <dl id="btnRemark" class="tab-li" @click="remarkHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch remarks"></dt>
                     <dd class="operate-desc">备注</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -166,7 +166,7 @@
                     class="tab-li"
                     @click="autoLayoutHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch auto"></dt>
                     <dd class="operate-desc">自动</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -175,7 +175,7 @@
                 </li>
                 <li>
                   <dl id="btnRectangle" class="tab-li" @click="rectangleHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch rect"></dt>
                     <dd class="operate-desc">矩形</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -184,7 +184,7 @@
                 </li>
                 <li>
                   <dl id="btnCircle" class="tab-li" @click="circleHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch ring"></dt>
                     <dd class="operate-desc">环形</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -197,7 +197,7 @@
               <ul class="tab-list clearfix">
                 <li>
                   <dl id="btnAnalysis" class="tab-li" @click="analysisHandle">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch wajue"></dt>
                     <dd class="operate-desc">关系挖掘</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -210,7 +210,7 @@
                     class="tab-li"
                     @click="pairAnalyseHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch fenxi"></dt>
                     <dd class="operate-desc">两两分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -223,7 +223,7 @@
                     class="tab-li"
                     @click="overallRelationHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch QJFX"></dt>
                     <dd class="operate-desc">全局分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -236,7 +236,7 @@
                     class="tab-li"
                     @click="relationScoreSetter"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch qingmidu"></dt>
                     <dd class="operate-desc">亲密度分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -249,7 +249,7 @@
                     class="tab-li"
                     @click="dxAnalysisHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch DXFX"></dt>
                     <dd class="operate-desc">定向分析</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -258,7 +258,7 @@
                 </li>
                 <li>
                   <dl id="btnBatchAddNode" class="tab-li">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch dangan"></dt>
                     <dd class="operate-desc">档案</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -267,7 +267,7 @@
                 </li>
                 <li>
                   <dl id="btnBatchAddNode" class="tab-li">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch guiji"></dt>
                     <dd class="operate-desc">轨迹</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -276,7 +276,7 @@
                 </li>
                 <li>
                   <dl id="btnBatchAddNode" class="tab-li">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch QB"></dt>
                     <dd class="operate-desc">案件串并</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -289,7 +289,7 @@
                     class="tab-li"
                     @click="pzAnalysisHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch PZBD"></dt>
                     <dd class="operate-desc">碰撞对比分析</dd>
                   </dl>
                 </li>
@@ -303,7 +303,7 @@
                     class="tab-li"
                     @click="centralityHandle"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch center"></dt>
                     <dd class="operate-desc">中心性</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -316,7 +316,7 @@
                     class="tab-li"
                     @click="shortPathHandle()"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch ZDLJ"></dt>
                     <dd class="operate-desc">最短路径</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -329,7 +329,7 @@
                     class="tab-li"
                     @click="shortPathHandle('isAllShortPath')"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch road"></dt>
                     <dd class="operate-desc">全路径</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -342,7 +342,7 @@
               <ul class="tab-list clearfix">
                 <li>
                   <dl id="btnBatchAddNode" class="tab-li">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch importNode"></dt>
                     <dd class="operate-desc">导入(JSON)</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -351,7 +351,7 @@
                 </li>
                 <li>
                   <dl id="btnBatchAddNode" class="tab-li">
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch exportNode"></dt>
                     <dd class="operate-desc">
                       <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
@@ -376,7 +376,7 @@
                     class="tab-li"
                     @click="saveRelatonData"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch baocun"></dt>
                     <dd class="operate-desc">保存</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -389,7 +389,7 @@
                     class="tab-li"
                     @click="shareRelationData"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch gongxiang"></dt>
                     <dd class="operate-desc">共享</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -402,7 +402,7 @@
                     class="tab-li"
                     @click="managerRelationData"
                   >
-                    <dt class="operate-icon operate-addBatch"></dt>
+                    <dt class="operate-icon operate-addBatch guanli"></dt>
                     <dd class="operate-desc">管理</dd>
                   </dl>
                   <div class="or-spacer-vertical">
@@ -1053,11 +1053,13 @@ ul.tab-list>li
     height 100%
     display block
     .operate-icon
-      margin-top 12px !important
-      background url('~@/assets/img/addnode.png') center center no-repeat
       width 31px
       height 27px
-      margin 0 auto
+      margin 12px auto 0
+      $iconList = addnode importNode dataCacher addRelation cacheData lock unlock edit del mark remarks rect dangan exportNode baocun gongxiang guanli ring auto wajue fenxi QJFX qingmidu DXFX guiji QB PZBD center ZDLJ road
+      for item, index in $iconList
+        &.{item}
+          background: url('./icons/' + item + '.png') center / contain no-repeat
     .operate-desc
       color #fff
       height 25px
