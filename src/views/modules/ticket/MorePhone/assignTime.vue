@@ -288,14 +288,12 @@ export default {
           } else {
             for (let j = 0; j < value1.length; j++) {
               let dj = value1[j]
+              if (dj.masterList.indexOf(phone) === -1) {
+                dj.masterList.push(phone)
+              }
               if (dj.otherPartyPhone === otherPartyPhone) {
                 dj.phoneTimes++
-                if (dj.masterList.indexOf(phone) === -1) {
-                  dj.masterList.push(phone)
-                  dj.masterNum.push(1)
-                } else {
-                  dj.masterNum[dj.masterList.indexOf(phone)]++
-                }
+                dj.masterNum[dj.masterList.indexOf(phone)]++
                 dj.phoneNum.push(otherPartyPhone)
                 break
               }
