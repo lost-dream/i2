@@ -275,13 +275,15 @@ export default {
         },
       ],
       form: {
-        // TODO 清空默认数据
-        startDate: '2011-01-09 11:05:00',
-        endDate: '2014-05-10 11:05:00',
-        idNumber: '640102198603091217',
-        // startDate: '',
-        // endDate: '',
-        // idNumber: '',
+        startDate: Cookies.get('shikong_list_params')
+          ? JSON.parse(Cookies.get('shikong_list_params')).startDate
+          : '',
+        endDate: Cookies.get('shikong_list_params')
+          ? JSON.parse(Cookies.get('shikong_list_params')).endDate
+          : '',
+        idNumber: Cookies.get('shikong_list_params')
+          ? JSON.parse(Cookies.get('shikong_list_params')).idNumber
+          : '',
       },
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
@@ -348,6 +350,8 @@ export default {
       this.$api.spacequery(this.from).then(({ data }) => {})
     },
     gotoInfo(item) {
+      Cookies.set('shikong_list_params', this.form)
+
       Cookies.set('shikong_data', item)
 
       const maps = {
