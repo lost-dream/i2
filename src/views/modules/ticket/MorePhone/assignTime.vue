@@ -299,9 +299,6 @@ export default {
               }
             }
           }
-          console.log(66666)
-          console.log(value1)
-          console.log(66666666)
         })
       })
       return value1
