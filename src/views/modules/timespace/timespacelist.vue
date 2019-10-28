@@ -1,11 +1,15 @@
 <template>
   <div class="timespacelist">
     <div class="dir">
+      <div class="list" @click="search">
+        <span class="__icon el-icon-circle-check"></span>
+        <span>全部</span>
+      </div>
       <div
         v-for="(item, index) in navList"
         :key="index"
         class="list"
-        @click="filterList(item.value)"
+        @click="filterList(item.title)"
       >
         <span :class="['__icon', item.icon]"></span>
         <span>{{ item.title }}</span>
@@ -49,7 +53,7 @@
     <div class="infoCoat1">
       <div class="infoCoat2">
         <div class="infoList">
-          <el-timeline :reverse="reverse">
+          <el-timeline :reverse="false">
             <el-timeline-item
               placement="top"
               v-for="(item, index) in dataList"
@@ -214,8 +218,17 @@
         :total="totalSize"
       ></el-pagination>
     </div>
-    <div class="infoCard" v-show="showCard">
-      <personal-info-card></personal-info-card>
+    <div class="infoCard">
+      <personal-info-card
+        :IDNum="userData && userData.idNnumber"
+        :name="userData && userData.name"
+        :nationality="userData && userData.nation"
+        :sex="userData && userData.sex"
+        :birthday="userData && userData.birthday"
+        :mobile="userData && userData.cellphone"
+        :addr="userData && userData.currentAddress"
+        @addToRelationAnalysis="addToRelationAnalysis"
+      />
     </div>
   </div>
 </template>
@@ -235,11 +248,6 @@ export default {
     return {
       // 导航列表
       navList: [
-        {
-          title: '全部',
-          value: 'all',
-          icon: 'el-icon-circle-check',
-        },
         {
           title: '飞机',
           value: 'air',
@@ -284,8 +292,7 @@ export default {
           { required: true, message: '请选择结束日期', trigger: 'blur' },
         ],
       },
-      reverse: false,
-      showCard: true,
+      userData: null,
       totalData: null,
       dataList: [], // 需要渲染的列表数据
       iconStyle: {
@@ -324,7 +331,7 @@ export default {
           newList.push(value)
         }
       })
-      this.totalData = newList
+      // this.totalData = newList
       this.dataList = newList.slice(0, this.pageSize)
     },
     search() {
@@ -368,6 +375,9 @@ export default {
         page * this.pageSize,
       )
     },
+    addToRelationAnalysis() {
+      console.log(`this.userData=======${JSON.stringify(this.userData)}`)
+    },
     getList(
       beginTime = this.form.startDate,
       endTime = this.form.endDate,
@@ -380,6 +390,10 @@ export default {
       }).then(({ data }) => {
         if (data && parseInt(data.code) === 200) {
           const originResult = data.result
+          /* 处理个人信息 */
+          this.userData = originResult.crewEntity[0]
+
+          /* 出路出行信息 */
           // 网吧和宾馆数没有typecode字段，需要手动加上
           originResult.bg.map(value => {
             value.typeCode = '旅馆'
