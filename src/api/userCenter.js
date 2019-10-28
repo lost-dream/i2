@@ -10,7 +10,7 @@ export function getUserInfo(data) {
 }
 
 // 用户信息修改
-export function updateUserInfo({ data }) {
+export function updateUserInfo(data) {
   return http({
     url: http.adornUrl(
       `admin/userUpdateOne?id=${data.id}&nickName=${data.nickName}&siren=${
