@@ -44,6 +44,9 @@
       <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
       </el-table-column>
       <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
+        <template slot-scope="scope">
+          <span>{{ scope.row.masterList.length }}</span>
+        </template>
       </el-table-column>
       <el-table-column prop="location" align="center" label="号码属地">
       </el-table-column>
@@ -159,14 +162,9 @@ export default {
       console.log(this.morePhone2)
       conData2.time != null && this.eachPhone(this.morePhone2)
       // 外
-      console.log(this.morePhone2)
       this.morePhone3 = this.eachPhone2(this.morePhone2)
-      console.log(this.morePhone3)
       this.morePhone2 = this.dataSort2(this.morePhone2)
       this.morePhone3 = this.dataSort2(this.morePhone3)
-      console.log(this.morePhone3)
-      console.log(this.morePhone2)
-      console.log(conData2.event === '1')
       conData2.event === '1'
         ? (this.assign2 = this.dataSort3(this.morePhone3, this.morePhone2))
         : (this.assign2 = this.dataSort3(this.morePhone2, this.morePhone3))
@@ -237,7 +235,7 @@ export default {
         item.masterList.length > i && (i = item.masterList.length)
       })
 
-      for (let j = 0; j < i - 1; j++) {
+      for (let j = 0; j < i; j++) {
         data1.label = data[i - 1].masterList[j]
         value1.push(data1)
       }
@@ -301,11 +299,11 @@ export default {
                 dj.phoneNum.push(otherPartyPhone)
                 break
               }
-              console.log(4444)
-              console.log(value1)
-              console.log(111)
             }
           }
+          console.log(66666)
+          console.log(value1)
+          console.log(66666666)
         })
       })
       return value1

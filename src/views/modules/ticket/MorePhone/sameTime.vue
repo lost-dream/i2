@@ -30,25 +30,39 @@
     <el-table :data="sameTime" border style="width: 100%">
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
-      <el-table-column prop="housingEstateCode" label="基站小区" align="center">
-        <!--   <template slot-scope="scope">
+      <el-table-column
+        prop="housingEstateCode"
+        width="150"
+        label="基站小区"
+        align="center"
+      >
+        <template slot-scope="scope">
           <span>
-            {{ scope.row.min.baseStationCode }}/
-            {{ scope.row.min.housingEstateCode }}</span
+            {{ scope.row.baseStationCode }}/
+            {{ scope.row.housingEstateCode }}</span
           >
-        </template>-->
+        </template>
       </el-table-column>
-      <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
+      <el-table-column
+        prop="phone"
+        width="110"
+        align="center"
+        label="几个话单出现"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.phone.length }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="baseStationLocation"
         align="center"
+        width="150"
         label="基站地址"
       >
       </el-table-column>
       <!--:width="item.width"-->
       <!--<template v-for="(item, index) in tableHead">-->
-      <template v-for="(item, index) in tableHead">
+      <!--  <template v-for="(item, index) in tableHead">
         <el-table-column
           :prop="item.propName"
           :label="item.label"
@@ -57,6 +71,21 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.masterNum[index] }}</span>
+          </template>
+        </el-table-column>
+      </template>-->
+      <template v-for="(item, index) in tableHead">
+        <el-table-column
+          :prop="item.propName"
+          :label="item.label"
+          :key="index"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.otherPartyPhone[index] !== undefined"
+              >{{ scope.row.otherPartyPhone[index] }}&nbsp;&nbsp;
+              {{ scope.row.beginTime | formatDate }}</span
+            >
           </template>
         </el-table-column>
       </template>
@@ -68,6 +97,12 @@
 import { formatDate } from '../../../../utils/dateFormat.js'
 
 export default {
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss ')
+    },
+  },
   data() {
     return {
       pickerOptions: {
@@ -140,13 +175,13 @@ export default {
         ...this.morePhone2[0].list,
         ...this.morePhone2[0].list,
       ] */
-      this.morePhone2 = this.dataSort4(this.morePhone2)
-      // console.log(999999)
-      // console.log(this.morePhone2)
-      // this.tableHead = this.isHead(this.morePhone2)
-      // this.sameTime = this.morePhone2
-      // console.log(this.tableHead)
-      // console.log(this.morePhone2)
+      this.morePhone2 = this.dataSort2(this.morePhone2)
+      console.log(999999)
+      console.log(this.morePhone2)
+      this.tableHead = this.isHead(this.morePhone2)
+      this.sameTime = this.morePhone2
+      console.log(this.tableHead)
+      console.log(this.morePhone2)
     },
 
     // 分别计算时间范围
@@ -158,22 +193,41 @@ export default {
       this.morePhone2 = eachPhone
     },
 
+    // // 表头生成
+    // isHead(data) {
+    //   let data1 = {}
+    //   let value1 = []
+    //   data1.propName = 'phoneNum'
+    //   data1.label = '电话号码'
+    //   data1.fixed = true
+    //   data1.width = '200'
+    //   let i = 0
+    //   data.forEach(item => {
+    //     item.masterList.length > i && (i = item.masterList.length)
+    //     console.log(i)
+    //   })
+    //
+    //   for (let j = 0; j < i; j++) {
+    //     data1.label = data[0].masterList[j]
+    //     value1.push(data1)
+    //   }
+    //
+    //   return value1
+    // },
+
     // 表头生成
     isHead(data) {
       let data1 = {}
       let value1 = []
-      data1.propName = 'phoneNum'
+      data1.propName = 'otherPartyPhone'
       data1.label = '电话号码'
       data1.fixed = true
-      data1.width = '200'
       let i = 0
       data.forEach(item => {
-        item.masterList.length > i && (i = item.masterList.length)
+        item.otherPartyPhone.length > i && (i = item.otherPartyPhone.length)
         console.log(i)
       })
-
       for (let j = 0; j < i; j++) {
-        data1.label = data[0].masterList[j]
         value1.push(data1)
       }
 
@@ -219,15 +273,15 @@ export default {
         ai1.list.forEach(ai => {
           let otherPartyPhone = ai.otherPartyPhone
           let beginTime = ai.beginTime
-          let location = ai.location
+          let baseStationLocation = ai.baseStationLocation
           let housingEstateCode = ai.housingEstateCode
           let baseStationCode = ai.baseStationCode
-          if (!data1[housingEstateCode]) {
+          if (!data1[baseStationLocation]) {
             value1.push({
               beginTime: beginTime,
               housingEstateCode: housingEstateCode,
               baseStationCode: baseStationCode,
-              location: location,
+              baseStationLocation: baseStationLocation,
               list: [
                 {
                   phone: phone,
@@ -235,15 +289,16 @@ export default {
                 },
               ],
             })
-            data1[housingEstateCode] = ai
+            data1[baseStationLocation] = ai
           } else {
             for (let j = 0; j < value1.length; j++) {
               let dj = value1[j]
               if (
                 this.compareTime2(dj.beginTime, beginTime) &&
-                dj.baseStationCode === baseStationCode &&
-                dj.housingEstateCode === housingEstateCode
+                dj.baseStationLocation === baseStationLocation
               ) {
+                dj.baseStationCode = baseStationCode
+                dj.housingEstateCode = housingEstateCode
                 dj.list.push({
                   phone: phone,
                   otherPartyPhone: otherPartyPhone,
@@ -363,13 +418,14 @@ export default {
             baseStationCode: item.baseStationCode,
             beginTime: item.beginTime,
             housingEstateCode: item.housingEstateCode,
-            location: item.location,
+            baseStationLocation: item.baseStationLocation,
             otherPartyPhone: item2.otherPartyPhone,
             phone: item2.phone,
           })
         })
       })
-      let data1 = {}
+
+      /* let data1 = {}
       let value1 = []
       narr.forEach(ai => {
         let otherPartyPhone = ai.otherPartyPhone
@@ -398,31 +454,48 @@ export default {
             ) {
               dj.masterList.indexOf(phone) === -1 && dj.masterList.push(phone)
               dj.otherPartyPhone.indexOf(otherPartyPhone) === -1 &&
-                dj.otherPartyPhone.push(otherPartyPhone)
+                dj.otherPartyPhoneList.push(otherPartyPhone)
             }
           }
         }
-      })
+      }) */
+
       // narr = narr
       //   .map(function(item, index, narr) {
       //     const i = narr.find(
-      //       _item =>
-      //         item.otherPartyPhone === _item.otherPartyPhone &&
-      //         item.beginTime === _item.beginTime &&
-      //         item.baseStationCode === _item.baseStationCode &&
-      //         item.housingEstateCode === _item.housingEstateCode &&
-      //         item.location === _item.location,
+      //       _item => item.baseStationLocation === _item.baseStationLocation,
       //     )
       //     if (i !== item) {
-      //       i.phone.push(item.phone)
+      //       i.otherPartyPhone.indexOf(item.otherPartyPhone) === -1 &&
+      //         i.otherPartyPhone.push(item.otherPartyPhone)
       //       return undefined
       //     } else {
-      //       i.phone = [i.phone]
+      //       i.otherPartyPhone = [i.otherPartyPhone]
       //       return i
       //     }
       //   })
       //   .filter(item => item !== undefined)
+
+      narr = narr
+        .map(function(item, index, narr) {
+          const i = narr.find(
+            _item => item.baseStationLocation === _item.baseStationLocation,
+          )
+          if (i !== item) {
+            i.otherPartyPhone.indexOf(item.otherPartyPhone) === -1 &&
+              i.otherPartyPhone.push(item.otherPartyPhone)
+            i.phone.indexOf(item.phone) === -1 && i.phone.push(item.phone)
+            return undefined
+          } else {
+            i.otherPartyPhone = [i.otherPartyPhone]
+            i.phone = [i.phone]
+            return i
+          }
+        })
+        .filter(item => item !== undefined)
+      console.log(111)
       console.log(narr)
+      console.log(111)
       return narr
     },
 
