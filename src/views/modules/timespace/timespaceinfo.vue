@@ -1254,9 +1254,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.timespaceinfo {
-  position: relative;
-}
+.timespaceinfo
+  position absolute
+  top 50px
+  right 0
+  bottom 0
+  left 0
+  margin auto
 
 .seatInfoCoat1, .seatInfoCoat2 {
   padding: 10px;
@@ -1265,8 +1269,7 @@ export default {
 
 .seatInfoCoat1 {
   width: 840px;
-  position: relative;
-  left: 189px;
+  margin: 0 auto
 }
 
 .seatInfoCoat2 {
@@ -1417,8 +1420,8 @@ export default {
 
 .passengerInfo {
   position: absolute;
-  left: 1060px;
-  top: 120px;
+  right: 0;
+  top: 0;
 }
 
 .cardList {
