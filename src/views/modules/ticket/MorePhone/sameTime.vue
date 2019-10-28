@@ -140,13 +140,13 @@ export default {
         ...this.morePhone2[0].list,
         ...this.morePhone2[0].list,
       ] */
-      this.morePhone2 = this.dataSort2(this.morePhone2)
-      console.log(999999)
-      console.log(this.morePhone2)
-      this.tableHead = this.isHead(this.morePhone2)
-      this.sameTime = this.morePhone2
-      console.log(this.tableHead)
-      console.log(this.morePhone2)
+      this.morePhone2 = this.dataSort4(this.morePhone2)
+      // console.log(999999)
+      // console.log(this.morePhone2)
+      // this.tableHead = this.isHead(this.morePhone2)
+      // this.sameTime = this.morePhone2
+      // console.log(this.tableHead)
+      // console.log(this.morePhone2)
     },
 
     // 分别计算时间范围
@@ -210,7 +210,7 @@ export default {
       return phoneInfo
     },
 
-    // 数据重组
+    // 数据重组 获取同时同基站数据
     dataSort2(data) {
       let data1 = {}
       let value1 = []
@@ -219,17 +219,19 @@ export default {
         ai1.list.forEach(ai => {
           let otherPartyPhone = ai.otherPartyPhone
           let beginTime = ai.beginTime
+          let location = ai.location
           let housingEstateCode = ai.housingEstateCode
-          let baseStationLocation = ai.baseStationLocation
+          let baseStationCode = ai.baseStationCode
           if (!data1[housingEstateCode]) {
             value1.push({
               beginTime: beginTime,
               housingEstateCode: housingEstateCode,
-              baseStationLocation: baseStationLocation,
+              baseStationCode: baseStationCode,
+              location: location,
               list: [
                 {
-                  otherPartyPhone: otherPartyPhone,
                   phone: phone,
+                  otherPartyPhone: otherPartyPhone,
                 },
               ],
             })
@@ -238,22 +240,73 @@ export default {
             for (let j = 0; j < value1.length; j++) {
               let dj = value1[j]
               if (
-                dj.beginTime === beginTime &&
-                dj.baseStationLocation === baseStationLocation &&
+                this.compareTime2(dj.beginTime, beginTime) &&
+                dj.baseStationCode === baseStationCode &&
                 dj.housingEstateCode === housingEstateCode
               ) {
-                let obj = {
-                  otherPartyPhone: otherPartyPhone,
+                dj.list.push({
                   phone: phone,
-                }
-                dj.list.push(ai)
+                  otherPartyPhone: otherPartyPhone,
+                })
               }
             }
           }
         })
       })
+      console.log(value1)
+      return this.dataSort3(value1)
+    },
+
+    dataSort4(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai1 => {
+        let phone = ai1.phone
+        ai1.list.forEach(ai => {
+          let otherPartyPhone = ai.otherPartyPhone
+          let beginTime = ai.beginTime
+          let housingEstateCode = ai.housingEstateCode
+          let baseStationCode = ai.baseStationCode
+          let baseStationLocation = ai.baseStationLocation
+          if (!data1[housingEstateCode]) {
+            value1.push({
+              beginTime: beginTime,
+              housingEstateCode: housingEstateCode,
+              baseStationCode: baseStationCode,
+              phoneTimes: 1,
+              baseStationLocation: baseStationLocation,
+              masterList: [phone],
+              phoneNum: [otherPartyPhone],
+              otherPartyPhoneList: [],
+              masterNum: [1],
+              masterPhone: phone,
+            })
+            data1[housingEstateCode] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              if (
+                this.compareTime2(dj.beginTime, beginTime) &&
+                dj.baseStationLocation === baseStationLocation &&
+                dj.housingEstateCode === housingEstateCode
+              ) {
+                dj.masterList.indexOf(phone) === -1 && dj.masterList.push(phone)
+                if (dj.masterPhone !== phone) {
+                  dj.phoneNum.indexOf(otherPartyPhone) !== -1 &&
+                    dj.otherPartyPhoneList.push(otherPartyPhone)
+                } else {
+                  dj.phoneNum.indexOf(otherPartyPhone) === -1 &&
+                    dj.phoneNum.push(otherPartyPhone)
+                }
+              }
+            }
+          }
+        })
+      })
+      console.log(value1)
       return value1
     },
+
     /* dataSort2(data) {
       let data1 = {}
       let value1 = []
@@ -280,7 +333,7 @@ export default {
             for (let j = 0; j < value1.length; j++) {
               let dj = value1[j]
               if (
-                dj.beginTime === beginTime &&
+                this.compareTime2(dj.beginTime, beginTime) &&
                 dj.baseStationLocation === baseStationLocation &&
                 dj.housingEstateCode === housingEstateCode
               ) {
@@ -300,6 +353,78 @@ export default {
       })
       return value1
     }, */
+
+    // 数据重组 筛选同时同基站列表数据
+    dataSort3(arr) {
+      var narr = []
+      arr.forEach(item => {
+        item.list.forEach(item2 => {
+          narr.push({
+            baseStationCode: item.baseStationCode,
+            beginTime: item.beginTime,
+            housingEstateCode: item.housingEstateCode,
+            location: item.location,
+            otherPartyPhone: item2.otherPartyPhone,
+            phone: item2.phone,
+          })
+        })
+      })
+      let data1 = {}
+      let value1 = []
+      narr.forEach(ai => {
+        let otherPartyPhone = ai.otherPartyPhone
+        let beginTime = ai.beginTime
+        let location = ai.location
+        let housingEstateCode = ai.housingEstateCode
+        let baseStationCode = ai.baseStationCode
+        let phone = ai.phone
+        if (!data1[housingEstateCode]) {
+          value1.push({
+            beginTime: beginTime,
+            housingEstateCode: housingEstateCode,
+            baseStationCode: baseStationCode,
+            location: location,
+            masterList: [phone],
+            otherPartyPhone: otherPartyPhone,
+            otherPartyPhoneList: [],
+          })
+          data1[housingEstateCode] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            if (
+              dj.baseStationCode === baseStationCode &&
+              dj.housingEstateCode === housingEstateCode
+            ) {
+              dj.masterList.indexOf(phone) === -1 && dj.masterList.push(phone)
+              dj.otherPartyPhone.indexOf(otherPartyPhone) === -1 &&
+                dj.otherPartyPhone.push(otherPartyPhone)
+            }
+          }
+        }
+      })
+      // narr = narr
+      //   .map(function(item, index, narr) {
+      //     const i = narr.find(
+      //       _item =>
+      //         item.otherPartyPhone === _item.otherPartyPhone &&
+      //         item.beginTime === _item.beginTime &&
+      //         item.baseStationCode === _item.baseStationCode &&
+      //         item.housingEstateCode === _item.housingEstateCode &&
+      //         item.location === _item.location,
+      //     )
+      //     if (i !== item) {
+      //       i.phone.push(item.phone)
+      //       return undefined
+      //     } else {
+      //       i.phone = [i.phone]
+      //       return i
+      //     }
+      //   })
+      //   .filter(item => item !== undefined)
+      console.log(narr)
+      return narr
+    },
 
     /**
      * 判断是否在时间段内
@@ -322,6 +447,31 @@ export default {
       let nowTime = tranDate(changeTime)
       // 如果当前时间处于时间段内，返回true，否则返回false
       if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
+    /**
+     *判断时间是否在5分钟有以类
+     */
+    compareTime2(changeTime, changeTime2) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      changeTime2 = formatDate(new Date(changeTime2), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 时间点
+      let timeDot = tranDate(changeTime2)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (
+        nowTime < timeDot - 1000 * 60 * 5 ||
+        nowTime > timeDot + 1000 * 60 * 5
+      ) {
         return false
       }
       return true
