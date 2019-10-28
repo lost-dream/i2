@@ -66,7 +66,9 @@
             <div class="fly-form">
               <el-form
                 :model="secondaryPWDModel"
-                @keyup.enter.native="submitForm()"
+                @keyup.enter.native="
+                  login2ndQuestion ? check2ndPWD() : set2ndPWD()
+                "
                 status-icon
                 ref="loginForm"
               >

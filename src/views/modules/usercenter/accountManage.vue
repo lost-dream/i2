@@ -173,7 +173,7 @@ export default {
                 message: '修改成功',
               })
             } else {
-              this.$message.error(data.code)
+              this.$message.error(data.msg)
             }
           })
         }
