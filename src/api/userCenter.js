@@ -26,6 +26,6 @@ export function updatePassword(data) {
   return http({
     url: http.adornUrl('admin/userUpdatePassword'),
     method: 'post',
-    data: http.adornData(data, false),
+    data: http.adornData(data, false, 'qs'),
   })
 }
