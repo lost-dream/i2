@@ -5,14 +5,14 @@
         <div class="seatInfoCoat3">
           <div class="seatInfo">
             <div
-              v-if="type == 'lg' || type == 'wb'"
+              v-if="type === 'lg' || type === 'wb'"
               class="journeyInfo clearfix"
             >
               <div class="infoItem" style="width: 100%;height: auto!important;">
                 <span
-                  style="font-size: 14px;text-align: initial;padding: 0 30px;height: auto;font-size: 18px;"
+                  style="text-align: initial;padding: 0 30px;height: auto;font-size: 18px;"
                 >
-                  {{ type == 'lg' ? '旅馆名称：' : '网吧名称：' }}
+                  {{ type === 'lg' ? '旅馆名称：' : '网吧名称：' }}
                   {{ userData.name }}
                 </span>
               </div>
@@ -53,29 +53,27 @@
                 >
               </div>
             </div>
-            <div v-if="type == 'lg'" class="seatDesc clearfix">
+            <div v-if="type === 'lg'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
-                <span style="font-size: 14px"
-                  >&nbsp;&nbsp;2015年6月25日11:41</span
-                >
+                <span style="font-size: 14px">&emsp;2015年6月25日11:41</span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
-                  <span class="el-icon-place noOne"></span>&nbsp;&nbsp;无住户
+                  <span class="el-icon-place noOne"></span>&emsp;无住户
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
-                  <span class="el-icon-place exist"></span>&nbsp;&nbsp;已有住户
+                  <span class="el-icon-place exist"></span>&emsp;已有住户
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
-                  <span class="el-icon-place parties"></span>&nbsp;&nbsp;当事人
+                  <span class="el-icon-place parties"></span>&emsp;当事人
                 </span>
               </div>
             </div>
-            <div v-else-if="type == 'wb'" class="seatDesc clearfix">
+            <div v-else-if="type === 'wb'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
                 <span style="font-size: 14px"
                   >&nbsp;&nbsp;{{ userData.checkIn }} -
@@ -100,22 +98,16 @@
               </div>
             </div>
             <div v-else class="seatDesc clearfix">
-              <div class="infoItem2" style="width: 40%">
-                <span
-                  v-if="userData.typeCode === '飞机'"
-                  style="font-size: 14px"
-                  >&nbsp;&nbsp;第{{ userData.cabinPlace }}机舱</span
-                >
-                <span
-                  v-else-if="userData.typeCode === '火车'"
-                  style="font-size: 14px"
-                  >&nbsp;&nbsp;第{{ userData.carriageNumber }}</span
-                >
-                <span
-                  v-else-if="userData.typeCode === '汽车'"
-                  style="font-size: 14px"
-                  >&nbsp;&nbsp;{{ userData.carNo }}</span
-                >
+              <div class="infoItem2" style="width: 40%;font-size: 14px;">
+                <span v-if="userData.typeCode === '飞机'">
+                  &emsp;第{{ userData.cabinPlace }}机舱
+                </span>
+                <span v-else-if="userData.typeCode === '火车'">
+                  &emsp;第{{ userData.carriageNumber }}
+                </span>
+                <span v-else-if="userData.typeCode === '汽车'">
+                  &emsp;{{ userData.carNo }}
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
@@ -136,7 +128,7 @@
             </div>
             <!-- 座位图 -->
             <div class="seatLayout">
-              <div v-if="type == 'hc'" class="hc_seatLayout">
+              <div v-if="type === 'hc'" class="hc_seatLayout">
                 <div class="columnName clearfix">
                   <div class="list">
                     <span></span>
@@ -179,7 +171,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showHCInfo(seatLine[0], 'A')"
-                        :class="addClass(seatLine[0], 'A')"
+                        :class="addHCClass(seatLine[0], 'A')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -194,7 +186,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showHCInfo(seatLine[0], 'B')"
-                        :class="addClass(seatLine[0], 'B')"
+                        :class="addHCClass(seatLine[0], 'B')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -212,7 +204,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showHCInfo(seatLine[0], 'C')"
-                        :class="addClass(seatLine[0], 'C')"
+                        :class="addHCClass(seatLine[0], 'C')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -227,7 +219,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showHCInfo(seatLine[0], 'D')"
-                        :class="addClass(seatLine[0], 'D')"
+                        :class="addHCClass(seatLine[0], 'D')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -242,7 +234,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showHCInfo(seatLine[0], 'F')"
-                        :class="addClass(seatLine[0], 'F')"
+                        :class="addHCClass(seatLine[0], 'F')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -270,7 +262,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showHCInfo(item + seatLine[0] - 1, 'A')"
-                        :class="addClass(item + seatLine[0] - 1, 'A')"
+                        :class="addHCClass(item + seatLine[0] - 1, 'A')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -285,7 +277,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'B')"
-                        :class="addClass(item + seatLine[0] - 1, 'B')"
+                        :class="addHCClass(item + seatLine[0] - 1, 'B')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -300,7 +292,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'C')"
-                        :class="addClass(item + seatLine[0] - 1, 'C')"
+                        :class="addHCClass(item + seatLine[0] - 1, 'C')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -318,7 +310,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'D')"
-                        :class="addClass(item + seatLine[0] - 1, 'D')"
+                        :class="addHCClass(item + seatLine[0] - 1, 'D')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -333,13 +325,13 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'F')"
-                        :class="addClass(item + seatLine[0] - 1, 'F')"
+                        :class="addHCClass(item + seatLine[0] - 1, 'F')"
                       ></span>
                     </el-tooltip>
                   </div>
                 </div>
               </div>
-              <div v-else-if="type == 'fj'" class="fj_seatLayout">
+              <div v-else-if="type === 'fj'" class="fj_seatLayout">
                 <div class="columnName clearfix">
                   <div class="list">
                     <span></span>
@@ -394,7 +386,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(seatLine[0], 'A')"
-                        :class="addClass(seatLine[0], 'A')"
+                        :class="addFJClass(seatLine[0], 'A')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -409,7 +401,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(seatLine[0], 'C')"
-                        :class="addClass(seatLine[0], 'C')"
+                        :class="addFJClass(seatLine[0], 'C')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -427,7 +419,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(seatLine[0], 'D')"
-                        :class="addClass(seatLine[0], 'D')"
+                        :class="addFJClass(seatLine[0], 'D')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -442,7 +434,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(seatLine[0], 'E')"
-                        :class="addClass(seatLine[0], 'E')"
+                        :class="addFJClass(seatLine[0], 'E')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -457,7 +449,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(seatLine[0], 'F')"
-                        :class="addClass(seatLine[0], 'F')"
+                        :class="addFJClass(seatLine[0], 'F')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -472,7 +464,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item, 'G')"
-                        :class="addClass(item, 'G')"
+                        :class="addFJClass(item, 'G')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -490,7 +482,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item, 'H')"
-                        :class="addClass(item, 'H')"
+                        :class="addFJClass(item, 'H')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -505,7 +497,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item, 'K')"
-                        :class="addClass(item, 'K')"
+                        :class="addFJClass(item, 'K')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -533,7 +525,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'A')"
-                        :class="addClass(item + seatLine[0] - 1, 'A')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'A')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -548,7 +540,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'C')"
-                        :class="addClass(item + seatLine[0] - 1, 'C')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'C')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -566,7 +558,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'D')"
-                        :class="addClass(item + seatLine[0] - 1, 'D')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'D')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -581,7 +573,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'E')"
-                        :class="addClass(item + seatLine[0] - 1, 'E')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'E')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -596,7 +588,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'F')"
-                        :class="addClass(item + seatLine[0] - 1, 'F')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'F')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -611,7 +603,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'G')"
-                        :class="addClass(item + seatLine[0] - 1, 'G')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'G')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -629,7 +621,7 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'H')"
-                        :class="addClass(item + seatLine[0] - 1, 'H')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'H')"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -644,13 +636,13 @@
                       <span
                         class="icon-zdy-yizi"
                         @click="showInfo(item + seatLine[0] - 1, 'K')"
-                        :class="addClass(item + seatLine[0] - 1, 'K')"
+                        :class="addFJClass(item + seatLine[0] - 1, 'K')"
                       ></span>
                     </el-tooltip>
                   </div>
                 </div>
               </div>
-              <div v-else-if="type == 'qc'" class="qc_seatLayout">
+              <div v-else-if="type === 'qc'" class="qc_seatLayout">
                 <div class="columnName clearfix">
                   <div class="list">
                     <span></span>
@@ -685,7 +677,7 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="'' + (item - 1) * 4 + 1"
+                      :content="(item - 1) * 4 + 1 + ''"
                       placement="top"
                     >
                       <span
@@ -700,7 +692,7 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="'' + (item - 1) * 4 + 2"
+                      :content="(item - 1) * 4 + 2 + ''"
                       placement="top"
                     >
                       <span
@@ -718,13 +710,13 @@
                       popper-class="atooltip"
                       class="item"
                       effect="dark"
-                      :content="'' + (item - 1) * 4 + 3"
+                      :content="(item - 1) * 4 + 3 + ''"
                       placement="top"
                     >
                       <span
                         class="icon-zdy-yizi"
                         @click="showQcInfo((item - 1) * 4 + 3)"
-                        :class="addClass((item - 1) * 4 + 3)"
+                        :class="addQCClass((item - 1) * 4 + 3)"
                       ></span>
                     </el-tooltip>
                   </div>
@@ -734,9 +726,9 @@
                       class="item"
                       effect="dark"
                       :content="
-                        '' + item !== 11
-                          ? (item - 1) * 4 + 3
-                          : (item - 1) * 4 + 4
+                        item !== 11
+                          ? (item - 1) * 4 + 3 + ''
+                          : (item - 1) * 4 + 4 + ''
                       "
                       placement="top"
                     >
@@ -750,7 +742,7 @@
                           )
                         "
                         :class="
-                          addClass(
+                          addQCClass(
                             item !== 11
                               ? (item - 1) * 4 + 3
                               : (item - 1) * 4 + 4,
@@ -765,9 +757,9 @@
                       class="item"
                       effect="dark"
                       :content="
-                        '' + item !== 11
-                          ? (item - 1) * 4 + 4
-                          : (item - 1) * 4 + 5
+                        item !== 11
+                          ? (item - 1) * 4 + 4 + ''
+                          : (item - 1) * 4 + 5 + ''
                       "
                       placement="top"
                     >
@@ -781,7 +773,7 @@
                           )
                         "
                         :class="
-                          addClass(
+                          addQCClass(
                             item !== 11
                               ? (item - 1) * 4 + 4
                               : (item - 1) * 4 + 5,
@@ -792,7 +784,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else-if="type == 'lg'" class="lg_seatLayout">
+              <div v-else-if="type === 'lg'" class="lg_seatLayout">
                 <div
                   class="seatList clearfix"
                   v-if="floors.length > 0"
@@ -834,7 +826,7 @@
                   </template>
                 </div>
               </div>
-              <div v-else-if="type == 'wb'" class="wb_seatLayout">
+              <div v-else-if="type === 'wb'" class="wb_seatLayout">
                 <div
                   class="seatList clearfix"
                   @click.stop
@@ -875,22 +867,20 @@
         </div>
       </div>
     </div>
-    <div class="infoCard">
-      <personal-info-card></personal-info-card>
-    </div>
     <div id="passengerInfo" class="passengerInfo" v-show="passengerInfoShow">
       <div v-if="personCard.length > 1">
         <span
-          @click="okCard = item"
           v-for="(item, index) in personCard.length"
           :key="index"
+          @click="okCard = item"
         >
           <span
-            :class="{ okCard: okCard == item }"
+            :class="{ okCard: okCard === item }"
             class="cardList"
             @click="changeMember(index)"
-            >旅客{{ item }}</span
           >
+            旅客{{ item }}
+          </span>
         </span>
       </div>
       <personal-info-card
@@ -940,19 +930,6 @@ export default {
     }
   },
   computed: {
-    seatType(x, y) {
-      return (x, y) => {
-        let noOne = false
-        let exist = false
-        let parties = true
-
-        return {
-          noOne: true,
-          exist,
-          parties,
-        }
-      }
-    },
     wbArea(x) {
       return x => {
         let a = [
@@ -989,7 +966,7 @@ export default {
   },
   methods: {
     // 判断位置有没有乘客，添加对应的座位图标className
-    addClass(x, y) {
+    addHCClass(x, y) {
       x = (x + '').length === 1 ? '0' + x : x
       return this.seats.map(value => {
         if (y === 'F' || y === 'E') {
@@ -1008,6 +985,18 @@ export default {
           } else {
             return 'noOne'
           }
+        }
+      })
+    },
+    addFJClass(x, y) {
+      x = (x + '').length === 1 ? '0' + x : x
+      return this.seats.map(value => {
+        if (x + y === this.userData.seatNumber) {
+          return 'parties'
+        } else if (value === x + y) {
+          return 'exist'
+        } else {
+          return 'noOne'
         }
       })
     },
@@ -1093,7 +1082,7 @@ export default {
     // 显示旅馆房间人员信息 x,y为房间坐标
     showLgInfo(x, y) {
       y = (y + '').length === 1 ? '0' + y : y
-      this.hotelRooms.map((value, index) => {
+      this.hotelRooms.map(value => {
         if (value + '' === '' + x + y) {
           const roomData = this.hotelMember[value]
           let arr = []
@@ -1235,13 +1224,15 @@ export default {
             arr1 = [...new Set(arr1)]
             arr1.sort((value1, value2) => value1 - value2)
             let userData = {}
-            arr1.forEach((value, index) => {
+            arr1.forEach(value => {
               userData[value] = []
             })
             for (const key in userData) {
-              for (let index = 0; index < result.length; index++) {
-                if (result[index].roomNo - 0 === key - 0) {
-                  userData[key].push(result[index])
+              if (userData.hasOwnProperty(key)) {
+                for (let index = 0; index < result.length; index++) {
+                  if (result[index].roomNo - 0 === key - 0) {
+                    userData[key].push(result[index])
+                  }
                 }
               }
             }
@@ -1256,9 +1247,9 @@ export default {
       }
     })
   },
-  beforeDestroy() {
-    Cookies.remove('shikong_data')
-  },
+  // beforeDestroy() {
+  //   Cookies.remove('shikong_data')
+  // },
 }
 </script>
 
@@ -1432,7 +1423,7 @@ export default {
 
 .cardList {
   display: inline-block;
-  margin: 0px 10px 10px 0;
+  margin: 0 10px 10px 0;
   padding: 5px 10px;
   background-color: rgba(44, 239, 255, 0.2);
   color: #ffffff;

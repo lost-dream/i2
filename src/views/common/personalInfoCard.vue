@@ -85,7 +85,7 @@ export default {
       type: String,
     },
     sex: {
-      // 0 nv 1 nan
+      // 0 女 1 男
       default: '',
       required: false,
       type: [String, Number],
