@@ -8,7 +8,7 @@
         <p><label class="key-info">证件号码</label>{{ basicInfo.idNumber }}</p>
         <p><label class="key-info">姓名</label>{{ basicInfo.name }}</p>
         <p><label class="key-info">民族</label>{{ basicInfo.nation }}</p>
-        <p><label class="key-info">性别</label>{{ basicInfo.sex }}</p>
+        <p><label class="key-info">性别</label>{{ basicInfo.sex | num2age }}</p>
         <p><label class="key-info">出生日期</label>{{ basicInfo.birthday }}</p>
         <p><label class="key-info">联系电话</label>{{ basicInfo.cellphone }}</p>
         <p>

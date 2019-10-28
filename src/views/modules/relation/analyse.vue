@@ -25,7 +25,7 @@
                 href="javascript:void(0);"
                 id="btnDataFillter"
                 class="tool-btn"
-                @click="fillterVisible = !fillterVisible"
+                @click="dataFillerHanlde"
                 >数据筛选</a
               >
             </li>
@@ -116,7 +116,7 @@
           <a
             href="javascript:void(0);"
             class="menu_item btn btn-blue"
-            @click="fillterVisible = !fillterVisible"
+            @click="deleteItem"
             >删除节点</a
           >
         </li>
@@ -174,7 +174,31 @@
       title="数据筛选"
       :show.sync="fillterVisible"
       @beforeCloseDialog="fillterVisible = false"
-    ></fly-dialog>
+    >
+      <div id="sjsxForm">
+        <el-form ref="SJSXform" :model="SJSXform" label-width="100px">
+          <el-form-item
+            v-for="(item, index) of dataFillterTypeList"
+            :label="item.label"
+            :key="index"
+          >
+            <el-switch
+              v-model="SJSXform[item.type.slice(0, -2)].switch"
+              @change="switchChange(item)"
+            ></el-switch>
+            <el-slider
+              :max="10"
+              @change="handleChange(item.type.slice(0, -2))"
+              v-model="SJSXform[item.type.slice(0, -2)].slider"
+              class="myslider"
+            ></el-slider>
+            <span class="num">{{
+              SJSXform[item.type.slice(0, -2)].slider
+            }}</span>
+          </el-form-item>
+        </el-form>
+      </div>
+    </fly-dialog>
     <fly-dialog
       id="tjsx-dialog"
       width="400px"
@@ -255,12 +279,57 @@ export default {
       relationTypeList: [],
       xxNodecache: [], // 隐藏或者显示次要节点
       xxEdgecache: [],
+      rmNodecache: [], // 开关缓存
+      rmEdgecache: [],
       relationNodesTempArray: [],
       dataForm: {
         kws: '',
         relationType: '',
       },
       nodeType: null,
+      SJSXform: {
+        SamePlane: {
+          switch: true,
+          slider: 0,
+        },
+        SameTrain: {
+          switch: true,
+          slider: 0,
+        },
+        SameHotel: {
+          switch: true,
+          slider: 0,
+        },
+        SameRoom: {
+          switch: true,
+          slider: 0,
+        },
+        SameCoach: {
+          switch: true,
+          slider: 0,
+        },
+        SameInternetCafe: {
+          switch: true,
+          slider: 0,
+        },
+        SameHousehold: {
+          switch: true,
+          slider: 0,
+        },
+        SameCase: {
+          switch: true,
+          slider: 0,
+        },
+        SamePrisonRoom: {
+          switch: true,
+          slider: 0,
+        },
+        HaveDrivingLicense: {
+          switch: true,
+          slider: 0,
+        },
+      },
+      dataFillterTypeList: [],
       TJSXForm: {
         IDNum: null, // 身份证号
         userName: null, // 姓名
@@ -317,14 +386,25 @@ export default {
         }
         for (let j in resEdges) {
           if (edgIds.indexOf(resEdges[j].id) === -1) {
-            if (ndsIds.indexOf(resEdges[j].to) === -1) {
+            if (
+              ndsIds.indexOf(resEdges[j].to) === -1 &&
+              ndsIds.indexOf(resEdges[j].from) === -1
+            ) {
               addEdgeArr.push(resEdges[j])
             } else {
-              resEdges[j].to = resEdges[j].to + '1'
-              addEdgeArr.push(resEdges[j])
+              if (ndsIds.indexOf(resEdges[j].to) !== -1) {
+                resEdges[j].to = resEdges[j].to + '1'
+                addEdgeArr.push(resEdges[j])
+              } else {
+                resEdges[j].from = resEdges[j].from + '1'
+                addEdgeArr.push(resEdges[j])
+              }
             }
             while (ndsIds.indexOf(resEdges[j].to) !== -1) {
               resEdges[j].to = resEdges[j].to + '1'
+            }
+            while (ndsIds.indexOf(resEdges[j].from) !== -1) {
+              resEdges[j].from = resEdges[j].from + '1'
             }
           } else {
             while (edgIds.indexOf(resEdges[j].id) !== -1) {
@@ -334,6 +414,9 @@ export default {
             }
             while (ndsIds.indexOf(resEdges[j].to) !== -1) {
               resEdges[j].to = resEdges[j].to + '1'
+            }
+            while (ndsIds.indexOf(resEdges[j].from) !== -1) {
+              resEdges[j].from = resEdges[j].from + '1'
             }
             addEdgeArr.push(resEdges[j])
           }
@@ -483,6 +566,7 @@ export default {
       )
       this.bindNetwork()
     },
+    // 重置画布
     resetNetwork() {
       var ns = []
       var gs = []
@@ -618,6 +702,121 @@ export default {
         }
       })
     },
+    // 数据筛选
+    dataFillerHanlde() {
+      this.fillterVisible = !this.fillterVisible
+      let canvasNode = this.getAllNodes()
+      let typeNode = canvasNode.filter(item => {
+        if (item.nodeType.substring(item.nodeType.length - 2) === 'RN')
+          return item
+      })
+      let tpNode = typeNode.map(item => {
+        return item.nodeType
+      })
+      for (let i in tpNode) {
+        if (!this.disRepeat(this.dataFillterTypeList, tpNode[i])) {
+          this.dataFillterTypeList.push({
+            type: tpNode[i],
+            label: this.initLabel(tpNode[i]),
+          })
+        }
+      }
+      console.log(this.dataFillterTypeList)
+    },
+
+    // 开关隐藏节点
+    switchChange(item) {
+      if (!this.SJSXform[item.type.slice(0, -2)].switch) {
+        // 隐藏该类型的节点
+        this.hiddenNode(item.type)
+      } else {
+        this.addNode(this.rmNodecache)
+        this.rmNodecache = []
+      }
+    },
+    hiddenNode(type) {
+      let ns = this.getAllNodes()
+      let tpnds = ns.filter(item => {
+        if (item.nodeType == type) {
+          return item
+        }
+      })
+      let rmNode = []
+      for (let i in tpnds) {
+        let cids = this.findChildsBytpId(tpnds[i].id)
+        rmNode.push(tpnds[i].id)
+        for (let j in cids) {
+          rmNode.push(cids[j])
+        }
+      }
+      for (let i in rmNode) {
+        this.rmNodecache.push(this.nodes.get(rmNode[i]))
+        this.nodes.remove(rmNode[i])
+      }
+    },
+    findChildsBytpId(id) {
+      let edges = this.getAllEdges()
+      let ids = []
+      for (let i in edges) {
+        if (edges[i].to === id) {
+          ids.push(edges[i].from)
+        }
+      }
+      return ids
+    },
+    disRepeat(arr, a) {
+      let b = false
+      arr.map(item => {
+        if (item.type === a) {
+          b = true
+        }
+      })
+      return b
+    },
+    initLabel(type) {
+      type = type.slice(0, -2)
+      let label = ''
+      switch (type) {
+        case 'SameHotel':
+          label = '同旅馆'
+          break
+        case 'SameRoom':
+          label = '同房间'
+          break
+        case 'SamePlane':
+          label = '同飞机'
+          break
+        case 'SameTrain':
+          label = '同火车'
+          break
+        case 'SameCoach':
+          label = '同汽车'
+          break
+        case 'SameInternetCafe':
+          label = '同网吧'
+          break
+        case 'SameHousehold':
+          label = '同户'
+          break
+        case 'SameCase':
+          label = '同案'
+          break
+        case 'SamePrisonRoom':
+          label = '同监室'
+          break
+        case 'HaveCar':
+          label = '拥有车'
+          break
+        case 'HaveDrivingLicense':
+          label = '驾照'
+          break
+      }
+      return label
+    },
+    // 数据筛选-- 开关
+    handleChange: val => {
+      console.log(val)
+    },
     convertArray(data) {
       console.log(data)
       let ns = data.nodes.filter(item => {
@@ -729,7 +928,6 @@ export default {
         return false
       }
       var results = this.getRelationPaths(selectNodes)
-      console.log(results)
       if (results.length === 0) {
         this.$message({
           message: '没有找到相连路径!',
@@ -787,6 +985,7 @@ export default {
       this.xxEdgecache = []
     },
     addNode(node) {
+      console.log(node)
       var data = {
         add: [],
         update: [],
@@ -1273,7 +1472,7 @@ export default {
 #tjsx-dialog
   .container
     padding 10px
-    background rgba(44,239,255,0.3)
+    background rgba(44, 239, 255, 0.3)
     header
       color #fff
   >>>.el-form-item
@@ -1281,4 +1480,18 @@ export default {
     padding 10px 0
   .submit-btn
     text-align center
+#sjsxForm
+  >>>.el-form-item
+    margin-bottom 0px
+  .num
+    color #fff
+.myslider
+  width 110px
+  display inline-flex
+  margin-left 34px
+  align-items center
+  height 20px
+  line-height 20px
+  vertical-align middle
+  margin-right 10px
 </style>
