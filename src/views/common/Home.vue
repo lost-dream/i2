@@ -114,6 +114,7 @@ export default {
     return {}
   },
   mounted() {
+    console.log('测试删除console的插件是否生效')
     this.initPage()
     let _this = this
     _this.timer = setInterval(() => {
