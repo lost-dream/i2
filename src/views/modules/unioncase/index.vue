@@ -504,11 +504,24 @@ export default {
   computed: {},
   created() {},
   mounted() {
-    console.log(this.$route.query)
     this.isInfo = this.$route.params.flag
     this.mapDraw()
+    this.$route.query.kw1 !== undefined && this.routeData()
   },
   methods: {
+    // 接收合并数据
+    routeData() {
+      let obj = {
+        caseNum: this.$route.query.kw1,
+      }
+      this.inputList[0] = obj
+      obj = {
+        caseNum: this.$route.query.kw2,
+      }
+      this.inputList.push(obj)
+      console.log(this.inputList)
+      this.show = true
+    },
     del(row) {
       let _this = this
       console.log(666633333)
@@ -654,6 +667,7 @@ export default {
             esriConfig.defaults.io.alwaysUseProxy = false
             var infoWindow = new InfoWindow({}, domConstruct.create('div'))
             infoWindow.startup()
+
             _this.map = new Map('map', {
               basemap: 'delorme',
               // basemap: 'streets',
@@ -682,6 +696,11 @@ export default {
               // var id = 0
               // 声明一个类型和图形
               var point
+              // _this.point = new Point(
+              //   _this.px,
+              //   _this.py,
+              //   new SpatialReference({ wkid: 4326 }),
+              // )
               // var circle
               var graphic
               // on(dom.byId('casePlace'), 'click', function() {
@@ -704,9 +723,16 @@ export default {
                 })
                 _this.$api.queryTCase(obj).then(({ data }) => {
                   _this.caseData = data.data.data
+                  console.log(22222222222)
+                  console.log(_this.caseData)
+                  if (_this.caseData.length < 1) {
+                    _this.$message({
+                      message: '未查询到坐标信息！',
+                      type: 'warning',
+                    })
+                  }
                   console.log(data)
                   console.log(data.data.data)
-                  console.log(_this.caseData)
                   _this.show = false
                   console.log(3333)
                   _this.caseData.forEach(item => {
@@ -1293,9 +1319,6 @@ export default {
 
     // 点击行
     rowClick(row, column, event) {
-      console.log(11111)
-      console.log(row)
-      console.log(this.taskInfo.conditions)
       if (this.addCriteria) {
         let obj = {
           graphicId: row.id,
@@ -1349,13 +1372,14 @@ export default {
       this.inputList.forEach(item => {
         obj.push(item.caseNum)
       })
-      console.log(22222)
-      console.log(obj)
       this.$api.queryTCase(obj).then(({ data }) => {
         _this.caseData = data.data.data
-        console.log(data)
-        console.log(data.data.data)
-        console.log(_this.caseData)
+        if (_this.caseData.length > 0) {
+          this.$message({
+            message: '未查询到坐标信息！',
+            type: 'warning',
+          })
+        }
         this.show = false
       })
     },
