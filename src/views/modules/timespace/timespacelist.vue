@@ -315,14 +315,15 @@ export default {
     }
   },
   mounted() {
-    this.$route.query.form !== undefined && this.receiveRouter()
+    this.receiveRouter()
     document.addEventListener('click', this.handleDocumentClick)
-
     this.getList()
   },
   methods: {
     receiveRouter() {
-      this.form = JSON.parse(JSON.stringify(this.$route.query.form))
+      this.form.idNumber = this.$route.query.idNumber
+      this.form.startDate = this.$route.query.startDate
+      this.form.endDate = this.$route.query.endDate
     },
     filterList(type) {
       this.page = 1

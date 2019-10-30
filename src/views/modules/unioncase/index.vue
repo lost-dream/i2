@@ -653,15 +653,17 @@ export default {
               //   // drawEndEvent()
               // })
               on(dom.byId('casePlace'), 'click', function() {
-                _this.search()
-                _this.caseData.forEach(item => {
-                  addPoint(
-                    item.longitude,
-                    item.latitude,
-                    '案发地点',
-                    item.caseNo,
-                  )
-                })
+                if (_this.search()) {
+                  console.log(3333)
+                  _this.caseData.forEach(item => {
+                    addPoint(
+                      item.longitude,
+                      item.latitude,
+                      '案发地点',
+                      item.caseNo,
+                    )
+                  })
+                }
               })
 
               on(dom.byId('affirmLabel'), 'click', function() {
@@ -985,8 +987,7 @@ export default {
         console.log(data.data.data)
         console.log(_this.caseData)
         this.show = false
-        console.log(2222)
-        console.log(_this.mapTableData)
+        return true
       })
     },
 

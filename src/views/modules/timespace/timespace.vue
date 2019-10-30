@@ -82,7 +82,7 @@ export default {
     gotoList() {
       this.$router.push({
         name: 'timespacelist',
-        query: { form: this.form },
+        query: { ...this.form },
       })
     },
   },
