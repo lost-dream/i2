@@ -275,7 +275,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl id="btnBatchAddNode" class="tab-li">
+                  <dl id="btnUnionCase" class="tab-li" @click="unionCaseHandle">
                     <dt class="operate-icon operate-addBatch QB"></dt>
                     <dd class="operate-desc">案件串并</dd>
                   </dl>
@@ -454,8 +454,8 @@
           <li>
             <a href="#">操作</a>
             <dl class="subMenu">
-              <dd><a href="#">档案</a></dd>
-              <dd><a href="#">轨迹</a></dd>
+              <dd><a href="#" @click="archivesHandle">档案</a></dd>
+              <dd><a href="#" @click="trackballHandle">轨迹</a></dd>
             </dl>
           </li>
           <li>
@@ -940,7 +940,10 @@ export default {
     },
     // 档案
     archivesHandle() {
-      let selectNodes = this.global.network.getSelectedNodes()
+      let selectNodes =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       if (!selectNodes || selectNodes.length < 1) {
         this.$message({
           message: '请选中节点后再执行此操作',
@@ -955,10 +958,14 @@ export default {
         query: { keyword: node.keyword },
       })
       window.open(routeData.href, '_blank')
+      this.removeMenu()
     },
     // 轨迹
     trackballHandle() {
-      let selectNodes = this.global.network.getSelectedNodes()
+      let selectNodes =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       if (!selectNodes || selectNodes.length < 1) {
         this.$message({
           message: '请选中节点后再执行此操作',
@@ -968,15 +975,37 @@ export default {
         return false
       }
       let node = this.global.nodes.get(selectNodes[0])
-      this.$router.push({
+      let routeData = this.$router.resolve({
         name: 'timespacelist',
-        params: {
-          form: {
-            idNumber: node.keyword,
-          },
+        query: {
+          idNumber: node.keyword,
         },
       })
-      // window.open(routeData.href, '_blank')
+      window.open(routeData.href, '_blank')
+      this.removeMenu()
+    },
+    // 联案分析
+    unionCaseHandle() {
+      let arr = this.global.network.getSelectedNodes()
+      if (arr.length !== 2) {
+        this.$message({
+          message: '请选择两个节点！',
+          type: 'error',
+          duration: 1500,
+        })
+        return
+      }
+      let kws = arr.map(item => {
+        return this.global.nodes.get(item).keyword
+      })
+      let routeData = this.$router.resolve({
+        name: 'unioncase',
+        query: {
+          kw1: kws[0],
+          kw2: kws[1],
+        },
+      })
+      window.open(routeData.href, '_blank')
     },
     // 分析--- 碰撞对比
     pzAnalysisHandle() {

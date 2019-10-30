@@ -417,6 +417,7 @@ export default {
     },
     queryData(data) {
       this.$api.aggregationAnalyse(data).then(({ data }) => {
+        console.log(data)
         if (data && data.code === 200) {
           if (data.result.edges.length === 0) {
             this.$message({
