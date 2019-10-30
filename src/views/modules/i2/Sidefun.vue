@@ -1,11 +1,11 @@
 <template>
   <div class="mod-sidefun">
-    <el-tabs type="card" v-model="activeName">
+    <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="基本信息" name="0">
         <basic-info :basicInfo="detail"></basic-info>
       </el-tab-pane>
       <el-tab-pane label="统计信息" name="1">
-        <count-info></count-info>
+        <count-info ref="countref"></count-info>
       </el-tab-pane>
       <el-tab-pane :label="dynamicTab" name="2">
         <component
@@ -46,7 +46,7 @@ export default {
   },
   computed: {},
   methods: {
-    init(name, lable, component) {
+    init(name, lable, component, nodeId) {
       this.activeName = name
       this.dynamicTab = lable
       this.currentTabComponent = component || ''
@@ -54,6 +54,19 @@ export default {
         this.currentRef = 'centralityRef'
         this.$nextTick(() => {
           this.$refs.centralityRef.init()
+        })
+      }
+      if (component === 'DynamicTabDX') {
+        this.currentRef = 'DynamicTabDXref'
+        this.$nextTick(() => {
+          this.$refs.DynamicTabDXref.init(nodeId)
+        })
+      }
+    },
+    handleClick(tab, event) {
+      if (tab.name == '1') {
+        this.$nextTick(() => {
+          this.$refs.countref.init()
         })
       }
     },

@@ -6,7 +6,7 @@
       </div>
       <div class="nav">
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-          <el-tab-pane
+          <el-tab-pane name="allNetPhoneSearch"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/allNetwork/allNetPhoneSearch"
@@ -14,7 +14,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="IMEISearch"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/allNetwork/IMEISearch"
@@ -33,7 +33,9 @@
 
 <script>
 export default {
-  mounted() {},
+  mounted() {
+    this.activeName = this.$route.name
+  },
   data() {
     return {
       activeName: 'first',
@@ -82,6 +84,8 @@ export default {
   margin 0 auto
   padding 20px
   background-color rgba(44, 239, 255, 0.1)
+  .is-active a
+    color #b7730e
 .bg
   background-color rgba(44, 239, 255, 0.1)
   padding 40px

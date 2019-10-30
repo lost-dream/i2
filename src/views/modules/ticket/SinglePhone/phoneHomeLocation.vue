@@ -21,7 +21,7 @@
       <el-table
         :data="mapData"
         style="width: 100%"
-        height="250"
+        height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"
       >
         <el-table-column
@@ -45,22 +45,43 @@
         </el-table-column>
       </el-table>
     </div>
-    <flyDialog :show.sync="show" :width="width" :modal="modal">
+    <div class="clickCoat" v-show="show">
+      <div class="clickTable">
+        <el-table
+          :data="clickTable"
+          style="width: 100%"
+          :default-sort="{ prop: 'value', order: 'descending' }"
+        >
+          <el-table-column prop="name" label="城市" align="center">
+          </el-table-column>
+          <el-table-column prop="value" label="通话次数" align="center">
+          </el-table-column>
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button
+                @click="handleClick(scope.row)"
+                type="text"
+                size="small"
+                >详情</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+
+    <!--
+    <flyDialog :show.sync="show" :width="width" :modal="modal" :flag="true">
       <el-table
         :data="clickTable"
         style="width: 100%"
         :default-sort="{ prop: 'value', order: 'descending' }"
       >
-        <el-table-column prop="name" label="城市" width="50" align="center">
+        <el-table-column prop="name" label="城市" align="center">
         </el-table-column>
-        <el-table-column
-          prop="value"
-          label="通话次数"
-          width="80"
-          align="center"
-        >
+        <el-table-column prop="value" label="通话次数" align="center">
         </el-table-column>
-        <el-table-column label="操作" width="50" align="center">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"
               >详情</el-button
@@ -68,10 +89,10 @@
           </template>
         </el-table-column>
       </el-table>
-    </flyDialog>
+    </flyDialog>-->
     <div id="myMap" ref="myMap" style="width: 1100px; height: 600px;"></div>
     <div id="order">
-      <flyDialog :show.sync="show1" :width="width1">
+      <flyDialog :show.sync="show1" :width="width1" :flag="true">
         <el-table :data="detailTable" border style="width: 100%">
           <el-table-column
             label="序号"
@@ -85,42 +106,35 @@
             prop="otherPartyPhone"
             label="对方号码"
             align="center"
-            width="100"
           >
           </el-table-column>
           <el-table-column
             prop="communicationMode"
             label="呼叫类型"
             align="center"
-            width="100"
           >
           </el-table-column>
-          <el-table-column
-            prop="beginTime"
-            label="通话时间"
-            align="center"
-            width="100"
-          >
+          <el-table-column prop="beginTime" label="通话时间" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.beginTime | formatDate }}</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="communicationTime"
             label="通话时长"
             align="center"
-            width="100"
           >
           </el-table-column>
           <el-table-column
             prop="baseStationCode"
             label="基站信息"
             align="center"
-            width="100"
           >
           </el-table-column>
           <el-table-column
             prop="baseStationLocation"
             label="基站地址"
             align="center"
-            width="100"
           >
           </el-table-column>
         </el-table>
@@ -138,6 +152,12 @@ require('echarts/map/js/china.js')
 export default {
   components: {
     flyDialog,
+  },
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss ')
+    },
   },
   data() {
     return {
@@ -176,7 +196,7 @@ export default {
         time: '',
       },
       show: false,
-      width: '300px',
+      width: '320px',
       show1: false,
       width1: '1100px',
       modal: false,
@@ -255,7 +275,6 @@ export default {
       clickTable: [],
       detailTable: [
         {
-          index: '',
           otherPartyPhone: '13111111111',
           communicationMode: '被叫',
           beginTime: '2016-07-23 00:01:02',
@@ -294,7 +313,10 @@ export default {
       let arr = this.mapData
       for (let i = 0; i <= arr.length - 1; i++) {
         for (let j = 0; j <= data.length - 1; j++) {
-          arr[i].name === data[j].provinces && (arr[i].value = data[j].count)
+          if (arr[i].name === data[j].provinces) {
+            arr[i].value = data[j].count
+            arr[i].info = data[j].info
+          }
         }
       }
     },
@@ -309,12 +331,14 @@ export default {
           value1.push({
             provinces: location,
             count: 1,
+            info: [ai],
           })
           data1[location] = ai
         } else {
           for (let j = 0; j < value1.length; j++) {
             let dj = value1[j]
             if (dj.provinces === location) {
+              dj.info.push(ai)
               dj.count++
               break
             }
@@ -411,7 +435,7 @@ export default {
         visualMap: {
           type: 'continuous',
           min: 0,
-          max: 500,
+          max: 200,
           left: 'left',
           top: 'bottom',
           text: ['高', '低'],
@@ -437,6 +461,7 @@ export default {
       }
       myChart.setOption(option)
       myChart.on('click', function(param) {
+        console.log(param)
         _this.clickTable = []
         _this.clickTable.push(param.data)
         _this.show = true
@@ -446,7 +471,10 @@ export default {
       })
     },
     handleClick(row) {
+      console.log(7777777)
       console.log(row)
+      this.detailTable = row.info
+      this.show = false
       this.show1 = true
     },
   },
@@ -465,6 +493,18 @@ export default {
     width 100%
     height 500px
     margin 0 auto
+  .clickCoat
+    position: absolute;
+    left: 101%;
+    top: 55%;
+    width: 300px;
+    padding 10px
+    background-color: rgba(44,239,255,0.1)
+  .clickTable
+    border solid 1px #ffffff
+    padding 10px
+  >>> .el-table td
+    border none
 .tableMap
   position absolute
   left 60px

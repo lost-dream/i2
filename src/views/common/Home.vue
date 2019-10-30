@@ -20,31 +20,40 @@
     </div>
     <div id="content">
       <ul class="content">
-        <li @click="$router.push({ name: 'i2' })">
+        <li
+          v-for="(item, index) in menuListData"
+          :key="index"
+          @click="goTo(item.id, item.url)"
+        >
+          <img src="../../assets/img/i2.png" alt />
+          <img src="../../assets/img/itemBg.png" alt />
+          <p>{{ item.name }}</p>
+        </li>
+        <!--<li @click="goTo('i2')">
           <img src="../../assets/img/i2.png" alt />
           <img src="../../assets/img/itemBg.png" alt />
           <p>i2</p>
         </li>
-        <li @click="$router.push({ name: 'ticket' })">
+        <li @click="goTo('ticket')">
           <img src="../../assets/img/phone.png" alt />
           <img src="../../assets/img/itemBg.png" alt />
           <p>话单分析</p>
         </li>
-        <li @click="$router.push({ name: 'relation' })">
+        <li @click="goTo('relation')">
           <img src="../../assets/img/relation.png" alt />
           <img src="../../assets/img/itemBg.png" alt />
           <p>关系分析</p>
         </li>
-        <li @click="$router.push({ name: 'timespaceindex' })">
+        <li @click="goTo('timespaceindex')">
           <img src="../../assets/img/timeSky.png" alt />
           <img src="../../assets/img/itemBg.png" alt />
           <p>时空分析</p>
         </li>
-        <li @click="$router.push({ name: 'unioncase' })">
+        <li @click="goTo('unioncase')">
           <img src="../../assets/img/sanjiao.png" alt />
           <img src="../../assets/img/itemBg.png" alt />
           <p>联案分析</p>
-        </li>
+        </li>-->
       </ul>
     </div>
     <div id="module">
@@ -54,7 +63,12 @@
         </div>
         <div>
           <ul class="content">
-            <li>
+            <li v-for="(item, index) in latelyData" :key="index">
+              <img src="../../assets/img/i2.png" alt />
+              <img src="../../assets/img/itemBg.png" alt />
+              <p>{{ item.pname }}</p>
+            </li>
+            <!--<li>
               <img src="../../assets/img/i2.png" alt />
               <img src="../../assets/img/itemBg.png" alt />
               <p>i2</p>
@@ -73,7 +87,7 @@
               <img src="../../assets/img/timeSky.png" alt />
               <img src="../../assets/img/itemBg.png" alt />
               <p>时空分析</p>
-            </li>
+            </li>-->
           </ul>
         </div>
       </div>
@@ -86,17 +100,17 @@
             <li>
               <img src="../../assets/img/person.png" alt />
               <p>在线用户数</p>
-              <p>67人</p>
+              <p>{{ statistics.count }}人</p>
             </li>
             <li>
               <img src="../../assets/img/fangwen.png" alt />
               <p>今日访问量</p>
-              <p>178次</p>
+              <p>{{ statistics.countFw }}次</p>
             </li>
             <li>
               <img src="../../assets/img/date.png" alt />
               <p>历史访问量</p>
-              <p>1.1万次</p>
+              <p>{{ statistics.countZw }}万次</p>
             </li>
           </ul>
         </div>
@@ -108,19 +122,108 @@
 
 <script>
 import Cookies from 'js-cookie'
+import { getMenu } from '@/api/system'
 
 export default {
   data() {
-    return {}
+    return {
+      menuListData: [],
+      latelyData: [],
+      statistics: {
+        count: 0,
+        countFw: 0,
+        countZw: 0,
+      },
+    }
   },
   mounted() {
+    console.log('测试删除console的插件是否生效')
     this.initPage()
     let _this = this
     _this.timer = setInterval(() => {
       _this.date = new Date().toLocaleString()
     })
+
+    this.menuList()
+    this.statisticsQuery()
+    this.statisticsLogs()
   },
   methods: {
+    // 获取菜单
+    menuList() {
+      let _this = this
+      getMenu({
+        module: 1,
+        parentId: 0,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          _this.menuListData = data.data[0].list.splice(0, 5)
+          console.log(_this.menuListData)
+        }
+      })
+    },
+    // 跳转
+    goTo(id, url) {
+      let _this = this
+      let obj = {
+        userId: Cookies.get('userId'),
+        accessToken: Cookies.get('ac_token'),
+        id: id,
+      }
+      this.$api.statistics(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          // _this.$router.push({ name: url })
+        } else {
+          _this.$message({
+            message: '获取数据失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 最近使用
+    statisticsQuery() {
+      let _this = this
+      let obj = {
+        userId: Cookies.get('userId'),
+        accessToken: Cookies.get('ac_token'),
+      }
+      this.$api.statisticsQuery(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.latelyData = data.data
+        } else {
+          _this.$message({
+            message: '获取数据失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    // 在线人数
+    statisticsLogs() {
+      let _this = this
+      let obj = {
+        accessToken: Cookies.get('ac_token'),
+      }
+      this.$api.statisticsLogs(obj).then(({ data }) => {
+        if (data.msg === '成功') {
+          console.log(data)
+          _this.statistics.count = data.data.count
+          _this.statistics.countFw = data.data.countFw
+          _this.statistics.countZw = (data.data.countZw / 10000).toFixed(2)
+        } else {
+          _this.$message({
+            message: '获取数据失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
     logout() {
       Cookies.remove('ac_token')
       Cookies.remove('user_info')

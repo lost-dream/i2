@@ -232,11 +232,11 @@ export default {
      * converseTime 要判断的时间 stime 开始时间 etime 结束时间
      */
     compareTime2(changeTime, stime, etime) {
-      changeTime = formatDate(new Date(changeTime), 'h')
-      stime = formatDate(new Date(stime), 'h')
-      etime = formatDate(new Date(etime), 'h')
+      changeTime = formatDate(new Date(changeTime), 'hh')
+      stime = formatDate(new Date(stime), 'hh')
+      etime = formatDate(new Date(etime), 'hh')
       // 如果当前时间处于时间段内，返回true，否则返回false
-      if (changeTime <= stime || changeTime >= etime) {
+      if (changeTime < stime || changeTime > etime) {
         return false
       }
       return true

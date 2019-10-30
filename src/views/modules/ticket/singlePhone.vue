@@ -36,7 +36,7 @@
       </div>
       <div class="nav">
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-          <el-tab-pane
+          <el-tab-pane name="soonLate"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/soonLate"
@@ -45,7 +45,7 @@
               <!--<router-link :to="{name:'soonLate',query:{modeInfo: JSON.stringify(item)}}">最早最晚分析</router-link>-->
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="periodAll"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/periodAll"
@@ -53,7 +53,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="continuePeriod"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/continuePeriod"
@@ -61,7 +61,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="differentPeriod"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/differentPeriod"
@@ -69,7 +69,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="callAnalyse"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/callAnalyse"
@@ -77,7 +77,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="callDetailAnalyse"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/callDetailAnalyse"
@@ -85,7 +85,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="phoneHomeLocation"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/phoneHomeLocation"
@@ -93,7 +93,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="phoneTravel"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/phoneTravel"
@@ -101,7 +101,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="mobileAnalyse"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/mobileAnalyse"
@@ -109,7 +109,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="weekPhone"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/singlePhone/weekPhone"
@@ -131,7 +131,7 @@ export default {
   inject: ['reload'],
   data() {
     return {
-      activeName: 'first',
+      activeName: 'soonLate',
       cases: [
         // {
         //   value: '双十一',
@@ -159,6 +159,7 @@ export default {
     }
   },
   mounted() {
+    this.activeName = this.$route.name
     this.ticketOneName()
     JSON.parse(localStorage.getItem('phoneArr')) !== null &&
       (this.phoneList = JSON.parse(localStorage.getItem('phoneArr')))
@@ -250,7 +251,7 @@ export default {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
           localStorage.setItem('phoneInfo', JSON.stringify(data.result.list))
           localStorage.setItem('phone', JSON.stringify(data.result.phone))
-          this.reload()
+          _this.reload()
         } else {
           this.$message({
             message: '获取话单失败!',
@@ -268,6 +269,8 @@ export default {
   margin 0 auto
   padding 20px
   background-color rgba(44, 239, 255, 0.1)
+  .is-active a
+    color #b7730e
 .bg
   background-color rgba(44, 239, 255, 0.1)
   padding 40px

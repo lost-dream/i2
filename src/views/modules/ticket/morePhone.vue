@@ -38,7 +38,7 @@
       </div>
       <div class="nav">
         <el-tabs v-model="activeName" type="card">
-          <el-tab-pane
+          <el-tab-pane name="sameTime"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/morePhone/sameTime"
@@ -46,7 +46,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="assignTime"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/morePhone/assignTime"
@@ -54,7 +54,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="morePhoneTrail"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/morePhone/morePhoneTrail"
@@ -62,7 +62,7 @@
               >
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="commonPhone"
             ><span slot="label"
               ><i class="el-icon-view"></i>
               <router-link to="/ticket/morePhone/commonPhone"
@@ -81,9 +81,10 @@
 
 <script>
 export default {
+  inject: ['reload'],
   data() {
     return {
-      activeName: 'first',
+      activeName: '',
       cases: [
         /* {
           value: '双十一',
@@ -119,6 +120,7 @@ export default {
     }
   },
   mounted() {
+    this.activeName = this.$route.name
     this.ticketOneName()
     JSON.parse(localStorage.getItem('morPphoneArr')) !== null &&
       (this.phoneList = JSON.parse(localStorage.getItem('morPphoneArr')))
@@ -193,6 +195,7 @@ export default {
 
     // 获取话单列表
     singlePhoneList() {
+      let _this = this
       let obj = this.select.id
       // let obj = {
       //   id: this.select.id,
@@ -204,6 +207,7 @@ export default {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
           localStorage.setItem('morePhone', JSON.stringify(data.result))
           localStorage.setItem('more', JSON.stringify(data.result.phone))
+          _this.reload()
         } else {
           this.$message({
             message: '获取话单失败!',
@@ -253,6 +257,8 @@ export default {
   margin 0 auto
   padding 20px
   background-color rgba(44, 239, 255, 0.1)
+  .is-active a
+    color #b7730e
 .bg
   background-color rgba(44, 239, 255, 0.1)
   padding 40px

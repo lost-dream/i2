@@ -44,12 +44,14 @@
       <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
       </el-table-column>
       <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
+        <template slot-scope="scope">
+          <span>{{ phoneTimes(scope.row) }}</span>
+        </template>
       </el-table-column>
       <el-table-column prop="location" align="center" label="号码属地">
       </el-table-column>
       <template v-for="(item, index) in tableHead">
         <el-table-column
-          :prop="item.propName"
           :label="item.label"
           :key="index"
           align="center"
@@ -143,6 +145,18 @@ export default {
     }
   },
 
+  computed: {
+    phoneTimes() {
+      return function(row) {
+        let a = 0
+        row.masterNum.forEach(item => {
+          item > 0 && a++
+        })
+        return a
+      }
+    },
+  },
+
   mounted() {
     // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
@@ -158,20 +172,22 @@ export default {
       // 内
       console.log(this.morePhone2)
       conData2.time != null && this.eachPhone(this.morePhone2)
+      console.log('morePhone2')
+      console.log(this.morePhone2)
       // 外
-      console.log(this.morePhone2)
       this.morePhone3 = this.eachPhone2(this.morePhone2)
-      console.log(this.morePhone3)
       this.morePhone2 = this.dataSort2(this.morePhone2)
-      this.morePhone3 = this.dataSort2(this.morePhone3)
-      console.log(this.morePhone3)
+      console.log('morePhone2')
       console.log(this.morePhone2)
-      console.log(conData2.event === '1')
+      console.log('morePhone3')
+      console.log(this.morePhone3)
+      this.morePhone3 = this.dataSort2(this.morePhone3)
+      console.log('morePhone3')
+      console.log(this.morePhone3)
       conData2.event === '1'
         ? (this.assign2 = this.dataSort3(this.morePhone3, this.morePhone2))
         : (this.assign2 = this.dataSort3(this.morePhone2, this.morePhone3))
       this.tableHead = this.isHead(this.morePhone2)
-      this.sameTime = this.morePhone2
       console.log(this.tableHead)
       console.log(this.morePhone2)
     },
@@ -186,18 +202,20 @@ export default {
     },
     eachPhone2(data) {
       let eachPhone = []
-      data.forEach(item => {
-        eachPhone = this.noSizer(item)
-      })
+      // data.forEach(item => {
+      eachPhone = this.noSizer(data)
+      // })
       return eachPhone
     },
 
     // 取不在时间段里的数据
     noSizer(data) {
       let eachPhone = []
-      let phoneInfo = {}
-      this.morePhone.forEach(item => {
-        phoneInfo.list = item.list.filter(e => data.list.indexOf(e) === -1)
+      this.morePhone.forEach((item, index) => {
+        let phoneInfo = {}
+        phoneInfo.list = item.list.filter(
+          e => data[index].list.indexOf(e) === -1,
+        )
         phoneInfo.phone = item.phone
         eachPhone.push(phoneInfo)
       })
@@ -226,22 +244,17 @@ export default {
       return value1
     }, */
     isHead(data) {
-      let data1 = {}
       let value1 = []
-      data1.propName = 'phoneNum'
-      data1.label = '电话号码'
-      data1.fixed = true
-      data1.width = '200'
-      let i = 0
-      data.forEach(item => {
-        item.masterList.length > i && (i = item.masterList.length)
-      })
+      console.log(data)
 
-      for (let j = 0; j < i - 1; j++) {
-        data1.label = data[i - 1].masterList[j]
+      data[0].masterList.forEach(item => {
+        let data1 = {}
+        data1.propName = 'phoneNum'
+        data1.fixed = true
+        data1.width = '200'
+        data1.label = item
         value1.push(data1)
-      }
-
+      })
       return value1
     },
 
@@ -277,13 +290,20 @@ export default {
           let location = ai.location
           let otherPartyPhone = ai.otherPartyPhone
           if (!data1[otherPartyPhone]) {
+            let masterList = []
+            let masterNum = []
+            data.forEach((item, index) => {
+              masterList[index] = item.phone
+              masterNum[index] = 0
+            })
+            masterNum[masterList.indexOf(phone)]++
             value1.push({
               otherPartyPhone: otherPartyPhone,
-              phoneTimes: 1,
+              phoneTimes: 0,
               location: location,
-              masterList: [phone],
+              masterList: masterList,
               phoneNum: [otherPartyPhone],
-              masterNum: [1],
+              masterNum: masterNum,
               masterPhone: phone,
             })
             data1[otherPartyPhone] = ai
@@ -291,19 +311,14 @@ export default {
             for (let j = 0; j < value1.length; j++) {
               let dj = value1[j]
               if (dj.otherPartyPhone === otherPartyPhone) {
-                dj.phoneTimes++
-                if (dj.masterList.indexOf(phone) === -1) {
-                  dj.masterList.push(phone)
-                  dj.masterNum.push(1)
-                } else {
-                  dj.masterNum[dj.masterList.indexOf(phone)]++
-                }
                 dj.phoneNum.push(otherPartyPhone)
-                break
+                dj.masterNum[dj.masterList.indexOf(phone)]++
+                let a = 0
+                dj.masterNum.forEach(item => {
+                  item > 0 && a++
+                })
+                dj.phoneTimes = a
               }
-              console.log(4444)
-              console.log(value1)
-              console.log(111)
             }
           }
         })

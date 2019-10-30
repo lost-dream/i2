@@ -168,7 +168,10 @@ export function deleteRole(data) {
 export function queryRole(data) {
   return http({
     url: http.adornUrl(
-      'admin/queryRole?userId=' + data.userId + '&accessToken=' + data.accessToken,
+      'admin/queryRole?userId=' +
+        data.userId +
+        '&accessToken=' +
+        data.accessToken,
     ),
     method: 'post',
     // data: http.adornData(data, false, 'qs'),

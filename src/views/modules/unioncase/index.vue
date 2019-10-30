@@ -388,6 +388,7 @@ import { loadModules } from 'esri-loader'
 import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import flyDialog from '@/components/fly-dialog'
+import Cookies from 'js-cookie'
 
 export default {
   components: {
@@ -465,12 +466,12 @@ export default {
       graphicItemS: [],
       okTrack: [],
       taskInfo: {
-        caseNo: '',
-        createId: '',
-        createName: '',
+        createId: Cookies.get('userId'),
+        createName: Cookies.get('user_info').username,
         taskName: '',
         conditions: [
           {
+            caseNo: '',
             graphicId: null,
             pointLatitude: '',
             pointLongitude: '',
@@ -654,14 +655,19 @@ export default {
               on(dom.byId('casePlace'), 'click', function() {
                 _this.search()
                 _this.caseData.forEach(item => {
-                  addPoint(item.longitude, item.latitude, '案发地点')
+                  addPoint(
+                    item.longitude,
+                    item.latitude,
+                    '案发地点',
+                    item.caseNo,
+                  )
                 })
               })
 
               on(dom.byId('affirmLabel'), 'click', function() {
                 _this.affirmLabel()
                 _this.okTrack.forEach(item => {
-                  addPoint(item.longitude, item.latitude, '轨迹点')
+                  addPoint(item.longitude, item.latitude, '轨迹点', '')
                 })
               })
               $('#range').bind('input propertychange', function(event) {
@@ -869,13 +875,14 @@ export default {
                 )
               }
 
-              function addPoint(x, y, type) {
+              function addPoint(x, y, type, caseNo) {
                 // 104.069696,
                 // 30.677559,
                 // x = 104.071112
                 // y = 30.672724
                 point = new Point(x, y, new SpatialReference({ wkid: 4326 }))
                 let newObj1 = {
+                  caseNo: caseNo,
                   range: 0,
                   longitude: x,
                   latitude: y,
@@ -974,11 +981,8 @@ export default {
           date2: '',
           range: row.range,
         }
+        row.caseNo === undefined ? (obj.caseNo = '') : (obj.caseNo = row.caseNo)
         row.type === '描圆' ? (obj.taskType = 0) : (obj.taskType = 1)
-        console.log(this.taskInfo.conditions[0].pointLatitude)
-        console.log(this.taskInfo.conditions[0].pointLatitude !== '')
-        console.log(this.taskInfo.conditions[0].pointLongitude !== '')
-        console.log(222)
         if (
           this.taskInfo.conditions[0].pointLatitude !== '' &&
           this.taskInfo.conditions[0].pointLongitude !== ''
@@ -1001,11 +1005,15 @@ export default {
         this.taskInfo.conditions[0].pointLongitude = row.longitude
         this.taskInfo.conditions[0].graphicId = row.id
         this.taskInfo.conditions[0].range = row.range
+        row.caseNo === undefined
+          ? (this.taskInfo.conditions[0].caseNo = '')
+          : (this.taskInfo.conditions[0].caseNo = row.caseNo)
         console.log(this.taskInfo)
 
         row.type === '描圆'
           ? (this.taskInfo.conditions[0].taskType = 0)
           : (this.taskInfo.conditions[0].taskType = 1)
+
         console.log(column)
         console.log(event)
       }
@@ -1089,7 +1097,7 @@ export default {
           activeTimeEnd: item.date2,
           birthdayBegin: this.taskInfo.date3,
           birthdayEnd: this.taskInfo.date4,
-          caseNo: this.taskInfo.caseNo,
+          caseNo: item.caseNo,
           createId: this.taskInfo.createId,
           createName: this.taskInfo.createName,
           name: this.taskInfo.taskName,

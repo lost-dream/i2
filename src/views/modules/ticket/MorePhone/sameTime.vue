@@ -30,19 +30,39 @@
     <el-table :data="sameTime" border style="width: 100%">
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
-      <el-table-column prop="housingEstateCode" label="基站小区" align="center">
+      <el-table-column
+        prop="housingEstateCode"
+        width="150"
+        label="基站小区"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>
+            {{ scope.row.baseStationCode }}/
+            {{ scope.row.housingEstateCode }}</span
+          >
+        </template>
       </el-table-column>
-      <el-table-column prop="phoneTimes" align="center" label="几个话单出现">
+      <el-table-column
+        prop="phone"
+        width="110"
+        align="center"
+        label="几个话单出现"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.phone.length }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="baseStationLocation"
         align="center"
+        width="150"
         label="基站地址"
       >
       </el-table-column>
       <!--:width="item.width"-->
       <!--<template v-for="(item, index) in tableHead">-->
-      <template v-for="(item, index) in tableHead">
+      <!--  <template v-for="(item, index) in tableHead">
         <el-table-column
           :prop="item.propName"
           :label="item.label"
@@ -51,6 +71,21 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.masterNum[index] }}</span>
+          </template>
+        </el-table-column>
+      </template>-->
+      <template v-for="(item, index) in tableHead">
+        <el-table-column
+          :prop="item.propName"
+          :label="item.label"
+          :key="index"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.otherPartyPhone[index] !== undefined"
+              >{{ scope.row.otherPartyPhone[index] }}&nbsp;&nbsp;
+              {{ scope.row.beginTime | formatDate }}</span
+            >
           </template>
         </el-table-column>
       </template>
@@ -62,6 +97,12 @@
 import { formatDate } from '../../../../utils/dateFormat.js'
 
 export default {
+  filters: {
+    formatDate(time) {
+      var date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss ')
+    },
+  },
   data() {
     return {
       pickerOptions: {
@@ -130,10 +171,10 @@ export default {
       console.log(this.morePhone2)
       conData.time != null && this.eachPhone(this.morePhone2)
       console.log(this.morePhone2)
-      this.morePhone2[0].list = [
+      /* this.morePhone2[0].list = [
         ...this.morePhone2[0].list,
         ...this.morePhone2[0].list,
-      ]
+      ] */
       this.morePhone2 = this.dataSort2(this.morePhone2)
       console.log(999999)
       console.log(this.morePhone2)
@@ -152,22 +193,41 @@ export default {
       this.morePhone2 = eachPhone
     },
 
+    // // 表头生成
+    // isHead(data) {
+    //   let data1 = {}
+    //   let value1 = []
+    //   data1.propName = 'phoneNum'
+    //   data1.label = '电话号码'
+    //   data1.fixed = true
+    //   data1.width = '200'
+    //   let i = 0
+    //   data.forEach(item => {
+    //     item.masterList.length > i && (i = item.masterList.length)
+    //     console.log(i)
+    //   })
+    //
+    //   for (let j = 0; j < i; j++) {
+    //     data1.label = data[0].masterList[j]
+    //     value1.push(data1)
+    //   }
+    //
+    //   return value1
+    // },
+
     // 表头生成
     isHead(data) {
       let data1 = {}
       let value1 = []
-      data1.propName = 'phoneNum'
+      data1.propName = 'otherPartyPhone'
       data1.label = '电话号码'
       data1.fixed = true
-      data1.width = '200'
       let i = 0
       data.forEach(item => {
-        item.masterList.length > i && (i = item.masterList.length)
+        item.otherPartyPhone.length > i && (i = item.otherPartyPhone.length)
         console.log(i)
       })
-
       for (let j = 0; j < i; j++) {
-        data1.label = data[0].masterList[j]
         value1.push(data1)
       }
 
@@ -204,8 +264,105 @@ export default {
       return phoneInfo
     },
 
-    // 数据重组
+    // 数据重组 获取同时同基站数据
     dataSort2(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai1 => {
+        let phone = ai1.phone
+        ai1.list.forEach(ai => {
+          let otherPartyPhone = ai.otherPartyPhone
+          let beginTime = ai.beginTime
+          let baseStationLocation = ai.baseStationLocation
+          let housingEstateCode = ai.housingEstateCode
+          let baseStationCode = ai.baseStationCode
+          if (!data1[baseStationLocation]) {
+            value1.push({
+              beginTime: beginTime,
+              housingEstateCode: housingEstateCode,
+              baseStationCode: baseStationCode,
+              baseStationLocation: baseStationLocation,
+              list: [
+                {
+                  phone: phone,
+                  otherPartyPhone: otherPartyPhone,
+                },
+              ],
+            })
+            data1[baseStationLocation] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              if (
+                this.compareTime2(dj.beginTime, beginTime) &&
+                dj.baseStationLocation === baseStationLocation
+              ) {
+                dj.baseStationCode = baseStationCode
+                dj.housingEstateCode = housingEstateCode
+                dj.list.push({
+                  phone: phone,
+                  otherPartyPhone: otherPartyPhone,
+                })
+              }
+            }
+          }
+        })
+      })
+      console.log(value1)
+      return this.dataSort3(value1)
+    },
+
+    dataSort4(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai1 => {
+        let phone = ai1.phone
+        ai1.list.forEach(ai => {
+          let otherPartyPhone = ai.otherPartyPhone
+          let beginTime = ai.beginTime
+          let housingEstateCode = ai.housingEstateCode
+          let baseStationCode = ai.baseStationCode
+          let baseStationLocation = ai.baseStationLocation
+          if (!data1[housingEstateCode]) {
+            value1.push({
+              beginTime: beginTime,
+              housingEstateCode: housingEstateCode,
+              baseStationCode: baseStationCode,
+              phoneTimes: 1,
+              baseStationLocation: baseStationLocation,
+              masterList: [phone],
+              phoneNum: [otherPartyPhone],
+              otherPartyPhoneList: [],
+              masterNum: [1],
+              masterPhone: phone,
+            })
+            data1[housingEstateCode] = ai
+          } else {
+            for (let j = 0; j < value1.length; j++) {
+              let dj = value1[j]
+              if (
+                this.compareTime2(dj.beginTime, beginTime) &&
+                dj.baseStationLocation === baseStationLocation &&
+                dj.housingEstateCode === housingEstateCode
+              ) {
+                dj.masterList.indexOf(phone) === -1 && dj.masterList.push(phone)
+                if (dj.masterPhone !== phone) {
+                  dj.phoneNum.indexOf(otherPartyPhone) !== -1 &&
+                    dj.otherPartyPhoneList.push(otherPartyPhone)
+                } else {
+                  dj.phoneNum.indexOf(otherPartyPhone) === -1 &&
+                    dj.phoneNum.push(otherPartyPhone)
+                }
+              }
+            }
+          }
+        })
+      })
+      console.log(value1)
+      return value1
+    },
+
+    /* dataSort2(data) {
       let data1 = {}
       let value1 = []
       data.forEach(ai1 => {
@@ -231,7 +388,7 @@ export default {
             for (let j = 0; j < value1.length; j++) {
               let dj = value1[j]
               if (
-                dj.beginTime === beginTime &&
+                this.compareTime2(dj.beginTime, beginTime) &&
                 dj.baseStationLocation === baseStationLocation &&
                 dj.housingEstateCode === housingEstateCode
               ) {
@@ -250,7 +407,118 @@ export default {
         })
       })
       return value1
+    }, */
+
+    // 数据重组 筛选同时同基站列表数据
+    dataSort3(arr) {
+      var narr = []
+      arr.forEach(item => {
+        item.list.forEach(item2 => {
+          narr.push({
+            baseStationCode: item.baseStationCode,
+            beginTime: item.beginTime,
+            housingEstateCode: item.housingEstateCode,
+            baseStationLocation: item.baseStationLocation,
+            otherPartyPhone: item2.otherPartyPhone,
+            phone: item2.phone,
+          })
+        })
+      })
+
+      /* let data1 = {}
+      let value1 = []
+      narr.forEach(ai => {
+        let otherPartyPhone = ai.otherPartyPhone
+        let beginTime = ai.beginTime
+        let location = ai.location
+        let housingEstateCode = ai.housingEstateCode
+        let baseStationCode = ai.baseStationCode
+        let phone = ai.phone
+        if (!data1[housingEstateCode]) {
+          value1.push({
+            beginTime: beginTime,
+            housingEstateCode: housingEstateCode,
+            baseStationCode: baseStationCode,
+            location: location,
+            masterList: [phone],
+            otherPartyPhone: otherPartyPhone,
+            otherPartyPhoneList: [],
+          })
+          data1[housingEstateCode] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            if (
+              dj.baseStationCode === baseStationCode &&
+              dj.housingEstateCode === housingEstateCode
+            ) {
+              dj.masterList.indexOf(phone) === -1 && dj.masterList.push(phone)
+              dj.otherPartyPhone.indexOf(otherPartyPhone) === -1 &&
+                dj.otherPartyPhoneList.push(otherPartyPhone)
+            }
+          }
+        }
+      }) */
+
+      // narr = narr
+      //   .map(function(item, index, narr) {
+      //     const i = narr.find(
+      //       _item => item.baseStationLocation === _item.baseStationLocation,
+      //     )
+      //     if (i !== item) {
+      //       i.otherPartyPhone.indexOf(item.otherPartyPhone) === -1 &&
+      //         i.otherPartyPhone.push(item.otherPartyPhone)
+      //       return undefined
+      //     } else {
+      //       i.otherPartyPhone = [i.otherPartyPhone]
+      //       return i
+      //     }
+      //   })
+      //   .filter(item => item !== undefined)
+
+      narr = narr
+        .map(function(item, index, narr) {
+          const i = narr.find(
+            _item => item.baseStationLocation === _item.baseStationLocation,
+          )
+          if (i !== item) {
+            i.otherPartyPhone.indexOf(item.otherPartyPhone) === -1 &&
+              i.otherPartyPhone.push(item.otherPartyPhone)
+            i.phone.indexOf(item.phone) === -1 && i.phone.push(item.phone)
+            return undefined
+          } else {
+            i.otherPartyPhone = [i.otherPartyPhone]
+            i.phone = [i.phone]
+            return i
+          }
+        })
+        .filter(item => item !== undefined)
+      console.log(111)
+      console.log(narr)
+      console.log(111)
+      return narr
     },
+
+    /*  dataSort3(data) {
+      function repeat(arr1, arr2) {
+        return arr1.filter(element1 =>
+          arr2.some(
+            element2 => element1.otherPartyPhone === element2.otherPartyPhone,
+          ),
+        )
+      }
+      console.log(5555)
+      console.log(data)
+      let sameDate = []
+      let temArr = data[0]
+      for (let i = 1; i < data.length - 1; i++) {
+        let arr1 = temArr.list
+        let arr2 = data[i].list
+        temArr.list = repeat(arr1, arr2)
+        sameDate = repeat(arr1, arr2)
+      }
+      return sameDate
+    }, */
 
     /**
      * 判断是否在时间段内
@@ -273,6 +541,31 @@ export default {
       let nowTime = tranDate(changeTime)
       // 如果当前时间处于时间段内，返回true，否则返回false
       if (nowTime < startTime || nowTime > endTime) {
+        return false
+      }
+      return true
+    },
+
+    /**
+     *判断时间是否在5分钟有以类
+     */
+    compareTime2(changeTime, changeTime2) {
+      changeTime = formatDate(new Date(changeTime), 'yyyy-MM-dd hh:mm:ss')
+      changeTime2 = formatDate(new Date(changeTime2), 'yyyy-MM-dd hh:mm:ss')
+
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+
+      // 时间点
+      let timeDot = tranDate(changeTime2)
+      let nowTime = tranDate(changeTime)
+      // 如果当前时间处于时间段内，返回true，否则返回false
+      if (
+        nowTime < timeDot - 1000 * 60 * 5 ||
+        nowTime > timeDot + 1000 * 60 * 5
+      ) {
         return false
       }
       return true

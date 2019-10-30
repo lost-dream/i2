@@ -8,30 +8,30 @@
             :model="form"
             status-icon
             :rules="rules"
-            :hide-required-asterisk="asterisk"
+            :hide-required-asterisk="true"
             label-width="300px"
             class="demo-ruleForm"
           >
-            <el-form-item label="登陆账号" prop="user">
+            <el-form-item label="登陆账号" prop="username">
               <el-input v-model="username" :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="用户姓名" prop="name">
+            <el-form-item label="用户姓名" prop="nickName">
               <el-input v-model="form.nickName"></el-input>
             </el-form-item>
-            <el-form-item label="警号" prop="policeNumber">
+            <el-form-item label="警号" prop="siren">
               <el-input v-model="form.siren"></el-input>
             </el-form-item>
-            <el-form-item label="身份证号" prop="idNumber">
+            <el-form-item label="身份证号" prop="card">
               <el-input v-model="form.card"></el-input>
             </el-form-item>
-            <el-form-item label="手机" prop="phone">
+            <el-form-item label="手机" prop="mobile">
               <el-input v-model="form.mobile"></el-input>
             </el-form-item>
-            <el-form-item label="邮箱" prop="Email">
+            <el-form-item label="邮箱" prop="email">
               <el-input v-model="form.email"></el-input>
             </el-form-item>
           </el-form>
-          <el-button class="sureBut" type="primary" @click="onSubmit('form')"
+          <el-button class="sureBut" type="primary" @click="onSubmit"
             >确定</el-button
           >
         </div>
@@ -50,19 +50,19 @@ export default {
   props: {},
   data() {
     return {
-      asterisk: true, // 影响*号
       username: '',
       form: {},
       rules: {
-        user: [{ required: true, message: '请输入登陆账号', trigger: 'blur' }],
-        name: [{ required: true, message: '请输入用户姓名', trigger: 'blur' }],
-        policeNumber: [
-          { required: true, message: '请输入警号', trigger: 'blur' },
-          { type: 'number', message: '警号必须为数字值' },
+        username: [
+          { required: true, message: '请输入登陆账号', trigger: 'blur' },
         ],
-        idNumber: this.filter_rules({ required: true, type: 'idCard' }),
-        phone: this.filter_rules({ required: true, type: 'mobile' }),
-        Email: [
+        nickName: [
+          { required: true, message: '请输入用户姓名', trigger: 'blur' },
+        ],
+        siren: [{ required: true, message: '请输入警号', trigger: 'blur' }],
+        card: this.filter_rules({ required: true, type: 'idCard' }),
+        mobile: this.filter_rules({ required: true, type: 'mobile' }),
+        email: [
           {
             required: true,
             type: 'email',
@@ -73,17 +73,19 @@ export default {
       },
     }
   },
-  computed: {},
   methods: {
-    onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
-        /*
-          TODO 校验规则有问题？？？
-          TODO updateUserInfo接口频繁失效
-        */
+    onSubmit() {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          const userId = Cookie.get('userId')
-          updateUserInfo(Object.assign(userId, this.form)).then(({ data }) => {
+          const params = {
+            id: Cookie.get('userId'),
+            nickName: this.form.nickName,
+            siren: this.form.siren,
+            card: this.form.card,
+            mobile: this.form.mobile,
+            email: this.form.email,
+          }
+          updateUserInfo(params).then(({ data }) => {
             if (data && data.code === 200) {
               this.$message({
                 message: '修改成功',
@@ -97,7 +99,6 @@ export default {
       })
     },
   },
-  created() {},
   mounted() {
     getUserInfo({
       accessToken: Cookie.get('ac_token'),
@@ -105,11 +106,7 @@ export default {
     }).then(({ data }) => {
       if (data && data.code === 200) {
         this.username = data.data.username
-        this.form.nickName = data.data.nickName
-        this.form.card = data.data.card
-        this.form.mobile = data.data.mobile
-        this.form.email = data.data.email
-        this.form.siren = data.data.siren
+        this.form = data.data
       } else {
         this.$message.error(data.msg)
       }

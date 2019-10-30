@@ -27,6 +27,28 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <div class="countType">
+      <el-button
+        size="mini"
+        class="but"
+        :class="{ typeActive: countType == 1 }"
+        @click="
+          countType = 1
+          onSubmit()
+        "
+        >通话频次</el-button
+      >
+      <el-button
+        size="mini"
+        class="but"
+        :class="{ typeActive: countType == 2 }"
+        @click="
+          countType = 2
+          onSubmit()
+        "
+        >通话时长</el-button
+      >
+    </div>
     <div id="comPhone"></div>
   </div>
 </template>
@@ -69,6 +91,7 @@ export default {
           },
         ],
       },
+      countType: 1,
       morePhoneForm: {
         time: '',
       },
@@ -140,18 +163,22 @@ export default {
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530051234',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '1353005123',
+              communicationTime: '30分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530053333',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530054455',
+              communicationTime: '20分钟',
             },
           ],
           phone: '13511114444',
@@ -161,18 +188,22 @@ export default {
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530052182',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '1353005222',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530053333',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530054455',
+              communicationTime: '20分钟',
             },
           ],
           phone: '13511111111',
@@ -182,18 +213,22 @@ export default {
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '1353005442',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '1353005222',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530053333',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530054455',
+              communicationTime: '20分钟',
             },
           ],
           phone: '13511114344',
@@ -203,18 +238,22 @@ export default {
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530053212',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '1353005222',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530053333',
+              communicationTime: '20分钟',
             },
             {
               baseStationCode: '1DF1',
               otherPartyPhone: '13530054455',
+              communicationTime: '20分钟',
             },
           ],
           phone: '13512214444',
@@ -224,7 +263,6 @@ export default {
   },
   mounted() {
     this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
-    this.comPhone()
   },
   methods: {
     onSubmit() {
@@ -236,7 +274,10 @@ export default {
       // 内
       console.log(this.morePhone2)
       conData2.time != null && this.eachPhone(this.morePhone2)
-      this.data = this.disposeData(data)
+      console.log(11111111)
+      console.log(data)
+      console.log(this.morePhone2)
+      this.data = this.disposeData(this.dataTest)
       this.links = this.disposeLinks(this.data)
       this.comPhone()
       console.log(this.data)
@@ -312,6 +353,7 @@ export default {
         /* (index + 1) % 2 === 0
           ? (selfx = 550 - 50 * (index + 1))
           : (selfx = 550 + 50 * (index + 1)) */
+
         selfd.type = 1
         selfd.name = item.phone
         selfd.y = 300
@@ -362,16 +404,96 @@ export default {
           let links = {}
           links.source = start[i].name
           links.target = end[j].name
+          links.label = {
+            normal: {
+              show: true,
+              formatter: this.callInfo(
+                start[i].name,
+                end[j].name,
+                this.countType,
+              ),
+            },
+          }
           dataArr.push(links)
         }
       }
       return dataArr
     },
 
+    callInfo(start, end, tpye) {
+      let data = this.dataTest
+      // let data = this.morePhone2
+      let num = 0
+      let obj = data.filter(_a => _a.phone == start)
+      console.log(obj)
+      console.log(obj[0].list)
+      if (tpye === 1) {
+        console.log(3111111)
+        console.log(data)
+        console.log(start)
+        console.log(end)
+        num = obj[0].list.filter(item => item.otherPartyPhone == end).length
+        console.log(num)
+      } else if (tpye === 2) {
+        let timeData = obj[0].list.filter(item => item.otherPartyPhone == end)
+        console.log(8888)
+        console.log(timeData)
+        timeData.forEach(item => {
+          num = this.timeTotal(num, item.communicationTime)
+        })
+      }
+      return String(num)
+    },
+
+    // 总时长
+    timeTotal(a, b) {
+      a = this.timeToSec(a)
+      b = this.timeToSec(b)
+      return this.formatDuring(a + b)
+    },
+
+    // 毫秒转换时分秒
+    formatDuring(mss) {
+      var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60))
+      var seconds = parseInt((mss % (1000 * 60)) / 1000)
+      let time = seconds + '秒'
+      if (hours > 0) {
+        time = hours + '小时' + minutes + '分钟' + seconds + '秒'
+      } else {
+        if (minutes > 0) {
+          time = minutes + '分钟' + seconds + '秒'
+        }
+      }
+      return time
+    },
+    // 时间转为毫秒
+    timeToSec(times) {
+      console.log(times)
+      let str = times.toString().replace(/分钟/g, '分')
+      console.log(str)
+      let time = str.toString().replace(/小时/g, '时')
+      let hourIn, minIn, secIn
+      !time.includes('时') ? (hourIn = 0) : (hourIn = time.indexOf('时'))
+      !time.includes('分') ? (minIn = 0) : (minIn = time.indexOf('分'))
+      !time.includes('秒') ? (secIn = 0) : (secIn = time.indexOf('秒'))
+      let hour = 0
+      let min = 0
+      let sec = 0
+      hourIn === 0 && minIn === 0 && secIn === 0 && (sec = time)
+      hourIn !== 0 && (hour = time.substring(0, hourIn))
+      minIn !== 0 &&
+        (min = time.substring(hourIn === 0 ? 0 : hourIn + 1, minIn))
+      secIn !== 0 && (sec = time.substring(minIn === 0 ? 0 : minIn + 1, secIn))
+      var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
+      return s * 1000
+    },
+
     samePhone(data2) {
       // 提取相同电话
 
       let data = this.dataTest
+      // let data = data2
       function repeat(arr1, arr2) {
         return arr1.filter(element1 =>
           arr2.some(
@@ -447,6 +569,16 @@ export default {
     text-align center
     padding 30px
     font-size 18px
+  .countType
+    width 100px
+    text-align end
+  .but
+    background rgba(44, 239, 255, 0.3)
+    border none
+    color #ffffff
+    margin-bottom 5px
+  .typeActive
+    background rgba(130,200,75,0.5)
   #comPhone
     width 100%
     height 500px

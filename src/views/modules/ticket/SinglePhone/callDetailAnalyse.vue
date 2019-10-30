@@ -232,9 +232,9 @@ export default {
     },
 
     // 时间转为秒
-    timeToSec(time) {
-      time.replace(/分钟/g, '分')
-      time.replace(/小时/g, '时')
+    timeToSec(times) {
+      let str = times.toString().replace(/分钟/g, '分')
+      let time = str.toString().replace(/小时/g, '时')
       let hourIn, minIn, secIn
       !time.includes('时') ? (hourIn = 0) : (hourIn = time.indexOf('时'))
       !time.includes('分') ? (minIn = 0) : (minIn = time.indexOf('分'))
@@ -242,10 +242,11 @@ export default {
       let hour = 0
       let min = 0
       let sec = 0
-      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
-      hourIn != 0 && (hour = time.substring(0, hourIn))
-      minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
-      secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
+      hourIn === 0 && minIn === 0 && secIn === 0 && (sec = time)
+      hourIn !== 0 && (hour = time.substring(0, hourIn))
+      minIn !== 0 &&
+        (min = time.substring(hourIn === 0 ? 0 : hourIn + 1, minIn))
+      secIn !== 0 && (sec = time.substring(minIn === 0 ? 0 : minIn + 1, secIn))
       var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
       return s
     },
@@ -344,8 +345,12 @@ export default {
             avoidLabelOverlap: false,
             label: {
               normal: {
-                show: false,
+                show: true,
                 position: 'center',
+                textStyle: {
+                  fontSize: '15',
+                  fontWeight: 'bold',
+                },
               },
               emphasis: {
                 show: true,
@@ -372,8 +377,12 @@ export default {
             avoidLabelOverlap: false,
             label: {
               normal: {
-                show: false,
+                show: true,
                 position: 'center',
+                textStyle: {
+                  fontSize: '15',
+                  fontWeight: 'bold',
+                },
               },
               emphasis: {
                 show: true,
@@ -400,8 +409,12 @@ export default {
             avoidLabelOverlap: false,
             label: {
               normal: {
-                show: false,
+                show: true,
                 position: 'center',
+                textStyle: {
+                  fontSize: '15',
+                  fontWeight: 'bold',
+                },
               },
               emphasis: {
                 show: true,
@@ -564,6 +577,10 @@ export default {
             },
           },
         },
+        grid: {
+          bottom: '4%',
+          containLabel: true,
+        },
         xAxis: [
           {
             name: '电话号码',
@@ -572,6 +589,8 @@ export default {
             data: this.pictureData3.otherPartyPhone,
             axisLabel: {
               show: true,
+              interval: 0,
+              rotate: '45',
               textStyle: {
                 color: '#fff',
               },
@@ -665,6 +684,10 @@ export default {
             },
           },
         },
+        grid: {
+          bottom: '4%',
+          containLabel: true,
+        },
         xAxis: [
           {
             name: '电话号码',
@@ -673,6 +696,8 @@ export default {
             data: this.pictureData4.otherPartyPhone,
             axisLabel: {
               show: true,
+              interval: 0,
+              rotate: '45',
               textStyle: {
                 color: '#fff',
               },

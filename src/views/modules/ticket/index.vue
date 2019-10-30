@@ -5,32 +5,32 @@
         <div class="title">
           <h1>话单分析</h1>
         </div>
-        <el-tabs type="border-card">
-          <el-tab-pane
+        <el-tabs v-model="activeName" type="border-card">
+          <el-tab-pane name="newPhone"
             ><span slot="label"
               ><i class="el-icon-date"></i>
               <router-link to="/ticket/newPhone">新建话单</router-link>
             </span>
           </el-tab-pane>
-          <el-tab-pane
+          <el-tab-pane name="phoneSearch"
             ><span slot="label"
               ><i class="el-icon-date"></i>
               <router-link to="/ticket/phoneSearch">话单查询</router-link>
             </span></el-tab-pane
           >
-          <el-tab-pane
+          <el-tab-pane name="singlePhone"
             ><span slot="label"
               ><i class="el-icon-date"></i>
               <router-link to="/ticket/singlePhone">单话单分析</router-link>
             </span></el-tab-pane
           >
-          <el-tab-pane
+          <el-tab-pane name="morePhone"
             ><span slot="label"
               ><i class="el-icon-date"></i>
               <router-link to="/ticket/morePhone">多话单分析</router-link>
             </span></el-tab-pane
           >
-          <el-tab-pane
+          <el-tab-pane name="allNetwork"
             ><span slot="label"
               ><i class="el-icon-date"></i>
               <router-link to="/ticket/allNetwork">全网通查询</router-link>
@@ -62,12 +62,16 @@ export default {
   },
   props: {},
   data() {
-    return {}
+    return {
+      activeName: 'newPhone',
+    }
   },
   computed: {},
   methods: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.activeName = this.$route.meta.title
+  },
 }
 </script>
 <style lang="stylus" scoped>
@@ -77,6 +81,8 @@ export default {
   right 0
   bottom 0
   left 0
+  .is-active a
+    color #b7730e
   &:before
     position fixed
     top 0

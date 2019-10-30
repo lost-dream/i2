@@ -377,7 +377,8 @@ export default {
   props: {},
   data() {
     return {
-      keyword: this.$route.query.keyword, // TODO 节点分析传过来的数据是什么？
+      // TODO 节点分析传过来的数据是什么？
+      keyword: this.$route.query.keyword,
       curPage: 1, // 当前分页
       totalPage: 1, // 总页数
       userInfo: {},
@@ -567,8 +568,7 @@ export default {
   },
   created() {
     archivesDetailApi({
-      // keyword: this.keyword // TODO 有数据传过来的话打开注释 && 删除下一行
-      keyword: '659001197006291256',
+      keyword: this.keyword,
     }).then(({ data }) => {
       let {
         result: {
