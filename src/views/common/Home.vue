@@ -23,9 +23,11 @@
         <li
           v-for="(item, index) in menuListData"
           :key="index"
-          @click="goTo(item.id, item.url)"
+          @click="goTo(item)"
         >
-          <img src="../../assets/img/i2.png" alt />
+          <!--<img :src="require('@/assets/img/' + path + '.png')" />-->
+          <img :src="getImgUrl(item.path)" />
+          <!--<img src="../../assets/img/i2.png" alt />-->
           <img src="../../assets/img/itemBg.png" alt />
           <p>{{ item.name }}</p>
         </li>
@@ -125,6 +127,7 @@ import Cookies from 'js-cookie'
 import { getMenu } from '@/api/system'
 
 export default {
+  inject: ['reload'],
   data() {
     return {
       menuListData: [],
@@ -164,16 +167,22 @@ export default {
       })
     },
     // 跳转
-    goTo(id, url) {
+    goTo(item) {
       let _this = this
       let obj = {
         userId: Cookies.get('userId'),
         accessToken: Cookies.get('ac_token'),
-        id: id,
+        id: item.id,
+        pname: item.name,
       }
       this.$api.statistics(obj).then(({ data }) => {
         if (data.msg === '成功') {
           // _this.$router.push({ name: url })
+          let routeData = _this.$router.resolve({
+            name: item.path,
+          })
+          window.open(routeData.href, '_blank')
+          _this.reload()
         } else {
           _this.$message({
             message: '获取数据失败!',
@@ -181,6 +190,11 @@ export default {
           })
         }
       })
+    },
+
+    // 获取图片地址
+    getImgUrl(path) {
+      return require('@/assets/img/' + path + '.png')
     },
 
     // 最近使用
