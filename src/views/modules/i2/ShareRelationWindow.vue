@@ -26,21 +26,21 @@
         <el-col :span="8">
           <div class="resultList clearfix">
             <ul>
-              <li>
+              <li
+                v-for="(item, index) of resultList"
+                :key="index"
+                :class="{ active: index === activeLi }"
+                @click="resultLiClick(index, item.id)"
+              >
                 <dl class="clearfix">
-                  <dt class="item-num fl"><i class="num">1</i></dt>
+                  <dt class="item-num fl">
+                    <i class="num">{{ ++index }}</i>
+                  </dt>
                   <dd class="fl">
-                    <h3 class="title">[何涛]分析结果</h3>
-                    <p><span class="time">2019/10/10 11:50:35</span></p>
-                  </dd>
-                </dl>
-              </li>
-              <li>
-                <dl class="clearfix">
-                  <dt class="item-num fl"><i class="num">2</i></dt>
-                  <dd class="fl">
-                    <h3 class="title">[何涛]分析结果</h3>
-                    <p><span class="time">2019/10/10 11:50:35</span></p>
+                    <h3 class="title">[{{ item.recordTitle }}]分析结果</h3>
+                    <p>
+                      <span class="time">{{ item.createTime }}</span>
+                    </p>
                   </dd>
                 </dl>
               </li>
@@ -49,9 +49,9 @@
         </el-col>
         <el-col :span="16">
           <div class="cont-info">
-            <div class="info-title">积分大狼狗卡帝国时代</div>
-            <p class="content">阿里打击力度大沙发回来的机会</p>
-            <div class="btn-box">
+            <div class="info-title">{{ activeInfo.recordTitle }}</div>
+            <p class="content">{{ activeInfo.description }}</p>
+            <div class="btn-box" v-if="resultList.length > 0">
               <span class="fly-btn" @click="share()">发起共享</span>
             </div>
           </div>
@@ -76,7 +76,13 @@ export default {
     return {
       visible: false,
       shareVisible: false,
-      node: [],
+      resultList: [],
+      activeInfo: {
+        recordTitle: '',
+        description: '',
+      },
+      activeLi: 0,
+      currCacheNodes: [],
       dataForm: {
         label: '',
         title: '',
@@ -87,7 +93,42 @@ export default {
   computed: {},
   methods: {
     init() {
-      this.visible = true
+      let obj = {
+        pageNumber: 1,
+        pageSize: 10,
+        sort: '',
+        order: 'desc',
+        userName: '10011',
+      }
+      this.$api
+        .listAllAnalyticalRecords(obj)
+        .then(({ data }) => {
+          this.resultList = data && data.code === 200 ? data.result : []
+          if (this.resultList.length > 0) {
+            this.activeInfo = this.resultList[0]
+            this.currCacheNodes = this.resultList[0].json
+          } else {
+            this.activeInfo = {
+              recordTitle: '',
+              description: '',
+            }
+          }
+          this.activeLi = 0
+          console.log(data)
+        })
+        .then(() => {
+          this.visible = true
+        })
+    },
+    // 列表点击
+    resultLiClick(index, id) {
+      this.activeLi = --index
+      for (var i in this.resultList) {
+        if (this.resultList[i].id === id) {
+          this.activeInfo = this.resultList[i]
+          break
+        }
+      }
     },
     // 表单提交
     dataFormSubmit() {
@@ -102,7 +143,7 @@ export default {
       this.shareVisible = true
       this.visible = false
       this.$nextTick(() => {
-        this.$refs.shareData.init()
+        this.$refs.shareData.init(this.activeInfo)
       })
     },
     beforeClose() {
@@ -165,4 +206,12 @@ export default {
     color #fafafa
   .btn-box
     text-align right
+.resultList
+  li.active
+    h3.title
+      color #fa843d
+    .time
+      color #fa843d
+    .num
+      color #fe9b05
 </style>

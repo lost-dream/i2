@@ -341,7 +341,7 @@
             <el-tab-pane label="协同工作">
               <ul class="tab-list clearfix">
                 <li>
-                  <dl id="btnBatchAddNode" class="tab-li">
+                  <dl id="btnImport" class="tab-li" @click="jsonImportHandle">
                     <dt class="operate-icon operate-addBatch importNode"></dt>
                     <dd class="operate-desc">导入(JSON)</dd>
                   </dl>
@@ -350,7 +350,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl id="btnBatchAddNode" class="tab-li">
+                  <dl id="btnExport" class="tab-li">
                     <dt class="operate-icon operate-addBatch exportNode"></dt>
                     <dd class="operate-desc">
                       <el-dropdown @command="handleCommand">
@@ -428,12 +428,97 @@
     <div id="mainpanel" class="mainpanel">
       <div id="mynetwork"></div>
     </div>
+    <!-- rightmenu -->
+    <div
+      id="rightMenu"
+      style="z-index: 1000; display: none; position: absolute; width: 80px;"
+    >
+      <div class="menuInner">
+        <ul class="menuList">
+          <li>
+            <a href="#">分析</a>
+            <dl class="subMenu">
+              <dd>
+                <a href="#" @click="analysisHandle(contextNodeId)">关系挖掘</a>
+              </dd>
+              <dd>
+                <a href="#" @click="dxAnalysisHandle(contextNodeId)"
+                  >定向分析</a
+                >
+              </dd>
+              <dd>
+                <a href="#" @click="overqjHandle(contextNodeId)">全局分析</a>
+              </dd>
+            </dl>
+          </li>
+          <li>
+            <a href="#">操作</a>
+            <dl class="subMenu">
+              <dd><a href="#">档案</a></dd>
+              <dd><a href="#">轨迹</a></dd>
+            </dl>
+          </li>
+          <li>
+            <a href="#">节点</a>
+            <dl class="subMenu">
+              <dd>
+                <a href="#" @click="eidtNodeHandle">编辑</a>
+              </dd>
+              <dd><a href="#" @click="deleteNodeHandle">删除</a></dd>
+              <dd><a href="#" @click="taggingHandle">一键标注</a></dd>
+            </dl>
+          </li>
+          <li><a href="#" @click="nodeFocus">聚焦</a></li>
+          <li>
+            <a href="#" @click="lockNodeCheck">{{ lockCheck }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 边的右键菜单 -->
+    <div
+      id="edgeContextMenu"
+      style="z-index: 1000; display: none; position: absolute; width: 80px;"
+    >
+      <div class="menuInner">
+        <ul class="menuList">
+          <li><a href="#" @click="modifyEdgeHandle">修改关系</a></li>
+          <li><a href="#" @click="deleteEdgeHandle">删除关系</a></li>
+        </ul>
+      </div>
+    </div>
+    <fly-dialog
+      class="custompos"
+      width="400px"
+      title="导入"
+      :show.sync="importVisible"
+      @beforeCloseDialog="importVisible = false"
+    >
+      <div class="importNode">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          action=""
+          :on-change="importHandleChange"
+          :auto-upload="false"
+        >
+          <el-button slot="trigger" size="small" type="primary"
+            >选取文件</el-button
+          >
+          <div slot="tip" class="el-upload__tip">
+            只能上传json文件，且不超过500kb
+          </div>
+        </el-upload>
+      </div>
+    </fly-dialog>
     <!-- 弹窗, 新增节点 -->
     <add-nodes v-if="addNodesVisible" ref="addNodes"> </add-nodes>
     <!-- 弹窗，数据缓存器 -->
     <cache-data v-if="cacheDataVisible" ref="cacheData"></cache-data>
     <!-- 弹窗，添加关系 -->
     <edit-edge v-if="editEdgeVisible" ref="editEdge"></edit-edge>
+    <!-- 弹窗，修改关系 -->
+    <modify-edge v-if="modifyEdgeVisible" ref="modifyEdge"></modify-edge>
     <!-- 弹窗，编辑节点 -->
     <modify-node v-if="modifyNodeVisible" ref="modifyNode"></modify-node>
     <!-- 弹窗，备注 -->
@@ -466,6 +551,7 @@
 </template>
 
 <script>
+import FlyDialog from '@/components/fly-dialog'
 import Sidebar from '@/views/common/Sidebar'
 // import SidemenuItem from '@/views/common/SidemenuItem'
 import Sidefun from './Sidefun'
@@ -473,6 +559,7 @@ import AddNodes from './AddNodes'
 import CacheData from './CacheData'
 import EditEdge from './EditEdgeWindow'
 import ModifyNode from './ModifyNodeWindow'
+import ModifyEdge from './ModifyEdgeWindow'
 import Remark from './RemarkWindow'
 import ManagerRelation from './ManagerRelationWindow'
 import SaveRelation from './SaveRelationWindow'
@@ -487,6 +574,7 @@ import {
   lockNode,
   unNockNode,
   deleteOperation,
+  deleteEdge,
   hasData,
   buildExportData,
   exportJson,
@@ -494,6 +582,7 @@ import {
 import { Node } from './js/entity/Node'
 export default {
   components: {
+    FlyDialog,
     Sidebar,
     // SidemenuItem,
     Sidefun,
@@ -501,6 +590,7 @@ export default {
     CacheData,
     EditEdge,
     ModifyNode,
+    ModifyEdge,
     Remark,
     ManagerRelation,
     ShareRelation,
@@ -515,6 +605,7 @@ export default {
       cacheDataVisible: false,
       editEdgeVisible: false,
       modifyNodeVisible: false,
+      modifyEdgeVisible: false,
       remarkVisible: false,
       managerRelationVisible: false,
       saveRelationVisible: false,
@@ -522,6 +613,9 @@ export default {
       analysisVisible: false,
       relationScoreSetVisible: false,
       pzAnalysisVisible: false,
+      importVisible: false,
+      contextNodeId: '', // 右键当前id
+      contextEdgeId: '',
       basicInfo: {
         idNumber: '',
         name: '',
@@ -531,6 +625,7 @@ export default {
         cellphone: '',
         currentAddress: '',
       },
+      lockCheck: '锁定',
     }
   },
   computed: {
@@ -539,6 +634,39 @@ export default {
     },
   },
   methods: {
+    // 导入json
+    jsonImportHandle() {
+      this.importVisible = true
+    },
+    // 导入
+    importHandleChange(file) {
+      let _this = this
+      var name = file.name // 读取选中文件的文件名
+      var size = file.size // 读取选中文件的大小
+      console.log('文件名:' + name + '大小:' + size)
+
+      var reader = new FileReader() // 这是核心,读取操作就是由它完成.
+      reader.readAsText(file.raw) // 读取文件的内容,也可以读取文件的URL
+      reader.onload = function() {
+        // 当读取完成后回调这个函数,然后此时文件的内容存储到了result中,直接操作即可
+        let jsonObj = JSON.parse(this.result)
+        let edgesList = jsonObj.edges
+        let nodesList = jsonObj.nodes.map(item => {
+          return new Node(item, _this.global.network, _this.global.nodes)
+        })
+        for (let i = 0; i < nodesList.length; i++) {
+          if (_this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
+            _this.global.nodes.add(nodesList[i])
+          }
+        }
+        for (var j = 0; j < edgesList.length; j++) {
+          if (_this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
+            _this.global.edges.add(edgesList[j])
+          }
+        }
+        _this.importVisible = false
+      }
+    },
     // 显示添加节点面板
     addNodesHandle() {
       this.addNodesVisible = true
@@ -564,6 +692,20 @@ export default {
       // this.unbindEvent();// 解绑事件，不然会导致添加关系失效
       this.global.edge_adding = true
       this.network.addEdgeMode()
+    },
+    // 修改关系
+    modifyEdgeHandle() {
+      this.modifyEdgeVisible = true
+      var edge = this.global.edges.get(this.contextEdgeId)
+      this.$nextTick(() => {
+        this.$refs.modifyEdge.init(edge)
+      })
+      this.removeEdgeMenu()
+    },
+    // 删除关系
+    deleteEdgeHandle() {
+      deleteEdge([this.contextEdgeId])
+      this.removeEdgeMenu()
     },
     // 点击缓存数据
     addDataCacheHandle() {
@@ -598,19 +740,38 @@ export default {
           }
         })
     },
+    lockNodeCheck() {
+      if (this.global.nodes.get(this.contextNodeId).physics === false) {
+        this.unLockNodeHandle()
+        this.removeMenu()
+      } else {
+        this.lockNodeHandle()
+        this.removeMenu()
+      }
+    },
     // 点击锁定
     lockNodeHandle() {
-      var arr = this.network.getSelectedNodes()
+      console.log()
+      var arr =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       lockNode(arr)
     },
     // 解锁
     unLockNodeHandle() {
-      var arr = this.network.getSelectedNodes()
+      var arr =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       unNockNode(arr)
     },
     // 节点编辑
     eidtNodeHandle() {
-      let arr = this.network.getSelectedNodes()
+      let arr =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       if (arr.length > 0) {
         // 修改节点
         for (var i in arr) {
@@ -622,14 +783,19 @@ export default {
           break
         }
       }
+      this.removeMenu()
     },
     // 节点删除
     deleteNodeHandle() {
-      deleteOperation()
+      deleteOperation(this.contextNodeId)
+      this.removeMenu()
     },
     // 一键标注
     taggingHandle() {
-      let arr = this.network.getSelectedNodes()
+      let arr =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       for (let i in arr) {
         let node = this.global.nodes.get(arr[i])
         node.taggingState()
@@ -646,6 +812,11 @@ export default {
         })
         break
       }
+    },
+    // 聚焦
+    nodeFocus() {
+      this.focusNode([this.contextNodeId])
+      this.removeMenu()
     },
     // 布局---自动
     autoLayoutHandle() {
@@ -674,8 +845,8 @@ export default {
       }
     },
     // 分析--- 关系挖掘
-    analysisHandle() {
-      let arr = this.global.network.getSelectedNodes()
+    analysisHandle(nodeId) {
+      let arr = [nodeId] || this.global.network.getSelectedNodes()
       for (let i in arr) {
         let node = this.global.nodes.get(arr[i])
         this.analysisVisible = true
@@ -684,6 +855,7 @@ export default {
         })
         break
       }
+      this.removeMenu()
     },
     // 分析--- 两两分析
     pairAnalyseHandle() {
@@ -731,6 +903,12 @@ export default {
         })
         return false
       }
+      this.focusNode(selectNodes)
+      this.removeMenu()
+    },
+    overqjHandle(nodeId) {
+      this.focusNode([nodeId])
+      this.removeMenu()
     },
     // 分析--- 亲密度分析
     relationScoreSetter() {
@@ -745,8 +923,8 @@ export default {
       }
     },
     // 分析--- 定向分析
-    dxAnalysisHandle() {
-      let selectNodes = this.global.network.getSelectedNodes()
+    dxAnalysisHandle(nodeId) {
+      let selectNodes = [nodeId] || this.global.network.getSelectedNodes()
       if (!selectNodes || selectNodes.length < 1) {
         this.$message({
           message: '请选中节点后再执行此操作',
@@ -756,8 +934,9 @@ export default {
         return false
       }
       this.$nextTick(() => {
-        this.$refs.sidebarControl.init('2', '定向分析', 'DynamicTabDX')
+        this.$refs.sidebarControl.init('2', '定向分析', 'DynamicTabDX', nodeId)
       })
+      this.removeMenu()
     },
     // 分析--- 碰撞对比
     pzAnalysisHandle() {
@@ -902,16 +1081,20 @@ export default {
       this.network.on('click', this.clickEvent)
       // 双击节点展开关系
       this.network.on('doubleClick', this.doubleclickEvent)
+      // 右键
+      this.network.on('oncontext', this.oncontextEvent)
     },
     // 解绑事件
     unbindEvent() {
       this.network.off('click', this.clickEvent)
       this.network.off('doubleClick', this.doubleclickEvent)
+      this.network.off('oncontext', this.oncontextEvent)
     },
     /**
      * 单击事件
      */
     clickEvent(params) {
+      this.removeMenu()
       // 框选时，不执行单击操作
       if (
         params.event.changedPointers[0].shiftKey === true ||
@@ -947,6 +1130,69 @@ export default {
       }
     },
     /**
+     * 右键事件
+     */
+    oncontextEvent(params) {
+      params.event.returnValue = false
+      var pointer = {
+        x: params.pointer.DOM.x,
+        y: params.pointer.DOM.y,
+      }
+      var nodeId = this.network.getNodeAt(pointer)
+
+      var edgeId
+      if (!nodeId) edgeId = this.network.getEdgeAt(pointer)
+      // 显示右键菜单
+      if (nodeId) {
+        this.contextNodeId = nodeId
+        if (this.global.nodes.get(nodeId).physics === false) {
+          this.lockCheck = '解锁'
+        } else {
+          this.lockCheck = '锁定'
+        }
+        this.showContextMenu(nodeId, pointer)
+      } else if (edgeId) {
+        this.contextEdgeId = edgeId
+        this.showEdgeContextMenu(edgeId, pointer)
+      } else {
+        // 阻止默认事件，屏蔽右键空白画布事件
+        var event = params.event
+        event.preventDefault()
+        this.removeMenu()
+        // 右键空白--显示添加节点、关系等全局功能菜单
+      }
+    },
+    // 显示边右键菜单
+    showEdgeContextMenu(edgeId, pointer) {
+      $('#edgeContextMenu').css({
+        left: pointer.x,
+        top: pointer.y + 121,
+        display: 'block',
+      })
+    },
+    removeEdgeMenu() {
+      this.contextEdgeId = ''
+      $('#edgeContextMenu').css({
+        display: 'none',
+      })
+    },
+    // 显示节点右键菜单
+    showContextMenu(nodeId, pointer) {
+      console.log(pointer)
+      // let curNode = this.global.nodes.get(nodeId)
+      $('#rightMenu').css({
+        left: pointer.x,
+        top: pointer.y + 121,
+        display: 'block',
+      })
+    },
+    removeMenu() {
+      this.contextNodeId = ''
+      $('#rightMenu').css({
+        display: 'none',
+      })
+    },
+    /**
      * 查看人节点基本信息
      */
     showBasicInfo(params) {
@@ -964,6 +1210,23 @@ export default {
       } catch (e) {
         console.info(e)
       }
+    },
+    /**
+     * 定位到某个节点
+     */
+    focusNode(node) {
+      var options = {
+        scale: 1.5,
+        offset: { x: 0, y: 0 },
+        animation: {
+          duration: 1000,
+          easingFunction: 'easeInOutQuad',
+        },
+      }
+      for (let i in node) {
+        this.network.focus(node[i], options)
+      }
+      this.network.selectNodes(node, true)
     },
     /**
      *  判断sidebar 是否展开
@@ -1059,7 +1322,7 @@ ul.tab-list>li
       $iconList = addnode importNode dataCacher addRelation cacheData lock unlock edit del mark remarks rect dangan exportNode baocun gongxiang guanli ring auto wajue fenxi QJFX qingmidu DXFX guiji QB PZBD center ZDLJ road
       for item, index in $iconList
         &.{item}
-          background: url('./icons/' + item + '.png') center / contain no-repeat
+          background url('./icons/' + item + '.png') center / contain no-repeat
     .operate-desc
       color #fff
       height 25px
@@ -1089,4 +1352,56 @@ ul.tab-list>li
   width 295px
 >>>.fun-sidebar .sidebar-inner
   width 330px
+#rightMenu
+  background #1e9eae94
+  .menuList
+    li
+      position relative
+      .subMenu
+        position absolute
+        right -80px
+        top 0
+        width 80px
+        background #159bac8c
+        display none
+        a
+          display block
+          padding 5px
+          text-align center
+    li:hover >.subMenu
+      display block
+    li >a
+      display block
+      padding 5px
+      text-align center
+#edgeContextMenu
+  background rgba(2, 106, 118, 0.9)
+  .menuList
+    li
+      position relative
+      .subMenu
+        position absolute
+        right -80px
+        top 0
+        width 80px
+        background #159bac8c
+        display none
+        a
+          display block
+          padding 5px
+          text-align center
+    li:hover >.subMenu
+      display block
+    li >a
+      display block
+      padding 5px
+      text-align center
+.importNode
+  padding 10px
+  .el-upload__tip
+    color #fff
+>>>.el-upload-list__item-name
+  color #fff
+  &:hover
+    color #17b3a3
 </style>
