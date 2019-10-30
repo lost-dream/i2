@@ -332,6 +332,17 @@ export default {
       data: http.adornData(data),
     })
   },
+  /**
+   * 协同工作 -- 管理共享
+   * @param {*} data
+   */
+  shareAnalyticalRecords(data) {
+    return http({
+      url: http.adornUrl('i2/nodeAndRelationCtlr/shareAnalyticalRecords'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
+  },
   // ------------------------------------ticket---------------------------------------------//
   /**
    * 新建话单

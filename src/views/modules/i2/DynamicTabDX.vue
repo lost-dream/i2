@@ -132,7 +132,12 @@
 import { Node } from './js/entity/Node'
 export default {
   components: {},
-  props: {},
+  props: {
+    currId: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       activeName: '1',
@@ -156,8 +161,8 @@ export default {
   },
   computed: {},
   methods: {
-    init() {
-      let arr = this.global.network.getSelectedNodes()
+    init(nodeId) {
+      let arr = [nodeId] || this.global.network.getSelectedNodes()
       for (let i in arr) {
         let node = this.global.nodes.get(arr[i])
         this.node = node
@@ -224,9 +229,7 @@ export default {
       })
     },
   },
-  created() {
-    this.init()
-  },
+  created() {},
   mounted() {},
 }
 </script>

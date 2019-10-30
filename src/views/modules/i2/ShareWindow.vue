@@ -20,8 +20,16 @@
           </div>
         </el-col>
         <el-col :span="16">
-          <div>
-            地方垃圾贷款购房
+          <div class="cont-info">
+            <p class="info-title">{{ info.recordTitle }}</p>
+            <p class="content">{{ info.description }}</p>
+          </div>
+          <div class="modle-title">已选用户</div>
+          <div class="selectedUser">
+            <el-tag size="small" type="success">测试1</el-tag>
+          </div>
+          <div class="toshare">
+            <span class="fly-btn" @click="toshare">确定共享</span>
           </div>
         </el-col>
       </el-row>
@@ -39,6 +47,10 @@ export default {
   data() {
     return {
       visible: false,
+      info: {
+        recordTitle: '',
+        description: '',
+      },
       props: {
         label: 'name',
         children: 'zones',
@@ -48,14 +60,28 @@ export default {
   },
   computed: {},
   methods: {
-    init() {
+    init(activeInfo) {
+      this.info = activeInfo
       this.visible = true
     },
     // 表单提交
-    dataFormSubmit() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
-          this.visible = false
+    toshare() {
+      let params = {
+        analyticalRecordsId: '5bbff27c39c04802a16c6bd68d88b250',
+        targetUserName: 'admin',
+        userName: '10011',
+      }
+      this.$api.shareAnalyticalRecords(params).then(({ data }) => {
+        if (data && data.code === 200) {
+          this.$message({
+            message: '分享成功！',
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+              this.visible = false
+              this.$emit('refreshDataList')
+            },
+          })
         }
       })
     },
@@ -64,12 +90,12 @@ export default {
     },
     loadNode(node, resolve) {
       if (node.level === 0) {
-        return resolve([{ name: 'region1' }])
+        return resolve([{ name: '测试' }])
       }
       if (node.level > 3) return resolve([])
 
       var hasChild
-      if (node.data.name === 'region1') {
+      if (node.data.name === '测试') {
         hasChild = true
       } else {
         hasChild = Math.random() > 0.5
@@ -80,10 +106,10 @@ export default {
         if (hasChild) {
           data = [
             {
-              name: 'zone' + this.count++,
+              name: '测试' + this.count++,
             },
             {
-              name: 'zone' + this.count++,
+              name: '测试' + this.count++,
             },
           ]
         } else {
@@ -154,4 +180,18 @@ export default {
     color #fafafa
   .btn-box
     text-align right
+.selectedUser
+  min-height 100px
+  border 1px solid #41767d
+  margin 10px 20px
+  border-radius 3px
+.modle-title
+  color #fff
+  margin-left 20px
+  margin-top 10px
+>>>.el-tag
+  margin 5px
+.toshare
+  text-align right
+  margin 20px 10px
 </style>

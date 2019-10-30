@@ -30,12 +30,20 @@
               >
             </li>
             <li>
-              <a href="javascript:void(0);" id="btnImport" class="tool-btn"
+              <a
+                @click="importHandle"
+                href="javascript:void(0);"
+                id="btnImport"
+                class="tool-btn"
                 >导&nbsp;&nbsp;&nbsp;&nbsp;入</a
               >
             </li>
             <li>
-              <a href="javascript:void(0);" id="btnExport" class="tool-btn"
+              <a
+                @click="exportHandle"
+                href="javascript:void(0);"
+                id="btnExport"
+                class="tool-btn"
                 >导&nbsp;&nbsp;&nbsp;&nbsp;出</a
               >
             </li>
@@ -188,7 +196,7 @@
             ></el-switch>
             <el-slider
               :max="10"
-              @change="handleChange(item.type.slice(0, -2))"
+              @change="sliderChange(item)"
               v-model="SJSXform[item.type.slice(0, -2)].slider"
               class="myslider"
             ></el-slider>
@@ -237,6 +245,30 @@
         </el-form>
       </div>
     </fly-dialog>
+    <fly-dialog
+      class="custompos"
+      width="400px"
+      title="导入"
+      :show.sync="importVisible"
+      @beforeCloseDialog="importVisible = false"
+    >
+      <div class="importNode">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          action=""
+          :on-change="importHandleChange"
+          :auto-upload="false"
+        >
+          <el-button slot="trigger" size="small" type="primary"
+            >选取文件</el-button
+          >
+          <div slot="tip" class="el-upload__tip">
+            只能上传json文件，且不超过500kb
+          </div>
+        </el-upload>
+      </div>
+    </fly-dialog>
     <!-- 弹窗, 协同工作保存 -->
     <details-info v-if="detailVisible" ref="detailInfo"></details-info>
     <!-- 弹窗，分析 关系挖掘 -->
@@ -247,6 +279,7 @@
 <script>
 import FlyDialog from '@/components/fly-dialog'
 import Vis from 'vis'
+import FileSaver from 'file-saver'
 import DetailsInfo from './DetailsInfo'
 import Analysis from './AnalysisWindow'
 export default {
@@ -266,6 +299,7 @@ export default {
       analysisVisible: false,
       cxVisble: false,
       isClustering: false,
+      importVisible: false,
       allRemoveItems: '',
       nodes: [],
       edges: [],
@@ -281,6 +315,9 @@ export default {
       xxEdgecache: [],
       rmNodecache: [], // 开关缓存
       rmEdgecache: [],
+      rmSlidercache: [],
+      batNodes: [],
+      batedges: [],
       relationNodesTempArray: [],
       dataForm: {
         kws: '',
@@ -349,6 +386,32 @@ export default {
   },
   computed: {},
   methods: {
+    // 导入
+    importHandleChange(file) {
+      let _this = this
+      var name = file.name // 读取选中文件的文件名
+      var size = file.size // 读取选中文件的大小
+      console.log('文件名:' + name + '大小:' + size)
+
+      var reader = new FileReader() // 这是核心,读取操作就是由它完成.
+      reader.readAsText(file.raw) // 读取文件的内容,也可以读取文件的URL
+      reader.onload = function() {
+        // 当读取完成后回调这个函数,然后此时文件的内容存储到了result中,直接操作即可
+        let jsonObj = JSON.parse(this.result)
+        let edgesList = jsonObj.edges
+        let nodesList = jsonObj.nodes
+        for (let i = 0; i < nodesList.length; i++) {
+          if (_this.nodes.getIds().indexOf(nodesList[i].id) < 0) {
+            _this.nodes.add(nodesList[i])
+          }
+        }
+        for (var j = 0; j < edgesList.length; j++) {
+          if (_this.edges.getIds().indexOf(edgesList[j].id) < 0) {
+            _this.edges.add(edgesList[j])
+          }
+        }
+      }
+    },
     startfn() {
       // 初始化network
       this.init()
@@ -602,7 +665,7 @@ export default {
       var curNode = this.nodes.get(params.nodes[0])
       // 双击类型节点，进行条件筛选
       if (curNode.nodeType.substring(curNode.nodeType.length - 2) === 'RN') {
-        this.tjsxVisible = true
+        // this.tjsxVisible = true
         this.nodeType = curNode.nodeType.substring(
           0,
           curNode.nodeType.length - 2,
@@ -702,10 +765,30 @@ export default {
         }
       })
     },
+    // 导入
+    importHandle() {
+      this.importVisible = true
+    },
+    // 导出
+    exportHandle() {
+      if (!this.hasData()) {
+        this.$message({
+          message: '没有可以导出的数据！',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      this.exportJson()
+    },
     // 数据筛选
     dataFillerHanlde() {
       this.fillterVisible = !this.fillterVisible
       let canvasNode = this.getAllNodes()
+      let ns = this.getAllNodes()
+      let egs = this.getAllEdges()
+      this.batedges = egs
+      this.batNodes = ns
       let typeNode = canvasNode.filter(item => {
         if (item.nodeType.substring(item.nodeType.length - 2) === 'RN')
           return item
@@ -730,9 +813,60 @@ export default {
         // 隐藏该类型的节点
         this.hiddenNode(item.type)
       } else {
-        this.addNode(this.rmNodecache)
-        this.rmNodecache = []
+        for (let i in this.rmNodecache) {
+          if (this.rmNodecache[i].type === item.type) {
+            this.addNode(this.rmNodecache[i].node)
+            this.rmNodecache[i] = { node: '', type: '' }
+          }
+        }
       }
+    },
+    // slider 筛选
+    sliderChange(item) {
+      let num = this.SJSXform[item.type.slice(0, -2)].slider
+      let rmn = []
+      for (let key in this.SJSXform) {
+        let a = this.hiddenNodeByNum(key + 'RN', this.SJSXform[key].slider)
+        rmn = rmn.concat(a)
+      }
+      // 隐藏不满足条的节点
+      this.removeNode(rmn)
+    },
+    hiddenNodeByNum(type, num) {
+      let tpnds = this.batNodes.filter(item => {
+        if (item.nodeType == type) {
+          return item
+        }
+      })
+      let rmNode = []
+      for (let i in tpnds) {
+        let cids = this.findChildsBytpIdAndNum(tpnds[i].id, num)
+        for (let j in cids) {
+          rmNode.push(cids[j])
+        }
+      }
+      return rmNode
+    },
+    removeNode(rmNode) {
+      let addnode = []
+      var ids1 = this.batNodes.map(item => {
+        return item.id
+      })
+      for (let i in ids1) {
+        if (this.existsId(rmNode, ids1[i])) continue
+        addnode.push(ids1[i])
+      }
+      let an = []
+      for (let i in addnode) {
+        for (let j in this.batNodes) {
+          if (addnode[i] == parseInt(this.batNodes[j].id)) {
+            an.push(this.batNodes[j])
+          }
+        }
+      }
+      this.resetNetwork()
+      this.nodes.add(an)
+      this.edges.add(this.batedges)
     },
     hiddenNode(type) {
       let ns = this.getAllNodes()
@@ -749,10 +883,25 @@ export default {
           rmNode.push(cids[j])
         }
       }
+      let arr = []
       for (let i in rmNode) {
-        this.rmNodecache.push(this.nodes.get(rmNode[i]))
+        arr.push(this.nodes.get(rmNode[i]))
         this.nodes.remove(rmNode[i])
       }
+      this.rmNodecache.push({ node: arr, type: type })
+    },
+    findChildsBytpIdAndNum(id, num) {
+      let edges = this.batedges
+      let ids = []
+      for (let i in edges) {
+        if (edges[i].to === id && parseInt(edges[i].label) <= parseInt(num)) {
+          ids.push(edges[i].from)
+        }
+      }
+      if (this.findChildsBytpId(id).length == ids.length) {
+        ids.push(id)
+      }
+      return ids
     },
     findChildsBytpId(id) {
       let edges = this.getAllEdges()
@@ -1305,6 +1454,26 @@ export default {
     filterItem() {
       console.log(this.TJSXForm)
     },
+    exportJson() {
+      var datas = this.buildExportData()
+      let blob = new Blob([JSON.stringify(datas)])
+      FileSaver.saveAs(blob, 'relation.json')
+    },
+    buildExportData() {
+      var results = []
+      var ids = this.nodes.getIds()
+      for (var i in ids) {
+        var root = this.nodes.get(ids[i])
+        results.push(root)
+      }
+      var edIds = this.edges.getIds()
+      var edgs = []
+      for (let i in edIds) {
+        var edg = this.edges.get(edIds[i])
+        edgs.push(edg)
+      }
+      return { nodes: results, edges: edgs }
+    },
   },
   created() {
     this.$api.getAllRelationType().then(({ data }) => {
@@ -1494,4 +1663,12 @@ export default {
   line-height 20px
   vertical-align middle
   margin-right 10px
+.importNode
+  padding 10px
+  .el-upload__tip
+    color #fff
+>>>.el-upload-list__item-name
+  color #fff
+  &:hover
+    color #17b3a3
 </style>

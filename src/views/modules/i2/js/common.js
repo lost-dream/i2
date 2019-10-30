@@ -150,10 +150,12 @@ export function unNockNode(node) {
 /**
  * 删除节点 或 边
  */
-export function deleteOperation() {
+export function deleteOperation(nodeId) {
   var selNodes = global.network.getSelectedNodes()
   var selEdges = global.network.getSelectedEdges()
-
+  if (nodeId != '') {
+    selNodes = [nodeId]
+  }
   if (selNodes && selNodes.length > 0) {
     deleteNode(selNodes)
   } else if (selEdges && selEdges.length > 0) {
@@ -167,6 +169,45 @@ export function deleteOperation() {
 		*/
     // deleteEdge(selEdges);
   }
+}
+/**
+ * 删除连线
+ * @param edge
+ */
+export function deleteEdge(edge) {
+  var _es
+  if (edge instanceof Array) {
+    _es = edge
+  } else {
+    _es = [edge]
+  }
+
+  if (_es.length == 0) return
+
+  var msg = ''
+  if (_es.length == 1) {
+    msg = '你确定要删除[' + global.edges.get(_es[0]).label + ']关系吗？'
+  } else {
+    msg = '你确定要删除选中的' + _es.length + '个关系吗？'
+  }
+
+  if (!confirm(msg)) {
+    return
+  }
+
+  // 连线【关系】的删除操作，需要区分关系类型-1、系统关系类型2、自建关系类型
+  // var zjgxids = []
+  // for (var i = 0; i < _es.length; i++) {
+  //   let edge = global.edges.get(_es[i])
+  //   var rels = edge.rels
+  //   for (var key in rels) {
+  //     if (rels[key].attr && rels[key].attr == 'zjgx') {
+  //       zjgxids.push(rels[key].id)
+  //     }
+  //   }
+  // }
+
+  global.edges.remove(_es)
 }
 /**
  * 删除节点和子节点

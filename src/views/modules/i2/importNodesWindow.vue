@@ -10,7 +10,7 @@
     >
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
       <div slot="tip" class="el-upload__tip">
-        只能上传json/txt文件，且不超过500kb
+        只能上传json文件，且不超过500kb
       </div>
     </el-upload>
   </div>

@@ -285,7 +285,6 @@ export default {
           renderNodes(this, ns)
         }
       })
-      console.log(kws)
     },
     // 移动 或 复制至文件夹
     moveOrCopyToFoder(type) {
