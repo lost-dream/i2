@@ -1,8 +1,5 @@
 import http from '@/utils/httpRequest'
 
-import axios from 'axios'
-import qs from 'qs'
-
 // 通过用户和密码登录
 export function login(userData) {
   return http({

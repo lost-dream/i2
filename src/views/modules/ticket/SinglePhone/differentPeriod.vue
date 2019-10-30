@@ -144,7 +144,7 @@ export default {
       if (this.arr.length > 0) {
         let data = this.differentData
         this.differentData2 = data
-        let conData = this.callForm
+        // let conData = this.callForm
         console.log('分析查询')
         // conData.time != null && this.timeSizer()
         console.log(this.differentData2)

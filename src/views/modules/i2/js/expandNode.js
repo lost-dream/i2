@@ -38,7 +38,8 @@ function queryDataByCluster(curNode, callback) {
   }
   $.ajax({
     type: 'GET',
-    url: window.SITE_CONFIG.baseUrl + 'i2/nodeAndRelationCtlr/spreadRelation',
+    url:
+      window.SITE_CONFIG.baseUrl + 'i2s/i2/nodeAndRelationCtlr/spreadRelation',
     contentType: 'application/json;charset=utf-8',
     dataType: 'json',
     data: data,

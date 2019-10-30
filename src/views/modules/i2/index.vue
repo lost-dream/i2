@@ -257,7 +257,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl id="btnBatchAddNode" class="tab-li">
+                  <dl id="btnArchives" class="tab-li" @click="archivesHandle">
                     <dt class="operate-icon operate-addBatch dangan"></dt>
                     <dd class="operate-desc">档案</dd>
                   </dl>
@@ -937,6 +937,24 @@ export default {
         this.$refs.sidebarControl.init('2', '定向分析', 'DynamicTabDX', nodeId)
       })
       this.removeMenu()
+    },
+    // 档案
+    archivesHandle() {
+      let selectNodes = this.global.network.getSelectedNodes()
+      if (!selectNodes || selectNodes.length < 1) {
+        this.$message({
+          message: '请选中节点后再执行此操作',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      let node = this.global.nodes.get(selectNodes[0])
+      let routeData = this.$router.resolve({
+        name: 'archives',
+        query: { keyword: node.keyword },
+      })
+      window.open(routeData.href, '_blank')
     },
     // 分析--- 碰撞对比
     pzAnalysisHandle() {
