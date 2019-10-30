@@ -863,7 +863,7 @@ export default {
               backStyle: item.style,
               frontStyle: item.style,
               chainedAddress: item.path,
-              powerPath: 'sys',
+              powerPath: item.url,
               sortSubordinate: item.status,
               adjustSort: item.sortOrder,
             },
@@ -884,7 +884,7 @@ export default {
               backStyle: item.style,
               frontStyle: item.style,
               chainedAddress: item.path,
-              powerPath: 'sys',
+              powerPath: item.url,
               sortSubordinate: item.status,
               adjustSort: item.sortOrder,
             },
@@ -1222,7 +1222,7 @@ export default {
               backStyle: '',
               frontStyle: '',
               chainedAddress: '',
-              powerPath: 'sys',
+              powerPath: '',
               sortSubordinate: '',
               adjustSort: '',
             }
@@ -1343,7 +1343,7 @@ export default {
   line-height: 1;
   padding-top: 4px;
   position: absolute;
-  top: 25%;
+  top: 1%;
   left: 105%;
 }
 .menuManage .coat2 .el-button {
