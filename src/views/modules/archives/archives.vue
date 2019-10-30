@@ -382,16 +382,16 @@ export default {
       curPage: 1, // 当前分页
       totalPage: 1, // 总页数
       userInfo: {},
-      carList: null, // 所有的汽车信息
-      carShow: null, // 显示的汽车信息（每次四个）
-      travelRecordList: null, // 所有的出行记录信息
-      travelRecordShow: null, // 显示的出行记录信息（每次四个）
-      hotelList: null, // 所有的住宿信息
-      hotelShow: null, // 显示的住宿信息（每次四个）
-      interList: null, // 所有的网吧信息
-      interShow: null, // 显示的网吧信息（每次四个）
-      caseList: null, // 所有的案件信息
-      caseShow: null, // 显示的案件信息（每次四个）
+      carList: [], // 所有的汽车信息
+      carShow: [], // 显示的汽车信息（每次四个）
+      travelRecordList: [], // 所有的出行记录信息
+      travelRecordShow: [], // 显示的出行记录信息（每次四个）
+      hotelList: [], // 所有的住宿信息
+      hotelShow: [], // 显示的住宿信息（每次四个）
+      interList: [], // 所有的网吧信息
+      interShow: [], // 显示的网吧信息（每次四个）
+      caseList: [], // 所有的案件信息
+      caseShow: [], // 显示的案件信息（每次四个）
       showDialog: false,
       formInline: {
         seek: '',
@@ -581,33 +581,40 @@ export default {
         },
       } = data
       this.userInfo = person
+      if (carList) {
+        carList.map(value => {
+          value['name'] = person.name
+          // 是否涉案车辆
+          value['isCaseInvolved'] =
+            value['isCaseInvolved'] === '1' ? '是' : '否'
+        })
+        this.carList = carList
+      }
+      if (travelRecordList) {
+        travelRecordList.map(value => {
+          value['name'] = person.name
+        })
+        this.travelRecordList = travelRecordList
+      }
+      if (hotelList) {
+        hotelList.map(value => {
+          value['name'] = person.name
+        })
+        this.hotelList = hotelList
+      }
 
-      carList.map(value => {
-        value['name'] = person.name
-        // 是否涉案车辆
-        value['isCaseInvolved'] = value['isCaseInvolved'] === '1' ? '是' : '否'
-      })
-      this.carList = carList
-
-      travelRecordList.map(value => {
-        value['name'] = person.name
-      })
-      this.travelRecordList = travelRecordList
-
-      hotelList.map(value => {
-        value['name'] = person.name
-      })
-      this.hotelList = hotelList
-
-      interList.map(value => {
-        value['name'] = person.name
-      })
-      this.interList = interList
-
-      caseList.map(value => {
-        value['name'] = person.name
-      })
-      this.caseList = caseList
+      if (interList) {
+        interList.map(value => {
+          value['name'] = person.name
+        })
+        this.interList = interList
+      }
+      if (caseList) {
+        caseList.map(value => {
+          value['name'] = person.name
+        })
+        this.caseList = caseList
+      }
 
       this.renderData('hotel')
       this.renderData('car')

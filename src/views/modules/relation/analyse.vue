@@ -820,7 +820,7 @@ export default {
     },
     // slider 筛选
     sliderChange(item) {
-      let num = this.SJSXform[item.type.slice(0, -2)].slider
+      // let num = this.SJSXform[item.type.slice(0, -2)].slider
       let rmn = []
       for (let key in this.SJSXform) {
         let a = this.hiddenNodeByNum(key + 'RN', this.SJSXform[key].slider)

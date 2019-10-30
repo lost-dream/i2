@@ -14,7 +14,7 @@ export function PeopleNodeInfoControl(_this, node) {
     }
     $.ajax({
       type: 'GET',
-      url: window.SITE_CONFIG.baseUrl + 'i2/nodeDetailCtlr/findNodeDetail',
+      url: window.SITE_CONFIG.baseUrl + 'i2s/i2/nodeDetailCtlr/findNodeDetail',
       contentType: 'application/json;charset=utf-8',
       dataType: 'json',
       data: data,
