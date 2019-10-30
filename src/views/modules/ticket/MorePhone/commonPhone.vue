@@ -277,7 +277,7 @@ export default {
       console.log(11111111)
       console.log(data)
       console.log(this.morePhone2)
-      this.data = this.disposeData(this.dataTest)
+      this.data = this.disposeData(this.morePhone2)
       this.links = this.disposeLinks(this.data)
       this.comPhone()
       console.log(this.data)
@@ -421,8 +421,8 @@ export default {
     },
 
     callInfo(start, end, tpye) {
-      let data = this.dataTest
-      // let data = this.morePhone2
+      // let data = this.dataTest
+      let data = this.morePhone2
       let num = 0
       let obj = data.filter(_a => _a.phone == start)
       console.log(obj)
@@ -492,8 +492,8 @@ export default {
     samePhone(data2) {
       // 提取相同电话
 
-      let data = this.dataTest
-      // let data = data2
+      // let data = this.dataTest
+      let data = data2
       function repeat(arr1, arr2) {
         return arr1.filter(element1 =>
           arr2.some(

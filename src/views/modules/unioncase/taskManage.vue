@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name: 'taskManage',
   data() {
@@ -176,7 +177,7 @@ export default {
           createDate: '2019-07-08 15:57:40',
         },
       ],
-      userId: 'a3ae1f4d5d85499d8e6fe71f6dd6177c',
+      userId: Cookies.get('userId'),
     }
   },
   mounted() {

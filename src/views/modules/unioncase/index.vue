@@ -344,7 +344,6 @@
             height="245px"
             @current-change="handleCurrentChange"
             @row-click="rowClick"
-            :row-key="getRowKey"
             style="width: 100%"
           >
             <el-table-column
@@ -362,11 +361,12 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
-                <button
+                <!--<button
                   :data-index="scope.row.id"
                   @click="delId = scope.row.id"
                   class="el-icon-delete-solid removeLayer"
-                ></button>
+                ></button>-->
+                <button @click.stop="del(scope.row)"></button>
               </template>
             </el-table-column>
           </el-table>
@@ -406,6 +406,12 @@ export default {
     //   callback()
     // }
     return {
+      mapLodad: null,
+      map: null,
+      graphicsLayer: null,
+      pSymbol: null,
+      id: 0,
+
       activeName: 'Second',
       show: false,
       trackShow: false,
@@ -498,10 +504,49 @@ export default {
   computed: {},
   created() {},
   mounted() {
+    console.log(this.$route.query)
     this.isInfo = this.$route.params.flag
     this.mapDraw()
   },
   methods: {
+    del(row) {
+      let _this = this
+      console.log(666633333)
+      _this.map.graphics.remove(_this.graphicItemS[row.id])
+      let fnIndex = row.id
+      console.log(3333333)
+      console.log(_this.graphicItemS[row.id])
+      _this.mapTableData.splice(fnIndex, 1)
+      _this.graphicItemS.splice(fnIndex, 1)
+      console.log(_this.taskInfo.conditions)
+      _this.taskInfo.conditions.forEach((item, index) => {
+        console.log(item.graphicId === fnIndex)
+        console.log(_this.taskInfo.conditions.length > 1)
+        item.graphicId === fnIndex && _this.taskInfo.conditions.length > 1
+          ? _this.taskInfo.conditions.splice(index, 1)
+          : (_this.taskInfo.conditions[0] = {
+              graphicId: null,
+              pointLatitude: '',
+              pointLongitude: '',
+              date1: '',
+              date2: '',
+              range: 0,
+              taskType: null,
+            })
+        console.log(_this.taskInfo.conditions[0])
+      })
+      console.log(_this.taskInfo.conditions)
+
+      _this.taskInfo.conditions = _this.taskInfo.conditions.map(item => {
+        item.graphicId >= fnIndex && item.graphicId--
+        return item
+      })
+      _this.mapTableData = _this.mapTableData.map((item, index) => {
+        index >= fnIndex && item.id--
+        return item
+      })
+      _this.id--
+    },
     mapDraw() {
       var _this = this
       const options = {
@@ -609,7 +654,7 @@ export default {
             esriConfig.defaults.io.alwaysUseProxy = false
             var infoWindow = new InfoWindow({}, domConstruct.create('div'))
             infoWindow.startup()
-            var map = new Map('map', {
+            _this.map = new Map('map', {
               basemap: 'delorme',
               // basemap: 'streets',
               center: [104.06667, 30.66667],
@@ -617,24 +662,24 @@ export default {
               zoom: 15,
               logo: false,
             })
-            map.on('Load', function() {
+            var mapLodad = function() {
               console.log('地图加载完毕')
-              map.infoWindow.resize(250, 200)
+              _this.map.infoWindow.resize(250, 200)
 
               // 创建客户端图层
-              var graphicsLayer = new GraphicsLayer()
+              _this.graphicsLayer = new GraphicsLayer()
               // 将客户端图层添加到地图中
-              map.addLayer(graphicsLayer)
+              _this.map.addLayer(_this.graphicsLayer)
 
               // 定义点符号
-              var pSymbol = new PictureMarkerSymbol(
+              _this.pSymbol = new PictureMarkerSymbol(
                 require('../../../assets/img/tubiao.png'),
                 20,
                 25,
               )
               // 定义面符号
               // var fill = SimpleFillSymbol()
-              var id = 0
+              // var id = 0
               // 声明一个类型和图形
               var point
               // var circle
@@ -652,8 +697,17 @@ export default {
               //   // drawTool.activate(Draw['POINT'])
               //   // drawEndEvent()
               // })
-              on(dom.byId('casePlace'), 'click', function() {
-                if (_this.search()) {
+              on(dom.byId('casePlace'), 'click', () => {
+                let obj = []
+                _this.inputList.forEach(item => {
+                  obj.push(item.caseNum)
+                })
+                _this.$api.queryTCase(obj).then(({ data }) => {
+                  _this.caseData = data.data.data
+                  console.log(data)
+                  console.log(data.data.data)
+                  console.log(_this.caseData)
+                  _this.show = false
                   console.log(3333)
                   _this.caseData.forEach(item => {
                     addPoint(
@@ -663,8 +717,21 @@ export default {
                       item.caseNo,
                     )
                   })
-                }
+                })
               })
+              //   on(dom.byId('casePlace'), 'click', function() {
+              //   _this.search().then(() => {
+              //     console.log(3333)
+              //     _this.caseData.forEach(item => {
+              //       addPoint(
+              //         item.longitude,
+              //         item.latitude,
+              //         '案发地点',
+              //         item.caseNo,
+              //       )
+              //     })
+              //   })
+              // })
 
               on(dom.byId('affirmLabel'), 'click', function() {
                 _this.affirmLabel()
@@ -677,7 +744,7 @@ export default {
                 isNaN(range) && (range = 0)
                 range === '' && (range = 0)
                 _this.taskInfo.conditions.forEach(item => {
-                  map.graphics.remove(_this.graphicItemS[item.graphicId])
+                  _this.map.graphics.remove(_this.graphicItemS[item.graphicId])
                   bufferData(
                     item.pointLongitude,
                     item.pointLatitude,
@@ -689,18 +756,13 @@ export default {
               $('#delId').bind('input propertychange', function(event) {
                 console.log('成功')
               })
-              $('.removeLayer').bind('click', function(event) {
-                console.log('成功')
-              })
 
               // 删除图形
-              // query('.casePlace').on('click', function(e) {
-              //   console.log(12122)
-              //   console.log(e)
-              //   console.log(121212)
-              // })
+              this.del = function() {
+                console.log(12122)
+              }
 
-              var drawTool = new Draw(map)
+              var drawTool = new Draw(_this.map)
               // 绘制点
               drawTool.markerSymbol = new PictureMarkerSymbol(
                 require('../../../assets/img/tubiao.png'),
@@ -738,9 +800,9 @@ export default {
                     longitude: center[0].toFixed(6),
                     latitude: center[1].toFixed(6),
                     type: '描圆',
-                    id,
+                    id: _this.id,
                   }
-                  id++
+                  _this.id++
                   _this.mapTableData.push(newObj)
                 }
                 var symbol
@@ -755,9 +817,9 @@ export default {
                     longitude: center1[0].toFixed(6),
                     latitude: center1[1].toFixed(6),
                     type: '描点',
-                    id,
+                    id: _this.id,
                   }
-                  id++
+                  _this.id++
                   _this.mapTableData.push(newObj1)
                   symbol = drawTool.markerSymbol
                 } else {
@@ -770,63 +832,63 @@ export default {
                 console.log(555555)
                 console.log(_this.graphicItemS)
                 // _this.graphicItemS.push(graphicItem)
-                _this.graphicItemS[id - 1] = graphicItem
+                _this.graphicItemS[_this.id - 1] = graphicItem
                 console.log(_this.graphicItemS)
-                map.graphics.add(graphicItem)
+                _this.map.graphics.add(graphicItem)
 
-                // 删除图形
-                setTimeout(
-                  () => {
-                    // off()click操作中的累积效果
-                    $('.removeLayer')
-                      .off('click')
-                      .on('click', e => {
-                        let i = Number(e.target.dataset.index)
-                        map.graphics.remove(_this.graphicItemS[i])
-                        let fnIndex = _this.mapTableData.findIndex(fn)
-
-                        console.log(3333333)
-                        console.log(_this.graphicItemS)
-                        _this.mapTableData.splice(fnIndex, 1)
-                        _this.graphicItemS.splice(fnIndex, 1)
-                        _this.taskInfo.conditions.forEach((item, index) => {
-                          item.graphicId === fnIndex &&
-                          _this.taskInfo.conditions.length > 1
-                            ? _this.taskInfo.conditions.splice(index, 1)
-                            : (_this.taskInfo.conditions[0] = {
-                                graphicId: null,
-                                pointLatitude: '',
-                                pointLongitude: '',
-                                date1: '',
-                                date2: '',
-                                range: 0,
-                                taskType: null,
-                              })
-                        })
-
-                        _this.taskInfo.conditions = _this.taskInfo.conditions.map(
-                          item => {
-                            item.graphicId >= fnIndex && item.graphicId--
-                            return item
-                          },
-                        )
-                        _this.mapTableData = _this.mapTableData.map(
-                          (item, index) => {
-                            index >= fnIndex && item.id--
-                            return item
-                          },
-                        )
-                        id--
-                        function fn(num, numIndex, nums) {
-                          return num.id === i
-                        }
-                      })
-                  },
-                  500,
-                  evt,
-                  map,
-                  graphicItem,
-                )
+                // // 删除图形
+                // setTimeout(
+                //   () => {
+                //     // off()click操作中的累积效果
+                //     $('.removeLayer')
+                //       .off('click')
+                //       .on('click', e => {
+                //         let i = Number(e.target.dataset.index)
+                //         _this.map.graphics.remove(_this.graphicItemS[i])
+                //         let fnIndex = _this.mapTableData.findIndex(fn)
+                //
+                //         console.log(3333333)
+                //         console.log(_this.graphicItemS)
+                //         _this.mapTableData.splice(fnIndex, 1)
+                //         _this.graphicItemS.splice(fnIndex, 1)
+                //         _this.taskInfo.conditions.forEach((item, index) => {
+                //           item.graphicId === fnIndex &&
+                //           _this.taskInfo.conditions.length > 1
+                //             ? _this.taskInfo.conditions.splice(index, 1)
+                //             : (_this.taskInfo.conditions[0] = {
+                //                 graphicId: null,
+                //                 pointLatitude: '',
+                //                 pointLongitude: '',
+                //                 date1: '',
+                //                 date2: '',
+                //                 range: 0,
+                //                 taskType: null,
+                //               })
+                //         })
+                //
+                //         _this.taskInfo.conditions = _this.taskInfo.conditions.map(
+                //           item => {
+                //             item.graphicId >= fnIndex && item.graphicId--
+                //             return item
+                //           },
+                //         )
+                //         _this.mapTableData = _this.mapTableData.map(
+                //           (item, index) => {
+                //             index >= fnIndex && item.id--
+                //             return item
+                //           },
+                //         )
+                //         _this.id--
+                //         function fn(num, numIndex, nums) {
+                //           return num.id === i
+                //         }
+                //       })
+                //   },
+                //   500,
+                //   evt,
+                //   _this.map,
+                //   graphicItem,
+                // )
               }
 
               function addPoint(x, y, type, caseNo) {
@@ -841,13 +903,13 @@ export default {
                   longitude: x,
                   latitude: y,
                   type: type,
-                  id,
+                  id: _this.id,
                 }
-                id++
+                _this.id++
                 _this.mapTableData.push(newObj1)
-                graphic = new Graphic(point, pSymbol)
-                _this.graphicItemS[id - 1] = graphic
-                map.graphics.add(graphic)
+                graphic = new Graphic(point, _this.pSymbol)
+                _this.graphicItemS[_this.id - 1] = graphic
+                _this.map.graphics.add(graphic)
               }
 
               function bufferData(x, y, radius, graphicId) {
@@ -894,12 +956,319 @@ export default {
                   array.forEach(features, function(geometry) {
                     var graphic = new Graphic(geometry, symbol)
                     _this.graphicItemS.splice(graphicId, 1, graphic)
-                    map.graphics.add(graphic)
+                    _this.map.graphics.add(graphic)
                   })
                   console.log(_this.graphicItemS)
                 })
               }
-            })
+            }
+
+            //  map.on('Load', function() {
+            //   console.log('地图加载完毕')
+            //   map.infoWindow.resize(250, 200)
+            //
+            //   // 创建客户端图层
+            //   var graphicsLayer = new GraphicsLayer()
+            //   // 将客户端图层添加到地图中
+            //   map.addLayer(graphicsLayer)
+            //
+            //   // 定义点符号
+            //   var pSymbol = new PictureMarkerSymbol(
+            //     require('../../../assets/img/tubiao.png'),
+            //     20,
+            //     25,
+            //   )
+            //   // 定义面符号
+            //   // var fill = SimpleFillSymbol()
+            //   var id = 0
+            //   // 声明一个类型和图形
+            //   var point
+            //   // var circle
+            //   var graphic
+            //   // on(dom.byId('casePlace'), 'click', function() {
+            //   // query('#casePlace').bind('click', function() {
+            //   // query('#casePlace').on('click', function() {
+            //   //   // query('#casePlace').click(function() {
+            //   //   // on($('#casePlace'), 'click', function() {
+            //   //   // _this.pointType = 2
+            //   //   _this.search()
+            //   //   console.log(5555555555)
+            //   //   addPoint(104.069696, 30.677559, '案发地点')
+            //   //   // dom.byId('point')
+            //   //   // drawTool.activate(Draw['POINT'])
+            //   //   // drawEndEvent()
+            //   // })
+            //   on(dom.byId('casePlace'), 'click', () => {
+            //     let obj = []
+            //     _this.inputList.forEach(item => {
+            //       obj.push(item.caseNum)
+            //     })
+            //     _this.$api.queryTCase(obj).then(({ data }) => {
+            //       _this.caseData = data.data.data
+            //       console.log(data)
+            //       console.log(data.data.data)
+            //       console.log(_this.caseData)
+            //       _this.show = false
+            //       console.log(3333)
+            //       _this.caseData.forEach(item => {
+            //         addPoint(
+            //           item.longitude,
+            //           item.latitude,
+            //           '案发地点',
+            //           item.caseNo,
+            //         )
+            //       })
+            //     })
+            //   })
+            //   //   on(dom.byId('casePlace'), 'click', function() {
+            //   //   _this.search().then(() => {
+            //   //     console.log(3333)
+            //   //     _this.caseData.forEach(item => {
+            //   //       addPoint(
+            //   //         item.longitude,
+            //   //         item.latitude,
+            //   //         '案发地点',
+            //   //         item.caseNo,
+            //   //       )
+            //   //     })
+            //   //   })
+            //   // })
+            //
+            //   on(dom.byId('affirmLabel'), 'click', function() {
+            //     _this.affirmLabel()
+            //     _this.okTrack.forEach(item => {
+            //       addPoint(item.longitude, item.latitude, '轨迹点', '')
+            //     })
+            //   })
+            //   $('#range').bind('input propertychange', function(event) {
+            //     let range = $('#range').val()
+            //     isNaN(range) && (range = 0)
+            //     range === '' && (range = 0)
+            //     _this.taskInfo.conditions.forEach(item => {
+            //       map.graphics.remove(_this.graphicItemS[item.graphicId])
+            //       bufferData(
+            //         item.pointLongitude,
+            //         item.pointLatitude,
+            //         range,
+            //         item.graphicId,
+            //       )
+            //     })
+            //   })
+            //   $('#delId').bind('input propertychange', function(event) {
+            //     console.log('成功')
+            //   })
+            //   $('.removeLayer').bind('click', function(event) {
+            //     console.log('成功')
+            //   })
+            //
+            //   // 删除图形
+            //   // query('.casePlace').on('click', function(e) {
+            //   //   console.log(12122)
+            //   //   console.log(e)
+            //   //   console.log(121212)
+            //   // })
+            //
+            //   var drawTool = new Draw(map)
+            //   // 绘制点
+            //   drawTool.markerSymbol = new PictureMarkerSymbol(
+            //     require('../../../assets/img/tubiao.png'),
+            //     20,
+            //     25,
+            //   )
+            //   // 绘制几何
+            //   drawTool.fillSymbol = new SimpleFillSymbol(
+            //     SimpleFillSymbol.STYLE_SOLID,
+            //     new SimpleLineSymbol('solid', new Color([197, 97, 20]), 0.5),
+            //     new Color([197, 97, 20, 0.5]),
+            //   )
+            //
+            //   on(dom.byId('circle'), 'click', function() {
+            //     drawTool.activate(Draw['CIRCLE'])
+            //   })
+            //   on(dom.byId('point'), 'click', function() {
+            //     _this.pointType = 1
+            //     drawTool.activate(Draw['POINT'])
+            //   })
+            //
+            //   drawTool.on('draw-complete', drawEndEvent)
+            //
+            //   function drawEndEvent(evt) {
+            //     if (evt.target._geometryType === 'circle') {
+            //       var length =
+            //         geometryEngine.geodesicLength(evt.geometry, 'meters') /
+            //         Math.PI // 长度公式
+            //       var a = evt.geometry.cache._extent
+            //       var newX = (a.xmin + a.xmax) / 2
+            //       var newY = (a.ymax + a.ymin) / 2
+            //       var center = webMercatorUtils.xyToLngLat(newX, newY)
+            //       var newObj = {
+            //         range: length / 2,
+            //         longitude: center[0].toFixed(6),
+            //         latitude: center[1].toFixed(6),
+            //         type: '描圆',
+            //         id,
+            //       }
+            //       id++
+            //       _this.mapTableData.push(newObj)
+            //     }
+            //     var symbol
+            //     // 添加图形
+            //     if (evt.geometry.type === 'point') {
+            //       var a1 = evt.geometry
+            //       var newX1 = a1.x
+            //       var newY1 = a1.y
+            //       var center1 = webMercatorUtils.xyToLngLat(newX1, newY1)
+            //       var newObj1 = {
+            //         range: 0,
+            //         longitude: center1[0].toFixed(6),
+            //         latitude: center1[1].toFixed(6),
+            //         type: '描点',
+            //         id,
+            //       }
+            //       id++
+            //       _this.mapTableData.push(newObj1)
+            //       symbol = drawTool.markerSymbol
+            //     } else {
+            //       symbol = drawTool.fillSymbol
+            //     }
+            //
+            //     // 解除物件的启动状态
+            //     drawTool.deactivate()
+            //     let graphicItem = new Graphic(evt.geometry, symbol)
+            //     console.log(555555)
+            //     console.log(_this.graphicItemS)
+            //     // _this.graphicItemS.push(graphicItem)
+            //     _this.graphicItemS[id - 1] = graphicItem
+            //     console.log(_this.graphicItemS)
+            //     map.graphics.add(graphicItem)
+            //
+            //     // 删除图形
+            //     setTimeout(
+            //       () => {
+            //         // off()click操作中的累积效果
+            //         $('.removeLayer')
+            //           .off('click')
+            //           .on('click', e => {
+            //             let i = Number(e.target.dataset.index)
+            //             map.graphics.remove(_this.graphicItemS[i])
+            //             let fnIndex = _this.mapTableData.findIndex(fn)
+            //
+            //             console.log(3333333)
+            //             console.log(_this.graphicItemS)
+            //             _this.mapTableData.splice(fnIndex, 1)
+            //             _this.graphicItemS.splice(fnIndex, 1)
+            //             _this.taskInfo.conditions.forEach((item, index) => {
+            //               item.graphicId === fnIndex &&
+            //               _this.taskInfo.conditions.length > 1
+            //                 ? _this.taskInfo.conditions.splice(index, 1)
+            //                 : (_this.taskInfo.conditions[0] = {
+            //                     graphicId: null,
+            //                     pointLatitude: '',
+            //                     pointLongitude: '',
+            //                     date1: '',
+            //                     date2: '',
+            //                     range: 0,
+            //                     taskType: null,
+            //                   })
+            //             })
+            //
+            //             _this.taskInfo.conditions = _this.taskInfo.conditions.map(
+            //               item => {
+            //                 item.graphicId >= fnIndex && item.graphicId--
+            //                 return item
+            //               },
+            //             )
+            //             _this.mapTableData = _this.mapTableData.map(
+            //               (item, index) => {
+            //                 index >= fnIndex && item.id--
+            //                 return item
+            //               },
+            //             )
+            //             id--
+            //             function fn(num, numIndex, nums) {
+            //               return num.id === i
+            //             }
+            //           })
+            //       },
+            //       500,
+            //       evt,
+            //       map,
+            //       graphicItem,
+            //     )
+            //   }
+            //
+            //   function addPoint(x, y, type, caseNo) {
+            //     // 104.069696,
+            //     // 30.677559,
+            //     // x = 104.071112
+            //     // y = 30.672724
+            //     point = new Point(x, y, new SpatialReference({ wkid: 4326 }))
+            //     let newObj1 = {
+            //       caseNo: caseNo,
+            //       range: 0,
+            //       longitude: x,
+            //       latitude: y,
+            //       type: type,
+            //       id,
+            //     }
+            //     id++
+            //     _this.mapTableData.push(newObj1)
+            //     graphic = new Graphic(point, pSymbol)
+            //     _this.graphicItemS[id - 1] = graphic
+            //     map.graphics.add(graphic)
+            //   }
+            //
+            //   function bufferData(x, y, radius, graphicId) {
+            //     console.log(graphicId)
+            //     var points = [
+            //       new Point(x, y, new SpatialReference({ wkid: 4326 })),
+            //     ]
+            //     let newObj1 = {
+            //       range: radius,
+            //       longitude: x,
+            //       latitude: y,
+            //       type: '描圆',
+            //       id: graphicId,
+            //     }
+            //     _this.mapTableData.splice(graphicId, 1, newObj1)
+            //
+            //     // for (var i = 0; i < points.length; i++) {
+            //     //   map.graphics.add(new Graphic(points[i], symbol))
+            //     // }
+            //
+            //     var pointParams = new BufferParameters()
+            //     pointParams.geometries = points
+            //     pointParams.distances = [radius * 0.001]
+            //     pointParams.unit = GeometryService.UNIT_KILOMETER
+            //     pointParams.bufferSpatialReference = new SpatialReference({
+            //       wkid: 3857,
+            //     })
+            //     pointParams.outSpatialReference = new SpatialReference({
+            //       wkid: 102100,
+            //     })
+            //
+            //     geometryService.buffer(pointParams, function(features) {
+            //       var symbol = new SimpleFillSymbol(
+            //         SimpleFillSymbol.STYLE_SOLID,
+            //         new SimpleLineSymbol(
+            //           'solid',
+            //           new Color([197, 97, 20]),
+            //           0.5,
+            //         ),
+            //         new Color([197, 97, 20, 0.5]),
+            //       )
+            //       console.log(666)
+            //       console.log(_this.graphicItemS)
+            //       array.forEach(features, function(geometry) {
+            //         var graphic = new Graphic(geometry, symbol)
+            //         _this.graphicItemS.splice(graphicId, 1, graphic)
+            //         map.graphics.add(graphic)
+            //       })
+            //       console.log(_this.graphicItemS)
+            //     })
+            //   }
+            // })
+            _this.map.on('Load', mapLodad)
           },
         )
         .catch(err => {
@@ -926,6 +1295,7 @@ export default {
     rowClick(row, column, event) {
       console.log(11111)
       console.log(row)
+      console.log(this.taskInfo.conditions)
       if (this.addCriteria) {
         let obj = {
           graphicId: row.id,
@@ -941,14 +1311,17 @@ export default {
           this.taskInfo.conditions[0].pointLatitude !== '' &&
           this.taskInfo.conditions[0].pointLongitude !== ''
         ) {
-          this.taskInfo.conditions.push(obj)
+          !this.taskInfo.conditions.some(item => {
+            if (item.graphicId == row.id) {
+              return true
+            }
+          }) && this.taskInfo.conditions.push(obj)
         } else {
           // this.taskInfo.conditions[0] = obj
           this.taskInfo.conditions[0].pointLatitude = row.latitude
           this.taskInfo.conditions[0].pointLongitude = row.longitude
           this.taskInfo.conditions[0].graphicId = row.id
           this.taskInfo.conditions[0].range = row.range
-          console.log(this.taskInfo)
 
           row.type === '描圆'
             ? (this.taskInfo.conditions[0].taskType = 0)
@@ -967,9 +1340,6 @@ export default {
         row.type === '描圆'
           ? (this.taskInfo.conditions[0].taskType = 0)
           : (this.taskInfo.conditions[0].taskType = 1)
-
-        console.log(column)
-        console.log(event)
       }
     },
 
@@ -987,7 +1357,6 @@ export default {
         console.log(data.data.data)
         console.log(_this.caseData)
         this.show = false
-        return true
       })
     },
 

@@ -129,6 +129,7 @@ export default {
   },
   methods: {
     caseNameChange1() {
+      localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
       this.ticketOnePhone()
       this.singlePhoneList()
     },
