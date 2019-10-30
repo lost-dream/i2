@@ -331,6 +331,13 @@ export default {
               //   map.graphics.add(picGraphic)
               // })
 
+              LineSymbol = new SimpleLineSymbol()
+              LineSymbol.setMarker({
+                style: 'arrow',
+                placement: 'end',
+              })
+              LineSymbol.setColor(new Color([250, 150, 0, 1]))
+
               _this.morePosition.map(function(item2) {
                 item2.list.forEach(item => {
                   newPoint = new Point(
@@ -344,12 +351,6 @@ export default {
                     25,
                   )
 
-                  LineSymbol = SimpleLineSymbol()
-                  LineSymbol.setMarker({
-                    style: 'arrow',
-                    placement: 'end',
-                  })
-                  LineSymbol.setColor(new Color([250, 150, 0, 1]))
                   picGraphic = new Graphic(newPoint, picSymbol)
                   map.graphics.add(picGraphic)
                 })

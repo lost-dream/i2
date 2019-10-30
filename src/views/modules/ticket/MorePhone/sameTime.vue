@@ -499,6 +499,27 @@ export default {
       return narr
     },
 
+    /*  dataSort3(data) {
+      function repeat(arr1, arr2) {
+        return arr1.filter(element1 =>
+          arr2.some(
+            element2 => element1.otherPartyPhone === element2.otherPartyPhone,
+          ),
+        )
+      }
+      console.log(5555)
+      console.log(data)
+      let sameDate = []
+      let temArr = data[0]
+      for (let i = 1; i < data.length - 1; i++) {
+        let arr1 = temArr.list
+        let arr2 = data[i].list
+        temArr.list = repeat(arr1, arr2)
+        sameDate = repeat(arr1, arr2)
+      }
+      return sameDate
+    }, */
+
     /**
      * 判断是否在时间段内
      * converseTime 要判断的时间 stime 开始时间 etime 结束时间

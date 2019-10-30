@@ -13,6 +13,47 @@ export default {
       }),
     })
   },
+  // ------------------------------------home---------------------------------------------//
+  /**
+   * 点击菜单
+   */
+  statistics(data) {
+    return http({
+      url: http.adornUrl('admin/statistics'),
+      method: 'post',
+      data: http.adornData(data, false, 'qs'),
+    })
+  },
+  // statistics(ids) {
+  //   return http({
+  //     url: http.adornUrl(
+  //       `admin/statistics?id=${ids.id}&userId=${ids.userId}&accessToken=${
+  //         ids.accessToken
+  //       }`,
+  //     ),
+  //     method: 'post',
+  //   })
+  // },
+  /**
+   * 最近使用
+   */
+  statisticsQuery(data) {
+    return http({
+      url: http.adornUrl('admin/statisticsQuery'),
+      method: 'post',
+      data: http.adornData(data, false, 'qs'),
+    })
+  },
+  /**
+   * 在线
+   */
+  statisticsLogs(data) {
+    return http({
+      url: http.adornUrl('admin/statisticsLogs'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
+  },
   // ------------------------------------I2---------------------------------------------//
   /**
    * 数据缓存--批量通过id删除

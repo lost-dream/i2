@@ -283,6 +283,13 @@ export default {
               var picSymbol
               var picGraphic
               var infoTemplate
+
+              LineSymbol = new SimpleLineSymbol()
+              LineSymbol.setMarker({
+                style: 'arrow',
+                placement: 'end',
+              })
+              LineSymbol.setColor(new Color([250, 150, 0, 1]))
               _this.positionArray.map(function(item) {
                 newPoint = new Point(
                   item.x,
@@ -294,16 +301,10 @@ export default {
                   20,
                   25,
                 )
-
-                LineSymbol = SimpleLineSymbol()
-                LineSymbol.setMarker({
-                  style: 'arrow',
-                  placement: 'end',
-                })
-                LineSymbol.setColor(new Color([250, 150, 0, 1]))
                 picGraphic = new Graphic(newPoint, picSymbol)
                 map.graphics.add(picGraphic)
               })
+
               for (let i = 0; i <= 10; i++) {
                 console.log(1111111)
                 var polyline = Polyline([

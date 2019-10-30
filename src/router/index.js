@@ -112,6 +112,7 @@ const mainRoutes = [
             path: '/ticket/singlePhone',
             component: _import('modules/ticket/singlePhone'),
             name: 'singlePhone',
+            redirect: { name: 'soonLate' },
             meta: {
               title: 'singlePhone',
             },
@@ -121,7 +122,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/soonLate'),
                 name: 'soonLate',
                 meta: {
-                  title: 'soonLate',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -129,7 +130,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/periodAll'),
                 name: 'periodAll',
                 meta: {
-                  title: 'periodAll',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -137,7 +138,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/continuePeriod'),
                 name: 'continuePeriod',
                 meta: {
-                  title: 'continuePeriod',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -147,7 +148,7 @@ const mainRoutes = [
                 ),
                 name: 'differentPeriod',
                 meta: {
-                  title: 'differentPeriod',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -155,7 +156,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/callAnalyse'),
                 name: 'callAnalyse',
                 meta: {
-                  title: 'callAnalyse',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -165,7 +166,7 @@ const mainRoutes = [
                 ),
                 name: 'callDetailAnalyse',
                 meta: {
-                  title: 'callDetailAnalyse',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -175,7 +176,7 @@ const mainRoutes = [
                 ),
                 name: 'phoneHomeLocation',
                 meta: {
-                  title: 'phoneHomeLocation',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -183,7 +184,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/phoneTravel'),
                 name: 'phoneTravel',
                 meta: {
-                  title: 'phoneTravel',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -191,7 +192,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/mobileAnalyse'),
                 name: 'mobileAnalyse',
                 meta: {
-                  title: 'mobileAnalyse',
+                  title: 'singlePhone',
                 },
               },
               {
@@ -199,7 +200,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/SinglePhone/weekPhone'),
                 name: 'weekPhone',
                 meta: {
-                  title: 'weekPhone',
+                  title: 'singlePhone',
                 },
               },
             ],
@@ -208,6 +209,7 @@ const mainRoutes = [
             path: '/ticket/morePhone',
             component: _import('modules/ticket/morePhone'),
             name: 'morePhone',
+            redirect: { name: 'sameTime' },
             meta: {
               title: 'morePhone',
             },
@@ -217,7 +219,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/MorePhone/sameTime'),
                 name: 'sameTime',
                 meta: {
-                  title: 'sameTime',
+                  title: 'morePhone',
                 },
               },
               {
@@ -225,7 +227,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/MorePhone/assignTime'),
                 name: 'assignTime',
                 meta: {
-                  title: 'assignTime',
+                  title: 'morePhone',
                 },
               },
               {
@@ -233,7 +235,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/MorePhone/morePhoneTrail'),
                 name: 'morePhoneTrail',
                 meta: {
-                  title: 'morePhoneTrail',
+                  title: 'morePhone',
                 },
               },
               {
@@ -241,7 +243,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/MorePhone/commonPhone'),
                 name: 'commonPhone',
                 meta: {
-                  title: 'commonPhone',
+                  title: 'morePhone',
                 },
               },
             ],
@@ -250,6 +252,7 @@ const mainRoutes = [
             path: '/ticket/allNetwork',
             component: _import('modules/ticket/allNetwork'),
             name: 'allNetwork',
+            redirect: { name: 'allNetPhoneSearch' },
             meta: {
               title: 'allNetwork',
             },
@@ -259,7 +262,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/AllNetwork/phoneSearch'),
                 name: 'allNetPhoneSearch',
                 meta: {
-                  title: 'allNetPhoneSearch',
+                  title: 'allNetwork',
                 },
               },
               {
@@ -267,7 +270,7 @@ const mainRoutes = [
                 component: _import('modules/ticket/AllNetwork/IMEISearch'),
                 name: 'IMEISearch',
                 meta: {
-                  title: 'IMEISearch',
+                  title: 'allNetwork',
                 },
               },
             ],
