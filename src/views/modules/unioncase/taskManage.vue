@@ -185,7 +185,6 @@ export default {
   methods: {
     // 搜索
     isSeek() {
-      console.log(this.criteria)
       let _this = this
       let obj = {
         userId: this.userId,
@@ -196,7 +195,6 @@ export default {
       }
       this.$api.queryTaskManagementList(obj).then(({ data }) => {
         if (data.msg === '成功') {
-          console.log(data)
           _this.taskData = data.data.list
           _this.pagination.total = data.data.total
           _this.$message({
@@ -217,7 +215,6 @@ export default {
     },
     // 分析
     handleClick(row) {
-      console.log(row)
       let _this = this
       let obj = {
         id: row.id,
@@ -225,7 +222,6 @@ export default {
       }
       this.$api.analyze(obj).then(({ data }) => {
         if (data.msg === '成功') {
-          console.log(data)
           _this.isSeek()
           _this.$message({
             message: '分析成功!',
@@ -259,7 +255,6 @@ export default {
       }
       this.$api.queryCompile(obj).then(({ data }) => {
         if (data.msg === '成功') {
-          console.log(data)
           _this.$message({
             message: '获取编辑信息成功!',
             type: 'success',
@@ -281,7 +276,6 @@ export default {
       }
       this.$api.deleteTask(obj).then(({ data }) => {
         if (data.msg === '成功') {
-          console.log(data)
           _this.isSeek()
           _this.$message({
             message: '删除成功!',

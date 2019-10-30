@@ -266,7 +266,7 @@
                   </div>
                 </li>
                 <li>
-                  <dl id="btnBatchAddNode" class="tab-li">
+                  <dl id="btnTrackball" class="tab-li" @click="trackballHandle">
                     <dt class="operate-icon operate-addBatch guiji"></dt>
                     <dd class="operate-desc">轨迹</dd>
                   </dl>
@@ -955,6 +955,28 @@ export default {
         query: { keyword: node.keyword },
       })
       window.open(routeData.href, '_blank')
+    },
+    // 轨迹
+    trackballHandle() {
+      let selectNodes = this.global.network.getSelectedNodes()
+      if (!selectNodes || selectNodes.length < 1) {
+        this.$message({
+          message: '请选中节点后再执行此操作',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      let node = this.global.nodes.get(selectNodes[0])
+      this.$router.push({
+        name: 'timespacelist',
+        params: {
+          form: {
+            idNumber: node.keyword,
+          },
+        },
+      })
+      // window.open(routeData.href, '_blank')
     },
     // 分析--- 碰撞对比
     pzAnalysisHandle() {
