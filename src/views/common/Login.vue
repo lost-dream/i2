@@ -59,13 +59,16 @@
           <!-- 设置二级密码 -->
           <div class="fly-panel" v-else key="setSecondaryPassword">
             <div class="fly-title">
-              <h3 class="fly-this">设置二级密码</h3>
+              <h3 class="fly-this" v-if="!login2ndQuestion">设置二级密码</h3>
+              <h3 class="fly-this" v-else>验证安全密码</h3>
               <div id="darkbannerwrap"></div>
             </div>
             <div class="fly-form">
               <el-form
                 :model="secondaryPWDModel"
-                @keyup.enter.native="submitForm()"
+                @keyup.enter.native="
+                  login2ndQuestion ? check2ndPWD() : set2ndPWD()
+                "
                 status-icon
                 ref="loginForm"
               >
@@ -76,9 +79,17 @@
                   </div>
                 </el-form-item>
                 <el-form-item prop="username">
-                  <el-input v-model="secondaryPWDModel.secondaryWt">
+                  <el-input
+                    v-if="!login2ndQuestion"
+                    v-model="secondaryPWDModel.secondaryWt"
+                  >
                     <template slot="prepend">
                       请设置二级密码问题
+                    </template>
+                  </el-input>
+                  <el-input v-else :disabled="true" v-model="login2ndQuestion">
+                    <template slot="prepend">
+                      问题
                     </template>
                   </el-input>
                 </el-form-item>
@@ -93,9 +104,16 @@
                   </el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="success" @click="set2ndPWD"
-                    >重置密码</el-button
+                  <el-button
+                    v-if="!login2ndQuestion"
+                    type="success"
+                    @click="set2ndPWD"
                   >
+                    <span>设置二级密码</span>
+                  </el-button>
+                  <el-button v-else type="success" @click="check2ndPWD">
+                    <span>安全登录</span>
+                  </el-button>
                 </el-form-item>
               </el-form>
             </div>
@@ -108,7 +126,7 @@
 
 <script>
 import Cookies from 'js-cookie'
-import { login, setSecondaryPassword } from '@/api/login'
+import { login, setSecondaryPassword, verificat2ndPWD } from '@/api/login'
 
 export default {
   name: 'login',
@@ -128,17 +146,16 @@ export default {
           { required: true, message: '密码不能为空！', trigger: 'blur' },
         ],
       },
+      login2ndQuestion: null, // 二级密码问题
       secondaryPWDModel: {
-        tips: '请输入二级密码答案进行合法性验证',
+        tips: '请设置安全问题和安全密码',
         secondaryWt: '',
         secondaryPassword: '',
       },
+      userInfo: {},
     }
   },
   methods: {
-    changeModel() {
-      this.setSecondaryPassword = !this.setSecondaryPassword
-    },
     submitForm() {
       this.$refs['loginForm'].validate(valid => {
         let { username, password } = this.loginForm
@@ -147,14 +164,18 @@ export default {
             if (data && data.code === 200) {
               Cookies.set('userId', data.result.user.id)
               Cookies.set('ac_token', data.result.accessToken)
-              if (data.result.secondary === 0) {
-                // 未设置二级密码，去设置
-                this.changeModel()
-              } else {
+              this.userInfo = data.result.user
+              this.setSecondaryPassword = !this.setSecondaryPassword
+              if (data.result.secondary === 1) {
                 // 已设置过二级密码,登录成功
-                this.doLogin(data.result.user)
+                this.login2ndQuestion = data.result.user.secondaryWt
+                this.secondaryPWDModel.secondaryWt =
+                  data.result.user.secondaryWt
+                this.secondaryPWDModel.tips = '请输入二级密码答案进行合法性验证'
               }
             } else {
+              Cookies.remove('userId')
+              Cookies.remove('ac_token')
               this.$message.error(data.message)
             }
           })
@@ -173,7 +194,23 @@ export default {
         if (data && data.code === 200) {
           this.doLogin(data.data)
         } else {
+          Cookies.remove('userId')
+          Cookies.remove('ac_token')
           this.$message.error(data.msg)
+        }
+      })
+    },
+    check2ndPWD() {
+      verificat2ndPWD({
+        id: Cookies.get('userId'),
+        twoPassword: this.secondaryPWDModel.secondaryPassword,
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          const userInfo = this.userInfo
+          this.doLogin(userInfo)
+        } else {
+          Cookies.remove('userId')
+          Cookies.remove('ac_token')
         }
       })
     },

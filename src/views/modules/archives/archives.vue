@@ -568,8 +568,7 @@ export default {
   },
   created() {
     archivesDetailApi({
-      // keyword: this.keyword // TODO 有数据传过来的话打开注释 && 删除下一行
-      keyword: '659001197006291256',
+      keyword: this.keyword,
     }).then(({ data }) => {
       let {
         result: {

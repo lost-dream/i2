@@ -1,5 +1,8 @@
 import http from '@/utils/httpRequest'
 
+import axios from 'axios'
+import qs from 'qs'
+
 // 通过用户和密码登录
 export function login(userData) {
   return http({
@@ -33,5 +36,14 @@ export function setSecondaryPassword(data) {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     data: http.adornData(data, false, 'qs'),
+  })
+}
+
+export function verificat2ndPWD(data) {
+  return http({
+    url: http.adornUrl(
+      `admin/userTwoPassword?id=${data.id}&twoPassword=${data.twoPassword}`,
+    ),
+    method: 'post',
   })
 }

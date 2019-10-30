@@ -40,7 +40,6 @@
           </el-form>
         </div>
         <!--
-          TODO
           关于是否需要修改密保问题的功能有待商榷，暂时不需要
           需要打开  => 删除v-if="showItem" && Line 139 data && 打开Line 46
         -->
@@ -174,7 +173,7 @@ export default {
                 message: '修改成功',
               })
             } else {
-              this.$message.error(data.code)
+              this.$message.error(data.msg)
             }
           })
         }

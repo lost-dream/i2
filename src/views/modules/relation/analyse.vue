@@ -378,9 +378,6 @@ export default {
         roomNo: null, // 房间号
         computerNo: null, // 电脑号
         carNo: null, // 车牌号码
-        // ...otherParams
-        // TODO 参数不全，还有其他的写的时候再加
-        // TODO 添加参数默认值设置为null，能保证直接提交TJSXForm没有填的内容不被提交
       },
     }
   },
