@@ -288,10 +288,10 @@ export default {
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
         startDate: [
-          { required: true, message: '请选择开始日期', trigger: 'blur' },
+          { required: false, message: '请选择开始日期', trigger: 'blur' },
         ],
         endDate: [
-          { required: true, message: '请选择结束日期', trigger: 'blur' },
+          { required: false, message: '请选择结束日期', trigger: 'blur' },
         ],
       },
       userData: null,
@@ -315,14 +315,14 @@ export default {
     }
   },
   mounted() {
-    this.$route.params.form !== undefined && this.receiveRouter()
+    this.$route.query.form !== undefined && this.receiveRouter()
     document.addEventListener('click', this.handleDocumentClick)
 
     this.getList()
   },
   methods: {
     receiveRouter() {
-      this.form = JSON.parse(JSON.stringify(this.$route.params.form))
+      this.form = JSON.parse(JSON.stringify(this.$route.query.form))
     },
     filterList(type) {
       this.page = 1

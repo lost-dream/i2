@@ -66,9 +66,10 @@
         <div>
           <ul class="content">
             <li v-for="(item, index) in latelyData" :key="index">
-              <img src="../../assets/img/i2.png" alt />
+              <img :src="getImgUrl(item.path)" />
+              <!--<img src="../../assets/img/i2.png" alt />-->
               <img src="../../assets/img/itemBg.png" alt />
-              <p>{{ item.pname }}</p>
+              <p>{{ item.name }}</p>
             </li>
             <!--<li>
               <img src="../../assets/img/i2.png" alt />

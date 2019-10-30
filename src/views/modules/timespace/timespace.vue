@@ -57,12 +57,6 @@ export default {
       },
       rules: {
         idNumber: this.filter_rules({ required: true, type: 'idCard' }),
-        startDate: [
-          { required: true, message: '请选择开始日期', trigger: 'blur' },
-        ],
-        endDate: [
-          { required: true, message: '请选择结束日期', trigger: 'blur' },
-        ],
       },
     }
   },
@@ -88,9 +82,7 @@ export default {
     gotoList() {
       this.$router.push({
         name: 'timespacelist',
-        params: {
-          form: this.form,
-        },
+        query: { form: this.form },
       })
     },
   },

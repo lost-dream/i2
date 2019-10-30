@@ -21,7 +21,7 @@ export default {
     return http({
       url: http.adornUrl('admin/statistics'),
       method: 'post',
-      data: http.adornData(data, false, 'qs'),
+      params: http.adornParams(data),
     })
   },
   // statistics(ids) {
@@ -41,7 +41,7 @@ export default {
     return http({
       url: http.adornUrl('admin/statisticsQuery'),
       method: 'post',
-      data: http.adornData(data, false, 'qs'),
+      params: http.adornParams(data),
     })
   },
   /**

@@ -698,54 +698,6 @@ export default {
               //   console.log(121212)
               // })
 
-              // // 圆心
-              // var p = new Point(
-              //   114.069696,
-              //   50.677559,
-              //   new SpatialReference({ wkid: 102100 }),
-              // )
-              // // 半径
-              // var r = 100
-              // // circle = new Circle(p, {
-              // //   radius: r,
-              // // })
-              // circle = new Circle({
-              //   crenter: p,
-              //   geodesic: false,
-              //   radius: 1000,
-              // })
-              //
-              // graphic = new Graphic(circle, fill)
-              // map.graphics.add(graphic)
-              // console.log(1111)
-              // console.log(map.graphics)
-              // console.log(11111)
-
-              // var symbol = new SimpleFillSymbol()
-              //   .setColor(null)
-              //   .outline.setColor('blue')
-              // var gl = new GraphicsLayer({ id: 'circles' })
-              // map.addLayer(gl)
-              // map.on('click', function(e) {
-              //   // var radius = map.extent.getWidth() / 10
-              //   var circle = new Circle({
-              //     center: e.mapPoint,
-              //     geodesic: false,
-              //     radius: 100,
-              //   })
-              //   console.log(e)
-              //   let newObj1 = {
-              //     longitude: e.clientX,
-              //     latitude: e.clientY,
-              //     type: '描圆',
-              //     id,
-              //   }
-              //   id++
-              //   _this.mapTableData.push(newObj1)
-              //   var graphic = new Graphic(circle, symbol)
-              //   gl.add(graphic)
-              // })
-
               var drawTool = new Draw(map)
               // 绘制点
               drawTool.markerSymbol = new PictureMarkerSymbol(
@@ -1025,25 +977,15 @@ export default {
       this.inputList.forEach(item => {
         obj.push(item.caseNum)
       })
+      console.log(22222)
+      console.log(obj)
       this.$api.queryTCase(obj).then(({ data }) => {
         _this.caseData = data.data.data
         console.log(data)
         console.log(data.data.data)
         console.log(_this.caseData)
         this.show = false
-
-        /* _this.caseData.forEach(item => {
-            var newObj = {}
-            newObj.longitude = item.longitude
-            newObj.latitude = item.latitude
-            newObj.type = '案件发生地'
-            newObj.id = _this.mapTableData.length
-
-            _this.mapTableData.length > 0
-              ? _this.mapTableData.indexOf(newObj) !== -1 &&
-                _this.mapTableData.push(newObj)
-              : _this.mapTableData.push(newObj)
-          }) */
+        console.log(2222)
         console.log(_this.mapTableData)
       })
     },
