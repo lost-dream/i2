@@ -69,7 +69,7 @@ export default {
       let params = {
         analyticalRecordsId: '5bbff27c39c04802a16c6bd68d88b250',
         targetUserName: 'admin',
-        userName: '10011',
+        userName: JSON.parse(this.$Cookies.get('user_info')).username,
       }
       this.$api.shareAnalyticalRecords(params).then(({ data }) => {
         if (data && data.code === 200) {

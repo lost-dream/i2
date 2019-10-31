@@ -56,6 +56,32 @@ export default {
   },
   // ------------------------------------I2---------------------------------------------//
   /**
+   * 展开节点
+   * @param {*} data
+   */
+  queryDataByCluster(data) {
+    return http({
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/spreadRelation'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
+  },
+  /**
+   * 节点上传
+   */
+  importExcelNode(data) {
+    let config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    return http.post(
+      http.adornUrl(`i2s/i2/nodeAndRelationCtlr/importNode`),
+      data,
+      config,
+    )
+  },
+  /**
    * 数据缓存--批量通过id删除
    * @param {*} ids
    */

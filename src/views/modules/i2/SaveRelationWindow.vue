@@ -63,6 +63,7 @@ export default {
           json: JSON.stringify(this.datas),
           recordTitle: this.dataForm.name,
           description: this.dataForm.desc,
+          userName: JSON.parse(this.$Cookies.get('user_info')).username,
         }
         if (valid) {
           this.$api.saveAnalyticalRecords(obj).then(({ data }) => {

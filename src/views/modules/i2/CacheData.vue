@@ -199,7 +199,9 @@ export default {
   methods: {
     init() {
       this.$api
-        .getAllFolderByUserName('10011')
+        .getAllFolderByUserName(
+          JSON.parse(this.$Cookies.get('user_info')).username,
+        )
         .then(({ data }) => {
           let list = data && data.code === 200 ? data.result : []
           let arr = []
@@ -222,7 +224,7 @@ export default {
     getDataList() {
       this.dataListLoading = true
       let params = {
-        userName: '10011',
+        userName: JSON.parse(this.$Cookies.get('user_info')).username,
       }
       this.$api.dataCacheSearch(params).then(({ data }) => {
         if (data && data.code === 200) {
@@ -237,7 +239,7 @@ export default {
     searchDataList() {
       this.dataListLoading = true
       let params = {
-        username: '10011',
+        username: JSON.parse(this.$Cookies.get('user_info')).username,
         ...this.dataForm,
       }
       this.$api.dataCacheSearch(params).then(({ data }) => {
