@@ -10,7 +10,12 @@ export function expandNode(vm, curNode, auto) {
   } else {
     // 后台聚合的需要先查询再展开
     // 从服务器端获取数据，并添加到画布
-    queryDataByCluster(curNode, function(res) {
+    var params = {
+      nodesType: curNode.nodeType,
+      param: curNode.keyword,
+    }
+    _vm.$api.queryDataByCluster(params).then(({ data }) => {
+      let res = data
       var results = res.result.nodes
       var nods = []
       for (var i in results) {
@@ -29,23 +34,41 @@ export function expandNode(vm, curNode, auto) {
         }
       }
     })
+    // queryDataByCluster(curNode, function(res) {
+    //   var results = res.result.nodes
+    //   var nods = []
+    //   for (var i in results) {
+    //     nods.push(new Node(results[i], _vm.global.network, _vm.global.nodes))
+    //   }
+    //   var nodesList = nods
+    //   var edgesList = res.result.edges
+    //   for (let i = 0; i < nodesList.length; i++) {
+    //     if (_vm.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
+    //       _vm.global.nodes.add(nodesList[i])
+    //     }
+    //   }
+    //   for (var j = 0; j < edgesList.length; j++) {
+    //     if (_vm.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
+    //       _vm.global.edges.add(edgesList[j])
+    //     }
+    //   }
+    // })
   }
 }
-function queryDataByCluster(curNode, callback) {
-  var data = {
-    nodesType: curNode.nodeType,
-    param: curNode.keyword,
-  }
-  $.ajax({
-    type: 'GET',
-    url:
-      window.SITE_CONFIG.baseUrl + 'i2s/i2/nodeAndRelationCtlr/spreadRelation',
-    contentType: 'application/json;charset=utf-8',
-    dataType: 'json',
-    data: data,
-    success: callback,
-  })
-}
+// function queryDataByCluster(curNode, callback) {
+//   var data = {
+//     nodesType: curNode.nodeType,
+//     param: curNode.keyword,
+//   }
+//   $.ajax({
+//     type: 'GET',
+//     url: window.SITE_CONFIG.baseUrl + 'i2/nodeAndRelationCtlr/spreadRelation',
+//     contentType: 'application/json;charset=utf-8',
+//     dataType: 'json',
+//     data: data,
+//     success: callback,
+//   })
+// }
 /**
  * 是否展开子节点
  * @param {*} childs

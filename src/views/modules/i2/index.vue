@@ -1164,6 +1164,7 @@ export default {
      */
     clickEvent(params) {
       this.removeMenu()
+      this.removeEdgeMenu()
       // 框选时，不执行单击操作
       if (
         params.event.changedPointers[0].shiftKey === true ||
@@ -1208,11 +1209,10 @@ export default {
         y: params.pointer.DOM.y,
       }
       var nodeId = this.network.getNodeAt(pointer)
-
       var edgeId
       if (!nodeId) edgeId = this.network.getEdgeAt(pointer)
       // 显示右键菜单
-      if (nodeId) {
+      if (nodeId + 1) {
         this.contextNodeId = nodeId
         if (this.global.nodes.get(nodeId).physics === false) {
           this.lockCheck = '解锁'
@@ -1228,6 +1228,7 @@ export default {
         var event = params.event
         event.preventDefault()
         this.removeMenu()
+        this.removeEdgeMenu()
         // 右键空白--显示添加节点、关系等全局功能菜单
       }
     },
@@ -1247,7 +1248,6 @@ export default {
     },
     // 显示节点右键菜单
     showContextMenu(nodeId, pointer) {
-      console.log(pointer)
       // let curNode = this.global.nodes.get(nodeId)
       $('#rightMenu').css({
         left: pointer.x,
