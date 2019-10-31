@@ -64,7 +64,9 @@ export default {
       this.dataForm.type = type || 0
       this.dataForm.ids = ids
       this.$api
-        .getAllFolderByUserName('10011')
+        .getAllFolderByUserName(
+          JSON.parse(this.$Cookies.get('user_info')).username,
+        )
         .then(({ data }) => {
           let list = data && data.code === 200 ? data.result : []
           let arr = []

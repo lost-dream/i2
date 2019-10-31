@@ -58,13 +58,12 @@ export default {
     },
     // 表单提交
     dataFormSubmit() {
-      console.log(this.Cookies.get('user_info'))
       this.$refs['dataForm'].validate(valid => {
         let obj = {
           json: JSON.stringify(this.datas),
           recordTitle: this.dataForm.name,
           description: this.dataForm.desc,
-          userName: this.Cookies.get('user_info').username,
+          userName: JSON.parse(this.$Cookies.get('user_info')).username,
         }
         if (valid) {
           this.$api.saveAnalyticalRecords(obj).then(({ data }) => {

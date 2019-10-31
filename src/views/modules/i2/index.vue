@@ -1339,7 +1339,7 @@ export default {
     background-size cover
   .navbar-fixed-top
     position static !important
-    z-index 10011
+    z-index 10000
     width 100%
   .logo
     background url('~@/assets/img/i2logo.png') no-repeat

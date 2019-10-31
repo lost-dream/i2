@@ -98,7 +98,7 @@ export default {
         pageSize: 10,
         sort: '',
         order: 'desc',
-        userName: this.Cookies.get('user_info').username,
+        userName: JSON.parse(this.$Cookies.get('user_info')).username,
       }
       this.$api
         .listAllAnalyticalRecords(obj)
