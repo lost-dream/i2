@@ -676,6 +676,9 @@ export default {
               zoom: 15,
               logo: false,
             })
+            console.log(555)
+            console.log(_this.map)
+            console.log(555)
             var mapLodad = function() {
               console.log('地图加载完毕')
               _this.map.infoWindow.resize(250, 200)

@@ -204,6 +204,7 @@ export default {
       verificat2ndPWD({
         id: Cookies.get('userId'),
         twoPassword: this.secondaryPWDModel.secondaryPassword,
+        accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
           const userInfo = this.userInfo

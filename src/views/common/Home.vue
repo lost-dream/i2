@@ -179,6 +179,8 @@ export default {
       this.$api.statistics(obj).then(({ data }) => {
         if (data.msg === '成功') {
           // _this.$router.push({ name: url })
+          // _this.$roleStr = item.url
+          Cookies.set('roleStr', item.url)
           let routeData = _this.$router.resolve({
             name: item.path,
           })
