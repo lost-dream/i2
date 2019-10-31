@@ -78,6 +78,7 @@ export default {
           let obj = {
             keyword: this.node.keyword,
             param: this.dataForm.checkList.join(','),
+            userName: JSON.parse(this.$Cookies.get('user_info')).username,
           }
           this.$api.nodeDigRelation(obj).then(({ data }) => {
             if (data && data.code === 200) {

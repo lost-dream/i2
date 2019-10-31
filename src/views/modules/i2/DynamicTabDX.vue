@@ -238,5 +238,37 @@ export default {
   padding 10px
 .form-panel
   padding 10px
-  background rebeccapurple
+  background #11646e
+>>>.el-collapse-item__header
+  display -webkit-box
+  display -ms-flexbox
+  display flex
+  -webkit-box-align center
+  -ms-flex-align center
+  align-items center
+  height 48px
+  line-height 48px
+  background-color rgba(27, 128, 141, 0.7)
+  color #ecedf0
+  padding-left 10px
+  cursor pointer
+  border-bottom 1px solid #EBEEF5
+  font-size 13px
+  font-weight 500
+  -webkit-transition border-bottom-color 0.3s
+  transition border-bottom-color 0.3s
+  outline 0
+>>>.el-collapse-item__wrap
+  will-change height
+  background-color #11646e
+  overflow hidden
+  -webkit-box-sizing border-box
+  box-sizing border-box
+  border-bottom 1px solid none
+>>>.el-radio
+  color #dadee6
+  cursor pointer
+  margin-right 30px
+>>>.el-input__inner
+  color #eeeff2
 </style>
