@@ -133,6 +133,7 @@ export default {
     return {
       menuListData: [],
       latelyData: [],
+      roleStrLisr: [],
       statistics: {
         count: 0,
         countFw: 0,
@@ -163,7 +164,35 @@ export default {
       }).then(({ data }) => {
         if (data && data.code === 200) {
           _this.menuListData = data.data[0].list.splice(0, 5)
+          _this.menuListData.forEach(item => {
+            let obj = {
+              urlName: item.path,
+              roleStr: item.url,
+            }
+            _this.roleStrLisr.push(obj)
+          })
+          _this.menuList2()
           console.log(_this.menuListData)
+        }
+      })
+    },
+    menuList2() {
+      let _this = this
+      getMenu({
+        module: 2,
+        parentId: 0,
+        accessToken: Cookies.get('ac_token'),
+      }).then(({ data }) => {
+        if (data && data.code === 200) {
+          data.data[0].list.forEach(item => {
+            let obj = {
+              urlName: item.path,
+              roleStr: item.url,
+            }
+            _this.roleStrLisr.push(obj)
+          })
+          _this.$roleStrList = _this.roleStrLisr
+          console.log(_this.roleStrLisr)
         }
       })
     },

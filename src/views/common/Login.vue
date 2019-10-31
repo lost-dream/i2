@@ -138,6 +138,10 @@ export default {
         username: '',
         password: '',
       },
+      rulesPass: {
+        userId: '',
+        ac_token: '',
+      },
       rules: {
         username: [
           { required: true, message: '登录账户不能为空！', trigger: 'blur' },
@@ -162,8 +166,10 @@ export default {
         if (valid) {
           login({ username, password }).then(({ data }) => {
             if (data && data.code === 200) {
-              Cookies.set('userId', data.result.user.id)
-              Cookies.set('ac_token', data.result.accessToken)
+              // Cookies.set('userId', data.result.user.id)
+              // Cookies.set('ac_token', data.result.accessToken)
+              this.rulesPass.userId = data.result.user.id
+              this.rulesPass.ac_token = data.result.accessToken
               this.userInfo = data.result.user
               this.setSecondaryPassword = !this.setSecondaryPassword
               if (data.result.secondary === 1) {
@@ -174,8 +180,8 @@ export default {
                 this.secondaryPWDModel.tips = '请输入二级密码答案进行合法性验证'
               }
             } else {
-              Cookies.remove('userId')
-              Cookies.remove('ac_token')
+              // Cookies.remove('userId')
+              // Cookies.remove('ac_token')
               this.$message.error(data.message)
             }
           })
@@ -183,8 +189,10 @@ export default {
       })
     },
     set2ndPWD() {
+      let _this = this
       const { secondaryWt, secondaryPassword } = this.secondaryPWDModel
-      const [id, accessToken] = [Cookies.get('userId'), Cookies.get('ac_token')]
+      // const [id, accessToken] = [Cookies.get('userId'), Cookies.get('ac_token')]
+      const [id, accessToken] = [this.rulesPass.userId, this.rulesPass.ac_token]
       setSecondaryPassword({
         id,
         accessToken,
@@ -192,26 +200,34 @@ export default {
         secondaryPassword,
       }).then(({ data }) => {
         if (data && data.code === 200) {
+          Cookies.set('userId', _this.rulesPass.userId)
+          Cookies.set('ac_token', _this.rulesPass.ac_token)
           this.doLogin(data.data)
         } else {
-          Cookies.remove('userId')
-          Cookies.remove('ac_token')
+          // Cookies.remove('userId')
+          // Cookies.remove('ac_token')
           this.$message.error(data.msg)
         }
       })
     },
     check2ndPWD() {
+      let _this = this
       verificat2ndPWD({
-        id: Cookies.get('userId'),
+        // id: Cookies.get('userId'),
+        id: this.rulesPass.userId,
         twoPassword: this.secondaryPWDModel.secondaryPassword,
-        accessToken: Cookies.get('ac_token'),
+        // accessToken: Cookies.get('ac_token'),
+        accessToken: this.rulesPass.ac_token,
       }).then(({ data }) => {
         if (data && data.code === 200) {
           const userInfo = this.userInfo
+          Cookies.set('userId', _this.rulesPass.userId)
+          Cookies.set('ac_token', _this.rulesPass.ac_token)
           this.doLogin(userInfo)
         } else {
-          Cookies.remove('userId')
-          Cookies.remove('ac_token')
+          // Cookies.remove('userId')
+          // Cookies.remove('ac_token')
+          this.$message.error('二级密码验证失败！')
         }
       })
     },

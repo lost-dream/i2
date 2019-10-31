@@ -262,6 +262,15 @@ export function addUser(data) {
   })
 }
 
+// 编辑用户
+export function userCompile(data) {
+  return http({
+    url: http.adornUrl('admin/userCompile'),
+    method: 'post',
+    data: http.adornData(data, false, 'qs'),
+  })
+}
+
 // 删除 || 停用 || 启用用户
 export function operateUser(params) {
   return http({
