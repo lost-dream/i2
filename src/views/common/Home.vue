@@ -183,6 +183,8 @@ export default {
         parentId: 0,
         accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
+        console.log(33333)
+        console.log(data)
         if (data && data.code === 200) {
           data.data[0].list.forEach(item => {
             let obj = {
@@ -191,8 +193,9 @@ export default {
             }
             _this.roleStrLisr.push(obj)
           })
-          _this.$roleStrList = _this.roleStrLisr
-          console.log(_this.roleStrLisr)
+          Cookies.set('roleStrLisr', _this.roleStrLisr)
+          console.log(2222)
+          console.log(Cookies.get('roleStrLisr'))
         }
       })
     },
@@ -204,6 +207,7 @@ export default {
         accessToken: Cookies.get('ac_token'),
         id: item.id,
         pname: item.name,
+        url: item.url,
       }
       this.$api.statistics(obj).then(({ data }) => {
         if (data.msg === '成功') {
@@ -215,6 +219,11 @@ export default {
           })
           window.open(routeData.href, '_blank')
           _this.reload()
+        } else if (data.message === '你没有权限!!!') {
+          _this.$message({
+            message: '你没有权限!!!!',
+            type: 'error',
+          })
         } else {
           _this.$message({
             message: '获取数据失败!',

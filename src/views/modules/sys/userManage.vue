@@ -185,9 +185,9 @@
               <el-form-item label="电子邮件" prop="email">
                 <el-input v-model="form.email"></el-input>
               </el-form-item>
-              <el-form-item label="部门" prop="descriptionId">
+              <el-form-item label="部门" prop="departmentId">
                 <el-select
-                  v-model="form.descriptionId"
+                  v-model="form.departmentId"
                   popper-class="fromselect"
                   placeholder="请选择部门"
                 >
@@ -297,9 +297,9 @@
               <el-form-item label="姓名" prop="nickName">
                 <el-input v-model="form.nickName" :disabled="true"></el-input>
               </el-form-item>
-              <el-form-item label="部门" prop="descriptionId">
+              <el-form-item label="部门" prop="departmentId">
                 <el-select
-                  v-model="form.descriptionId"
+                  v-model="form.departmentId"
                   popper-class="fromselect"
                   placeholder="请选择部门"
                 >
@@ -603,7 +603,6 @@ export default {
         mobile: '',
         policeNo: '',
         email: '',
-        descriptionId: '',
         userGroup: '',
         // loginType: '',
         status: '',
@@ -641,7 +640,7 @@ export default {
         mobile: this.filter_rules({ required: true, type: 'mobile' }),
         policeNo: [{ required: true, message: '请输入警号', trigger: 'blur' }],
         email: this.filter_rules({ required: true, type: 'email' }),
-        descriptionId: [
+        departmentId: [
           { required: true, message: '请选择部门', trigger: 'blur' },
         ],
         userGroup: [
@@ -897,12 +896,12 @@ export default {
     },
     /* -------------------- edit by singleDogNo.1 -------------------- */
     chooseDepartmentId(val) {
-      // 选中上报机构时保存机构ID
-      this.sectionList.map((value, index) => {
-        if (value.title === val) {
-          this.form.departmentId = value.id
-        }
-      })
+      // // 选中上报机构时保存机构ID
+      // this.sectionList.map((value, index) => {
+      //   if (value.title === val) {
+      //     this.form.departmentId = value.id
+      //   }
+      // })
     },
     /**
      * 获取用户列表
@@ -1152,6 +1151,8 @@ export default {
             pid: -1,
             title: '（不选择）',
           })
+          console.log(333333)
+          console.log(this.sectionList)
         } else {
           this.$message.error(data.msg)
         }

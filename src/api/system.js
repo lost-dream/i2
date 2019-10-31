@@ -258,6 +258,8 @@ export function addUser(data) {
   return http({
     url: http.adornUrl('admin/addUser'),
     method: 'post',
+    // params: http.adornParams(data, false),
+    // data: data,
     data: http.adornData(data, false, 'qs'),
   })
 }
