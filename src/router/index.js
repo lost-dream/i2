@@ -47,6 +47,7 @@ const mainRoutes = [
         name: 'home',
         meta: {
           title: '首页',
+          rolePath: 'Home',
         },
       },
       {
@@ -55,6 +56,7 @@ const mainRoutes = [
         name: 'i2',
         meta: {
           title: 'i2',
+          rolePath: 'i2',
         },
       },
       {
@@ -63,6 +65,7 @@ const mainRoutes = [
         name: 'relation',
         meta: {
           title: 'relation',
+          rolePath: 'relation',
         },
         redirect: {
           name: 'relationSearch',
@@ -72,13 +75,13 @@ const mainRoutes = [
             path: '/relationSearch',
             component: _import('modules/relation/relationSearch'),
             name: 'relationSearch',
-            meta: { title: 'relationSearch' },
+            meta: { title: 'relationSearch', rolePath: 'relation' },
           },
           {
             path: '/analyse',
             component: _import('modules/relation/analyse'),
             name: 'analyse',
-            meta: { title: 'analyse' },
+            meta: { title: 'analyse', rolePath: 'relation' },
           },
         ],
       },
@@ -90,6 +93,7 @@ const mainRoutes = [
         redirect: { name: 'newPhone' },
         meta: {
           title: 'ticket',
+          rolePath: 'ticket',
         },
         children: [
           {
@@ -106,6 +110,7 @@ const mainRoutes = [
             name: 'phoneSearch',
             meta: {
               title: 'phoneSearch',
+              rolePath: 'ticket',
             },
           },
           {
@@ -115,6 +120,7 @@ const mainRoutes = [
             redirect: { name: 'soonLate' },
             meta: {
               title: 'singlePhone',
+              rolePath: 'ticket',
             },
             children: [
               {
@@ -123,6 +129,7 @@ const mainRoutes = [
                 name: 'soonLate',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -131,6 +138,7 @@ const mainRoutes = [
                 name: 'periodAll',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -139,6 +147,7 @@ const mainRoutes = [
                 name: 'continuePeriod',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -149,6 +158,7 @@ const mainRoutes = [
                 name: 'differentPeriod',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -157,6 +167,7 @@ const mainRoutes = [
                 name: 'callAnalyse',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -167,6 +178,7 @@ const mainRoutes = [
                 name: 'callDetailAnalyse',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -177,6 +189,7 @@ const mainRoutes = [
                 name: 'phoneHomeLocation',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -185,6 +198,7 @@ const mainRoutes = [
                 name: 'phoneTravel',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -193,6 +207,7 @@ const mainRoutes = [
                 name: 'mobileAnalyse',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -201,6 +216,7 @@ const mainRoutes = [
                 name: 'weekPhone',
                 meta: {
                   title: 'singlePhone',
+                  rolePath: 'ticket',
                 },
               },
             ],
@@ -212,6 +228,7 @@ const mainRoutes = [
             redirect: { name: 'sameTime' },
             meta: {
               title: 'morePhone',
+              rolePath: 'ticket',
             },
             children: [
               {
@@ -220,6 +237,7 @@ const mainRoutes = [
                 name: 'sameTime',
                 meta: {
                   title: 'morePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -228,6 +246,7 @@ const mainRoutes = [
                 name: 'assignTime',
                 meta: {
                   title: 'morePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -236,6 +255,7 @@ const mainRoutes = [
                 name: 'morePhoneTrail',
                 meta: {
                   title: 'morePhone',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -244,6 +264,7 @@ const mainRoutes = [
                 name: 'commonPhone',
                 meta: {
                   title: 'morePhone',
+                  rolePath: 'ticket',
                 },
               },
             ],
@@ -255,6 +276,7 @@ const mainRoutes = [
             redirect: { name: 'allNetPhoneSearch' },
             meta: {
               title: 'allNetwork',
+              rolePath: 'ticket',
             },
             children: [
               {
@@ -263,6 +285,7 @@ const mainRoutes = [
                 name: 'allNetPhoneSearch',
                 meta: {
                   title: 'allNetwork',
+                  rolePath: 'ticket',
                 },
               },
               {
@@ -271,6 +294,7 @@ const mainRoutes = [
                 name: 'IMEISearch',
                 meta: {
                   title: 'allNetwork',
+                  rolePath: 'ticket',
                 },
               },
             ],
@@ -282,25 +306,25 @@ const mainRoutes = [
         component: _import('modules/usercenter/index'),
         name: 'usercenter',
         redirect: { name: 'personCenter' },
-        meta: { title: 'usercenter' },
+        meta: { title: 'usercenter', rolePath: 'usercenter' },
         children: [
           {
             path: '/personCenter',
             component: _import('modules/usercenter/personCenter'),
             name: 'personCenter',
-            meta: { title: 'personCenter' },
+            meta: { title: 'personCenter', rolePath: 'usercenter' },
           },
           {
             path: '/modifyInfo',
             component: _import('modules/usercenter/modifyInfo'),
             name: 'modifyInfo',
-            meta: { title: 'modifyInfo' },
+            meta: { title: 'modifyInfo', rolePath: 'usercenter' },
           },
           {
             path: '/accountManage',
             component: _import('modules/usercenter/accountManage'),
             name: 'accountManage',
-            meta: { title: 'accountManage' },
+            meta: { title: 'accountManage', rolePath: 'usercenter' },
           },
         ],
       },
@@ -308,38 +332,38 @@ const mainRoutes = [
         path: '/archives',
         component: _import('modules/archives/archives'),
         name: 'archives',
-        meta: { title: 'archives' },
+        meta: { title: 'archives', rolePath: 'archives' },
       },
       {
         path: '/sys',
         component: _import('modules/sys/index'),
         name: 'sys',
         redirect: { name: 'userManage' },
-        meta: { title: 'sys' },
+        meta: { title: 'sys', rolePath: 'sys' },
         children: [
           {
             path: '/userManage',
             component: _import('modules/sys/userManage'),
             name: 'userManage',
-            meta: { title: 'userManage' },
+            meta: { title: 'userManage', rolePath: 'userManage' },
           },
           {
             path: '/menuManage',
             component: _import('modules/sys/menuManage'),
             name: 'menuManage',
-            meta: { title: 'menuManage' },
+            meta: { title: 'menuManage', rolePath: 'menuManage' },
           },
           {
             path: '/roleManage',
             component: _import('modules/sys/roleManage'),
             name: 'roleManage',
-            meta: { title: 'roleManage' },
+            meta: { title: 'roleManage', rolePath: 'roleManage' },
           },
           {
             path: '/organManage',
             component: _import('modules/sys/organManage'),
             name: 'organManage',
-            meta: { title: 'organManage' },
+            meta: { title: 'organManage', rolePath: 'organManage' },
           },
         ],
       },
@@ -349,6 +373,7 @@ const mainRoutes = [
         name: 'unioncase',
         meta: {
           title: 'unioncase',
+          rolePath: 'unioncase',
         },
       },
 
@@ -356,46 +381,46 @@ const mainRoutes = [
         path: '/unioncaseaaaaa',
         component: _import('modules/unioncase/unioncase'),
         name: 'unioncaseaaaaa',
-        meta: { title: 'unioncaseaaaaa' },
+        meta: { title: 'unioncaseaaaaa', rolePath: 'unioncase' },
       },
 
       {
         path: '/taskManage',
         component: _import('modules/unioncase/taskManage'),
         name: 'taskManage',
-        meta: { title: 'taskManage' },
+        meta: { title: 'taskManage', rolePath: 'unioncase' },
       },
 
       {
         path: '/taskAnalysisResults',
         component: _import('modules/unioncase/taskAnalysisResults'),
         name: 'taskAnalysisResults',
-        meta: { title: 'taskAnalysisResults' },
+        meta: { title: 'taskAnalysisResults', rolePath: 'unioncase' },
       },
       {
         path: '/timespaceindex',
         component: _import('modules/timespace/index'),
         name: 'timespaceindex',
         redirect: { name: 'timespace' },
-        meta: { title: 'timespaceindex' },
+        meta: { title: 'timespaceindex', rolePath: 'timespaceindex' },
         children: [
           {
             path: '/timespace',
             component: _import('modules/timespace/timespace'),
             name: 'timespace',
-            meta: { title: 'timespace' },
+            meta: { title: 'timespace', rolePath: 'timespaceindex' },
           },
           {
             path: '/timespacelist',
             component: _import('modules/timespace/timespacelist'),
             name: 'timespacelist',
-            meta: { title: 'timespacelist' },
+            meta: { title: 'timespacelist', rolePath: 'timespaceindex' },
           },
           {
             path: '/timespaceinfo',
             component: _import('modules/timespace/timespaceinfo'),
             name: 'timespaceinfo',
-            meta: { title: 'timespaceinfo' },
+            meta: { title: 'timespaceinfo', rolePath: 'timespaceindex' },
           },
         ],
       },

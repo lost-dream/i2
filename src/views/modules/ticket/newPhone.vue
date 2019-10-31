@@ -116,6 +116,8 @@ export default {
   mounted() {
     this.$route.query.phoneDataList !== undefined && this.getRoute()
     console.log(this.oper)
+    console.log(2222)
+    console.log(this.$roleStrLisr)
   },
   methods: {
     // 获取路由
