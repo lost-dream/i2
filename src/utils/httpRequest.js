@@ -26,6 +26,7 @@ http.interceptors.request.use(
     if (Cookies.get('ac_token')) {
       config.headers['accessToken'] = Cookies.get('ac_token')
     }
+    config.headers['roleStr'] = Cookies.get('roleStr')
     return config
   },
   error => {

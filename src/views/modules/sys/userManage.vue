@@ -39,6 +39,7 @@
                 placeholder="姓名（输入）"
               ></el-input>
             </el-form-item>
+
             <el-form-item>
               <el-select
                 v-model="criteria.status"
@@ -53,6 +54,7 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+
             <el-form-item>
               <el-select
                 v-model="criteria.section"
@@ -183,9 +185,9 @@
               <el-form-item label="电子邮件" prop="email">
                 <el-input v-model="form.email"></el-input>
               </el-form-item>
-              <el-form-item label="部门" prop="section">
+              <el-form-item label="部门" prop="descriptionId">
                 <el-select
-                  v-model="form.section"
+                  v-model="form.descriptionId"
                   popper-class="fromselect"
                   placeholder="请选择部门"
                 >
@@ -193,7 +195,7 @@
                     v-for="(item, index) in sectionList"
                     :key="index"
                     :label="item.title"
-                    :value="item.title"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -211,7 +213,7 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <!-- <el-form-item label="登录类型" prop="loginType">
+              <!--<el-form-item label="登录类型" prop="loginType">
                 <el-select
                   v-model="form.loginType"
                   popper-class="fromselect"
@@ -225,7 +227,7 @@
                   ></el-option>
                 </el-select>
               </el-form-item>-->
-              <el-form-item label="状态" prop="status">
+              <!--<el-form-item label="状态" prop="status">
                 <el-select
                   v-model="form.status"
                   popper-class="fromselect"
@@ -238,7 +240,7 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item>-->
               <el-form-item label="警种类别" prop="policeKind">
                 <el-select
                   v-model="form.policeKind"
@@ -264,7 +266,7 @@
                     v-for="(item, index) in sectionList"
                     :key="index"
                     :label="item.title"
-                    :value="item.title"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -295,9 +297,9 @@
               <el-form-item label="姓名" prop="nickName">
                 <el-input v-model="form.nickName" :disabled="true"></el-input>
               </el-form-item>
-              <el-form-item label="部门" prop="section">
+              <el-form-item label="部门" prop="descriptionId">
                 <el-select
-                  v-model="form.section"
+                  v-model="form.descriptionId"
                   popper-class="fromselect"
                   placeholder="请选择部门"
                 >
@@ -305,7 +307,7 @@
                     v-for="(item, index) in sectionList"
                     :key="index"
                     :label="item.title"
-                    :value="item.title"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -337,7 +339,7 @@
                   ></el-option>
                 </el-select>
               </el-form-item>-->
-              <el-form-item label="状态" prop="status">
+              <!--<el-form-item label="状态" prop="status">
                 <el-select
                   v-model="form.status"
                   popper-class="fromselect"
@@ -350,7 +352,7 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item>-->
               <el-form-item label="警种类别" prop="policeKind">
                 <el-select
                   v-model="form.policeKind"
@@ -563,6 +565,7 @@ import {
   operateUser,
   resetPassword,
   reset2ndPWD,
+  userCompile,
 } from '@/api/system'
 
 import FlyDialog from '@/components/fly-dialog'
@@ -600,7 +603,7 @@ export default {
         mobile: '',
         policeNo: '',
         email: '',
-        section: '',
+        descriptionId: '',
         userGroup: '',
         // loginType: '',
         status: '',
@@ -638,7 +641,9 @@ export default {
         mobile: this.filter_rules({ required: true, type: 'mobile' }),
         policeNo: [{ required: true, message: '请输入警号', trigger: 'blur' }],
         email: this.filter_rules({ required: true, type: 'email' }),
-        section: [{ required: true, message: '请选择部门', trigger: 'blur' }],
+        descriptionId: [
+          { required: true, message: '请选择部门', trigger: 'blur' },
+        ],
         userGroup: [
           { required: true, message: '请选择用户组', trigger: 'blur' },
         ],
@@ -769,6 +774,7 @@ export default {
     },
     // 添加选择值
     addValue() {
+      console.log(this.multipleSelection[0])
       this.form = this.multipleSelection[0]
     },
     // 判断是否只选择一个用户
@@ -971,6 +977,7 @@ export default {
             mobile: this.form.mobile,
             siren: this.form.policeNo,
             email: this.form.email,
+            type: this.form.userGroup,
             berichtenDepartment: this.form.reportedSection,
             departmentId: this.form.departmentId,
           }).then(({ data }) => {
@@ -993,7 +1000,27 @@ export default {
     editUser() {
       this.$refs['form'].validate(valid => {
         if (valid) {
-          this.editDialog = false
+          userCompile({
+            userId: Cookies.get('userId'),
+            id: this.form.id,
+            policeType: this.form.policeKind,
+            type: this.form.userGroup,
+            berichtenDepartment: this.form.reportedSection,
+            departmentId: this.form.departmentId,
+          }).then(({ data }) => {
+            if (data && data.code === 200) {
+              // 添加成功，重新拉取数据更新视图
+              this.initPage(() => {
+                this.$message({
+                  message: '编辑用户成功',
+                  type: 'success',
+                })
+                this.editDialog = false
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
         }
       })
     },

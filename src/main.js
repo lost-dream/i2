@@ -28,14 +28,28 @@ Vue.prototype.$http = httpRequest // ajax请求方法
 Vue.prototype.$api = api // api 接口
 Vue.prototype.$Cookies = Cookies // Cookies
 Vue.prototype.global = global
+
 // 全局过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+let roleStrList = {}
+
+Vue.prototype.$roleStrList = roleStrList
+
+router.beforeEach((to, from, next) => {
+  console.log('当前' + to.path + '页面前的操作1')
+  console.log('即将进入' + from.path + '页面前的操作2')
+  console.log(roleStrList)
+  // Cookies.set('roleStr', roleStr)
+  next()
+})
 // 未登录情况下，所有路由都跳转到登录页（除登录页）
 router.afterEach(to => {
   const duration = 1500
+  console.log(1111)
+  console.log(roleStrList)
   if (!Cookies.get('ac_token') && to.name !== 'login') {
     Message({ message: '你还没有登录', type: 'error', duration: duration })
     setTimeout(() => {

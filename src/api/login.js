@@ -38,9 +38,11 @@ export function setSecondaryPassword(data) {
 
 export function verificat2ndPWD(data) {
   return http({
-    url: http.adornUrl(
-      `admin/userTwoPassword?id=${data.id}&twoPassword=${data.twoPassword}`,
-    ),
+    // url: http.adornUrl(
+    //   `admin/userTwoPassword?id=${data.id}&twoPassword=${data.twoPassword}`,
+    // ),
+    url: http.adornUrl(`admin/userTwoPassword`),
     method: 'post',
+    params: http.adornParams(data, false),
   })
 }
