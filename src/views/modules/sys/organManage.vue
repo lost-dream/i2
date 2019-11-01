@@ -200,6 +200,7 @@
 </template>
 
 <script>
+import http from '@/utils/httpRequest'
 import Cookies from 'js-cookie'
 import FlyDialog from '@/components/fly-dialog'
 import Pagination from '@/components/Pagination'
@@ -219,7 +220,12 @@ export default {
   },
   data() {
     return {
-      uploadURL: process.env.VUE_APP_COMMON_REQUEST_URL + 'admin/importExcelDe',
+      uploadURL:
+        process.env.VUE_APP_COMMON_REQUEST_URL +
+        'admin/importExcelDe?ac_token=' +
+        Cookies.get('ac_token') +
+        '&roleStr=' +
+        Cookies.get('roleStr'),
       currentPage: 1, // 当前页数
       pageSize: 10, // 每页显示信息条数
       totalPage: 1, // 总页数

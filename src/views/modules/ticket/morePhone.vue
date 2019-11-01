@@ -126,6 +126,13 @@ export default {
       (this.phoneList = JSON.parse(localStorage.getItem('morPphoneArr')))
     JSON.parse(localStorage.getItem('moreSelectInfo')) !== null &&
       (this.select = JSON.parse(localStorage.getItem('moreSelectInfo')))
+    console.log(2323232)
+    console.log(this.select)
+    if (this.select.id.length === 0) {
+      this.$message('请选择至少两个话单！')
+    } else if (this.select.id.length === 1) {
+      this.$message('请选择至少再选择一个话单！')
+    }
   },
   methods: {
     caseNameChange1() {

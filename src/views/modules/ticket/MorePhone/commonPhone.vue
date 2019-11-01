@@ -263,6 +263,10 @@ export default {
   },
   mounted() {
     this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
+    if (this.morePhone.length < 2) {
+      this.$message('请选择至少两个话单！')
+    } else {
+    }
   },
   methods: {
     onSubmit() {
@@ -278,6 +282,8 @@ export default {
       console.log(data)
       console.log(this.morePhone2)
       this.data = this.disposeData(this.morePhone2)
+      console.log(111112222)
+      console.log(this.data)
       this.links = this.disposeLinks(this.data)
       this.comPhone()
       console.log(this.data)
@@ -343,7 +349,6 @@ export default {
 
       data.forEach((item, index) => {
         let selfd = {}
-
         if ((index + 1) % 2 === 0) {
           selfx = 550 - 50 * (parseInt(index / 2) + 1)
         } else {
@@ -369,7 +374,9 @@ export default {
       otherData.forEach((item, index) => {
         let otherd = {}
 
-        if ((index + 1) % 2 === 0) {
+        if (index === 0) {
+          othery = 300
+        } else if ((index + 1) % 2 === 0) {
           othery = 300 - 10 * (parseInt(index / 2) + 1)
         } else {
           othery = 300 + 10 * (parseInt(index / 2) + 1)
@@ -494,6 +501,11 @@ export default {
 
       // let data = this.dataTest
       let data = data2
+
+      function unique(arr, key) {
+        const res = new Map()
+        return arr.filter(a => !res.has(a[key]) && res.set(a[key], 1))
+      }
       function repeat(arr1, arr2) {
         return arr1.filter(element1 =>
           arr2.some(
@@ -503,13 +515,13 @@ export default {
       }
       let sameDate = []
       let temArr = data[0]
-      for (let i = 1; i < data.length - 1; i++) {
+      for (let i = 1; i < data.length; i++) {
         let arr1 = temArr.list
         let arr2 = data[i].list
         temArr.list = repeat(arr1, arr2)
         sameDate = repeat(arr1, arr2)
       }
-      return sameDate
+      return unique(sameDate, 'otherPartyPhone')
     },
 
     timeChange(time) {
@@ -544,6 +556,8 @@ export default {
             name: '数据',
             type: 'graph',
             layout: 'none',
+            symbolOffset: [0, 5],
+            symbolSize: 0.01,
             roam: true,
             label: {
               show: true,

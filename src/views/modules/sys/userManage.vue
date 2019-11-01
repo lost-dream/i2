@@ -251,7 +251,7 @@
                     v-for="(item, index) in policeKindList"
                     :key="index"
                     :label="item.typeName"
-                    :value="item.typeName"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -363,7 +363,7 @@
                     v-for="(item, index) in policeKindList"
                     :key="index"
                     :label="item.typeName"
-                    :value="item.typeName"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -773,8 +773,16 @@ export default {
     },
     // 添加选择值
     addValue() {
+      console.log(this.form)
       console.log(this.multipleSelection[0])
-      this.form = this.multipleSelection[0]
+      // this.form = this.multipleSelection[0]
+      this.form.username = this.multipleSelection[0].username
+      this.form.nickName = this.multipleSelection[0].nickName
+      this.form.departmentId = this.multipleSelection[0].departmentId
+      this.form.policeKind = this.multipleSelection[0].policeTypeId
+      this.form.id = this.multipleSelection[0].id
+      this.form.reportedSection = this.multipleSelection[0].berichtenDepartment
+      this.form.userGroup = this.multipleSelection[0].typeId
     },
     // 判断是否只选择一个用户
     pitchOn() {
@@ -953,7 +961,13 @@ export default {
     // 切换分页
     changePage(page) {
       this.currentPage = page
-      this.getUserList(page)
+      this.getUserList(
+        this.criteria.user,
+        this.criteria.name,
+        this.criteria.status,
+        this.criteria.section,
+        this.criteria.userGroup,
+      )
     },
     search() {
       this.getUserList(

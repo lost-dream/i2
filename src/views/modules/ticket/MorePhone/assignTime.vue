@@ -160,7 +160,11 @@ export default {
   mounted() {
     // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
-    this.onSubmit()
+    if (this.morePhone.length < 2) {
+      this.$message('请选择至少两个话单！')
+    } else {
+      this.onSubmit(this.morePhone)
+    }
   },
   methods: {
     onSubmit() {

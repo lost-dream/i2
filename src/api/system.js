@@ -291,7 +291,8 @@ export function userCompile(data) {
   return http({
     url: http.adornUrl('admin/userCompile'),
     method: 'post',
-    data: http.adornData(data, false, 'qs'),
+    // data: http.adornData(data, false, 'qs'),
+    params: http.adornParams(data, false),
   })
 }
 
