@@ -254,13 +254,35 @@ export function queryPoliceType(params) {
 }
 
 // 添加用户
-export function addUser(data) {
+export function addUser({
+  userId,
+  username,
+  card,
+  nickName,
+  policeType,
+  mobile,
+  siren,
+  email,
+  type,
+  berichtenDepartment,
+  departmentId,
+}) {
+  let form = new FormData()
+  form.set('userId', userId)
+  form.set('username', username)
+  form.set('card', card)
+  form.set('nickName', nickName)
+  form.set('policeType', policeType)
+  form.set('mobile', mobile)
+  form.set('siren', siren)
+  form.set('email', email)
+  form.set('type', type)
+  form.set('berichtenDepartment', berichtenDepartment)
+  form.set('departmentId', departmentId)
   return http({
     url: http.adornUrl('admin/addUser'),
     method: 'post',
-    // params: http.adornParams(data, false),
-    // data: data,
-    data: http.adornData(data, false, 'qs'),
+    data: form,
   })
 }
 

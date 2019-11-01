@@ -5,7 +5,19 @@
         <img src="../../assets/img/xiazai.png" alt />
         <p>个人中心</p>
       </li>
-      <li class="nav" @click="$router.push({ name: 'sys' })">
+      <!--<li class="nav" @click="$router.push({ name: 'sys' })">-->
+      <li
+        class="nav"
+        @click="
+          goTo({
+            id: '5fcc4fbcf47611e990fa0242ac150002',
+            name: '后端',
+            url: 'houduan',
+            path: 'sys',
+            type: '1',
+          })
+        "
+      >
         <img src="../../assets/img/shezhi.png" alt />
         <p>设置</p>
       </li>
@@ -209,6 +221,7 @@ export default {
         pname: item.name,
         url: item.url,
       }
+      item.type === '1' && (obj.type = '1')
       this.$api.statistics(obj).then(({ data }) => {
         if (data.msg === '成功') {
           // _this.$router.push({ name: url })
@@ -247,6 +260,7 @@ export default {
       }
       this.$api.statisticsQuery(obj).then(({ data }) => {
         if (data.msg === '成功') {
+          console.log(222)
           console.log(data)
           _this.latelyData = data.data
         } else {

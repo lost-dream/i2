@@ -209,7 +209,7 @@
                     v-for="(item, index) in userGroupList"
                     :key="index"
                     :label="item.description"
-                    :value="item.description"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -266,7 +266,7 @@
                     v-for="(item, index) in sectionList"
                     :key="index"
                     :label="item.title"
-                    :value="item.id"
+                    :value="item.title"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -321,7 +321,7 @@
                     v-for="(item, index) in userGroupList"
                     :key="index"
                     :label="item.description"
-                    :value="item.description"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
               </el-form-item>
