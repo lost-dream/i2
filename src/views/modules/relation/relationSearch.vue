@@ -15,9 +15,9 @@
             :key="index"
           ></el-option>
         </el-select>
-        <el-button slot="append" icon="el-icon-search" @click="submitHandle"
-          >分析</el-button
-        >
+        <el-button slot="append" icon="el-icon-search" @click="submitHandle">
+          <span>分析</span>
+        </el-button>
       </el-input>
     </div>
   </div>

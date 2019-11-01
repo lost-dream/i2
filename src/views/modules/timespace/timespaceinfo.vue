@@ -55,30 +55,32 @@
             </div>
             <div v-if="type === 'lg'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
-                <span style="font-size: 14px">&emsp;2015年6月25日11:41</span>
-              </div>
-              <div class="infoItem2" style="width: 20%">
-                <span>
-                  <span class="el-icon-place noOne"></span>&emsp;无住户
+                <span style="font-size: 14px">
+                  {{ userData.checkIn | formatHotelDate }} -
+                  {{ userData.checkOut | formatHotelDate }}
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
-                  <span class="el-icon-place exist"></span>&emsp;已有住户
+                  <span class="icon-zdy-yizi noOne"></span>&emsp;无住户
                 </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
-                  <span class="el-icon-place parties"></span>&emsp;当事人
+                  <span class="icon-zdy-yizi exist"></span>&emsp;已有住户
+                </span>
+              </div>
+              <div class="infoItem2" style="width: 20%">
+                <span>
+                  <span class="icon-zdy-yizi parties"></span>&emsp;当事人
                 </span>
               </div>
             </div>
             <div v-else-if="type === 'wb'" class="seatDesc clearfix">
               <div class="infoItem2" style="width: 40%">
-                <span style="font-size: 14px"
-                  >&nbsp;&nbsp;{{ userData.checkIn }} -
-                  {{ userData.checkOut }}</span
-                >
+                <span style="font-size: 14px">
+                  {{ userData.checkIn }} - {{ userData.checkOut }}
+                </span>
               </div>
               <div class="infoItem2" style="width: 20%">
                 <span>
@@ -885,12 +887,13 @@
       </div>
       <personal-info-card
         :IDNum="showPassenger.idNnumber || showPassenger.idNumber"
-        :name="showPassenger.name"
+        :name="showPassenger.userName || showPassenger.name"
         :nationality="showPassenger.nation"
         :sex="showPassenger.sex"
         :birthday="showPassenger.birthday"
         :mobile="showPassenger.cellphone"
         :addr="showPassenger.currentAddress"
+        @addToRelationAnalysis="addToRelationAnalysis(showPassenger)"
       />
     </div>
   </div>
@@ -964,6 +967,12 @@ export default {
       }
     },
   },
+  filters: {
+    formatHotelDate(value) {
+      const dateArr = value.split('-')
+      return `${dateArr[0]}年${dateArr[1]}月${dateArr[2]}日`
+    },
+  },
   methods: {
     // 判断位置有没有乘客，添加对应的座位图标className
     addHCClass(x, y) {
@@ -1012,7 +1021,7 @@ export default {
       })
     },
     addLGClass(x, y) {
-      y = (y + '').length === 1 ? '0' + y : y
+      y = y.toString().length === 1 ? '0' + y : y.toString()
       return this.passengers.map(value => {
         if (x + y - 0 === this.userData.roomNo - 0) {
           return 'parties'
@@ -1110,6 +1119,35 @@ export default {
     },
     changeMember(index) {
       this.showPassenger = this.roomMebers[index]
+    },
+    addToRelationAnalysis(userData) {
+      let relationType
+      switch (this.type) {
+        case 'lg': // 旅馆
+          relationType = 'SameHotel'
+          break
+        case 'hc': // 火车
+          relationType = 'SameTrain'
+          break
+        case 'fj': // 飞机
+          relationType = 'SamePlane'
+          break
+        case 'qc': // 汽车
+          relationType = 'SameCoach'
+          break
+        case 'wb': // 网吧
+          relationType = 'SameInternetCafe'
+          break
+      }
+      const keyword = userData.idNnumber || userData.idNumber
+      this.$router.push({
+        name: 'analyse',
+        query: {
+          keyword,
+          // FIXME: 为什么要有两个相同的relationType
+          relationType: [relationType, relationType],
+        },
+      })
     },
   },
   mounted() {

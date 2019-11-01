@@ -44,7 +44,7 @@
               <span>{{ addr }}</span>
             </div>
           </div>
-          <div class="timespaceBut">
+          <div class="timespaceBut" v-if="showButton">
             <el-button
               class="sureBut"
               size="mini"
@@ -105,6 +105,11 @@ export default {
       required: false,
       type: String,
     },
+    showButton: {
+      default: true,
+      required: false,
+      type: Boolean,
+    },
   },
   computed: {
     realSex(value) {
@@ -125,36 +130,21 @@ export default {
    position relative
  .cardCoat1
    width 300px
-   height 620px
-   position relative
-   top 0
-   left 0
-   right 0
-   bottom 0
-   margin 0 auto
    background-color rgba(44, 239, 255, 0.1)
    padding 10px
  .cardCoat2
-     width 280px
-     height 600px
-     position relative
-     top 0
-     left 0
-     right 0
-     bottom 0
-     margin 0 auto
-     background-color rgba(44, 239, 255, 0.1)
-     border solid 1px rgba(44, 239, 255, 0.2)
+   width 280px
+   background-color rgba(44, 239, 255, 0.1)
+   border solid 1px rgba(44, 239, 255, 0.2)
    >>>.el-card__header
      color #ffffff
      font-size 16px
      border-bottom none
      padding 18px 20px 0 20px
-   .box-card {
+   .box-card
      width: 100%;
      height 100%
      background-color transparent
-   }
    .el-card
      border none
    .cardImg
