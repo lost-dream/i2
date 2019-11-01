@@ -270,8 +270,11 @@ export default {
   text-align center
   border-radius 2px
 >>> .el-input__inner
+  color #5c6168 !important
   height 50px
   border-radius 2px
+  background-color rgb(255, 255, 255) !important
+  border 1px solid rgb(192, 215, 213) !important
 >>> .el-input.is-active .el-input__inner, >>>.el-input__inner:focus
   border-color #DCDFE6
   outline 0

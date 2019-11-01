@@ -439,12 +439,10 @@
             <a href="#">分析</a>
             <dl class="subMenu">
               <dd>
-                <a href="#" @click="analysisHandle(contextNodeId)">关系挖掘</a>
+                <a href="#" @click="analysisHandle">关系挖掘</a>
               </dd>
               <dd>
-                <a href="#" @click="dxAnalysisHandle(contextNodeId)"
-                  >定向分析</a
-                >
+                <a href="#" @click="dxAnalysisHandle">定向分析</a>
               </dd>
               <dd>
                 <a href="#" @click="overqjHandle(contextNodeId)">全局分析</a>
@@ -729,7 +727,10 @@ export default {
         }) // 缓存本页数据
       }
       this.$api
-        .dataCacheSaveOrUpdate('save', addAllCacheParam)
+        .dataCacheSaveOrUpdate('save', {
+          json: addAllCacheParam,
+          userName: JSON.parse(this.$Cookies.get('user_info')).username,
+        })
         .then(({ data }) => {
           if (data && data.code === 200) {
             this.$message({
@@ -845,8 +846,11 @@ export default {
       }
     },
     // 分析--- 关系挖掘
-    analysisHandle(nodeId) {
-      let arr = [nodeId] || this.global.network.getSelectedNodes()
+    analysisHandle() {
+      let arr =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       for (let i in arr) {
         let node = this.global.nodes.get(arr[i])
         this.analysisVisible = true
@@ -923,8 +927,11 @@ export default {
       }
     },
     // 分析--- 定向分析
-    dxAnalysisHandle(nodeId) {
-      let selectNodes = [nodeId] || this.global.network.getSelectedNodes()
+    dxAnalysisHandle() {
+      let selectNodes =
+        this.contextNodeId != ''
+          ? [this.contextNodeId]
+          : this.network.getSelectedNodes()
       if (!selectNodes || selectNodes.length < 1) {
         this.$message({
           message: '请选中节点后再执行此操作',
@@ -934,7 +941,12 @@ export default {
         return false
       }
       this.$nextTick(() => {
-        this.$refs.sidebarControl.init('2', '定向分析', 'DynamicTabDX', nodeId)
+        this.$refs.sidebarControl.init(
+          '2',
+          '定向分析',
+          'DynamicTabDX',
+          this.contextNodeId,
+        )
       })
       this.removeMenu()
     },

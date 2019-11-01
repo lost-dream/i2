@@ -141,7 +141,10 @@ export default {
         type: 'warning',
       }).then(() => {
         this.$api
-          .deleteAnalyticalRecords({ analyticalRecordsId: ids })
+          .deleteAnalyticalRecords({
+            analyticalRecordsId: ids,
+            userName: JSON.parse(this.$Cookies.get('user_info')).username,
+          })
           .then(({ data }) => {
             if (data && data.code === 200) {
               this.$message({

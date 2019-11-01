@@ -195,13 +195,11 @@ export default {
    * 数据缓存文件夹--；获取用户所有文件夹接口
    * @param {*}
    */
-  getAllFolderByUserName(username) {
+  getAllFolderByUserName(data) {
     return http({
       url: http.adornUrl('i2s/i2/folderCtlr/getAllFolderByUsername'),
       method: 'get',
-      params: http.adornParams({
-        username: username,
-      }),
+      params: http.adornParams(data),
     })
   },
   /**
