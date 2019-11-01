@@ -39,7 +39,6 @@
                 placeholder="姓名（输入）"
               ></el-input>
             </el-form-item>
-
             <el-form-item>
               <el-select
                 v-model="criteria.status"
@@ -54,7 +53,6 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-
             <el-form-item>
               <el-select
                 v-model="criteria.section"
@@ -84,9 +82,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button class="seekBut" type="primary" @click="search"
-                >搜索</el-button
-              >
+              <el-button class="seekBut" type="primary" @click="search">
+                <span>搜索</span>
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -561,7 +559,7 @@ import {
   queryDepartmentApi,
   queryUserGroup,
   queryPoliceType,
-  addUser,
+  addUserApi,
   operateUser,
   resetPassword,
   reset2ndPWD,
@@ -687,6 +685,10 @@ export default {
       ], */
       statusList: [
         // 选择状态下拉框数据
+        {
+          value: null,
+          label: '(不选择)',
+        },
         {
           value: 0,
           label: '启用',
@@ -894,7 +896,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    /* -------------------- edit by singleDogNo.1 -------------------- */
     chooseDepartmentId(val) {
       // // 选中上报机构时保存机构ID
       // this.sectionList.map((value, index) => {
@@ -905,22 +906,22 @@ export default {
     },
     /**
      * 获取用户列表
+     * @param { string | number } page 查询的页码
+     * @param { string | number } size 查询需要每页返还的数据量
      * @param { string | number } username 查询的登录名
      * @param { string | number } nickName 查询的姓名
      * @param { string | number } status 查询的状态
      * @param { string } departmentId 查询的部门
      * @param { string } rolesId 查询的用户组
-     * @param { string | number } page 查询的页码
-     * @param { string | number } size 查询需要每页返还的数据量
      */
     getUserList(
-      username = null,
-      nickName = null,
-      status = null,
-      departmentId = null,
-      rolesId = null,
       page = this.currentPage,
       size = this.pageSize,
+      username = this.criteria.user,
+      nickName = this.criteria.name,
+      status = this.criteria.status,
+      departmentId = this.criteria.section,
+      rolesId = this.criteria.userGroup,
     ) {
       queryUserApi({
         id: Cookies.get('userId'),
@@ -939,7 +940,18 @@ export default {
           } = data.data
 
           list.map(value => {
+            // 设置启用状态 0=> 启用  1=> 未启用
             value.status = `${value.status === 0 ? '' : '未'}启用`
+
+            // 设置登录方式
+            switch (value.loginWay) {
+              // case === 1 只是一个示例，目前只有密码登录，但是后期有其他形式登录在这里维护
+              case 1:
+                value.loginWay = '二维码登录'
+                break
+              default:
+                value.loginWay = '密码登录'
+            }
           })
 
           this.userList = list
@@ -953,74 +965,68 @@ export default {
     // 切换分页
     changePage(page) {
       this.currentPage = page
-      this.getUserList(page)
+      this.getUserList()
     },
     search() {
-      this.getUserList(
-        this.criteria.user,
-        this.criteria.name,
-        this.criteria.status,
-        this.criteria.section,
-        this.criteria.userGroup,
-      )
+      this.getUserList()
     },
     addUser() {
       this.$refs['form'].validate(valid => {
-        if (valid) {
-          addUser({
-            userId: Cookies.get('userId'),
-            username: this.form.user,
-            card: this.form.IDCard,
-            nickName: this.form.name,
-            policeType: this.form.policeKind,
-            mobile: this.form.mobile,
-            siren: this.form.policeNo,
-            email: this.form.email,
-            type: this.form.userGroup,
-            berichtenDepartment: this.form.reportedSection,
-            departmentId: this.form.departmentId,
-          }).then(({ data }) => {
-            if (data && data.code === 200) {
-              // 添加成功，重新拉取数据更新视图
-              this.initPage(() => {
-                this.$message({
-                  message: '添加用户成功',
-                  type: 'success',
-                })
-                this.addDialog = false
+        if (!valid) return
+
+        addUserApi({
+          userId: Cookies.get('userId'),
+          username: this.form.user,
+          card: this.form.IDCard,
+          nickName: this.form.name,
+          policeType: this.form.policeKind,
+          mobile: this.form.mobile,
+          siren: this.form.policeNo,
+          email: this.form.email,
+          type: this.form.userGroup,
+          berichtenDepartment: this.form.reportedSection,
+          departmentId: this.form.departmentId,
+        }).then(({ data }) => {
+          if (data && data.code === 200) {
+            // 添加成功，重新拉取数据更新视图
+            this.initPage(() => {
+              this.$message({
+                message: '添加用户成功',
+                type: 'success',
               })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
-        }
+              this.addDialog = false
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
+        })
       })
     },
     editUser() {
       this.$refs['form'].validate(valid => {
-        if (valid) {
-          userCompile({
-            userId: Cookies.get('userId'),
-            id: this.form.id,
-            policeType: this.form.policeKind,
-            type: this.form.userGroup,
-            berichtenDepartment: this.form.reportedSection,
-            departmentId: this.form.departmentId,
-          }).then(({ data }) => {
-            if (data && data.code === 200) {
-              // 添加成功，重新拉取数据更新视图
-              this.initPage(() => {
-                this.$message({
-                  message: '编辑用户成功',
-                  type: 'success',
-                })
-                this.editDialog = false
+        if (!valid) return
+
+        userCompile({
+          userId: Cookies.get('userId'),
+          id: this.form.id,
+          policeType: this.form.policeKind,
+          type: this.form.userGroup,
+          berichtenDepartment: this.form.reportedSection,
+          departmentId: this.form.departmentId,
+        }).then(({ data }) => {
+          if (data && data.code === 200) {
+            // 添加成功，重新拉取数据更新视图
+            this.initPage(() => {
+              this.$message({
+                message: '编辑用户成功',
+                type: 'success',
               })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
-        }
+              this.editDialog = false
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
+        })
       })
     },
     lookUser() {
@@ -1147,12 +1153,10 @@ export default {
         if (data && data.code === 200) {
           this.sectionList = data.data
           this.sectionList.unshift({
-            id: -1,
-            pid: -1,
+            id: null,
+            pid: null,
             title: '（不选择）',
           })
-          console.log(333333)
-          console.log(this.sectionList)
         } else {
           this.$message.error(data.msg)
         }
@@ -1162,6 +1166,10 @@ export default {
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.userGroupList = data.data
+          this.userGroupList.unshift({
+            id: null,
+            description: '（不选择）',
+          })
         } else {
           this.$message.error(data.msg)
         }

@@ -254,7 +254,7 @@ export function queryPoliceType(params) {
 }
 
 // 添加用户
-export function addUser({
+export function addUserApi({
   userId,
   username,
   card,
