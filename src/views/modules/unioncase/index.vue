@@ -90,7 +90,7 @@
                 <h4>条件参数</h4>
                 <div v-for="(item, index) in taskInfo.conditions" :key="index">
                   <div
-                    v-if="index === taskInfoSshow"
+                    v-if="item.graphicId === taskInfoSshow"
                     class="conditionItem"
                     style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
                   >
@@ -130,7 +130,7 @@
                   </div>
                   <div
                     v-else
-                    @click="taskInfoSshow = index"
+                    @click="taskInfoSshow = item.graphicId"
                     style="border:1px solid white;padding:5px 10px;border-radius:5px;margin-top: 10px"
                   >
                     条件参数{{ index + 1 }}
@@ -196,173 +196,171 @@
             </div>
           </sidebar>
         </div>
-        <div class="dialog">
-          <flyDialog :show.sync="show" class="caseMap" :width="width">
-            <el-button type="success" @click="addCaseNum"
-              >添加案件编号
-            </el-button>
-            <div v-for="(item, index) in inputList" :key="index">
-              <el-input style="margin:10px;" v-model="item.caseNum">
-                <el-button
-                  slot="append"
-                  :disabled="inputList.length == 1 ? true : false"
-                  @click="delectCase(index)"
-                  icon="el-icon-close"
-                ></el-button>
-              </el-input>
-            </div>
-            <div slot="ft">
-              <div class="caseButton">
-                <!--<el-button  @click="search" type="success"-->
-                <el-button id="casePlace" class="casePlace" type="success"
-                  >查询</el-button
-                >
-                <el-button @click="cancel" type="warning">取消</el-button>
-              </div>
-            </div>
-          </flyDialog>
-          <flyDialog
-            :show.sync="trackShow"
-            title="人员轨迹条件"
-            class="caseMap"
-            :width="width2"
-          >
-            <div class="form">
-              <el-form
-                :model="trackForm"
-                label-width="0px"
-                :rules="trackRule"
-                ref="trackForm"
-              >
-                <el-form-item prop="nameId">
-                  <el-input
-                    v-model="trackForm.nameId"
-                    rows="6"
-                    placeholder="请输入身份证号码"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item prop="trackDate">
-                  <el-date-picker
-                    v-model="trackForm.startDate"
-                    type="date"
-                    placeholder="选择日期"
-                  >
-                  </el-date-picker>
-                  <el-date-picker
-                    v-model="trackForm.endDate"
-                    type="date"
-                    placeholder="选择日期"
-                  >
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item prop="checkedBox">
-                  <el-checkbox-group
-                    v-model="trackForm.checkedBox"
-                    :min="1"
-                    :max="2"
-                  >
-                    <el-checkbox
-                      v-for="(item, index) in boxs"
-                      :label="item.label"
-                      :key="index"
-                      >{{ item.name }}
-                    </el-checkbox>
-                  </el-checkbox-group>
-                </el-form-item>
-              </el-form>
-            </div>
-
+      </div>
+      <div
+        style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
+        class="mapTable"
+        v-show="!isInfo"
+      >
+        <el-table
+          :data="mapTableData"
+          height="245px"
+          ref="singleTable"
+          highlight-current-row
+          @row-click="rowClick"
+          @current-change="handleCurrentChange"
+          style="width: 100%"
+        >
+          <el-table-column type="index" width="100" align="center" label="编号">
+          </el-table-column>
+          <el-table-column prop="longitude" align="center" label="经度">
+          </el-table-column>
+          <el-table-column prop="latitude" align="center" label="纬度">
+          </el-table-column>
+          <el-table-column prop="type" align="center" label="类型">
+          </el-table-column>
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <button @click.stop="del(scope.row)"></button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="dialog" v-show="!isInfo">
+        <flyDialog :show.sync="show" class="caseMap" :width="width">
+          <el-button type="success" @click="addCaseNum"
+            >添加案件编号
+          </el-button>
+          <div v-for="(item, index) in inputList" :key="index">
+            <el-input style="margin:10px;" v-model="item.caseNum">
+              <el-button
+                slot="append"
+                :disabled="inputList.length == 1 ? true : false"
+                @click="delectCase(index)"
+                icon="el-icon-close"
+              ></el-button>
+            </el-input>
+          </div>
+          <div slot="ft">
             <div class="caseButton">
-              <el-button @click="trackSearch('trackForm')" type="success"
-                >查询
-              </el-button>
+              <!--<el-button  @click="search" type="success"-->
+              <el-button id="casePlace" class="casePlace" type="success"
+                >查询</el-button
+              >
+              <el-button @click="cancel" type="warning">取消</el-button>
+            </div>
+          </div>
+        </flyDialog>
+        <flyDialog
+          :show.sync="trackShow"
+          title="人员轨迹条件"
+          class="caseMap"
+          :width="width2"
+        >
+          <div class="form">
+            <el-form
+              :model="trackForm"
+              label-width="0px"
+              :rules="trackRule"
+              ref="trackForm"
+            >
+              <el-form-item prop="nameId">
+                <el-input
+                  v-model="trackForm.nameId"
+                  rows="6"
+                  placeholder="请输入身份证号码"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="trackDate">
+                <el-date-picker
+                  v-model="trackForm.startDate"
+                  type="date"
+                  placeholder="选择日期"
+                >
+                </el-date-picker>
+                <el-date-picker
+                  v-model="trackForm.endDate"
+                  type="date"
+                  placeholder="选择日期"
+                >
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item prop="checkedBox">
+                <el-checkbox-group
+                  v-model="trackForm.checkedBox"
+                  :min="1"
+                  :max="2"
+                >
+                  <el-checkbox
+                    v-for="(item, index) in boxs"
+                    :label="item.label"
+                    :key="index"
+                    >{{ item.name }}
+                  </el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-form>
+          </div>
+
+          <div class="caseButton">
+            <el-button @click="trackSearch('trackForm')" type="success"
+              >查询
+            </el-button>
+            <el-button @click="trackClear" type="warning">清空</el-button>
+          </div>
+        </flyDialog>
+        <flyDialog
+          :show.sync="trackShow2"
+          title="选择地图点位"
+          class="caseMap"
+          :width="width2"
+        >
+          <div class="form">
+            <el-table
+              :data="trackList"
+              height="245px"
+              :row-key="getRowKey"
+              @selection-change="handleSelectionChange"
+              style="width: 100%"
+            >
+              <el-table-column
+                width="100"
+                align="center"
+                prop="name"
+                label="机构名称"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="address"
+                align="center"
+                width="200"
+                label="所在区域"
+              >
+              </el-table-column>
+              <el-table-column align="center" label="地图位置">
+                <template slot-scope="scope">
+                  <span>{{
+                    (scope.row.longitude === '' ||
+                      scope.row.longitude === undefined ||
+                      scope.row.longitude === null) &&
+                    (scope.row.longitude === '' ||
+                      scope.row.longitude === undefined ||
+                      scope.row.longitude === null)
+                      ? '无'
+                      : '有'
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column type="selection" width="55"></el-table-column>
+            </el-table>
+          </div>
+          <div slot="ft">
+            <div class="caseButton">
+              <el-button id="affirmLabel" type="success">确认标注 </el-button>
               <el-button @click="trackClear" type="warning">清空</el-button>
             </div>
-          </flyDialog>
-          <flyDialog
-            :show.sync="trackShow2"
-            title="选择地图点位"
-            class="caseMap"
-            :width="width2"
-          >
-            <div class="form">
-              <el-table
-                :data="trackList"
-                height="245px"
-                :row-key="getRowKey"
-                @selection-change="handleSelectionChange"
-                style="width: 100%"
-              >
-                <el-table-column
-                  width="100"
-                  align="center"
-                  prop="name"
-                  label="机构名称"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="address"
-                  align="center"
-                  width="200"
-                  label="所在区域"
-                >
-                </el-table-column>
-                <el-table-column align="center" label="地图位置">
-                  <template slot-scope="scope">
-                    <span>{{
-                      (scope.row.longitude === '' ||
-                        scope.row.longitude === undefined ||
-                        scope.row.longitude === null) &&
-                      (scope.row.longitude === '' ||
-                        scope.row.longitude === undefined ||
-                        scope.row.longitude === null)
-                        ? '无'
-                        : '有'
-                    }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column type="selection" width="55"></el-table-column>
-              </el-table>
-            </div>
-            <div slot="ft">
-              <div class="caseButton">
-                <el-button id="affirmLabel" type="success">确认标注 </el-button>
-                <el-button @click="trackClear" type="warning">清空</el-button>
-              </div>
-            </div>
-          </flyDialog>
-        </div>
-        <div
-          style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
-          class="mapTable"
-        >
-          <el-table
-            :data="mapTableData"
-            height="245px"
-            @current-change="handleCurrentChange"
-            @row-click="rowClick"
-            style="width: 100%"
-          >
-            <el-table-column
-              type="index"
-              width="100"
-              align="center"
-              label="编号"
-            >
-            </el-table-column>
-            <el-table-column prop="longitude" align="center" label="经度">
-            </el-table-column>
-            <el-table-column prop="latitude" align="center" label="纬度">
-            </el-table-column>
-            <el-table-column prop="type" align="center" label="类型">
-            </el-table-column>
-            <el-table-column label="操作" align="center">
-              <template slot-scope="scope">
-                <button @click.stop="del(scope.row)"></button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
+          </div>
+        </flyDialog>
       </div>
       <div class="content">
         <div id="map"></div>
@@ -400,6 +398,8 @@ export default {
       graphicsLayer: null,
       pSymbol: null,
       id: 0,
+      isEditor: false,
+      editorDdata: [],
 
       activeName: 'Second',
       show: false,
@@ -474,6 +474,7 @@ export default {
             date2: '',
             range: '',
             taskType: 0,
+            ttaskDetail1Id: '',
           },
         ],
         date3: '',
@@ -493,6 +494,13 @@ export default {
   computed: {},
   created() {},
   mounted() {
+    if (this.$route.params.isEditor) {
+      this.isEditor = this.$route.params.isEditor
+      this.editorDdata = this.$route.params.editorDdata
+      console.log(112212)
+      console.log(this.isEditor)
+      console.log(this.editorDdata)
+    }
     this.isInfo = this.$route.params.flag
     this.mapDraw()
     this.$route.query.kw1 !== undefined && this.routeData()
@@ -682,6 +690,48 @@ export default {
               )
               var point
               var graphic
+
+              if (_this.isEditor) {
+                _this.editorDdata.forEach(item => {
+                  if (item.taskType == 1) {
+                    addPoint(
+                      item.pointLongitude,
+                      item.pointLatitude,
+                      '描点',
+                      '',
+                      item.activeTimeBegin,
+                      item.activeTimeEnd,
+                      item.ttaskDetail1Id,
+                    )
+                  } else if (item.taskType == 0) {
+                    bufferData(
+                      item.pointLongitude,
+                      item.pointLatitude,
+                      item.radius,
+                      _this.id,
+                      item.activeTimeBegin,
+                      item.activeTimeEnd,
+                      item.ttaskDetail1Id,
+                    )
+                    _this.id++
+                  }
+                })
+                _this.addCriteria = true
+                _this.mapTableData.forEach(item => {
+                  _this.rowClick(item)
+                })
+                _this.taskInfo.taskName = _this.editorDdata[0].name
+                _this.taskInfo.date3 = _this.editorDdata[0].birthdayBegin
+                _this.taskInfo.date4 = _this.editorDdata[0].birthdayEnd
+                _this.taskInfo.type = _this.editorDdata[0].type
+                _this.taskInfo.taskId = _this.editorDdata[0].taskId
+                _this.taskInfo.taskTarget = _this.editorDdata[0].taskTarget
+                _this.editorDdata[0].typeBgWb === 0
+                  ? (_this.taskInfo.checkedBox = [1, 2])
+                  : (_this.taskInfo.checkedBox[0] =
+                      _this.editorDdata[0].typeBgWb)
+              }
+
               on(dom.byId('casePlace'), 'click', () => {
                 let obj = []
                 _this.inputList.forEach(item => {
@@ -702,6 +752,9 @@ export default {
                       item.latitude,
                       '案发地点',
                       item.caseNo,
+                      '',
+                      '',
+                      '',
                     )
                   })
                 })
@@ -710,7 +763,15 @@ export default {
               on(dom.byId('affirmLabel'), 'click', function() {
                 _this.affirmLabel()
                 _this.okTrack.forEach(item => {
-                  addPoint(item.longitude, item.latitude, '轨迹点', '')
+                  addPoint(
+                    item.longitude,
+                    item.latitude,
+                    '轨迹点',
+                    '',
+                    '',
+                    '',
+                    '',
+                  )
                 })
               })
               $('#range').bind('input propertychange', function(event) {
@@ -724,6 +785,9 @@ export default {
                     item.pointLatitude,
                     range,
                     item.graphicId,
+                    '',
+                    '',
+                    '',
                   )
                 })
               })
@@ -766,7 +830,9 @@ export default {
                     longitude: center[0].toFixed(6),
                     latitude: center[1].toFixed(6),
                     type: '描圆',
-                    id: _this.id,
+                    date1: '',
+                    date2: '',
+                    ttaskDetail1Id: '',
                   }
                   _this.id++
                   _this.mapTableData.push(newObj)
@@ -783,6 +849,9 @@ export default {
                     longitude: center1[0].toFixed(6),
                     latitude: center1[1].toFixed(6),
                     type: '描点',
+                    date1: '',
+                    date2: '',
+                    ttaskDetail1Id: '',
                     id: _this.id,
                   }
                   _this.id++
@@ -799,15 +868,26 @@ export default {
                 _this.map.graphics.add(graphicItem)
               }
 
-              function addPoint(x, y, type, caseNo) {
+              function addPoint(
+                x,
+                y,
+                type,
+                caseNo,
+                date1,
+                date2,
+                ttaskDetail1Id,
+              ) {
                 point = new Point(x, y, new SpatialReference({ wkid: 4326 }))
                 let newObj1 = {
                   caseNo: caseNo,
                   range: 0,
                   longitude: x,
                   latitude: y,
+                  date1: date1,
+                  date2: date2,
                   type: type,
                   id: _this.id,
+                  ttaskDetail1Id: ttaskDetail1Id,
                 }
                 _this.id++
                 _this.mapTableData.push(newObj1)
@@ -816,7 +896,15 @@ export default {
                 _this.map.graphics.add(graphic)
               }
 
-              function bufferData(x, y, radius, graphicId) {
+              function bufferData(
+                x,
+                y,
+                radius,
+                graphicId,
+                date1,
+                date2,
+                ttaskDetail1Id,
+              ) {
                 var points = [
                   new Point(x, y, new SpatialReference({ wkid: 4326 })),
                 ]
@@ -825,7 +913,10 @@ export default {
                   longitude: x,
                   latitude: y,
                   type: '描圆',
+                  date1: date1,
+                  date2: date2,
                   id: graphicId,
+                  ttaskDetail1Id: ttaskDetail1Id,
                 }
                 _this.mapTableData.splice(graphicId, 1, newObj1)
 
@@ -882,18 +973,22 @@ export default {
     },
     // 当前行改变
     handleCurrentChange(val) {
-      console.log(val)
+      this.$refs.singleTable.setCurrentRow(val)
+      this.taskInfoSshow = val.id
     },
 
     // 点击行
     rowClick(row, column, event) {
+      console.log(222)
+      console.log(row)
       if (this.addCriteria) {
         let obj = {
           graphicId: row.id,
           pointLatitude: row.latitude,
           pointLongitude: row.longitude,
-          date1: '',
-          date2: '',
+          date1: row.date1,
+          date2: row.date2,
+          ttaskDetail1Id: row.ttaskDetail1Id,
           range: row.range,
         }
         row.caseNo === undefined ? (obj.caseNo = '') : (obj.caseNo = row.caseNo)
@@ -911,6 +1006,9 @@ export default {
           // this.taskInfo.conditions[0] = obj
           this.taskInfo.conditions[0].pointLatitude = row.latitude
           this.taskInfo.conditions[0].pointLongitude = row.longitude
+          this.taskInfo.conditions[0].date1 = row.date1
+          this.taskInfo.conditions[0].date2 = row.date2
+          this.taskInfo.conditions[0].ttaskDetail1Id = row.ttaskDetail1Id
           this.taskInfo.conditions[0].graphicId = row.id
           this.taskInfo.conditions[0].range = row.range
 
@@ -922,6 +1020,9 @@ export default {
         this.taskInfo.conditions[0].pointLatitude = row.latitude
         this.taskInfo.conditions[0].pointLongitude = row.longitude
         this.taskInfo.conditions[0].graphicId = row.id
+        this.taskInfo.conditions[0].date1 = row.date1
+        this.taskInfo.conditions[0].ttaskDetail1Id = row.ttaskDetail1Id
+        this.taskInfo.conditions[0].date2 = row.date2
         this.taskInfo.conditions[0].range = row.range
         row.caseNo === undefined
           ? (this.taskInfo.conditions[0].caseNo = '')
@@ -1017,23 +1118,43 @@ export default {
               ? this.taskInfo.checkedBox[0]
               : 0,
         }
+        if (_this.isEditor) {
+          obj.updateId = Cookies.get('userId')
+          obj.ttaskDetail1Id = item.ttaskDetail1Id
+        }
         data.push(obj)
       })
-
-      this.$api.seriesParallel(data).then(({ data }) => {
-        if (data.msg === '成功') {
-          console.log(data)
-          _this.$message({
-            message: '任务保存成功!',
-            type: 'success',
-          })
-        } else {
-          this.$message({
-            message: '任务保存失败!',
-            type: 'error',
-          })
-        }
-      })
+      if (_this.isEditor) {
+        this.$api.saveCompile(data).then(({ data }) => {
+          if (data.msg === '成功') {
+            console.log(data)
+            _this.$message({
+              message: '任务编辑成功!',
+              type: 'success',
+            })
+          } else {
+            this.$message({
+              message: '任务编辑失败!',
+              type: 'error',
+            })
+          }
+        })
+      } else {
+        this.$api.seriesParallel(data).then(({ data }) => {
+          if (data.msg === '成功') {
+            console.log(data)
+            _this.$message({
+              message: '任务保存成功!',
+              type: 'success',
+            })
+          } else {
+            this.$message({
+              message: '任务保存失败!',
+              type: 'error',
+            })
+          }
+        })
+      }
     },
 
     // 暂存任务
@@ -1191,6 +1312,14 @@ a:focus, a:hover
 
 .mapTable .el-table
   background-color #0d353f !important
+
+.mapTable >>>
+  .el-table__body tr.el-table__row--striped.current-row td,
+  .el-table__body tr.current-row>td,
+  .el-table__body tr.hover-row.current-row>td,
+  .el-table__body tr.hover-row.el-table__row--striped.current-row>td
+    background: rgba(44,239,255,0.5)
+
 
 .rightPanel
   padding 20px

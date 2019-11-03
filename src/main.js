@@ -48,17 +48,13 @@ router.beforeEach((to, from, next) => {
 // 未登录情况下，所有路由都跳转到登录页（除登录页）
 router.afterEach(to => {
   const duration = 1500
-  console.log(1111)
-  console.log(roleStrList)
   if (!Cookies.get('ac_token') && to.name !== 'login') {
     Message({ message: '你还没有登录', type: 'error', duration: duration })
     setTimeout(() => {
       router.push({ name: 'login' })
     }, duration)
   }
-  console.log(to)
   let roleStrLisr = JSON.parse(Cookies.get('roleStrLisr'))
-  console.log(roleStrLisr)
   let roleStrObj = roleStrLisr.find(item => {
     return item.urlName === to.meta.rolePath
   })
