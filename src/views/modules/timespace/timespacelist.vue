@@ -89,9 +89,21 @@
                         :style="iconStyle"
                         v-else-if="item.typeCode === '网吧'"
                       ></span>
-                      <span style="font-size: 14px"
-                        >&nbsp;{{ item.typeCode }}出行信息</span
+                      <span
+                        v-if="item.typeCode === '旅馆'"
+                        style="font-size: 14px"
                       >
+                        &nbsp;{{ item.typeCode }}入住记录
+                      </span>
+                      <span
+                        v-else-if="item.typeCode === '网吧'"
+                        style="font-size: 14px"
+                      >
+                        &nbsp;{{ item.typeCode }}上网记录
+                      </span>
+                      <span v-else style="font-size: 14px">
+                        &nbsp;{{ item.typeCode }}出行记录
+                      </span>
                     </div>
                     <!-- 第二排信息 飞机 && 火车 && 汽车 -->
                     <div
@@ -139,11 +151,9 @@
                       style="width: 23%"
                       v-if="item.typeCode === '飞机'"
                     >
-                      <span class="icon-zdy-yizi"
-                        >&nbsp;{{ item.cabinPlace }}仓{{
-                          item.seatNumber
-                        }}</span
-                      >
+                      <span class="icon-zdy-yizi">
+                        &nbsp;{{ item.cabinPlace }}仓{{ item.seatNumber }}
+                      </span>
                     </div>
                     <!-- 第四排信息 火车 **车**座 -->
                     <div
@@ -227,7 +237,7 @@
         :birthday="userData && userData.birthday"
         :mobile="userData && userData.cellphone"
         :addr="userData && userData.currentAddress"
-        @addToRelationAnalysis="addToRelationAnalysis"
+        :showButton="false"
       />
     </div>
   </div>
@@ -380,9 +390,6 @@ export default {
         page * this.pageSize,
       )
     },
-    addToRelationAnalysis() {
-      console.log(`this.userData=======${JSON.stringify(this.userData)}`)
-    },
     getList(
       beginTime = this.form.startDate,
       endTime = this.form.endDate,
@@ -470,7 +477,6 @@ export default {
        height 100%
        margin 0 auto
        overflow-y  scroll
-       /*padding 100px*/
    .infoList
        width 865px
        max-height 860px
