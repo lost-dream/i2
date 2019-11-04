@@ -5,20 +5,43 @@
     :show.sync="visible"
     @beforeCloseDialog="beforeClose"
   >
-    <div class="mod-form">
-      <el-row>
-        <el-col :span="8">
-          <div class="org">
+  <div class="mod-form">
+      <ul class="form-container">
+        <li class="org">
+          <el-tree
+              :data="department"
+              :props="defaultProps"
+              :render-after-expand="false"
+              show-checkbox
+              @check-change="handleCheckChange"
+              default-expand-all
+            >
+            </el-tree>
+        </li>
+        <li class="detail">
+           <div class="cont-info">
+            <p class="info-title">{{ info.recordTitle }}</p>
+            <p class="content">{{ info.description }}</p>
+          </div>
+          
+          <div class="toshare">
+            <span class="fly-btn" @click="toshare">确定共享</span>
+          </div> 
+        </li>
+      </ul>
+      <!-- <el-row class="form-container">
+        <el-col :span="8" class="org">
             <el-tree
               :data="department"
               :props="defaultProps"
+              :render-after-expand="false"
               show-checkbox
               @check-change="handleCheckChange"
+              default-expand-all
             >
             </el-tree>
-          </div>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="16" class="detail">
           <div class="cont-info">
             <p class="info-title">{{ info.recordTitle }}</p>
             <p class="content">{{ info.description }}</p>
@@ -29,9 +52,9 @@
           </div>
           <div class="toshare">
             <span class="fly-btn" @click="toshare">确定共享</span>
-          </div>
+          </div> 
         </el-col>
-      </el-row>
+      </el-row> -->
     </div>
   </fly-dialog>
 </template>
@@ -64,6 +87,7 @@ export default {
         label: 'title',
       },
       count: 1,
+      chooseMember: [],
     }
   },
   computed: {},
@@ -81,7 +105,6 @@ export default {
         if (data && data.code === 200) {
           let arr = data.data
           this.department = this.buildDpt(arr)
-          console.log(this.department)
         }
       })
     },
@@ -107,8 +130,8 @@ export default {
     // 表单提交
     toshare() {
       let params = {
-        analyticalRecordsId: '5bbff27c39c04802a16c6bd68d88b250',
-        targetUserName: 'admin',
+        analyticalRecordsId: this.info.id,
+        targetUserName: JSON.stringify(this.chooseMember),
         userName: JSON.parse(this.$Cookies.get('user_info')).username,
       }
       this.$api.shareAnalyticalRecords(params).then(({ data }) => {
@@ -125,8 +148,28 @@ export default {
         }
       })
     },
-    handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate)
+    handleCheckChange(data, checked) {
+      const $THIS = this
+      function recursion(list) {
+        list.forEach(value=> {
+          if (value.list && value.list.length > 0) {
+            recursion(value.list)
+          } else {
+            $THIS.chooseMember.push(value.title)
+          }
+        })
+      }
+      if ((!data.list || data.list.length === 0) && checked) {
+        // 不存在子节点（存在子节点的是列表）的节点被选中 
+        this.chooseMember.push(data.title)
+      } else if ((data.list && data.list.length > 0) && checked) {
+        // 存在子节点（列表本身被选中）时，递归获取列表中的节点
+        recursion(data.list)
+      } else if ((!data.list || data.list.length === 0) && !checked) {
+        // 取消选择
+        this.chooseMember.remove(data.title)
+      }
+      this.chooseMember = [...new Set(this.chooseMember)]
     },
     beforeClose() {
       this.$emit('refreshDataList')
@@ -141,7 +184,22 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .mod-form
+  // 弹出框的最小高度，只改这里就行
+  $minHeight = 300px
   padding 10px
+  .form-container
+    display flex
+    justify-content space-between
+    height 100%
+    min-height $minHeight
+    .org
+      flex 1
+    .detail
+      flex 2
+      min-height $minHeight
+      display flex
+      flex-direction column
+      justify-content space-between
   >>>.el-form-item
     margin-bottom 0
   >>>.el-input__inner
@@ -149,6 +207,7 @@ export default {
     width 130px
     height 32px
     line-height 32px
+    
 .resultList
   border-right 1px solid #41767d
   border-top 1px solid #41767d
