@@ -51,7 +51,7 @@ export default {
     submitHandle() {
       let query = {
         keyword: this.kws,
-        relationType: [this.relationType, 'SamePlane'],
+        relationType: [this.relationType],
       }
       this.$router.push({
         name: 'analyse',

@@ -55,6 +55,13 @@ export default {
     })
   },
   // ------------------------------------I2---------------------------------------------//
+  getAllUser(data) {
+    return http({
+      url: http.adornUrl('admin/quertUserI2'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
+  },
   /**
    * 展开节点
    * @param {*} data
@@ -404,6 +411,16 @@ export default {
   shareAnalyticalRecords(data) {
     return http({
       url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/shareAnalyticalRecords'),
+      method: 'get',
+      params: http.adornParams(data),
+    })
+  },
+  /**
+   * 分析亲密度分析
+   */
+  closenessAnalyse(data) {
+    return http({
+      url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/closenessAnalyse'),
       method: 'get',
       params: http.adornParams(data),
     })

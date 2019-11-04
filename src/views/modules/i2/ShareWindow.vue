@@ -10,9 +10,8 @@
         <el-col :span="8">
           <div class="org">
             <el-tree
-              :props="props"
-              :load="loadNode"
-              lazy
+              :data="department"
+              :props="defaultProps"
               show-checkbox
               @check-change="handleCheckChange"
             >
@@ -51,9 +50,18 @@ export default {
         recordTitle: '',
         description: '',
       },
-      props: {
-        label: 'name',
-        children: 'zones',
+      department: [
+        // {
+        //   label: '省公安厅',
+        //   children: [
+        //     { label: '市厅', children: [{ label: '李四' }] },
+        //     { label: '张三' },
+        //   ],
+        // },
+      ],
+      defaultProps: {
+        children: 'list',
+        label: 'title',
       },
       count: 1,
     }
@@ -63,6 +71,38 @@ export default {
     init(activeInfo) {
       this.info = activeInfo
       this.visible = true
+    },
+    gitAllUser() {
+      let params = {
+        page: 1,
+        size: 99999,
+      }
+      this.$api.getAllUser(params).then(({ data }) => {
+        if (data && data.code === 200) {
+          let arr = data.data
+          this.department = this.buildDpt(arr)
+          console.log(this.department)
+        }
+      })
+    },
+    buildDpt(arr) {
+      let _arr = arr
+      for (let i in _arr) {
+        if (_arr[i].u != null) {
+          _arr[i].list = _arr[i].list.concat(_arr[i].u)
+        }
+        if (this.hasChildren(_arr[i])) {
+          this.buildDpt(_arr[i].list)
+        }
+      }
+      return _arr
+    },
+    hasChildren(obj) {
+      let b = false
+      if (obj.list && obj.list.length > 0) {
+        b = true
+      }
+      return b
     },
     // 表单提交
     toshare() {
@@ -88,44 +128,15 @@ export default {
     handleCheckChange(data, checked, indeterminate) {
       console.log(data, checked, indeterminate)
     },
-    loadNode(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{ name: '测试' }])
-      }
-      if (node.level > 3) return resolve([])
-
-      var hasChild
-      if (node.data.name === '测试') {
-        hasChild = true
-      } else {
-        hasChild = Math.random() > 0.5
-      }
-
-      setTimeout(() => {
-        var data
-        if (hasChild) {
-          data = [
-            {
-              name: '测试' + this.count++,
-            },
-            {
-              name: '测试' + this.count++,
-            },
-          ]
-        } else {
-          data = []
-        }
-
-        resolve(data)
-      }, 500)
-    },
     beforeClose() {
       this.$emit('refreshDataList')
       this.visible = false
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.gitAllUser()
+  },
 }
 </script>
 <style lang="stylus" scoped>

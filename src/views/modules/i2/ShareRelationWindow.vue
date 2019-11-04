@@ -114,7 +114,6 @@ export default {
             }
           }
           this.activeLi = 0
-          console.log(data)
         })
         .then(() => {
           this.visible = true
