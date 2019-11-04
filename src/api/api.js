@@ -636,7 +636,7 @@ export default {
    */
   queryCompile(data) {
     return http({
-      url: http.adornUrl('relations/queryCompile?queryTCase=' + data),
+      url: http.adornUrl('relations/queryCompile?id=' + data.id),
       method: 'get',
     })
   },
@@ -665,8 +665,9 @@ export default {
    */
   saveCompile(data) {
     return http({
-      url: http.adornUrl('relations/saveCompile?queryTCase=' + data),
-      method: 'get',
+      url: http.adornUrl('relations/saveCompile'),
+      method: 'post',
+      data: http.adornData(data, false),
     })
   },
   /**

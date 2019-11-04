@@ -9,7 +9,7 @@
                 <el-form-item>
                   <el-input
                     v-model="criteria.taskName"
-                    placeholder="登录名（输入)"
+                    placeholder="任务名（输入)"
                   ></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -259,6 +259,13 @@ export default {
           _this.$message({
             message: '获取编辑信息成功!',
             type: 'success',
+          })
+          this.$router.push({
+            name: 'unioncase',
+            params: {
+              editorDdata: data.data,
+              isEditor: true,
+            },
           })
         } else {
           this.$message({

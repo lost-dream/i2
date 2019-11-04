@@ -264,6 +264,7 @@ export default {
           console.log(data)
           _this.infoData = data.data.pageInfo.list
           _this.pagination.total = data.data.pageInfo.total
+          _this.pagination.pageNum = data.data.pageInfo.pageNum
           let taskInfo = data.data.list
           let data2 = []
           let obj = {}

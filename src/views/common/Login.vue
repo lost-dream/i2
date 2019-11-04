@@ -206,7 +206,7 @@ export default {
         } else {
           // Cookies.remove('userId')
           // Cookies.remove('ac_token')
-          this.$message.error(data.msg)
+          this.$message.error(data.message)
         }
       })
     },
@@ -227,7 +227,7 @@ export default {
         } else {
           // Cookies.remove('userId')
           // Cookies.remove('ac_token')
-          this.$message.error('二级密码验证失败！')
+          this.$message.error(data.message)
         }
       })
     },

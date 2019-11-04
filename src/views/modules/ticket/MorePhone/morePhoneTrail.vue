@@ -97,8 +97,10 @@ export default {
   mounted() {
     // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
-    console.log(1111)
-    console.log(JSON.parse(localStorage.getItem('morePhone')))
+    if (this.morePhone.length < 2) {
+      this.$message('请选择至少两个话单！')
+    } else {
+    }
     // this.mapDraw()
   },
 
