@@ -2,7 +2,7 @@
   <div class="taskAnalysisResultsCoat">
     <div class="taskAnalysisResults">
       <div class="analyzeInfo">
-        <div v-if="taskInfo.taskType == '查人'">
+        <div v-if="taskInfo.type === 0">
           <div class="infoTop">
             <span style="color: #ffffff;line-height: 30px"
               >共{{ pagination.total }}条记录</span
@@ -56,16 +56,16 @@
           </div>
           <div class="fgx"></div>
           <div class="infoList">
-            <div class="list" v-for="(item, index) in infoData2" :key="index">
+            <div class="list" v-for="(item, index) in infoData" :key="index">
               <div class="content">
                 <p>
-                  <span>案件:</span>&nbsp;<span>{{ item.a }}</span>
+                  <span>案件:</span>&nbsp;<span>{{ item.caseNo }}</span>
                 </p>
                 <p>
-                  <span>案件名称:</span>&nbsp;<span>{{ item.b }}</span>
+                  <span>案件名称:</span>&nbsp;<span>{{ item.name }}</span>
                 </p>
                 <p>
-                  <span>报案时间:</span>&nbsp;<span>{{ item.c }}</span>
+                  <span>报案时间:</span>&nbsp;<span>{{ item.reportTime }}</span>
                 </p>
               </div>
               <div class="fgx"></div>
@@ -96,7 +96,7 @@
           <div style="line-height: 30px;padding: 10px;">
             <span>任务名称：{{ taskInfo.taskName }}</span
             ><br />
-            <span>方式：{{ taskInfo.type == 0 ? '查人' : '查案' }}</span>
+            <span>方式：{{ taskInfo.type === 0 ? '查人' : '查案' }}</span>
           </div>
         </div>
         <div class="condition">
@@ -146,7 +146,7 @@
             </div>
           </div>
         </div>
-        <div class="resource">
+        <div class="resource" v-show="taskInfo.type === 0">
           <div
             style="display:flex;align-items:center;border-bottom:1px dashed white;margin-top:30px"
           >
@@ -200,7 +200,7 @@ export default {
     return {
       pagination: {
         page: 1,
-        size: 10,
+        size: 5,
         pagerCount: 5,
         total: 100,
       },
@@ -270,8 +270,8 @@ export default {
           let obj = {}
           taskInfo.forEach(item => {
             obj = {
-              birthdayBegin: item.date3,
-              birthdayEnd: item.date4,
+              date3: item.birthdayBegin,
+              date4: item.birthdayEnd,
               caseNo: item.caseNo,
               createId: item.createId,
               createName: item.createName,

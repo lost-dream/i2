@@ -376,6 +376,7 @@ import Sidebar from '@/views/common/Sidebar'
 import SidemenuItem from '@/views/common/SidemenuItem'
 import flyDialog from '@/components/fly-dialog'
 import Cookies from 'js-cookie'
+import { formatDate } from '../../../utils/dateFormat.js'
 
 export default {
   components: {
@@ -673,6 +674,9 @@ export default {
               zoom: 15,
               logo: false,
             })
+            _this.map.centerAt()
+            console.log('map')
+            console.log(_this.map)
             var mapLodad = function() {
               console.log('地图加载完毕')
               _this.map.infoWindow.resize(250, 200)
@@ -832,6 +836,7 @@ export default {
                     type: '描圆',
                     date1: '',
                     date2: '',
+                    id: _this.id,
                     ttaskDetail1Id: '',
                   }
                   _this.id++
@@ -973,8 +978,12 @@ export default {
     },
     // 当前行改变
     handleCurrentChange(val) {
-      this.$refs.singleTable.setCurrentRow(val)
-      this.taskInfoSshow = val.id
+      console.log(6666999)
+      console.log(val)
+      if (val) {
+        this.$refs.singleTable.setCurrentRow(val)
+        this.taskInfoSshow = val.id
+      }
     },
 
     // 点击行
@@ -1098,10 +1107,22 @@ export default {
       let data = []
       this.taskInfo.conditions.forEach(item => {
         let obj = {
-          activeTimeBegin: item.date1,
-          activeTimeEnd: item.date2,
-          birthdayBegin: this.taskInfo.date3,
-          birthdayEnd: this.taskInfo.date4,
+          // activeTimeBegin: item.date1,
+          // activeTimeEnd: item.date2,
+          // birthdayBegin: this.taskInfo.date3,
+          // birthdayEnd: this.taskInfo.date4,
+          activeTimeBegin:
+            formatDate(new Date(item.date1), 'yyyy-MM-dd') + ' ' + '00:00:00',
+          activeTimeEnd:
+            formatDate(new Date(item.date2), 'yyyy-MM-dd') + ' ' + '23:59:59',
+          birthdayBegin:
+            this.taskInfo.date3 == ''
+              ? ''
+              : formatDate(new Date(this.taskInfo.date3), 'yyyy-MM-dd'),
+          birthdayEnd:
+            this.taskInfo.date4 == ''
+              ? ''
+              : formatDate(new Date(this.taskInfo.date4), 'yyyy-MM-dd'),
           caseNo: item.caseNo,
           createId: this.taskInfo.createId,
           createName: this.taskInfo.createName,
