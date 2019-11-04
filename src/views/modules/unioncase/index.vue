@@ -122,6 +122,7 @@
                       <p>范围</p>
                       <el-input
                         id="range"
+                        @change="rangeChange"
                         :disabled="item.taskType !== 0"
                         style="margin-left:10px;width:87%;"
                         v-model="item.range"
@@ -401,6 +402,8 @@ export default {
       id: 0,
       isEditor: false,
       editorDdata: [],
+      idCenter: null,
+      rangeChangeMap: null,
 
       activeName: 'Second',
       show: false,
@@ -778,8 +781,8 @@ export default {
                   )
                 })
               })
-              $('#range').bind('input propertychange', function(event) {
-                let range = $('#range').val()
+              _this.rangeChangeMap = function(range) {
+                console.log(5555)
                 isNaN(range) && (range = 0)
                 range === '' && (range = 0)
                 _this.taskInfo.conditions.forEach(item => {
@@ -794,7 +797,26 @@ export default {
                     '',
                   )
                 })
-              })
+              }
+
+              // $('#range').bind('input propertychange', function(event) {
+              //   let range = $('#range').val()
+              //   console.log(5555)
+              //   isNaN(range) && (range = 0)
+              //   range === '' && (range = 0)
+              //   _this.taskInfo.conditions.forEach(item => {
+              //     _this.map.graphics.remove(_this.graphicItemS[item.graphicId])
+              //     bufferData(
+              //       item.pointLongitude,
+              //       item.pointLatitude,
+              //       range,
+              //       item.graphicId,
+              //       '',
+              //       '',
+              //       '',
+              //     )
+              //   })
+              // })
 
               var drawTool = new Draw(_this.map)
               // 绘制点
@@ -899,6 +921,7 @@ export default {
                 graphic = new Graphic(point, _this.pSymbol)
                 _this.graphicItemS[_this.id - 1] = graphic
                 _this.map.graphics.add(graphic)
+                _this.map.centerAt(point)
               }
 
               function bufferData(
@@ -959,6 +982,14 @@ export default {
               }
             }
             _this.map.on('Load', mapLodad)
+            _this.idCenter = function(x, y) {
+              let mapPoint = new Point(
+                x,
+                y,
+                new SpatialReference({ wkid: 4326 }),
+              )
+              _this.map.centerAt(mapPoint)
+            }
           },
         )
         .catch(err => {
@@ -984,6 +1015,7 @@ export default {
         this.$refs.singleTable.setCurrentRow(val)
         this.taskInfoSshow = val.id
       }
+      this.idCenter(val.longitude, val.latitude)
     },
 
     // 点击行
@@ -1042,6 +1074,10 @@ export default {
           ? (this.taskInfo.conditions[0].taskType = 0)
           : (this.taskInfo.conditions[0].taskType = 1)
       }
+    },
+
+    rangeChange(range) {
+      this.rangeChangeMap(range)
     },
 
     search() {
