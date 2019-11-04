@@ -13,8 +13,12 @@
       >
         <label>
           {{ item.name }}
-          <el-slider :max="10" @change="handleChange"></el-slider>
-          <span class="num">{{ value1 }}</span>
+          <el-slider
+            :max="20"
+            v-model="item.value"
+            @change="handleChange"
+          ></el-slider>
+          <span class="num">{{ item.value }}</span>
         </label>
       </div>
     </div>
@@ -51,61 +55,19 @@ export default {
     init(node) {
       this.node = node
       this.$api
-        .getAllRelationType()
+        .closenessAnalyse({ keyword1: node.keyword })
         .then(({ data }) => {
           if (data && data.code === 200) {
-            this.relationTypeList = data.result.map(item => {
-              return {
-                type: item.type,
-                name: item.name,
-              }
-            })
+            this.relationTypeList = data.result
           }
         })
         .then(() => {
           this.visible = true
         })
     },
+    getRelationScore(kw) {},
     // 表单提交
-    dataFormSubmit() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
-          let obj = {
-            keyword: this.node.keyword,
-            param: this.dataForm.checkList.join(','),
-          }
-          this.$api.nodeDigRelation(obj).then(({ data }) => {
-            if (data && data.code === 200) {
-              if (!data.result.nodes || data.result.nodes.length === 0) {
-                this.$message({
-                  message: '没有查询到关系数据！',
-                  type: 'error',
-                  duration: 1500,
-                })
-                return false
-              }
-              let edgesList = data.result.edges
-              let nodesList = data.result.nodes.map(item => {
-                return new Node(item, this.global.network, this.global.nodes)
-              })
-              for (let i = 0; i < nodesList.length; i++) {
-                if (this.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
-                  this.global.nodes.add(nodesList[i])
-                }
-              }
-              for (var j = 0; j < edgesList.length; j++) {
-                if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
-                  this.global.edges.add(edgesList[j])
-                }
-              }
-              this.dataForm.checkList = []
-              this.global.network.unselectAll()
-              this.visible = false
-            }
-          })
-        }
-      })
-    },
+    dataFormSubmit() {},
     /**
      * 保存或者修改关系
      */
