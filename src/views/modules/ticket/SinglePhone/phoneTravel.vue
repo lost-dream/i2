@@ -99,16 +99,18 @@ export default {
       console.log(this.phoneInfo2)
       console.log(555)
       this.positionArray = this.addPoint(this.phoneInfo2)
-      this.mapDraw()
+      console.log(111)
       console.log(this.positionArray)
       console.log(this.phoneInfo2)
+      console.log(111)
+      this.mapDraw()
     },
 
     // 添加经纬度坐标
     addPoint(data) {
       let arr = []
-      let point = {}
       data.forEach(item => {
+        let point = {}
         point.x = item.jingdu
         point.y = item.weidu
         arr.push(point)
@@ -121,8 +123,13 @@ export default {
       let data = this.phoneInfo2
       let time = this.callForm.time
       let dataArr = []
+      data = data.sort(
+        (a, b) =>
+          new Date(a.beginTime).getTime() - new Date(b.beginTime).getTime(),
+      )
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
+        console.log(formatDate(new Date(item.beginTime), 'yyyy-MM-dd hh:mm:ss'))
       })
       this.phoneInfo2 = dataArr.sort(
         (a, b) =>
@@ -240,6 +247,7 @@ export default {
               center: [104.06667, 30.66667],
               zoom: 15,
             })
+            map.graphics.clear()
             var toggle = new BasemapToggle(
               {
                 map: map,
@@ -289,27 +297,31 @@ export default {
                 style: 'arrow',
                 placement: 'end',
               })
-              LineSymbol.setColor(new Color([250, 150, 0, 1]))
-              _this.positionArray.map(function(item) {
+              // LineSymbol.setColor(new Color([250, 150, 0, 1]))
+              // LineSymbol.setColor(new Color([3, 84, 245, 1]))
+              LineSymbol.setColor(new Color([247, 31, 7, 0.5]))
+              LineSymbol.setWidth(3)
+              let postLineData = _this.positionArray.map(function(item, index) {
                 newPoint = new Point(
                   item.x,
                   item.y,
                   new SpatialReference({ wkid: 4326 }),
                 )
                 picSymbol = new PictureMarkerSymbol(
-                  require('../../../../assets/img/tubiao.png'),
-                  20,
+                  require('../../../../assets/img/starttb.png'),
+                  25,
                   25,
                 )
+                picSymbol.setOffset(0, 13)
+                index == 0 && map.centerAt(newPoint)
                 picGraphic = new Graphic(newPoint, picSymbol)
                 map.graphics.add(picGraphic)
+                return item
               })
-
-              for (let i = 0; i <= 10; i++) {
-                console.log(1111111)
+              for (let i = 0; i < postLineData.length - 1; i++) {
                 var polyline = Polyline([
-                  [_this.positionArray[i].x, _this.positionArray[i].y],
-                  [_this.positionArray[i + 1].x, _this.positionArray[i + 1].y],
+                  [postLineData[i].x, postLineData[i].y],
+                  [postLineData[i + 1].x, postLineData[i + 1].y],
                 ])
                 picGraphic = new Graphic(polyline, LineSymbol)
                 infoTemplate = new InfoTemplate()
