@@ -287,6 +287,7 @@ export default {
           ns.map(function(e) {
             e.isRoot = true
           })
+          console.log(ns)
           // 渲染节点
           renderNodes(this, ns)
         }

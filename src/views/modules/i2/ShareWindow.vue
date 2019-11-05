@@ -5,28 +5,28 @@
     :show.sync="visible"
     @beforeCloseDialog="beforeClose"
   >
-  <div class="mod-form">
+    <div class="mod-form">
       <ul class="form-container">
         <li class="org">
           <el-tree
-              :data="department"
-              :props="defaultProps"
-              :render-after-expand="false"
-              show-checkbox
-              @check-change="handleCheckChange"
-              default-expand-all
-            >
-            </el-tree>
+            :data="department"
+            :props="defaultProps"
+            :render-after-expand="false"
+            show-checkbox
+            @check-change="handleCheckChange"
+            default-expand-all
+          >
+          </el-tree>
         </li>
         <li class="detail">
-           <div class="cont-info">
+          <div class="cont-info">
             <p class="info-title">{{ info.recordTitle }}</p>
             <p class="content">{{ info.description }}</p>
           </div>
-          
+
           <div class="toshare">
             <span class="fly-btn" @click="toshare">确定共享</span>
-          </div> 
+          </div>
         </li>
       </ul>
       <!-- <el-row class="form-container">
@@ -52,7 +52,7 @@
           </div>
           <div class="toshare">
             <span class="fly-btn" @click="toshare">确定共享</span>
-          </div> 
+          </div>
         </el-col>
       </el-row> -->
     </div>
@@ -151,7 +151,7 @@ export default {
     handleCheckChange(data, checked) {
       const $THIS = this
       function recursion(list) {
-        list.forEach(value=> {
+        list.forEach(value => {
           if (value.list && value.list.length > 0) {
             recursion(value.list)
           } else {
@@ -160,9 +160,9 @@ export default {
         })
       }
       if ((!data.list || data.list.length === 0) && checked) {
-        // 不存在子节点（存在子节点的是列表）的节点被选中 
+        // 不存在子节点（存在子节点的是列表）的节点被选中
         this.chooseMember.push(data.title)
-      } else if ((data.list && data.list.length > 0) && checked) {
+      } else if (data.list && data.list.length > 0 && checked) {
         // 存在子节点（列表本身被选中）时，递归获取列表中的节点
         recursion(data.list)
       } else if ((!data.list || data.list.length === 0) && !checked) {
@@ -207,7 +207,7 @@ export default {
     width 130px
     height 32px
     line-height 32px
-    
+
 .resultList
   border-right 1px solid #41767d
   border-top 1px solid #41767d

@@ -35,19 +35,19 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 // Array扩展方法，删除数组中某个元素  ['banana', 'apple', 'orange'].remove('banana') => ['apple', 'orange']
-Array.prototype.indexOf = function(value) {
-  for (let index = 0; index < this.length; index++) {
-    if (this[index] == value) return index
-  }
-  return -1
-}
+// Array.prototype.indexOf = function(value) {
+//   for (let index = 0; index < this.length; index++) {
+//     if (this[index] == value) return index
+//   }
+//   return -1
+// }
 
-Array.prototype.remove = function(value) {
-  const index = this.indexOf(value)
-  if (index > -1) {
-    this.splice(index, 1)
-  }
-}
+// Array.prototype.remove = function(value) {
+//   const index = this.indexOf(value)
+//   if (index > -1) {
+//     this.splice(index, 1)
+//   }
+// }
 
 let roleStrList = {}
 

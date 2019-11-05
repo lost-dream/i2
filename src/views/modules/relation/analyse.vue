@@ -272,7 +272,11 @@
     <!-- 弹窗, 协同工作保存 -->
     <details-info v-if="detailVisible" ref="detailInfo"></details-info>
     <!-- 弹窗，分析 关系挖掘 -->
-    <analysis v-if="analysisVisible" ref="analysis"></analysis>
+    <analysis
+      v-if="analysisVisible"
+      @refreshAnalysis="queryData"
+      ref="analysis"
+    ></analysis>
   </div>
 </template>
 
@@ -416,8 +420,13 @@ export default {
       this.queryData(this.$route.query)
     },
     queryData(data) {
-      this.$api.aggregationAnalyse(data).then(({ data }) => {
-        console.log(data)
+      let params = {
+        keyword: data.keyword,
+        relationType: !(data.relationType instanceof Array)
+          ? [data.relationType]
+          : data.relationType,
+      }
+      this.$api.aggregationAnalyse(params).then(({ data }) => {
         if (data && data.code === 200) {
           if (data.result.edges.length === 0) {
             this.$message({
