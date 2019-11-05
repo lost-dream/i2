@@ -114,19 +114,19 @@
                     :disabled="true"
                   ></el-input>
                 </el-form-item>
-                <el-form-item label="机构层级" prop="hierarchy">
+                <el-form-item label="机构层级" prop="superior">
                   <el-select
                     v-model="organInfo.superior"
                     popper-class="fromselect"
-                    placeholder="请选择部门"
-                    @change="chooseSuperior"
+                    placeholder="请选择"
                   >
                     <el-option
-                      v-for="(item, index) in superiorList"
-                      :key="index"
+                      v-for="item in organDepartment"
+                      :key="item.id"
                       :label="item.title"
-                      :value="item.title"
-                    ></el-option>
+                      :value="item.id"
+                    >
+                    </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="机构描述" prop="describeP">
@@ -409,9 +409,6 @@ export default {
         }
       })
     },
-    chooseSuperior(val) {
-      this.organInfo.superior = val
-    },
     editOrgan() {
       this.$refs['form'].validate(valid => {
         if (valid) {
@@ -440,27 +437,41 @@ export default {
       })
     },
     getChooseData() {
-      this.organInfo = this.multipleSelection[0]
-      let superior
+      this.organInfo = {
+        id: this.multipleSelection[0].id,
+        title: this.multipleSelection[0].title,
+        coding: this.multipleSelection[0].coding,
+        superior: '',
+        state: this.multipleSelection[0].state,
+        roleCount: this.multipleSelection[0].roleCount,
+        describeP: this.multipleSelection[0].describeP,
+        establishmentLevel: this.multipleSelection[0].establishmentLevel,
+      }
+      let superior // 上级部门
       const [self, levels] = [
         this.organInfo.describeP,
         this.organInfo.establishmentLevel.split('/'),
       ]
       levels.shift()
+      // levels => ['四川省公安', '青羊区公安', '某小区公安'] self => '某小区公安'
+      // or
+      // levels => ['四川省公安'] self => '四川省公安'
+      // 需判定levels是否只有self本身，如果不是，上级是levels里self位置的上一个，否则他自己就是最高级，不需要处理，返回null
       for (let i = 0; i < levels.length; i++) {
         if (levels[i] === self) {
-          superior = levels[i - 1]
+          superior = i === 0 ? levels[i - 1] : null
         }
       }
-
-      this.organInfo.superior = superior
       const copyDepartment = this.superiorList
       copyDepartment.shift()
-      copyDepartment.unshift({
-        id: this.organInfo.id,
-        pid: '',
-        title: superior,
-      })
+      if (superior && copyDepartment[0].title !== superior) {
+        this.organInfo.superior = superior
+        copyDepartment.unshift({
+          id: this.organInfo.id,
+          pid: '',
+          title: superior,
+        })
+      }
       this.organDepartment = copyDepartment
     },
     addOrgan() {
