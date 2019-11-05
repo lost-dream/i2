@@ -38,6 +38,9 @@ import { loadModules } from 'esri-loader'
 export default {
   data() {
     return {
+      map: null,
+      againDrow: null,
+
       pickerOptions: {
         shortcuts: [
           {
@@ -85,7 +88,8 @@ export default {
   mounted() {
     // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.phoneInfo = JSON.parse(localStorage.getItem('phoneInfo'))
-    // this.mapDraw()
+    this.mapDraw()
+    this.onSubmit()
   },
   methods: {
     onSubmit() {
@@ -103,7 +107,8 @@ export default {
       console.log(this.positionArray)
       console.log(this.phoneInfo2)
       console.log(111)
-      this.mapDraw()
+      this.map !== null && this.map.graphics.clear()
+      this.againDrow(this.positionArray)
     },
 
     // 添加经纬度坐标
@@ -123,13 +128,8 @@ export default {
       let data = this.phoneInfo2
       let time = this.callForm.time
       let dataArr = []
-      data = data.sort(
-        (a, b) =>
-          new Date(a.beginTime).getTime() - new Date(b.beginTime).getTime(),
-      )
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
-        console.log(formatDate(new Date(item.beginTime), 'yyyy-MM-dd hh:mm:ss'))
       })
       this.phoneInfo2 = dataArr.sort(
         (a, b) =>
@@ -242,15 +242,14 @@ export default {
                 },
               ],
             }
-            map = new Map('map', {
+            _this.map = new Map('map', {
               basemap: 'delorme',
               center: [104.06667, 30.66667],
               zoom: 15,
             })
-            map.graphics.clear()
             var toggle = new BasemapToggle(
               {
-                map: map,
+                map: _this.map,
                 basemap: 'satellite',
               },
               'BasemapToggle',
@@ -258,27 +257,27 @@ export default {
             toggle.startup()
             var home = new HomeButton(
               {
-                map: map,
+                map: _this.map,
               },
               'HomeButton',
             )
             home.startup()
             var geoLocate = new LocateButton(
               {
-                map: map,
+                map: _this.map,
               },
               'LocateButton',
             )
             geoLocate.startup()
             var overviewMapDijit = new OverviewMap({
-              map: map,
+              map: _this.map,
               expandFactor: 2,
               attachTo: 'bottom-left',
               visible: true,
             })
             overviewMapDijit.startup()
             // eslint-disable-next-line
-            dojo.connect(map, 'onLoad', graphicLoad)
+            dojo.connect(_this.map, 'onLoad', graphicLoad)
             function graphicLoad() {
               console.log(
                 webMercatorUtils.xyToLngLat(
@@ -286,6 +285,8 @@ export default {
                   3951448.604221201,
                 ),
               )
+            }
+            _this.againDrow = arr => {
               var newPoint
               var LineSymbol
               var picSymbol
@@ -301,7 +302,7 @@ export default {
               // LineSymbol.setColor(new Color([3, 84, 245, 1]))
               LineSymbol.setColor(new Color([247, 31, 7, 0.5]))
               LineSymbol.setWidth(3)
-              let postLineData = _this.positionArray.map(function(item, index) {
+              let postLineData = arr.map(function(item, index) {
                 newPoint = new Point(
                   item.x,
                   item.y,
@@ -313,9 +314,9 @@ export default {
                   25,
                 )
                 picSymbol.setOffset(0, 13)
-                index == 0 && map.centerAt(newPoint)
+                index == 0 && _this.map.centerAt(newPoint)
                 picGraphic = new Graphic(newPoint, picSymbol)
-                map.graphics.add(picGraphic)
+                _this.map.graphics.add(picGraphic)
                 return item
               })
               for (let i = 0; i < postLineData.length - 1; i++) {
@@ -328,7 +329,7 @@ export default {
                 infoTemplate.setTitle('手机轨迹')
                 infoTemplate.setContent('轨迹分析')
                 picGraphic.setInfoTemplate(infoTemplate)
-                map.graphics.add(picGraphic)
+                _this.map.graphics.add(picGraphic)
               }
             }
           },

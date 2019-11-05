@@ -19,7 +19,7 @@
     </el-form>
     <div class="tableMap">
       <el-table
-        :data="mapData"
+        :data="mapDataTop"
         style="width: 100%"
         height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"
@@ -27,7 +27,7 @@
         <el-table-column
           prop="index"
           type="index"
-          label="top排行"
+          label="top10"
           width="60"
           align="center"
         >
@@ -286,6 +286,11 @@ export default {
       mapDataInfo: [],
       mapDataInfo2: [],
     }
+  },
+  computed: {
+    mapDataTop: () => {
+      return this.mapData
+    },
   },
   mounted() {
     this.mapDataInfo = JSON.parse(localStorage.getItem('phoneInfo'))
