@@ -19,7 +19,7 @@
     </el-form>
     <div class="tableMap">
       <el-table
-        :data="mapDataTop"
+        :data="mapDataTop()"
         style="width: 100%"
         height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"

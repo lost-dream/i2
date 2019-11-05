@@ -186,7 +186,6 @@ export default {
         css: true,
         version: '3.29',
       }
-      var map
       var _this = this
       loadModules(
         [
