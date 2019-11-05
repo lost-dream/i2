@@ -102,6 +102,7 @@ const mainRoutes = [
             name: 'newPhone',
             meta: {
               title: 'newPhone',
+              rolePath: 'ticket',
             },
           },
           {
