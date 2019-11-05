@@ -131,7 +131,7 @@
                   </div>
                   <div
                     v-else
-                    @click="taskInfoSshow = item.graphicId"
+                    @click="isTaskInfoSshow(item)"
                     style="border:1px solid white;padding:5px 10px;border-radius:5px;margin-top: 10px"
                   >
                     条件参数{{ index + 1 }}
@@ -402,7 +402,7 @@ export default {
       id: 0,
       isEditor: false,
       editorDdata: [],
-      idCenter: null,
+      isCenter: null,
       rangeChangeMap: null,
 
       activeName: 'Second',
@@ -982,7 +982,7 @@ export default {
               }
             }
             _this.map.on('Load', mapLodad)
-            _this.idCenter = function(x, y) {
+            _this.isCenter = function(x, y) {
               let mapPoint = new Point(
                 x,
                 y,
@@ -1007,6 +1007,13 @@ export default {
     delectCase(index) {
       this.inputList.splice(index, 1)
     },
+
+    isTaskInfoSshow(item) {
+      console.log(item)
+      this.isCenter(item.pointLongitude, item.pointLatitude)
+      this.taskInfoSshow = item.graphicId
+    },
+
     // 当前行改变
     handleCurrentChange(val) {
       console.log(6666999)
@@ -1015,7 +1022,7 @@ export default {
         this.$refs.singleTable.setCurrentRow(val)
         this.taskInfoSshow = val.id
       }
-      this.idCenter(val.longitude, val.latitude)
+      this.isCenter(val.longitude, val.latitude)
     },
 
     // 点击行

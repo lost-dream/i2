@@ -11,6 +11,7 @@
           <el-tree
             :data="department"
             :props="defaultProps"
+            accordion
             :render-after-expand="false"
             show-checkbox
             @check-change="handleCheckChange"
@@ -107,9 +108,10 @@ export default {
     },
     // 表单提交
     toshare() {
+      console.log(this.chooseMember)
       let params = {
         analyticalRecordsId: this.info.id,
-        targetUserName: JSON.stringify(this.chooseMember),
+        targetUserName: this.chooseMember,
         userName: JSON.parse(this.$Cookies.get('user_info')).username,
       }
       this.$api.shareAnalyticalRecords(params).then(({ data }) => {
@@ -185,7 +187,6 @@ export default {
     width 130px
     height 32px
     line-height 32px
-
 .resultList
   border-right 1px solid #41767d
   border-top 1px solid #41767d
@@ -242,4 +243,11 @@ export default {
 .toshare
   text-align right
   margin 20px 10px
+>>>.el-tree
+  position relative
+  cursor default
+  background #FFF
+  color #606266
+  max-height 360px
+  overflow auto
 </style>

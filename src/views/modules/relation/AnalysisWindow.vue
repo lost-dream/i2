@@ -88,35 +88,23 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          let obj = {
+          let params = {
             keyword: this.curNode.keyword,
-            param: this.dataForm.checkList.join(','),
+            relationType: !(this.dataForm.checkList instanceof Array)
+              ? [this.dataForm.checkList]
+              : this.dataForm.checkList,
           }
-          this.$api.nodeDigRelation(obj).then(({ data }) => {
+          this.$api.aggregationAnalyse(params).then(({ data }) => {
             if (data && data.code === 200) {
-              if (!data.result.nodes || data.result.nodes.length === 0) {
-                this.$message({
-                  message: '没有查询到关系数据！',
-                  type: 'error',
-                  duration: 1500,
-                })
-                return false
-              }
-              let edgesList = data.result.edges
-              let nodesList = data.result.nodes
-              for (let i = 0; i < nodesList.length; i++) {
-                if (this.nodes.getIds().indexOf(nodesList[i].id) < 0) {
-                  this.nodes.add(nodesList[i])
-                }
-              }
-              for (var j = 0; j < edgesList.length; j++) {
-                if (this.edges.getIds().indexOf(edgesList[j].id) < 0) {
-                  this.edges.add(edgesList[j])
-                }
-              }
-              this.dataForm.checkList = []
-              // this.visible = false
+              let nd = data.result.nodes
+              let edg = data.result.edges
+              nd = nd.filter(item => {
+                return item.keyword != this.curNode.keyword
+              })
+              this.nodes.add(nd)
+              console.log(nd)
             }
+            console.log(data)
           })
         }
       })
