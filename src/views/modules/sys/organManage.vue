@@ -449,7 +449,7 @@ export default {
         coding: this.multipleSelection[0].coding,
         superior: null,
         parentId: null,
-        state: this.multipleSelection[0].state,
+        state: this.multipleSelection[0].status === '有效' ? 0 : -1,
         roleCount: this.multipleSelection[0].roleCount,
         describeP: this.multipleSelection[0].describeP,
         establishmentLevel: this.multipleSelection[0].establishmentLevel,
