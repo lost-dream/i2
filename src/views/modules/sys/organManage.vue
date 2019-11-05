@@ -448,39 +448,20 @@ export default {
         title: this.multipleSelection[0].title,
         coding: this.multipleSelection[0].coding,
         superior: null,
-        parentId: null,
+        parentId: this.multipleSelection[0].parentId,
         state: this.multipleSelection[0].status === '有效' ? 0 : -1,
         roleCount: this.multipleSelection[0].roleCount,
         describeP: this.multipleSelection[0].describeP,
         establishmentLevel: this.multipleSelection[0].establishmentLevel,
       }
-      let superior // 上级部门
-      const [self, levels] = [
-        this.organInfo.describeP,
-        this.organInfo.establishmentLevel.split('/'),
-      ]
-      levels.shift()
-      console.log(levels)
-      // levels => ['四川省公安', '青羊区公安', '某小区公安'] self => '某小区公安'
-      // or
-      // levels => ['四川省公安'] self => '四川省公安'
-      // 需判定levels是否只有self本身，如果不是，上级是levels里self位置的上一个，否则他自己就是最高级，不需要处理，返回null
-      for (let i = 0; i < levels.length; i++) {
-        if (levels[i] === self) {
-          superior = i === 0 ? null : levels[i - 1]
-        }
-      }
       const copyDepartment = this.superiorList
       copyDepartment.shift()
       this.organDepartment = copyDepartment
-      if (superior && copyDepartment[0].title !== superior) {
-        this.organInfo.superior = superior
-        copyDepartment.forEach(value => {
-          if (value.title === superior) {
-            this.organInfo.parentId = value.id
-          }
-        })
-      }
+      copyDepartment.forEach(value => {
+        if (value.id === this.organInfo.parentId) {
+          this.organInfo.superior = value.title
+        }
+      })
     },
     addOrgan() {
       this.$refs['form'].validate(valid => {
