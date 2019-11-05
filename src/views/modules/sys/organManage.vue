@@ -115,7 +115,19 @@
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="机构层级" prop="hierarchy">
-                  <el-input v-model="organInfo.hierarchy"></el-input>
+                  <el-select
+                    v-model="organInfo.superior"
+                    popper-class="fromselect"
+                    placeholder="请选择部门"
+                    @change="chooseSuperior"
+                  >
+                    <el-option
+                      v-for="(item, index) in superiorList"
+                      :key="index"
+                      :label="item.title"
+                      :value="item.title"
+                    ></el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="机构描述" prop="describeP">
                   <el-input v-model="organInfo.describeP"></el-input>
@@ -136,7 +148,7 @@
                 </el-form-item>
                 <el-form-item label="下辖授权数" prop="authNum">
                   <el-input
-                    v-model="organInfo.authNum"
+                    v-model="organInfo.roleCount"
                     placeholder="为大于0的整数"
                   ></el-input>
                 </el-form-item>
@@ -200,7 +212,6 @@
 </template>
 
 <script>
-import http from '@/utils/httpRequest'
 import Cookies from 'js-cookie'
 import FlyDialog from '@/components/fly-dialog'
 import Pagination from '@/components/Pagination'
@@ -248,8 +259,10 @@ export default {
         code: '',
         hierarchy: '',
         state: 1,
-        authNum: '',
+        roleCount: '',
+        superior: '',
       },
+      organDepartment: [],
       stateList: [
         {
           value: 0,
@@ -390,11 +403,14 @@ export default {
     // ------------------- edit by singleDogNo.1 -------------------
     // 添加机构
     chooseDepartmentId(val) {
-      this.superiorList.map((value, index) => {
+      this.superiorList.map(value => {
         if (value.title === val) {
           this.form.departmentId = value.id
         }
       })
+    },
+    chooseSuperior(val) {
+      this.organInfo.superior = val
     },
     editOrgan() {
       this.$refs['form'].validate(valid => {
@@ -406,7 +422,7 @@ export default {
             coding: this.organInfo.coding,
             describe: this.organInfo.describeP,
             parentId: this.organInfo.parentId,
-            roleCount: this.organInfo.authNum,
+            roleCount: this.organInfo.roleCount,
           }).then(({ data }) => {
             if (data && data.code === 200) {
               this.initPage(() => {
@@ -425,6 +441,27 @@ export default {
     },
     getChooseData() {
       this.organInfo = this.multipleSelection[0]
+      let superior
+      const [self, levels] = [
+        this.organInfo.describeP,
+        this.organInfo.establishmentLevel.split('/'),
+      ]
+      levels.shift()
+      for (let i = 0; i < levels.length; i++) {
+        if (levels[i] === self) {
+          superior = levels[i - 1]
+        }
+      }
+
+      this.organInfo.superior = superior
+      const copyDepartment = this.superiorList
+      copyDepartment.shift()
+      copyDepartment.unshift({
+        id: this.organInfo.id,
+        pid: '',
+        title: superior,
+      })
+      this.organDepartment = copyDepartment
     },
     addOrgan() {
       this.$refs['form'].validate(valid => {
@@ -455,7 +492,7 @@ export default {
     },
     changePage(page) {
       this.currentPage = page
-      this.getUserList(page)
+      this.getDepartmentList()
     },
     getDepartmentList(page = this.currentPage, size = this.pageSize) {
       queryDepartment({ page, size }).then(({ data }) => {

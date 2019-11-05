@@ -318,6 +318,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.pagination.page = val
+      this.showData()
       /* var newArr = this.idList.map(function (item) {
            return item
          }).join(',')

@@ -72,11 +72,17 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   inject: ['reload'],
   data() {
     return {
-      uploadURL: process.env.VUE_APP_UPLOAD_REQUEST_URL + 'statement/importEmp',
+      uploadURL:
+        process.env.VUE_APP_UPLOAD_REQUEST_URL +
+        'statement/importEmp?ac_token=' +
+        Cookies.get('ac_token') +
+        '&roleStr=' +
+        Cookies.get('roleStr'),
       ticketForm: {
         name: '',
         phone: '',
@@ -117,6 +123,7 @@ export default {
     this.$route.query.phoneDataList !== undefined && this.getRoute()
     console.log(this.oper)
     console.log(2222)
+    console.log(Cookies.get('roleStr'))
     console.log(this.$roleStrLisr)
   },
   methods: {

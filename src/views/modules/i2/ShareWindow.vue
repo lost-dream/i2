@@ -11,6 +11,7 @@
           <el-tree
             :data="department"
             :props="defaultProps"
+            accordion
             :render-after-expand="false"
             show-checkbox
             @check-change="handleCheckChange"
@@ -23,44 +24,22 @@
             <p class="info-title">{{ info.recordTitle }}</p>
             <p class="content">{{ info.description }}</p>
           </div>
-
+          <!-- <div class="modle-title">已选用户</div>
+          <div class="selectedUser">
+            <el-tag size="small" type="success">测试1</el-tag>
+          </div> -->
           <div class="toshare">
             <span class="fly-btn" @click="toshare">确定共享</span>
           </div>
         </li>
       </ul>
-      <!-- <el-row class="form-container">
-        <el-col :span="8" class="org">
-            <el-tree
-              :data="department"
-              :props="defaultProps"
-              :render-after-expand="false"
-              show-checkbox
-              @check-change="handleCheckChange"
-              default-expand-all
-            >
-            </el-tree>
-        </el-col>
-        <el-col :span="16" class="detail">
-          <div class="cont-info">
-            <p class="info-title">{{ info.recordTitle }}</p>
-            <p class="content">{{ info.description }}</p>
-          </div>
-          <div class="modle-title">已选用户</div>
-          <div class="selectedUser">
-            <el-tag size="small" type="success">测试1</el-tag>
-          </div>
-          <div class="toshare">
-            <span class="fly-btn" @click="toshare">确定共享</span>
-          </div>
-        </el-col>
-      </el-row> -->
     </div>
   </fly-dialog>
 </template>
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
+import { removeArrValue } from '@/utils'
 export default {
   components: {
     FlyDialog,
@@ -129,9 +108,10 @@ export default {
     },
     // 表单提交
     toshare() {
+      console.log(this.chooseMember)
       let params = {
         analyticalRecordsId: this.info.id,
-        targetUserName: JSON.stringify(this.chooseMember),
+        targetUserName: this.chooseMember,
         userName: JSON.parse(this.$Cookies.get('user_info')).username,
       }
       this.$api.shareAnalyticalRecords(params).then(({ data }) => {
@@ -167,7 +147,7 @@ export default {
         recursion(data.list)
       } else if ((!data.list || data.list.length === 0) && !checked) {
         // 取消选择
-        this.chooseMember.remove(data.title)
+        removeArrValue(this.chooseMember, data.title)
       }
       this.chooseMember = [...new Set(this.chooseMember)]
     },
@@ -207,7 +187,6 @@ export default {
     width 130px
     height 32px
     line-height 32px
-
 .resultList
   border-right 1px solid #41767d
   border-top 1px solid #41767d
@@ -264,4 +243,11 @@ export default {
 .toshare
   text-align right
   margin 20px 10px
+>>>.el-tree
+  position relative
+  cursor default
+  background #FFF
+  color #606266
+  max-height 360px
+  overflow auto
 </style>
