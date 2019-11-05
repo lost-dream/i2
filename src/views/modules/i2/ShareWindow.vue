@@ -246,8 +246,12 @@ export default {
 >>>.el-tree
   position relative
   cursor default
-  background #FFF
-  color #606266
+  background transparent
+  color #fff
   max-height 360px
   overflow auto
+  .el-tree-node:focus > .el-tree-node__content
+    background-color: #409EFF
+  .el-tree-node__content:hover
+    background-color: #409EFF
 </style>
