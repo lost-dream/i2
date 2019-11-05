@@ -35,7 +35,6 @@
             :on-success="uploadSuccess"
             :limit="1"
             :on-exceed="handleExceed"
-            :auto-upload="false"
           >
             <el-button slot="trigger" size="small" type="primary"
               >选取文件
@@ -79,7 +78,7 @@ export default {
     return {
       uploadURL:
         process.env.VUE_APP_UPLOAD_REQUEST_URL +
-        'statement/importEmp?ac_token=' +
+        'ticket/statement/importEmp?accessToken=' +
         Cookies.get('ac_token') +
         '&roleStr=' +
         Cookies.get('roleStr'),
@@ -121,10 +120,6 @@ export default {
   },
   mounted() {
     this.$route.query.phoneDataList !== undefined && this.getRoute()
-    console.log(this.oper)
-    console.log(2222)
-    console.log(Cookies.get('roleStr'))
-    console.log(this.$roleStrLisr)
   },
   methods: {
     // 获取路由
@@ -147,19 +142,18 @@ export default {
     },
     // 新建
     submitForm(formName) {
-      this.submitUpload()
       var _this = this
-      this.$refs[formName].validate(valid => {
+      _this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            name: this.ticketForm.name,
-            phone: this.ticketForm.phone,
-            caseName: this.ticketForm.case,
-            desc: this.ticketForm.depict,
-            flag: this.ticketForm.flag,
-            id: this.ticketForm.id,
-            recordId: this.ticketForm.recordId,
-            time: this.ticketForm.time,
+            name: _this.ticketForm.name,
+            phone: _this.ticketForm.phone,
+            caseName: _this.ticketForm.case,
+            desc: _this.ticketForm.depict,
+            flag: _this.ticketForm.flag,
+            id: _this.ticketForm.id,
+            recordId: _this.ticketForm.recordId,
+            time: _this.ticketForm.time,
             // accessToken: this.$Cookies.get('ac_token'),
           }
           this.$api.newly(obj).then(({ data }) => {
@@ -170,7 +164,7 @@ export default {
                 type: 'success',
               })
             } else {
-              this.$message({
+              _this.$message({
                 message: '创建话单失败!',
                 type: 'error',
               })
@@ -285,13 +279,22 @@ export default {
       })
     },
     uploadSuccess(response, file) {
+      console.log(22222)
+      console.log(response)
       this.ticketForm.uploadPhone = response.result
       this.ticketForm.time = response.timestamp
       this.ticketForm.recordId = file.uid
-      this.$message({
-        message: '文件上传成功!',
-        type: 'success',
-      })
+      if (!response.success) {
+        this.$message({
+          message: response.message,
+          type: 'error',
+        })
+      } else {
+        this.$message({
+          message: '文件上传成功!',
+          type: 'success',
+        })
+      }
     },
   },
 }

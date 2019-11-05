@@ -580,7 +580,7 @@ export default {
     return {
       uploadURL:
         process.env.VUE_APP_COMMON_REQUEST_URL +
-        'admin/ImportExcelUser?ac_token=' +
+        'admin/ImportExcelUser?accessToken=' +
         Cookies.get('ac_token') +
         '&roleStr=' +
         Cookies.get('roleStr'),
