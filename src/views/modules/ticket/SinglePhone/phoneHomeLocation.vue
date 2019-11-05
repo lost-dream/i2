@@ -288,7 +288,7 @@ export default {
     }
   },
   computed: {
-    mapDataTop: () => {
+    mapDataTop() {
       return this.mapData
     },
   },

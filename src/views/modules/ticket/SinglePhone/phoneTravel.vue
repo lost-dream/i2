@@ -89,7 +89,6 @@ export default {
     // this.phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.phoneInfo = JSON.parse(localStorage.getItem('phoneInfo'))
     this.mapDraw()
-    this.onSubmit()
   },
   methods: {
     onSubmit() {
