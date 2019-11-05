@@ -19,7 +19,7 @@
     </el-form>
     <div class="tableMap">
       <el-table
-        :data="mapDataTop()"
+        :data="mapDataTop"
         style="width: 100%"
         height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"
@@ -144,6 +144,8 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-side-effects-in-computed-properties */
+
 import echarts from 'echarts'
 import flyDialog from '../../../../components/fly-dialog'
 import { formatDate } from '../../../../utils/dateFormat.js'
@@ -289,7 +291,7 @@ export default {
   },
   computed: {
     mapDataTop() {
-      return this.mapData
+      return this.mapData.sort((a, b) => b.count - a.count)
     },
   },
   mounted() {
@@ -302,13 +304,11 @@ export default {
       this.mapDataInfo2 = data
       let conData = this.callForm
       console.log('分析查询')
-      console.log(GP)
-      console.log(GT)
-      console.log(GC)
       console.log(this.mapDataInfo2)
       conData.time != null && this.timeSizer()
       this.mapDataInfo2 = this.dataSort2(this.mapDataInfo2)
       this.mapData2(this.mapDataInfo2)
+      console.log(this.mapData)
       this.map()
       console.log(this.mapDataInfo2)
     },
