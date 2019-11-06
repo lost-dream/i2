@@ -20,25 +20,18 @@
     <div class="tableMap">
       <el-table
         :data="mapDataTop"
-        style="width: 100%"
         height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"
       >
-        <el-table-column
-          prop="index"
-          type="index"
-          label="top10"
-          width="60"
-          align="center"
-        >
+        <el-table-column prop="index" type="index" label="top10" align="center">
         </el-table-column>
         <el-table-column label="全国通话频率排名" align="center">
-          <el-table-column prop="name" label="地区" width="50" align="center">
+          <el-table-column prop="name" label="地区" width="" align="center">
           </el-table-column>
           <el-table-column
             prop="value"
             label="通话次数"
-            width="70"
+            width=""
             align="center"
           >
           </el-table-column>
@@ -163,6 +156,9 @@ export default {
   },
   data() {
     return {
+      myChart: null,
+      option: {},
+
       pickerOptions: {
         shortcuts: [
           {
@@ -291,7 +287,8 @@ export default {
   },
   computed: {
     mapDataTop() {
-      return this.mapData.sort((a, b) => b.count - a.count)
+      let arr = this.mapData
+      return arr.filter(item => item.value > 0)
     },
   },
   mounted() {
@@ -308,9 +305,15 @@ export default {
       conData.time != null && this.timeSizer()
       this.mapDataInfo2 = this.dataSort2(this.mapDataInfo2)
       this.mapData2(this.mapDataInfo2)
+      this.mapData.sort((a, b) => b.value - a.value)
       console.log(this.mapData)
-      this.map()
-      console.log(this.mapDataInfo2)
+      if (!(this.mapData[0].value === 0)) {
+        this.option.visualMap.max = Math.ceil(this.mapData[0].value / 5) * 5
+        this.option.visualMap.range[1] =
+          Math.ceil(this.mapData[0].value / 5) * 5
+        this.option.series[0].data = this.mapData
+        this.myChart.setOption(this.option)
+      }
     },
 
     // 显示地图数据
@@ -382,7 +385,7 @@ export default {
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
-      this.differentData2 = dataArr
+      this.mapDataInfo2 = dataArr
     },
     /**
      * 判断是否在时间段内
@@ -429,10 +432,11 @@ export default {
       })
       return newTime
     },
+    // Math.ceil(_this.mapData[0].value / 5) * 5
     map() {
       let _this = this
-      let myChart = echarts.init(document.getElementById('myMap'))
-      let option = {
+      _this.myChart = echarts.init(document.getElementById('myMap'))
+      _this.option = {
         backgroundColor: 'transparent',
         tooltip: {
           trigger: 'item',
@@ -441,10 +445,19 @@ export default {
           type: 'continuous',
           min: 0,
           max: 200,
+          range: [1, 200],
           left: 'left',
           top: 'bottom',
           text: ['高', '低'],
           calculable: true,
+          inRange: {
+            color: ['#efbf58', 'red'],
+          },
+          outOfRange: {
+            color: ['#c2c2c2'],
+          },
+          dimension: 0,
+          // splitList: [{ start: 0, end: 0, color: 'red' }],
           textStyle: {
             color: 'white',
           },
@@ -464,20 +477,18 @@ export default {
           },
         ],
       }
-      myChart.setOption(option)
-      myChart.on('click', function(param) {
+      _this.myChart.setOption(_this.option)
+      _this.myChart.on('click', function(param) {
         console.log(param)
         _this.clickTable = []
         _this.clickTable.push(param.data)
         _this.show = true
       })
       window.addEventListener('resize', function() {
-        myChart.resize()
+        _this.myChart.resize()
       })
     },
     handleClick(row) {
-      console.log(7777777)
-      console.log(row)
       this.detailTable = row.info
       this.show = false
       this.show1 = true

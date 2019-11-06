@@ -407,10 +407,11 @@ export default {
     },
 
     // 数组去重
+
     // unique(ary) {
     //   let newAry = []
     //   for (let i = 0; i < ary.length; i++) {
-    //     if (newAry.indexOf(ary[i]) === -1) {
+    //     if (newAry.includes(ary[i])) {
     //       newAry.push(ary[i])
     //     }
     //   }
@@ -419,7 +420,7 @@ export default {
 
     // 删除权限
     deleteData(a, b) {
-      // let newAry = this.unique(a)
+      // let newAry2 = this.unique(a)
       let newAry = [...new Set(a)]
 
       let index = newAry.indexOf(b)
