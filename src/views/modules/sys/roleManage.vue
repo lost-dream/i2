@@ -255,7 +255,7 @@ export default {
       rolePermission({
         userId: Cookies.get('userId'),
         roleId: this.okRole.id,
-        permissionId: JSON.stringify(this.menuList),
+        permissionId: this.menuList.toString(),
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.$message({
