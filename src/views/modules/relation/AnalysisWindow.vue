@@ -9,7 +9,7 @@
       <p class="info_item">
         <label class="kws">{{ dataForm.label }}</label
         >{{ dataForm.keyword }}
-        <span class="da">查看档案</span>
+        <span class="da" @click="archivesHandle">查看档案</span>
       </p>
       <el-form
         :model="dataForm"
@@ -108,6 +108,14 @@ export default {
           })
         }
       })
+    },
+    // 档案
+    archivesHandle() {
+      let routeData = this.$router.resolve({
+        name: 'archives',
+        query: { keyword: this.curNode.keyword },
+      })
+      window.open(routeData.href, '_blank')
     },
     /**
      * 保存或者修改关系

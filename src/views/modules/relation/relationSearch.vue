@@ -7,7 +7,13 @@
         v-model="kws"
         class="input-with-select"
       >
-        <el-select v-model="relationType" slot="prepend" placeholder="模型选择">
+        <el-select
+          v-model="relationType"
+          multiple
+          collapse-tags
+          slot="prepend"
+          placeholder="模型选择"
+        >
           <el-option
             v-for="(item, index) of relationTypeList"
             :label="item.name"
@@ -49,9 +55,25 @@ export default {
       })
     },
     submitHandle() {
+      if (this.kws.trim() === '') {
+        this.$message({
+          message: '请输入关键字！',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
+      if (this.relationType.length <= 0) {
+        this.$message({
+          message: '请选择关系类型！',
+          type: 'error',
+          duration: 1500,
+        })
+        return false
+      }
       let query = {
         keyword: this.kws,
-        relationType: [this.relationType],
+        relationType: this.relationType,
       }
       this.$router.push({
         name: 'analyse',
@@ -67,7 +89,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 >>>.el-select .el-input
-  width 130px
+  width 160px
   color #fff
 >>>.el-input-group__append, >>>.el-input-group__prepend
   background-color rgba(44, 239, 255, 0.3) !important
