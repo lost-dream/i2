@@ -40,9 +40,10 @@ let roleStrList = {}
 Vue.prototype.$roleStrList = roleStrList
 
 router.beforeEach((to, from, next) => {
-  console.log('当前' + to.path + '页面前的操作1')
-  console.log('即将进入' + from.path + '页面前的操作2')
-  console.log(roleStrList)
+  // console.log('当前' + to.path + '页面前的操作1')
+  // console.log(to)
+  // console.log(from)
+  // console.log(roleStrList)
   // Cookies.set('roleStr', roleStr)
   next()
 })
@@ -55,6 +56,8 @@ router.afterEach(to => {
       router.push({ name: 'login' })
     }, duration)
   }
+
+  // 菜单权限管理
   let roleStrLisr = JSON.parse(Cookies.get('roleStrLisr'))
   let roleStrObj = roleStrLisr.find(item => {
     return item.urlName === to.meta.rolePath
@@ -64,6 +67,30 @@ router.afterEach(to => {
     roleStr = roleStrObj.roleStr
   }
   Cookies.set('roleStr', roleStr)
+
+  // 话单数据清理
+
+  let isSinglePhone = to.matched.find(item => {
+    return item.name === 'singlePhone'
+  })
+
+  let isMorePhone = to.matched.find(item => {
+    return item.name === 'morePhone'
+  })
+  console.log(454545)
+  console.log(isSinglePhone)
+  if (!isSinglePhone) {
+    localStorage.setItem('phoneArr', null)
+    localStorage.setItem('selectInfo', null)
+    localStorage.setItem('phoneInfo', null)
+    localStorage.setItem('phone', null)
+  }
+  if (!isMorePhone) {
+    localStorage.setItem('morPphoneArr', null)
+    localStorage.setItem('moreSelectInfo', null)
+    localStorage.setItem('morePhone', null)
+    localStorage.setItem('more', null)
+  }
 })
 
 new Vue({

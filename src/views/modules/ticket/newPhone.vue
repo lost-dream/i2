@@ -182,17 +182,17 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            phone: this.ticketForm.phone,
-            caseName: this.ticketForm.case,
-            desc: this.ticketForm.depict,
-            flag: this.ticketForm.flag,
-            id: this.ticketForm.id,
-            recordId: this.ticketForm.recordId,
-            time: this.ticketForm.time,
-            name: this.ticketForm.name,
-            accessToken: this.$Cookies.get('ac_token'),
+            phone: _this.ticketForm.phone,
+            caseName: _this.ticketForm.case,
+            desc: _this.ticketForm.depict,
+            flag: _this.ticketForm.flag,
+            id: _this.ticketForm.id,
+            recordId: _this.ticketForm.recordId,
+            time: _this.ticketForm.time,
+            name: _this.ticketForm.name,
+            accessToken: _this.$Cookies.get('ac_token'),
           }
-          this.$api.ticketAlter(obj).then(({ data }) => {
+          _this.$api.ticketAlter(obj).then(({ data }) => {
             if (data.success) {
               _this.reload()
               _this.$message({
@@ -200,7 +200,7 @@ export default {
                 type: 'success',
               })
             } else {
-              this.$message({
+              _this.$message({
                 message: '编辑话单失败!',
                 type: 'error',
               })
@@ -218,16 +218,16 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            phone: this.ticketForm.phone,
-            caseName: this.ticketForm.case,
-            desc: this.ticketForm.depict,
-            flag: this.ticketForm.flag,
-            id: this.ticketForm.id,
-            recordId: this.ticketForm.recordId,
-            time: this.ticketForm.time,
-            name: this.ticketForm.name,
+            phone: _this.ticketForm.phone,
+            caseName: _this.ticketForm.case,
+            desc: _this.ticketForm.depict,
+            flag: _this.ticketForm.flag,
+            id: _this.ticketForm.id,
+            recordId: _this.ticketForm.recordId,
+            time: _this.ticketForm.time,
+            name: _this.ticketForm.name,
           }
-          this.$api.ticketAddTo(obj).then(({ data }) => {
+          _this.$api.ticketAddTo(obj).then(({ data }) => {
             if (data.success) {
               _this.reload()
               _this.$message({
@@ -235,7 +235,7 @@ export default {
                 type: 'success',
               })
             } else {
-              this.$message({
+              _this.$message({
                 message: '追加话单失败!',
                 type: 'error',
               })
@@ -281,9 +281,10 @@ export default {
     uploadSuccess(response, file) {
       console.log(22222)
       console.log(response)
+      console.log(file)
       this.ticketForm.uploadPhone = response.result
       this.ticketForm.time = response.timestamp
-      this.ticketForm.recordId = file.uid
+      // this.ticketForm.recordId = file.uid
       if (!response.success) {
         this.$message({
           message: response.message,

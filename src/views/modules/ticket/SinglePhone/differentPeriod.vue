@@ -29,7 +29,7 @@
       </el-form-item>
       <input-tag v-on:remove="remove" v-model="callForm.timeList"></input-tag>
     </el-form>
-    <el-table :data="differentData2" border style="width: 100%">
+    <el-table :data="differentData3" border style="width: 100%">
       <el-table-column
         label="序号"
         type="index"
@@ -131,6 +131,12 @@ export default {
       differentData: [],
       differentData2: [],
     }
+  },
+  computed: {
+    differentData3() {
+      let arr = this.differentData2
+      return arr.filter(item => item.periorTimes > 0)
+    },
   },
 
   mounted() {

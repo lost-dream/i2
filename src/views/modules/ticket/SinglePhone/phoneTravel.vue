@@ -289,7 +289,7 @@ export default {
               var LineSymbol
               var picSymbol
               var picGraphic
-              var infoTemplate
+              // var infoTemplate
 
               LineSymbol = new SimpleLineSymbol()
               LineSymbol.setMarker({
@@ -323,10 +323,10 @@ export default {
                   [postLineData[i + 1].x, postLineData[i + 1].y],
                 ])
                 picGraphic = new Graphic(polyline, LineSymbol)
-                infoTemplate = new InfoTemplate()
-                infoTemplate.setTitle('手机轨迹')
-                infoTemplate.setContent('轨迹分析')
-                picGraphic.setInfoTemplate(infoTemplate)
+                // infoTemplate = new InfoTemplate()
+                // infoTemplate.setTitle('手机轨迹')
+                // infoTemplate.setContent('轨迹分析')
+                // picGraphic.setInfoTemplate(infoTemplate)
                 _this.map.graphics.add(picGraphic)
               }
             }

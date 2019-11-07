@@ -189,7 +189,8 @@ export default {
             phoneArr.push(a)
           })
           console.log(phoneArr)
-          _this.phoneList = phoneArr
+          // _this.phoneList = phoneArr
+          _this.phoneList = [...new Set([...phoneArr, ..._this.phoneList])]
           localStorage.setItem('morPphoneArr', JSON.stringify(phoneArr))
           console.log(_this.phoneList)
         } else {

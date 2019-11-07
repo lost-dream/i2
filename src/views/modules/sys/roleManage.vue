@@ -45,20 +45,11 @@
               ref="tree"
               highlight-current
               :default-checked-keys="defaultMenu"
-              @check-change="handleCheckChange"
               :props="defaultProps"
             >
             </el-tree>
           </div>
-          <el-button
-            class="addBut"
-            type="primary"
-            @click="
-              menuList.length <= 0
-                ? $message.error('请至少选择一条数据!')
-                : rolePermission()
-            "
-          >
+          <el-button class="addBut" type="primary" @click="rolePermission()">
             <span>保存</span>
           </el-button>
         </div>
@@ -162,7 +153,7 @@ export default {
       roleActive: 0,
       okRole: '',
       roleList: [{ name: '管理员' }, { name: '超级管理员' }, { name: '游客' }],
-      menuList: [],
+      // menuList: [],
       treeData: [
         /* {
           id: 1,
@@ -251,11 +242,14 @@ export default {
     },
     // 添加角色和菜单关系
     rolePermission() {
-      this.menuList = [...new Set(this.menuList)]
+      // this.menuList = this.unique(this.menuList)
+      // this.menuList = [...new Set(this.menuList)]
+      console.log(this.$refs.tree.getCheckedKeys(true))
       rolePermission({
         userId: Cookies.get('userId'),
         roleId: this.okRole.id,
-        permissionId: this.menuList.toString(),
+        // permissionId: this.menuList.toString(),
+        permissionId: this.$refs.tree.getCheckedKeys(true).toString(),
       }).then(({ data }) => {
         if (data && data.code === 200) {
           this.$message({
@@ -311,12 +305,14 @@ export default {
       })
       return list
     },
+
     isokRole(r) {
       this.okRole = r
       this.defaultMenu = []
-      this.menuList = []
       this.queryRolePermission()
-      this.menuList = this.defaultMenu
+      // this.menuList = []
+      // this.menuList = this.defaultMenu
+      console.log(this.$refs.tree.getCheckedKeys(true))
     },
     // 判断是否选择角色
     pitchOn2() {
@@ -408,37 +404,38 @@ export default {
 
     // 数组去重
 
-    // unique(ary) {
-    //   let newAry = []
-    //   for (let i = 0; i < ary.length; i++) {
-    //     if (newAry.includes(ary[i])) {
-    //       newAry.push(ary[i])
-    //     }
-    //   }
-    //   return newAry
-    // },
+    unique(ary) {
+      let newAry = []
+      for (let i = 0; i < ary.length; i++) {
+        if (newAry.includes(ary[i])) {
+          newAry.push(ary[i])
+        }
+      }
+      return newAry
+    },
 
-    // 删除权限
+    /* // 删除权限
     deleteData(a, b) {
-      // let newAry2 = this.unique(a)
+      // let newAry = this.unique(a)
       let newAry = [...new Set(a)]
 
       let index = newAry.indexOf(b)
-      console.log(newAry.indexOf(b))
       newAry.splice(index, 1)
-      console.log(2222)
-      console.log(newAry.indexOf(b))
       this.menuList = newAry
     },
     // 权限菜单变化
     handleCheckChange(data, checked) {
+      console.log('权限菜单变化')
+      // console.log(data)
+      // console.log(checked)
       checked && data.children === undefined && this.menuList.push(data.id)
       !checked &&
         data.children === undefined &&
         this.deleteData(this.menuList, data.id)
-      console.log(this.menuList)
       // this.rolePermission()
-    },
+      console.log(this.menuList)
+      console.log(this.defaultMenu)
+    }, */
   },
 }
 </script>

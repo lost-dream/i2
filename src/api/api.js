@@ -437,6 +437,16 @@ export default {
     })
   },
   /**
+   * 追加话单
+   */
+  ticketAddTo(data) {
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAddTo'),
+      method: 'post',
+      data: http.adornData(data),
+    })
+  },
+  /**
    * 话单查询
    */
   ticketQuery(data) {

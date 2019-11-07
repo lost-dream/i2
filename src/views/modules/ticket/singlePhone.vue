@@ -147,8 +147,6 @@ export default {
       (this.phoneList = JSON.parse(localStorage.getItem('phoneArr')))
     JSON.parse(localStorage.getItem('selectInfo')) !== null &&
       (this.select = JSON.parse(localStorage.getItem('selectInfo')))
-
-    console.log(JSON.parse(localStorage.getItem('selectInfo')))
   },
   methods: {
     handleClick(tab, event) {},

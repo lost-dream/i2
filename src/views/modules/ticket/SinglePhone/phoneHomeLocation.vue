@@ -19,14 +19,20 @@
     </el-form>
     <div class="tableMap">
       <el-table
-        :data="mapDataTop"
+        :data="mapTabaData"
         height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"
       >
-        <el-table-column prop="index" type="index" label="top10" align="center">
+        <el-table-column
+          prop="index"
+          type="index"
+          width="60"
+          label="top10"
+          align="center"
+        >
         </el-table-column>
         <el-table-column label="全国通话频率排名" align="center">
-          <el-table-column prop="name" label="地区" width="" align="center">
+          <el-table-column prop="name" label="地区" align="center">
           </el-table-column>
           <el-table-column
             prop="value"
@@ -234,7 +240,7 @@ export default {
         { name: '香港', value: Math.round(Math.random() * 500) },
         { name: '澳门', value: Math.round(Math.random() * 500) },
       ], */
-      mapData: [
+      origMapData: [
         { name: '北京', value: 0 },
         { name: '天津', value: 0 },
         { name: '上海', value: 0 },
@@ -269,7 +275,10 @@ export default {
         { name: '台湾', value: 0 },
         { name: '香港', value: 0 },
         { name: '澳门', value: 0 },
+        { name: '南海诸岛', value: 0 },
       ],
+      mapTabaData: [],
+      mapData: [],
       clickTable: [],
       detailTable: [
         {
@@ -301,12 +310,11 @@ export default {
       this.mapDataInfo2 = data
       let conData = this.callForm
       console.log('分析查询')
-      console.log(this.mapDataInfo2)
       conData.time != null && this.timeSizer()
+      this.mapTabaData = this.dataSort(this.mapDataInfo2)
       this.mapDataInfo2 = this.dataSort2(this.mapDataInfo2)
-      this.mapData2(this.mapDataInfo2)
+      this.mapData = this.mapData2(this.mapDataInfo2)
       this.mapData.sort((a, b) => b.value - a.value)
-      console.log(this.mapData)
       if (!(this.mapData[0].value === 0)) {
         this.option.visualMap.max = Math.ceil(this.mapData[0].value / 5) * 5
         this.option.visualMap.range[1] =
@@ -318,15 +326,43 @@ export default {
 
     // 显示地图数据
     mapData2(data) {
-      let arr = this.mapData
-      for (let i = 0; i <= arr.length - 1; i++) {
-        for (let j = 0; j <= data.length - 1; j++) {
-          if (arr[i].name === data[j].provinces) {
-            arr[i].value = data[j].count
-            arr[i].info = data[j].info
+      let arr = JSON.parse(JSON.stringify(this.origMapData)).map(item => {
+        data.map(item2 => {
+          if (item.name === item2.provinces) {
+            item.value = item2.count
+            item.info = item2.info
+          }
+        })
+        return item
+      })
+      return arr
+    },
+
+    // 数据重组
+    dataSort(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let location = ai.location
+        if (!data1[location]) {
+          value1.push({
+            name: location,
+            value: 1,
+            info: [ai],
+          })
+          data1[location] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            if (dj.name === location) {
+              dj.info.push(ai)
+              dj.value++
+              break
+            }
           }
         }
-      }
+      })
+      return value1
     },
 
     // 数据重组
@@ -530,4 +566,82 @@ export default {
   left 90%
 #order >>>.el-dialog
   left 50%
+
+.container ::-webkit-scrollbar {
+    width: 0px!important;
+    height: 0px!important;
+  }
+
+.container::-webkit-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-resizer {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container ::-webkit-scrollbar {
+    width: 0px!important;
+    height: 0px!important;
+  }
+
+  /*o内核*/
+.container .-o-scrollbar {
+    -moz-appearance: none !important;
+    background: rgba(0, 255, 0, 0) !important;
+  }
+
+.container::-o-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-resizer {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  /*IE10,IE11,IE12*/
+.container {
+    -ms-scroll-chaining: chained;
+    -ms-overflow-style: none;
+    -ms-content-zooming: zoom;
+    -ms-scroll-rails: none;
+    -ms-content-zoom-limit-min: 100%;
+    -ms-content-zoom-limit-max: 500%;
+    -ms-scroll-snap-type: proximity;
+    -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+    -ms-overflow-style: none;
+    overflow: initial;
+  }
 </style>

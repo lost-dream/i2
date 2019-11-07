@@ -90,7 +90,9 @@
                 <h4>条件参数</h4>
                 <div v-for="(item, index) in taskInfo.conditions" :key="index">
                   <div
-                    v-if="item.graphicId === taskInfoSshow"
+                    v-if="
+                      item.graphicId === taskInfoSshow || taskInfoSshow === 0
+                    "
                     class="conditionItem"
                     style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
                   >
@@ -420,7 +422,7 @@ export default {
         startDate: '',
         endDate: '',
         value1: '',
-        checkedBox: [],
+        checkedBox: [1, 2],
       },
       taskInfoSshow: 0,
       trackRule: {

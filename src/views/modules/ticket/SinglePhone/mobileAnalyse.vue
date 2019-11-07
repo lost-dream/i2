@@ -121,40 +121,31 @@ export default {
       console.log('分析查询')
       conData.time != null && this.timeSizer()
       this.continueTable[0].callTimes = this.phoneInfo2.length
-      this.continueTable[0].lastTime = this.timeTotal(this.phoneInfo2)
-      // this.positionArray = this.addPoint(this.phoneInfo2)
-      // this.mapDraw()
-      // console.log(this.positionArray)
+      console.log(this.timeTotal(this.phoneInfo2))
+      this.continueTable[0].lastTime = this.timeTotal(this.phoneInfo2).beginTime
       console.log(this.phoneInfo2)
     },
 
     // 总时长
     timeTotal(data) {
-      let istime = data[0].beginTime
-      data.forEach(item => {
-        this.timeToSec(istime) > this.timeToSec(item.beginTime) &&
-          (istime = item.beginTime)
+      let _this = this
+      let istime = data.reduce((first, second) => {
+        return _this.timeToSec(first.beginTime) >
+          _this.timeToSec(second.beginTime)
+          ? first
+          : second
       })
       return istime
     },
 
     // 时间转为毫秒
     timeToSec(time) {
-      time.replace(/分钟/g, '分')
-      time.replace(/小时/g, '时')
-      let hourIn, minIn, secIn
-      !time.includes('时') ? (hourIn = 0) : (hourIn = time.indexOf('时'))
-      !time.includes('分') ? (minIn = 0) : (minIn = time.indexOf('分'))
-      !time.includes('秒') ? (secIn = 0) : (secIn = time.indexOf('秒'))
-      let hour = 0
-      let min = 0
-      let sec = 0
-      hourIn == 0 && minIn == 0 && secIn == 0 && (sec = time)
-      hourIn != 0 && (hour = time.substring(0, hourIn))
-      minIn != 0 && (min = time.substring(hourIn == 0 ? 0 : hourIn + 1, minIn))
-      secIn != 0 && (sec = time.substring(minIn == 0 ? 0 : minIn + 1, secIn))
-      var s = Number(hour * 3600) + Number(min * 60) + Number(sec)
-      return s * 1000
+      time = formatDate(new Date(time), 'yyyy-MM-dd hh:mm:ss')
+      // 转换时间格式，并转换为时间戳
+      function tranDate(time) {
+        return new Date(time.replace(/-/g, '/')).getTime()
+      }
+      return tranDate(time)
     },
 
     // 时间筛选

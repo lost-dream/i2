@@ -48,6 +48,10 @@ import { loadModules } from 'esri-loader'
 export default {
   data() {
     return {
+      map: null,
+      againDrow: null,
+      colorList: [],
+
       pickerOptions: {
         shortcuts: [
           {
@@ -101,7 +105,7 @@ export default {
       this.$message('请选择至少两个话单！')
     } else {
     }
-    // this.mapDraw()
+    this.mapDraw()
   },
 
   methods: {
@@ -112,6 +116,7 @@ export default {
       console.log('分析查询')
       console.log(data)
       console.log(this.morePhone2)
+      this.morePhoneList = []
       this.morePhone2.forEach(item => {
         if (conData.time != null) {
           let obj = {
@@ -121,6 +126,7 @@ export default {
           this.morePhoneList.push(obj)
         }
       })
+      this.morePosition = []
       this.morePhoneList.forEach(item => {
         let obj = {
           phone: item.phone,
@@ -128,18 +134,15 @@ export default {
         }
         this.morePosition.push(obj)
       })
-      // this.positionArray = this.addPoint(this.morePhone2)
-      console.log('分析查询')
-      console.log(this.morePosition)
-      console.log(55555)
-      this.mapDraw()
+      this.map !== null && this.map.graphics.clear()
+      this.againDrow(this.morePosition)
     },
 
     // 添加经纬度坐标
     addPoint(data) {
       let arr = []
-      let point = {}
       data.forEach(item => {
+        let point = {}
         point.x = item.jingdu
         point.y = item.weidu
         arr.push(point)
@@ -210,7 +213,6 @@ export default {
         css: true,
         version: '3.29',
       }
-      var map
       var _this = this
       loadModules(
         [
@@ -266,14 +268,14 @@ export default {
                 },
               ],
             }
-            map = new Map('map', {
+            _this.map = new Map('map', {
               basemap: 'delorme',
               center: [104.06667, 30.66667],
               zoom: 15,
             })
             var toggle = new BasemapToggle(
               {
-                map: map,
+                map: _this.map,
                 basemap: 'satellite',
               },
               'BasemapToggle',
@@ -281,27 +283,27 @@ export default {
             toggle.startup()
             var home = new HomeButton(
               {
-                map: map,
+                map: _this.map,
               },
               'HomeButton',
             )
             home.startup()
             var geoLocate = new LocateButton(
               {
-                map: map,
+                map: _this.map,
               },
               'LocateButton',
             )
             geoLocate.startup()
             var overviewMapDijit = new OverviewMap({
-              map: map,
+              map: _this.map,
               expandFactor: 2,
               attachTo: 'bottom-left',
               visible: true,
             })
             overviewMapDijit.startup()
             // eslint-disable-next-line
-            dojo.connect(map, 'onLoad', graphicLoad)
+            dojo.connect(_this.map, 'onLoad', graphicLoad)
             function graphicLoad() {
               console.log(
                 webMercatorUtils.xyToLngLat(
@@ -309,69 +311,93 @@ export default {
                   3951448.604221201,
                 ),
               )
-              var newPoint
-              var LineSymbol
-              var picSymbol
-              var picGraphic
-              var infoTemplate
-              // _this.positionArray.map(function(item) {
-              //   newPoint = new Point(
-              //     item.x,
-              //     item.y,
-              //     new SpatialReference({ wkid: 4326 }),
-              //   )
-              //   picSymbol = new PictureMarkerSymbol(
-              //     require('../../../../assets/img/tubiao.png'),
-              //     20,
-              //     25,
-              //   )
-              //   picGraphic = new Graphic(newPoint, picSymbol)
-              //   infoTemplate = new InfoTemplate()
-              //   infoTemplate.setTitle('手机轨迹')
-              //   infoTemplate.setContent('轨迹分析')
-              //   picGraphic.setInfoTemplate(infoTemplate)
-              //   map.graphics.add(picGraphic)
-              // })
+              _this.againDrow = arr => {
+                var newPoint
+                var LineSymbol = []
+                var picSymbol
+                var picGraphic
+                // var infoTemplate
 
-              LineSymbol = new SimpleLineSymbol()
-              LineSymbol.setMarker({
-                style: 'arrow',
-                placement: 'end',
-              })
-              LineSymbol.setColor(new Color([250, 150, 0, 1]))
+                // _this.positionArray.map(function(item) {
+                //   newPoint = new Point(
+                //     item.x,
+                //     item.y,
+                //     new SpatialReference({ wkid: 4326 }),
+                //   )
+                //   picSymbol = new PictureMarkerSymbol(
+                //     require('../../../../assets/img/tubiao.png'),
+                //     20,
+                //     25,
+                //   )
+                //   picGraphic = new Graphic(newPoint, picSymbol)
+                //   infoTemplate = new InfoTemplate()
+                //   infoTemplate.setTitle('手机轨迹')
+                //   infoTemplate.setContent('轨迹分析')
+                //   picGraphic.setInfoTemplate(infoTemplate)
+                //   map.graphics.add(picGraphic)
+                // })
 
-              _this.morePosition.map(function(item2) {
-                item2.list.forEach(item => {
-                  newPoint = new Point(
-                    item.x,
-                    item.y,
-                    new SpatialReference({ wkid: 4326 }),
-                  )
-                  picSymbol = new PictureMarkerSymbol(
-                    require('../../../../assets/img/tubiao.png'),
-                    20,
-                    25,
-                  )
+                // LineSymbol = new SimpleLineSymbol()
+                // LineSymbol.setMarker({
+                //   style: 'arrow',
+                //   placement: 'end',
+                // })
 
-                  picGraphic = new Graphic(newPoint, picSymbol)
-                  map.graphics.add(picGraphic)
+                let postLineData = arr.map(function(item2, index2) {
+                  item2.list = item2.list.map((item, index) => {
+                    newPoint = new Point(
+                      item.x,
+                      item.y,
+                      new SpatialReference({ wkid: 4326 }),
+                    )
+                    picSymbol = new PictureMarkerSymbol(
+                      require('../../../../assets/img/starttb.png'),
+                      25,
+                      25,
+                    )
+                    picSymbol.setOffset(0, 13)
+                    index2 == 1 && index == 0 && _this.map.centerAt(newPoint)
+                    picGraphic = new Graphic(newPoint, picSymbol)
+                    _this.map.graphics.add(picGraphic)
+                    return item
+                  })
+                  return item2
                 })
-              })
-              _this.morePosition.map(function(item) {
-                for (let i = 0; i <= 10; i++) {
-                  console.log(1111111)
-                  var polyline = Polyline([
-                    [item.list[i].x, item.list[i].y],
-                    [item.list[i + 1].x, item.list[i + 1].y],
-                  ])
-                  picGraphic = new Graphic(polyline, LineSymbol)
-                  infoTemplate = new InfoTemplate()
-                  infoTemplate.setTitle('手机轨迹')
-                  infoTemplate.setContent('轨迹分析')
-                  picGraphic.setInfoTemplate(infoTemplate)
-                  map.graphics.add(picGraphic)
-                }
-              })
+                console.log(323232)
+                console.log(postLineData)
+                postLineData.forEach((item, index) => {
+                  LineSymbol[index] = new SimpleLineSymbol()
+                  let randomColor = a => {
+                    let r = Math.floor(Math.random() * 256)
+                    let g = Math.floor(Math.random() * 256)
+                    let b = Math.floor(Math.random() * 256)
+                    let rgba = [r, g, b, a]
+                    return rgba
+                  }
+                  LineSymbol[index].setMarker({
+                    style: 'arrow',
+                    placement: 'end',
+                  })
+                  _this.colorList[index] = new Color(randomColor(0.5))
+                  LineSymbol[index].setColor(_this.colorList[index])
+                  LineSymbol[index].setWidth(3)
+
+                  let i = 0
+                  for (i; i < item.list.length - 1; i++) {
+                    console.log(1111111)
+                    var polyline = Polyline([
+                      [item.list[i].x, item.list[i].y],
+                      [item.list[i + 1].x, item.list[i + 1].y],
+                    ])
+                    picGraphic = new Graphic(polyline, LineSymbol[index])
+                    // infoTemplate = new InfoTemplate()
+                    // infoTemplate.setTitle('手机轨迹')
+                    // infoTemplate.setContent('轨迹分析')
+                    // picGraphic.setInfoTemplate(infoTemplate)
+                    _this.map.graphics.add(picGraphic)
+                  }
+                })
+              }
             }
           },
         )
