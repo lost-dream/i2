@@ -116,7 +116,7 @@
                 </el-form-item>
                 <el-form-item label="机构层级" prop="superior">
                   <el-select
-                    v-model="organInfo.superior"
+                    v-model="organInfo.parentId"
                     popper-class="fromselect"
                     placeholder="请选择"
                   >
@@ -155,7 +155,7 @@
               </el-form>
             </div>
             <div class="butCoat">
-              <el-button class="canBut" @click="editDialog = false">
+              <el-button class="canBut" @click="closeEditOrgan">
                 <span>取 消</span>
               </el-button>
               <el-button class="okBut" type="primary" @click="editOrgan">
@@ -233,7 +233,7 @@ export default {
     return {
       uploadURL:
         process.env.VUE_APP_COMMON_REQUEST_URL +
-        'admin/importExcelDe?ac_token=' +
+        'admin/importExcelDe?accessToken=' +
         Cookies.get('ac_token') +
         '&roleStr=' +
         Cookies.get('roleStr'),
@@ -419,6 +419,7 @@ export default {
             coding: this.organInfo.coding,
             describe: this.organInfo.describeP,
             parentId: this.organInfo.parentId,
+            status: this.organInfo.state,
             roleCount: this.organInfo.roleCount,
           }).then(({ data }) => {
             if (data && data.code === 200) {
@@ -436,43 +437,31 @@ export default {
         }
       })
     },
+    closeEditOrgan() {
+      this.editDialog = false
+      this.organInfo = {}
+      this.organDepartment = []
+    },
     getChooseData() {
       this.organInfo = {
         id: this.multipleSelection[0].id,
         title: this.multipleSelection[0].title,
         coding: this.multipleSelection[0].coding,
-        superior: '',
-        state: this.multipleSelection[0].state,
+        superior: null,
+        parentId: this.multipleSelection[0].parentId,
+        state: this.multipleSelection[0].status === '有效' ? 0 : -1,
         roleCount: this.multipleSelection[0].roleCount,
         describeP: this.multipleSelection[0].describeP,
         establishmentLevel: this.multipleSelection[0].establishmentLevel,
       }
-      let superior // 上级部门
-      const [self, levels] = [
-        this.organInfo.describeP,
-        this.organInfo.establishmentLevel.split('/'),
-      ]
-      levels.shift()
-      // levels => ['四川省公安', '青羊区公安', '某小区公安'] self => '某小区公安'
-      // or
-      // levels => ['四川省公安'] self => '四川省公安'
-      // 需判定levels是否只有self本身，如果不是，上级是levels里self位置的上一个，否则他自己就是最高级，不需要处理，返回null
-      for (let i = 0; i < levels.length; i++) {
-        if (levels[i] === self) {
-          superior = i === 0 ? levels[i - 1] : null
-        }
-      }
       const copyDepartment = this.superiorList
       copyDepartment.shift()
-      if (superior && copyDepartment[0].title !== superior) {
-        this.organInfo.superior = superior
-        copyDepartment.unshift({
-          id: this.organInfo.id,
-          pid: '',
-          title: superior,
-        })
-      }
       this.organDepartment = copyDepartment
+      copyDepartment.forEach(value => {
+        if (value.id === this.organInfo.parentId) {
+          this.organInfo.superior = value.title
+        }
+      })
     },
     addOrgan() {
       this.$refs['form'].validate(valid => {

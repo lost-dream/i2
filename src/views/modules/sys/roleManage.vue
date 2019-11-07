@@ -1,28 +1,30 @@
 <template>
   <div class="roleManage">
     <div class="leftMenu">
-      <el-button class="addBut" type="primary" @click="addDialog = true"
-        >添加</el-button
-      >
+      <el-button class="addBut" type="primary" @click="addDialog = true">
+        <span>添加</span>
+      </el-button>
       <el-button
         class="editBut"
         type="primary"
         @click="pitchOn2() && editForm()"
-        >编辑</el-button
       >
+        <span>编辑</span>
+      </el-button>
       <el-button
         class="delBut"
         type="primary"
         @click="pitchOn2() && (deleteDialog = true)"
-        >删除</el-button
       >
+        <span>删除</span>
+      </el-button>
       <div class="menuList">
         <table border="1" cellspacing="1">
           <tr v-for="(item, index) in roleList" :key="index">
             <td
               class="tal_tit"
               @click="isokRole(item), (roleActive = index)"
-              :class="{ active: roleActive == index }"
+              :class="{ active: roleActive === index }"
             >
               {{ item.description }}
             </td>
@@ -36,7 +38,7 @@
           <div class="menuRes">
             <div class="title"><span>菜单资源</span></div>
             <el-tree
-              :data="data"
+              :data="treeData"
               show-checkbox
               default-expand-all
               node-key="id"
@@ -56,8 +58,9 @@
                 ? $message.error('请至少选择一条数据!')
                 : rolePermission()
             "
-            >保存</el-button
           >
+            <span>保存</span>
+          </el-button>
         </div>
       </div>
     </div>
@@ -84,9 +87,9 @@
         </div>
         <div class="butCoat">
           <el-button class="canBut" @click="addDialog = false">取 消</el-button>
-          <el-button class="okBut" type="primary" @click="addRole('form')"
-            >确 定</el-button
-          >
+          <el-button class="okBut" type="primary" @click="addRole('form')">
+            <span>确 定</span>
+          </el-button>
         </div>
       </fly-dialog>
       <!--编辑-->
@@ -110,24 +113,24 @@
           </el-form>
         </div>
         <div class="butCoat">
-          <el-button class="canBut" @click="editDialog = false"
-            >取 消</el-button
-          >
-          <el-button class="okBut" type="primary" @click="editRole('form')"
-            >确 定</el-button
-          >
+          <el-button class="canBut" @click="editDialog = false">
+            <span>取 消</span>
+          </el-button>
+          <el-button class="okBut" type="primary" @click="editRole('form')">
+            <span>确 定</span>
+          </el-button>
         </div>
       </fly-dialog>
       <!--删除-->
       <fly-dialog title="删除" :show.sync="deleteDialog">
         <span class="content">确定删除？</span>
         <div class="butCoat">
-          <el-button class="canBut" @click="deleteDialog = false"
-            >取 消</el-button
-          >
-          <el-button class="okBut" type="primary" @click="deleteRole()"
-            >确 定</el-button
-          >
+          <el-button class="canBut" @click="deleteDialog = false">
+            <span>取 消</span>
+          </el-button>
+          <el-button class="okBut" type="primary" @click="deleteRole()">
+            <span>确 定</span>
+          </el-button>
         </div>
       </fly-dialog>
     </div>
@@ -160,7 +163,7 @@ export default {
       okRole: '',
       roleList: [{ name: '管理员' }, { name: '超级管理员' }, { name: '游客' }],
       menuList: [],
-      data: [
+      treeData: [
         /* {
           id: 1,
           label: '前端',
@@ -231,14 +234,12 @@ export default {
   methods: {
     // 查看角色
     queryRole() {
-      const $THIS = this
       queryRole({
         userId: Cookies.get('userId'),
-        accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.roleList = data.data
-          this.isokRole($THIS.roleList[0])
+          this.roleList = data.data
+          this.isokRole(this.roleList[0])
         } else {
           this.$message({
             message: '获取角色信息失败!',
@@ -250,15 +251,14 @@ export default {
     },
     // 添加角色和菜单关系
     rolePermission() {
-      const $THIS = this
+      this.menuList = [...new Set(this.menuList)]
       rolePermission({
         userId: Cookies.get('userId'),
         roleId: this.okRole.id,
-        permissionId: this.unique(this.menuList),
-        accessToken: Cookies.get('ac_token'),
+        permissionId: this.menuList.toString(),
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.$message({
+          this.$message({
             message: '角色和菜单关系修改成功！!',
             type: 'success',
           })
@@ -272,13 +272,11 @@ export default {
     },
     // 查看角色和菜单关系
     queryRolePermission() {
-      const $THIS = this
       queryRolePermission({
         roleId: this.okRole.id,
-        accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.data = $THIS.meunData(data.data.permission)
+          this.treeData = this.meunData(data.data.permission)
         } else {
           this.$message({
             message: '获取角色和菜单关系失败!',
@@ -313,9 +311,7 @@ export default {
       })
       return list
     },
-
     isokRole(r) {
-      console.log(r)
       this.okRole = r
       this.defaultMenu = []
       this.menuList = []
@@ -324,7 +320,6 @@ export default {
     },
     // 判断是否选择角色
     pitchOn2() {
-      // let isPitchOn = false
       let isPitchOn = false
       this.okRole !== ''
         ? (isPitchOn = true)
@@ -339,76 +334,65 @@ export default {
     },
     // 添加角色
     addRole(formName) {
-      const $THIS = this
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          addRole({
-            userId: Cookies.get('userId'),
-            name: this.form.name,
-            description: this.form.desc,
-            accessToken: Cookies.get('ac_token'),
-          }).then(({ data }) => {
-            if (data && data.code === 200) {
-              $THIS.queryRole()
-              $THIS.$message({
-                message: '添加角色成功！!',
-                type: 'success',
-              })
-            } else {
-              this.$message({
-                message: '添加角色失败!',
-                type: 'error',
-              })
-            }
-          })
-          this.addDialog = false
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+        if (!valid) return
+
+        this.addDialog = false
+
+        addRole({
+          userId: Cookies.get('userId'),
+          name: this.form.name,
+          description: this.form.desc,
+        }).then(({ data }) => {
+          if (data && data.code === 200) {
+            this.queryRole()
+            this.$message({
+              message: '添加角色成功！!',
+              type: 'success',
+            })
+          } else {
+            this.$message({
+              message: '添加角色失败!',
+              type: 'error',
+            })
+          }
+        })
       })
     },
     // 编辑角色
     editRole(formName) {
-      const $THIS = this
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          compileRole({
-            userId: Cookies.get('userId'),
-            id: this.okRole.id,
-            description: this.form.desc,
-            accessToken: Cookies.get('ac_token'),
-          }).then(({ data }) => {
-            if (data && data.code === 200) {
-              $THIS.queryRole()
-              $THIS.$message({
-                message: '角色信息修改成功！!',
-                type: 'success',
-              })
-            } else {
-              this.$message({
-                message: '角色信息修改失败!',
-                type: 'error',
-              })
-            }
-          })
-          this.editDialog = false
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+        if (!valid) return
+
+        compileRole({
+          userId: Cookies.get('userId'),
+          id: this.okRole.id,
+          description: this.form.desc,
+        }).then(({ data }) => {
+          if (data && data.code === 200) {
+            this.queryRole()
+            this.$message({
+              message: '角色信息修改成功！!',
+              type: 'success',
+            })
+          } else {
+            this.$message({
+              message: '角色信息修改失败!',
+              type: 'error',
+            })
+          }
+        })
+        this.editDialog = false
       })
     },
     // 删除角色
     deleteRole() {
-      const $THIS = this
       deleteRole({
         id: this.okRole.id,
-        accessToken: Cookies.get('ac_token'),
       }).then(({ data }) => {
         if (data && data.code === 200) {
-          $THIS.queryRole()
-          $THIS.$message({
+          this.queryRole()
+          this.$message({
             message: '删除角色成功！!',
             type: 'success',
           })
@@ -423,19 +407,20 @@ export default {
     },
 
     // 数组去重
-    unique(ary) {
-      let newAry = []
-      for (let i = 0; i < ary.length; i++) {
-        if (newAry.indexOf(ary[i]) === -1) {
-          newAry.push(ary[i])
-        }
-      }
-      return newAry
-    },
+    // unique(ary) {
+    //   let newAry = []
+    //   for (let i = 0; i < ary.length; i++) {
+    //     if (newAry.indexOf(ary[i]) === -1) {
+    //       newAry.push(ary[i])
+    //     }
+    //   }
+    //   return newAry
+    // },
 
     // 删除权限
     deleteData(a, b) {
-      let newAry = this.unique(a)
+      // let newAry = this.unique(a)
+      let newAry = [...new Set(a)]
 
       let index = newAry.indexOf(b)
       console.log(newAry.indexOf(b))
@@ -445,14 +430,12 @@ export default {
       this.menuList = newAry
     },
     // 权限菜单变化
-    handleCheckChange(data, checked, indeterminate) {
+    handleCheckChange(data, checked) {
       checked && data.children === undefined && this.menuList.push(data.id)
       !checked &&
         data.children === undefined &&
         this.deleteData(this.menuList, data.id)
-      console.log(data)
       console.log(this.menuList)
-      console.log(111)
       // this.rolePermission()
     },
   },

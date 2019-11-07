@@ -355,7 +355,7 @@ export function editDepartment(data) {
         data.title
       }&coding=${data.coding}&describe=${data.describe}&parentId=${
         data.parentId
-      }&roleCount=${data.roleCount}`,
+      }&status=${data.status}&roleCount=${data.roleCount}`,
     ),
     method: 'post',
   })
