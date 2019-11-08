@@ -512,7 +512,7 @@
     <!-- 弹窗, 新增节点 -->
     <add-nodes v-if="addNodesVisible" ref="addNodes"> </add-nodes>
     <!-- 弹窗，数据缓存器 -->
-    <cache-data v-if="cacheDataVisible" ref="cacheData"></cache-data>
+    <cache-data v-if="cacheDataVisible" ref="cacheData" @saveData="saveCheckedData"></cache-data>
     <!-- 弹窗，添加关系 -->
     <edit-edge v-if="editEdgeVisible" ref="editEdge"></edit-edge>
     <!-- 弹窗，修改关系 -->
@@ -626,6 +626,7 @@ export default {
         currentAddress: '',
       },
       lockCheck: '锁定',
+      checkedData: '', // 屏幕上选中的点
     }
   },
   computed: {
@@ -1316,6 +1317,10 @@ export default {
      */
     isSideBarOpening() {
       return true
+    },
+    saveCheckedData(data) {
+      console.log('aaaaa====' + data)
+      this.checkedData = data
     },
   },
   created() {},
