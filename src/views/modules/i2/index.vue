@@ -578,6 +578,8 @@ import {
   exportJson,
 } from './js/common'
 import { Node } from './js/entity/Node'
+// import {}
+
 export default {
   components: {
     FlyDialog,
@@ -1323,6 +1325,9 @@ export default {
     new Workbench('mynetwork', this)
     // 绑定network事件
     this.bindEvent()
+  },
+  beforeDestroy() {
+    sessionStorage.removeItem('relation_type_list')
   },
 }
 </script>

@@ -3,18 +3,14 @@
  */
 import Vue from 'vue'
 import Router from 'vue-router'
-// import http from '@/utils/httpRequest'
 
 Vue.use(Router)
-
-// 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
-const _import = require('./_import_' + process.env.NODE_ENV)
 
 // 全局路由
 const globalRoutes = [
   {
     path: '/404',
-    component: _import('common/404'),
+    component: () => import(/* webpackChunkName: "404" */ '@/views/common/404'),
     name: '404',
     meta: {
       title: '404未找到',
@@ -22,7 +18,8 @@ const globalRoutes = [
   },
   {
     path: '/login',
-    component: _import('common/Login'),
+    component: () =>
+      import(/* webpackChunkName: "login" */ '@/views/common/Login'),
     name: 'login',
     meta: {
       title: '登录',
@@ -32,7 +29,7 @@ const globalRoutes = [
 const mainRoutes = [
   {
     path: '/',
-    component: _import('Layout'),
+    component: () => import(/* webpackChunkName: "layout" */ '@/views/Layout'),
     name: 'layout',
     redirect: {
       name: 'home',
@@ -43,7 +40,8 @@ const mainRoutes = [
     children: [
       {
         path: '/home',
-        component: _import('common/Home'),
+        component: () =>
+          import(/* webpackChunkName: "home" */ '@/views/common/Home'),
         name: 'home',
         meta: {
           title: '首页',
@@ -52,7 +50,8 @@ const mainRoutes = [
       },
       {
         path: '/i2',
-        component: _import('modules/i2/index'),
+        component: () =>
+          import(/* webpackChunkName: "i2" */ '@/views/modules/i2/index'),
         name: 'i2',
         meta: {
           title: 'i2',
@@ -61,7 +60,8 @@ const mainRoutes = [
       },
       {
         path: '/relation',
-        component: _import('modules/relation/index'),
+        component: () =>
+          import(/* webpackChunkName: "relation" */ '@/views/modules/relation/index'),
         name: 'relation',
         meta: {
           title: 'relation',
@@ -73,13 +73,15 @@ const mainRoutes = [
         children: [
           {
             path: '/relationSearch',
-            component: _import('modules/relation/relationSearch'),
+            component: () =>
+              import(/* webpackChunkName: "relationSearch" */ '@/views/modules/relation/relationSearch'),
             name: 'relationSearch',
             meta: { title: 'relationSearch', rolePath: 'relation' },
           },
           {
             path: '/analyse',
-            component: _import('modules/relation/analyse'),
+            component: () =>
+              import(/* webpackChunkName: "analyse" */ '@/views/modules/relation/analyse'),
             name: 'analyse',
             meta: { title: 'analyse', rolePath: 'relation' },
           },
@@ -88,7 +90,8 @@ const mainRoutes = [
 
       {
         path: '/ticket',
-        component: _import('modules/ticket/index'),
+        component: () =>
+          import(/* webpackChunkName: "ticket" */ '@/views/modules/ticket/index'),
         name: 'ticket',
         redirect: { name: 'newPhone' },
         meta: {
@@ -98,7 +101,8 @@ const mainRoutes = [
         children: [
           {
             path: '/ticket/newPhone',
-            component: _import('modules/ticket/newPhone'),
+            component: () =>
+              import(/* webpackChunkName: "newPhone" */ '@/views/modules/ticket/newPhone'),
             name: 'newPhone',
             meta: {
               title: 'newPhone',
@@ -107,7 +111,8 @@ const mainRoutes = [
           },
           {
             path: '/ticket/phoneSearch',
-            component: _import('modules/ticket/phoneSearch'),
+            component: () =>
+              import(/* webpackChunkName: "phoneSearch" */ '@/views/modules/ticket/phoneSearch'),
             name: 'phoneSearch',
             meta: {
               title: 'phoneSearch',
@@ -116,7 +121,8 @@ const mainRoutes = [
           },
           {
             path: '/ticket/singlePhone',
-            component: _import('modules/ticket/singlePhone'),
+            component: () =>
+              import(/* webpackChunkName: "singlePhone" */ '@/views/modules/ticket/singlePhone'),
             name: 'singlePhone',
             redirect: { name: 'soonLate' },
             meta: {
@@ -126,7 +132,8 @@ const mainRoutes = [
             children: [
               {
                 path: '/ticket/singlePhone/soonLate',
-                component: _import('modules/ticket/SinglePhone/soonLate'),
+                component: () =>
+                  import(/* webpackChunkName: "soonLate" */ '@/views/modules/ticket/SinglePhone/soonLate'),
                 name: 'soonLate',
                 meta: {
                   title: 'singlePhone',
@@ -135,7 +142,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/periodAll',
-                component: _import('modules/ticket/SinglePhone/periodAll'),
+                component: () =>
+                  import(/* webpackChunkName: "periodAll" */ '@/views/modules/ticket/SinglePhone/periodAll'),
                 name: 'periodAll',
                 meta: {
                   title: 'singlePhone',
@@ -144,7 +152,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/continuePeriod',
-                component: _import('modules/ticket/SinglePhone/continuePeriod'),
+                component: () =>
+                  import(/* webpackChunkName: "continuePeriod" */ '@/views/modules/ticket/SinglePhone/continuePeriod'),
                 name: 'continuePeriod',
                 meta: {
                   title: 'singlePhone',
@@ -153,9 +162,9 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/differentPeriod',
-                component: _import(
-                  'modules/ticket/SinglePhone/differentPeriod',
-                ),
+                component: () =>
+                  import(/* webpackChunkName: "differentPeriod" */
+                  '@/views/modules/ticket/SinglePhone/differentPeriod'),
                 name: 'differentPeriod',
                 meta: {
                   title: 'singlePhone',
@@ -164,7 +173,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/callAnalyse',
-                component: _import('modules/ticket/SinglePhone/callAnalyse'),
+                component: () =>
+                  import(/* webpackChunkName: "callAnalyse" */ '@/views/modules/ticket/SinglePhone/callAnalyse'),
                 name: 'callAnalyse',
                 meta: {
                   title: 'singlePhone',
@@ -173,9 +183,9 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/callDetailAnalyse',
-                component: _import(
-                  'modules/ticket/SinglePhone/callDetailAnalyse',
-                ),
+                component: () =>
+                  import(/* webpackChunkName: "callDetailAnalyse" */
+                  '@/views/modules/ticket/SinglePhone/callDetailAnalyse'),
                 name: 'callDetailAnalyse',
                 meta: {
                   title: 'singlePhone',
@@ -184,9 +194,9 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/phoneHomeLocation',
-                component: _import(
-                  'modules/ticket/SinglePhone/phoneHomeLocation',
-                ),
+                component: () =>
+                  import(/* webpackChunkName: "phoneHomeLocation" */
+                  '@/views/modules/ticket/SinglePhone/phoneHomeLocation'),
                 name: 'phoneHomeLocation',
                 meta: {
                   title: 'singlePhone',
@@ -195,7 +205,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/phoneTravel',
-                component: _import('modules/ticket/SinglePhone/phoneTravel'),
+                component: () =>
+                  import(/* webpackChunkName: "phoneTravel" */ '@/views/modules/ticket/SinglePhone/phoneTravel'),
                 name: 'phoneTravel',
                 meta: {
                   title: 'singlePhone',
@@ -204,7 +215,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/mobileAnalyse',
-                component: _import('modules/ticket/SinglePhone/mobileAnalyse'),
+                component: () =>
+                  import(/* webpackChunkName: "mobileAnalyse" */ '@/views/modules/ticket/SinglePhone/mobileAnalyse'),
                 name: 'mobileAnalyse',
                 meta: {
                   title: 'singlePhone',
@@ -213,7 +225,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/singlePhone/weekPhone',
-                component: _import('modules/ticket/SinglePhone/weekPhone'),
+                component: () =>
+                  import(/* webpackChunkName: "weekPhone" */ '@/views/modules/ticket/SinglePhone/weekPhone'),
                 name: 'weekPhone',
                 meta: {
                   title: 'singlePhone',
@@ -224,7 +237,8 @@ const mainRoutes = [
           },
           {
             path: '/ticket/morePhone',
-            component: _import('modules/ticket/morePhone'),
+            component: () =>
+              import(/* webpackChunkName: "morePhone" */ '@/views/modules/ticket/morePhone'),
             name: 'morePhone',
             redirect: { name: 'sameTime' },
             meta: {
@@ -234,7 +248,8 @@ const mainRoutes = [
             children: [
               {
                 path: '/ticket/morePhone/sameTime',
-                component: _import('modules/ticket/MorePhone/sameTime'),
+                component: () =>
+                  import(/* webpackChunkName: "sameTime" */ '@/views/modules/ticket/MorePhone/sameTime'),
                 name: 'sameTime',
                 meta: {
                   title: 'morePhone',
@@ -243,7 +258,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/morePhone/assignTime',
-                component: _import('modules/ticket/MorePhone/assignTime'),
+                component: () =>
+                  import(/* webpackChunkName: "assignTime" */ '@/views/modules/ticket/MorePhone/assignTime'),
                 name: 'assignTime',
                 meta: {
                   title: 'morePhone',
@@ -252,7 +268,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/morePhone/morePhoneTrail',
-                component: _import('modules/ticket/MorePhone/morePhoneTrail'),
+                component: () =>
+                  import(/* webpackChunkName: "morePhoneTrail" */ '@/views/modules/ticket/MorePhone/morePhoneTrail'),
                 name: 'morePhoneTrail',
                 meta: {
                   title: 'morePhone',
@@ -261,7 +278,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/morePhone/commonPhone',
-                component: _import('modules/ticket/MorePhone/commonPhone'),
+                component: () =>
+                  import(/* webpackChunkName: "commonPhone" */ '@/views/modules/ticket/MorePhone/commonPhone'),
                 name: 'commonPhone',
                 meta: {
                   title: 'morePhone',
@@ -272,7 +290,8 @@ const mainRoutes = [
           },
           {
             path: '/ticket/allNetwork',
-            component: _import('modules/ticket/allNetwork'),
+            component: () =>
+              import(/* webpackChunkName: "allNetwork" */ '@/views/modules/ticket/allNetwork'),
             name: 'allNetwork',
             redirect: { name: 'allNetPhoneSearch' },
             meta: {
@@ -282,7 +301,8 @@ const mainRoutes = [
             children: [
               {
                 path: '/ticket/allNetwork/allNetPhoneSearch',
-                component: _import('modules/ticket/AllNetwork/phoneSearch'),
+                component: () =>
+                  import(/* webpackChunkName: "allNetPhoneSearch" */ '@/views/modules/ticket/AllNetwork/phoneSearch'),
                 name: 'allNetPhoneSearch',
                 meta: {
                   title: 'allNetwork',
@@ -291,7 +311,8 @@ const mainRoutes = [
               },
               {
                 path: '/ticket/allNetwork/IMEISearch',
-                component: _import('modules/ticket/AllNetwork/IMEISearch'),
+                component: () =>
+                  import(/* webpackChunkName: "IMEISearch" */ '@/views/modules/ticket/AllNetwork/IMEISearch'),
                 name: 'IMEISearch',
                 meta: {
                   title: 'allNetwork',
@@ -304,26 +325,30 @@ const mainRoutes = [
       },
       {
         path: '/usercenter',
-        component: _import('modules/usercenter/index'),
+        component: () =>
+          import(/* webpackChunkName: "usercenter" */ '@/views/modules/usercenter/index'),
         name: 'usercenter',
         redirect: { name: 'personCenter' },
         meta: { title: 'usercenter', rolePath: 'usercenter' },
         children: [
           {
             path: '/personCenter',
-            component: _import('modules/usercenter/personCenter'),
+            component: () =>
+              import(/* webpackChunkName: "personCenter" */ '@/views/modules/usercenter/personCenter'),
             name: 'personCenter',
             meta: { title: 'personCenter', rolePath: 'usercenter' },
           },
           {
             path: '/modifyInfo',
-            component: _import('modules/usercenter/modifyInfo'),
+            component: () =>
+              import(/* webpackChunkName: "modifyInfo" */ '@/views/modules/usercenter/modifyInfo'),
             name: 'modifyInfo',
             meta: { title: 'modifyInfo', rolePath: 'usercenter' },
           },
           {
             path: '/accountManage',
-            component: _import('modules/usercenter/accountManage'),
+            component: () =>
+              import(/* webpackChunkName: "accountManage" */ '@/views/modules/usercenter/accountManage'),
             name: 'accountManage',
             meta: { title: 'accountManage', rolePath: 'usercenter' },
           },
@@ -331,38 +356,44 @@ const mainRoutes = [
       },
       {
         path: '/archives',
-        component: _import('modules/archives/archives'),
+        component: () =>
+          import(/* webpackChunkName: "archives" */ '@/views/modules/archives/archives'),
         name: 'archives',
         meta: { title: 'archives', rolePath: 'archives' },
       },
       {
         path: '/sys',
-        component: _import('modules/sys/index'),
+        component: () =>
+          import(/* webpackChunkName: "sys" */ '@/views/modules/sys/index'),
         name: 'sys',
         redirect: { name: 'userManage' },
         meta: { title: 'sys', rolePath: 'sys' },
         children: [
           {
             path: '/userManage',
-            component: _import('modules/sys/userManage'),
+            component: () =>
+              import(/* webpackChunkName: "userManage" */ '@/views/modules/sys/userManage'),
             name: 'userManage',
             meta: { title: 'userManage', rolePath: 'userManage' },
           },
           {
             path: '/menuManage',
-            component: _import('modules/sys/menuManage'),
+            component: () =>
+              import(/* webpackChunkName: "menuManage" */ '@/views/modules/sys/menuManage'),
             name: 'menuManage',
             meta: { title: 'menuManage', rolePath: 'menuManage' },
           },
           {
             path: '/roleManage',
-            component: _import('modules/sys/roleManage'),
+            component: () =>
+              import(/* webpackChunkName: "roleManage" */ '@/views/modules/sys/roleManage'),
             name: 'roleManage',
             meta: { title: 'roleManage', rolePath: 'roleManage' },
           },
           {
             path: '/organManage',
-            component: _import('modules/sys/organManage'),
+            component: () =>
+              import(/* webpackChunkName: "organManage" */ '@/views/modules/sys/organManage'),
             name: 'organManage',
             meta: { title: 'organManage', rolePath: 'organManage' },
           },
@@ -370,7 +401,8 @@ const mainRoutes = [
       },
       {
         path: '/unioncase',
-        component: _import('modules/unioncase/index'),
+        component: () =>
+          import(/* webpackChunkName: "unioncase" */ '@/views/modules/unioncase/index'),
         name: 'unioncase',
         meta: {
           title: 'unioncase',
@@ -380,46 +412,53 @@ const mainRoutes = [
 
       {
         path: '/unioncaseaaaaa',
-        component: _import('modules/unioncase/unioncase'),
+        component: () =>
+          import(/* webpackChunkName: "unioncaseaaaaa" */ '@/views/modules/unioncase/unioncase'),
         name: 'unioncaseaaaaa',
         meta: { title: 'unioncaseaaaaa', rolePath: 'unioncase' },
       },
 
       {
         path: '/taskManage',
-        component: _import('modules/unioncase/taskManage'),
+        component: () =>
+          import(/* webpackChunkName: "taskManage" */ '@/views/modules/unioncase/taskManage'),
         name: 'taskManage',
         meta: { title: 'taskManage', rolePath: 'unioncase' },
       },
 
       {
         path: '/taskAnalysisResults',
-        component: _import('modules/unioncase/taskAnalysisResults'),
+        component: () =>
+          import(/* webpackChunkName: "taskAnalysisResults" */ '@/views/modules/unioncase/taskAnalysisResults'),
         name: 'taskAnalysisResults',
         meta: { title: 'taskAnalysisResults', rolePath: 'unioncase' },
       },
       {
         path: '/timespaceindex',
-        component: _import('modules/timespace/index'),
+        component: () =>
+          import(/* webpackChunkName: "timespaceindex" */ '@/views/modules/timespace/index'),
         name: 'timespaceindex',
         redirect: { name: 'timespace' },
         meta: { title: 'timespaceindex', rolePath: 'timespaceindex' },
         children: [
           {
             path: '/timespace',
-            component: _import('modules/timespace/timespace'),
+            component: () =>
+              import(/* webpackChunkName: "timespace" */ '@/views/modules/timespace/timespace'),
             name: 'timespace',
             meta: { title: 'timespace', rolePath: 'timespaceindex' },
           },
           {
             path: '/timespacelist',
-            component: _import('modules/timespace/timespacelist'),
+            component: () =>
+              import(/* webpackChunkName: "timespacelist" */ '@/views/modules/timespace/timespacelist'),
             name: 'timespacelist',
             meta: { title: 'timespacelist', rolePath: 'timespaceindex' },
           },
           {
             path: '/timespaceinfo',
-            component: _import('modules/timespace/timespaceinfo'),
+            component: () =>
+              import(/* webpackChunkName: "timespaceinfo" */ '@/views/modules/timespace/timespaceinfo'),
             name: 'timespaceinfo',
             meta: { title: 'timespaceinfo', rolePath: 'timespaceindex' },
           },
