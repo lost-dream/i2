@@ -945,7 +945,7 @@ export default {
           '2',
           '定向分析',
           'DynamicTabDX',
-          this.contextNodeId,
+          selectNodes,
         )
       })
       this.removeMenu()

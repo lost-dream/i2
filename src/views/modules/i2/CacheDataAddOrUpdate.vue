@@ -9,7 +9,6 @@
         :model="dataForm"
         :rules="dataRule"
         ref="dataForm"
-        @keyup.enter.native="dataFormSubmit()"
         label-width="80px"
       >
         <el-form-item label="名称">
@@ -76,6 +75,7 @@ export default {
   methods: {
     init(id) {
       this.dataForm.id = id || 0
+      console.log(this.dataForm.id)
       this.$api
         .getAllFolderByUserName(
           JSON.parse(this.$Cookies.get('user_info')).username,
@@ -95,20 +95,18 @@ export default {
           this.visible = true
           this.$nextTick(() => {
             this.$refs['dataForm'].resetFields()
+            if (this.dataForm.id) {
+              this.$api.dataCacheGetById(this.dataForm.id).then(({ data }) => {
+                if (data && data.code === 200) {
+                  this.dataForm.name = data.result.name
+                  this.dataForm.foder = data.result.folderId
+                  this.dataForm.dataType = data.result.dataType
+                  this.dataForm.description = data.result.description
+                  this.dataForm.keywords = data.result.keywords
+                }
+              })
+            }
           })
-        })
-        .then(() => {
-          if (this.dataForm.id) {
-            this.$api.dataCacheGetById(this.dataForm.id).then(({ data }) => {
-              if (data && data.code === 200) {
-                this.dataForm.name = data.result.name
-                this.dataForm.foder = data.result.folderId
-                this.dataForm.dataType = data.result.dataType
-                this.dataForm.description = data.result.description
-                this.dataForm.keywords = data.result.keywords
-              }
-            })
-          }
         })
     },
     // 表单提交
