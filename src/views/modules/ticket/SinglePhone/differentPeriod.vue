@@ -278,7 +278,8 @@ export default {
             return item
           })
           .join('至')
-        this.arr.push(obj)
+        this.arr.push(obj.concat('(次数)'))
+        console.log(this.arr)
         this.callForm.timeList.push(obj)
       } else {
         this.$message({

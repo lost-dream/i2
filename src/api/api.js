@@ -493,6 +493,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketOneAnalyze2'),
       method: 'post',
+      // params: http.adornParams(data, false),
       data: http.adornData(data, false),
     })
   },

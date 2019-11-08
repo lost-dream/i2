@@ -156,7 +156,7 @@ export default {
     remove(index) {
       console.log(index)
       this.innerTags.splice(index, 1)
-      this.$emit('remove', this.innerTags)
+      this.$emit('remove', this.innerTags, index)
       this.tagChange()
     },
 
@@ -212,7 +212,9 @@ export default {
   border: 1px solid rgba(44, 239, 255, 0.4);
   overflow: hidden;
   padding-left: 4px;
-  padding-top: 4px;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  border-radius: 5px;
   cursor: text;
   text-align: left;
   display: flex;

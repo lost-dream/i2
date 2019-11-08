@@ -77,8 +77,6 @@ router.afterEach(to => {
   let isMorePhone = to.matched.find(item => {
     return item.name === 'morePhone'
   })
-  console.log(454545)
-  console.log(isSinglePhone)
   if (!isSinglePhone) {
     localStorage.setItem('phoneArr', null)
     localStorage.setItem('selectInfo', null)
@@ -86,8 +84,9 @@ router.afterEach(to => {
     localStorage.setItem('phone', null)
   }
   if (!isMorePhone) {
-    localStorage.setItem('morPphoneArr', null)
-    localStorage.setItem('moreSelectInfo', null)
+    // localStorage.setItem('morPphoneArr', null)
+    // localStorage.setItem('moreSelectInfo', null)
+    localStorage.setItem('callForm', null)
     localStorage.setItem('morePhone', null)
     localStorage.setItem('more', null)
   }
