@@ -288,14 +288,7 @@ export default {
     phoneDataPage() {
       let startKey = this.page.size * (this.page.currentPage - 1)
       let endKey = startKey + this.page.size
-      console.log('startKey')
-      console.log(startKey)
-      console.log(endKey)
-      console.log(this.phoneData2)
       let PageData = this.phoneData2.slice(startKey, endKey)
-      console.log(PageData)
-      console.log(this.phoneData2)
-      console.log('phoneData2')
       this.converseForm.id = PageData[0].recordId
       return PageData
     },
@@ -431,9 +424,6 @@ export default {
             } )
           } */
       let condition = {}
-      console.log('通话查询')
-      console.log(conData)
-      console.log(conData.time == null)
       conData.time !== null && this.timeSizer()
       conData.phone !== '' &&
         ((condition.partyPhone = conData.phone),

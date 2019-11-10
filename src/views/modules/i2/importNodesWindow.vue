@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { Node } from './js/entity/Node'
+// import { Node } from './js/entity/Node'
 import { renderNodes } from './js/renderNodes'
 export default {
   components: {},

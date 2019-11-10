@@ -16,6 +16,8 @@ module.exports = {
     semi: 0,
     'no-tabs': 'off',
     eqeqeq: 'off',
+    'vue/no-side-effects-in-computed-properties': 'off',
+    'no-unused-expressions': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',

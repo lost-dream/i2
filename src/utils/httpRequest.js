@@ -3,6 +3,7 @@ import router from '@/router'
 import qs from 'qs'
 import merge from 'lodash/merge'
 import Cookies from 'js-cookie'
+// import{ Message } from 'element-ui'
 
 const http = axios.create({
   timeout: 1000 * 30,
@@ -39,8 +40,24 @@ http.interceptors.request.use(
  */
 http.interceptors.response.use(
   response => {
+    // if (!(response.data && response.data.code)) return
+
+    // switch (response.data.code) {
+    //   case 200:
+    //     break
+    //   case 401: // token失效
+    //     Cookies.remove('ac_token')
+    //     Cookies.remove('user_info')
+    //     Cookies.remove('userId')
+    //     router.push({ name: 'login' })
+    //     break
+    //   default:
+    //     Message({
+    //       message: response.data.message,
+    //       type: 'error',
+    //     })
+    // }
     if (response.data && response.data.code === 401) {
-      // token失效
       Cookies.remove('ac_token')
       Cookies.remove('user_info')
       Cookies.remove('userId')
