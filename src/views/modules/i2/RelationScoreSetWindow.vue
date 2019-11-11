@@ -24,7 +24,7 @@
     </div>
     <span slot="ft" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button type="primary" @click="dataFormSubmit">确定</el-button>
     </span>
   </fly-dialog>
 </template>
@@ -32,7 +32,8 @@
 <script>
 import FlyDialog from '@/components/fly-dialog'
 // import { renderNodes } from './js/renderNodes'
-import { Node } from './js/entity/Node'
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   components: {
     FlyDialog,
@@ -42,7 +43,9 @@ export default {
     return {
       visible: false,
       node: [],
-      relationTypeList: [],
+      relationTypeList: this.vuex_relationTypeList
+        ? this.vuex_relationTypeList
+        : null,
       value1: 0,
       dataForm: {
         checkList: [],
@@ -50,7 +53,21 @@ export default {
       dataRule: {},
     }
   },
-  computed: {},
+  watch: {
+    relationTypeList: {
+      handler(newVal, oldVal) {
+        if (JSON.stringify(newVal) === JSON.stringify(oldVal)) {
+          this.changeRelationTypeList(newVal)
+        }
+      },
+      deep: true,
+    },
+  },
+  computed: {
+    ...mapState({
+      vuex_relationTypeList: state => state.i2.relationTypeList,
+    }),
+  },
   methods: {
     init(node) {
       this.node = node
@@ -58,7 +75,9 @@ export default {
         .closenessAnalyse({ keyword1: node.keyword })
         .then(({ data }) => {
           if (data && data.code === 200) {
-            this.relationTypeList = data.result
+            if (!this.relationTypeList) {
+              this.relationTypeList = data.result
+            }
           }
         })
         .then(() => {
@@ -67,7 +86,10 @@ export default {
     },
     getRelationScore(kw) {},
     // 表单提交
-    dataFormSubmit() {},
+    dataFormSubmit() {
+      this.changeRelationTypeList(this.vuex_relationTypeList)
+      this.visible = false
+    },
     /**
      * 保存或者修改关系
      */
@@ -81,6 +103,9 @@ export default {
       this.$emit('refreshDataList')
       this.visible = false
     },
+    ...mapMutations({
+      changeRelationTypeList: 'SET_RELATION_TYPE_LIST',
+    }),
   },
   created() {},
   mounted() {},

@@ -142,6 +142,7 @@ export default {
     return {
       activeName: '1',
       node: {},
+      nodeItemKeyword: '', // 选中的节点的keyword
       dataForm: {
         carnum: null,
         carxh: null,
@@ -163,15 +164,18 @@ export default {
   methods: {
     init(nodeId) {
       let arr = [nodeId] || this.global.network.getSelectedNodes()
-      for (let i in arr) {
-        let node = this.global.nodes.get(arr[i])
-        this.node = node
-        break
+      if (arr.length > 1) {
+        this.$message.error({
+          message: '只能选择一个节点作为定向分析',
+        })
+        return
       }
+      const id = arr[0][0]
+      this.nodeItemKeyword = this.global.nodes.get(id).keyword
     },
     dataFormSubmit(modelType) {
       let param = {
-        keyword: this.node.keyword,
+        keyword: this.nodeItemKeyword,
         modelType: modelType,
         model: {},
       }

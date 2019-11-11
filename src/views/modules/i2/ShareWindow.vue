@@ -108,25 +108,28 @@ export default {
     },
     // 表单提交
     toshare() {
-      console.log(this.chooseMember)
-      let params = {
-        analyticalRecordsId: this.info.id,
-        targetUserName: this.chooseMember,
-        userName: JSON.parse(this.$Cookies.get('user_info')).username,
-      }
-      this.$api.shareAnalyticalRecords(params).then(({ data }) => {
-        if (data && data.code === 200) {
-          this.$message({
-            message: '分享成功！',
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-              this.visible = false
-              this.$emit('refreshDataList')
-            },
-          })
-        }
-      })
+      let member = this.chooseMember.toString()
+      this.$api
+        .shareAnalyticalRecords({
+          analyticalRecordsId: this.info.id,
+          targetUserName: member,
+          userName: JSON.parse(this.$Cookies.get('user_info')).username,
+        })
+        .then(({ data }) => {
+          if (data && data.code === 200) {
+            this.$message({
+              message: '分享成功！',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.visible = false
+                this.$emit('refreshDataList')
+              },
+            })
+          } else {
+            this.$message.error(data.message)
+          }
+        })
     },
     handleCheckChange(data, checked) {
       const $THIS = this

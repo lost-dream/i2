@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ContextSVGControl } from './ContextSVGControl'
 export function NodeContextSVGControl(vm, nodeId, params) {
   let _vm = vm

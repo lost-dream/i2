@@ -288,6 +288,7 @@ export default {
             e.isRoot = true
           })
           console.log(ns)
+          this.$emit('currentNode', ns)
           // 渲染节点
           renderNodes(this, ns)
         }

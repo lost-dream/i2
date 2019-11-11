@@ -11,11 +11,13 @@ module.exports = {
   ],
   plugins: ['vue', 'prettier'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     semi: 0,
     'no-tabs': 'off',
     eqeqeq: 'off',
+    'vue/no-side-effects-in-computed-properties': 'off',
+    'no-unused-expressions': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',

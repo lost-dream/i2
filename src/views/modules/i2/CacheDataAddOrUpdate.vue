@@ -15,8 +15,7 @@
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="文件夹">
-          <el-select v-model="dataForm.foder" placeholder="文件夹">
-            <el-option label="请选择文件夹" value=""></el-option>
+          <el-select v-model="dataForm.foder" placeholder="请选择文件夹">
             <el-option
               v-for="item in folderList"
               :key="item.value"
@@ -28,7 +27,12 @@
         </el-form-item>
         <el-form-item label="数据类型">
           <el-select v-model="dataForm.dataType" placeholder="请选择数据类型">
-            <el-option label="Person" value="Person"></el-option>
+            <el-option
+              v-for="(item, index) in dataTypeList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="描述">
@@ -68,6 +72,29 @@ export default {
         description: '',
         keywords: '',
       },
+      dataTypeList: [
+        // TODO 后期会改成server返回，不确定返回格式，暂定label === value
+        {
+          label: 'Person',
+          value: 'Person',
+        },
+        {
+          label: 'Case',
+          value: 'Case',
+        },
+        {
+          label: 'Household',
+          value: 'Household',
+        },
+        {
+          label: 'Car',
+          value: 'Car',
+        },
+        {
+          label: 'DrivingLicense',
+          value: 'DrivingLicense',
+        },
+      ],
       dataRule: {},
     }
   },
@@ -77,9 +104,9 @@ export default {
       this.dataForm.id = id || 0
       console.log(this.dataForm.id)
       this.$api
-        .getAllFolderByUserName(
-          JSON.parse(this.$Cookies.get('user_info')).username,
-        )
+        .getAllFolderByUserName({
+          userName: JSON.parse(this.$Cookies.get('user_info')).username,
+        })
         .then(({ data }) => {
           let list = data && data.code === 200 ? data.result : []
           let arr = []

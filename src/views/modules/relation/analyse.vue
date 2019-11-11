@@ -276,6 +276,8 @@
       v-if="analysisVisible"
       @refreshAnalysis="queryData"
       ref="analysis"
+      :originNodes="originNodes"
+      :originEdges="originEdges"
     ></analysis>
   </div>
 </template>
@@ -307,6 +309,8 @@ export default {
       allRemoveItems: '',
       nodes: [],
       edges: [],
+      originNodes: null,
+      originEdges: null,
       container: null,
       nodesArray: [],
       edgesArray: [],
@@ -439,6 +443,8 @@ export default {
         }
         let resNodes = data.result.nodes
         let resEdges = data.result.edges
+        this.originNodes = resNodes
+        this.originEdges = resEdges
         var edgIds = this.edges.getIds()
         var ndsIds = this.nodes.getIds()
         let addNodeArr = []

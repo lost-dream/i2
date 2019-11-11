@@ -43,9 +43,10 @@ export default {
   components: {
     FlyDialog,
   },
-  props: {},
+  props: ['originNodes', 'originEdges'],
   data() {
     return {
+      level: 0,
       visible: false,
       curNode: [],
       nodes: [],
@@ -67,7 +68,6 @@ export default {
       this.dataForm.keyword = curNode.keyword
       this.nodes = nodes
       this.edges = edges
-      console.log(curNode)
       this.$api
         .getAllRelationType()
         .then(({ data }) => {
@@ -86,6 +86,7 @@ export default {
     },
     // 表单提交
     dataFormSubmit() {
+      this.level++
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           let params = {
@@ -96,15 +97,38 @@ export default {
           }
           this.$api.aggregationAnalyse(params).then(({ data }) => {
             if (data && data.code === 200) {
-              let nd = data.result.nodes
-              let edg = data.result.edges
-              nd = nd.filter(item => {
-                return item.keyword != this.curNode.keyword
+              let nodes = data.result.nodes
+              let edges = data.result.edges
+              nodes.map((item, index) => {
+                if (item.label === this.curNode.label) {
+                  nodes.splice(index, 1)
+                } else {
+                  item.id = `${item.id}-level-${this.level}`
+                }
+
+                item.id = `${item.id}-level-${this.level}`
               })
-              this.nodes.add(nd)
-              console.log(nd)
+
+              edges.map((item, index) => {
+                if (item.from === this.curNode.id) {
+                  item.id = `${item.id}-level-${this.level}`
+                  item.to = `${item.to}-level-${this.level}`
+                } else if (item.to !== this.curNode.id) {
+                  item.id = `${item.id}-level-${this.level}`
+                  item.from = `${item.from}-level-${this.level}`
+                }
+                // item.id = `${item.id}-level-${this.level}`
+                // item.from = `${item.from}-level-${this.level}`
+                // item.to = `${item.to}-level-${this.level}`
+              })
+              this.originNodes = [...this.originNodes, ...nodes]
+              this.originEdges = [...this.originEdges, ...edges]
+              this.nodes.clear()
+              // this.nodes.add(nodes)
+              // this.edges.add(edges)
+              this.nodes.add(this.originNodes)
+              this.edges.add(this.originEdges)
             }
-            console.log(data)
           })
         }
       })

@@ -512,7 +512,11 @@
     <!-- 弹窗, 新增节点 -->
     <add-nodes v-if="addNodesVisible" ref="addNodes"> </add-nodes>
     <!-- 弹窗，数据缓存器 -->
-    <cache-data v-if="cacheDataVisible" ref="cacheData"></cache-data>
+    <cache-data
+      v-if="cacheDataVisible"
+      ref="cacheData"
+      @saveData="saveCheckedData"
+    ></cache-data>
     <!-- 弹窗，添加关系 -->
     <edit-edge v-if="editEdgeVisible" ref="editEdge"></edit-edge>
     <!-- 弹窗，修改关系 -->
@@ -578,6 +582,9 @@ import {
   exportJson,
 } from './js/common'
 import { Node } from './js/entity/Node'
+import { flatten } from '@/utils'
+// import {}
+
 export default {
   components: {
     FlyDialog,
@@ -624,6 +631,7 @@ export default {
         currentAddress: '',
       },
       lockCheck: '锁定',
+      checkedData: '', // 屏幕上选中的点
     }
   },
   computed: {
@@ -899,6 +907,8 @@ export default {
     // 分析--- 全局分析
     overallRelationHandle() {
       let selectNodes = this.global.network.getSelectedNodes()
+      const nodes = []
+      let nodeRes = [] // 和所选节点有直接关系的所有节点
       if (!selectNodes || selectNodes.length < 1) {
         this.$message({
           message: '请选中节点后再执行此操作',
@@ -907,12 +917,23 @@ export default {
         })
         return false
       }
-      this.focusNode(selectNodes)
+
+      selectNodes.forEach(value => {
+        nodes.push(this.global.network.getConnectedNodes(value))
+      })
+
+      nodeRes = flatten(nodes) // 降成一维数组
+      nodeRes = [...nodeRes, selectNodes] // 把选中的点也包含进来（有关系的点集合本身不包含选中的点）
+      nodeRes = [...new Set(nodeRes)] // 点集合去重
+      this.global.network.fit()
+      this.global.network.selectNodes(nodeRes)
+
+      // this.focusNode(selectNodes)
       this.removeMenu()
     },
     overqjHandle(nodeId) {
-      this.focusNode([nodeId])
-      this.removeMenu()
+      // this.focusNode([nodeId])
+      // this.removeMenu()
     },
     // 分析--- 亲密度分析
     relationScoreSetter() {
@@ -1315,6 +1336,10 @@ export default {
     isSideBarOpening() {
       return true
     },
+    saveCheckedData(data) {
+      console.log('aaaaa====' + data)
+      this.checkedData = data
+    },
   },
   created() {},
   mounted() {
@@ -1323,6 +1348,9 @@ export default {
     new Workbench('mynetwork', this)
     // 绑定network事件
     this.bindEvent()
+  },
+  beforeDestroy() {
+    sessionStorage.removeItem('relation_type_list')
   },
 }
 </script>

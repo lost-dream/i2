@@ -1,3 +1,9 @@
-## 个人中心 -- 重置密码 modules > usercenter > accountManage.vue （前置功能：设置二级密码）
+## i2 -- 开始 -- 数据缓存器 -- 添加一行数据 -- 和数据缓存用的是同一个接口 （类型是下拉框，值先自己写，是下面的值)  fix
 
-## 登录切换 tab 的动画
+i2 -- 开始 -- 数据缓存器 -- 修改  fix
+
+Case    Household   Car Person   DrivingLicense
+
+全局分析选中节点，和他有直接关系的节点选中并高亮  fix
+
+协同工作 -- 共享 -- 数据传参格式不对   fix
