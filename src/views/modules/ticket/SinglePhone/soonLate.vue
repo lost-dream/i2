@@ -187,6 +187,8 @@ export default {
   methods: {
     // 查询
     onSubmit() {
+      console.log(this.soonLateData)
+      if (this.soonLateData === null) return
       let data = this.soonLateData
       this.soonLateData2 = data
       let conData = this.callForm
@@ -251,12 +253,6 @@ export default {
             let dj = value1[j]
             let aiBeg = formatDate(new Date(ai.beginTime), 'yyyy-MM-dd')
             if (dj.beginTime === aiBeg) {
-              console.log(111111)
-              console.log(dj.beginTime)
-              console.log(dj.max)
-              console.log(dj.min)
-              console.log(aiBeg)
-              console.log(111111)
               if (
                 this.timestamp(ai.beginTime) > this.timestamp(dj.max.beginTime)
               ) {

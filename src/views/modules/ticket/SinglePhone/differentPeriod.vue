@@ -147,6 +147,7 @@ export default {
 
   methods: {
     searchData() {
+      if (this.differentData === null) return
       if (this.arr.length > 0) {
         let data = this.differentData
         this.differentData2 = data

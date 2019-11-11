@@ -219,6 +219,7 @@ export default {
   methods: {
     // 查询
     onSubmit() {
+      if (this.callAnalyseData === null) return
       let data = this.callAnalyseData
       this.callAnalyseData2 = data
       let conData = this.callForm

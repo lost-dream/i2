@@ -168,6 +168,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.morePhone === null) return
       let data = this.morePhone
       this.morePhone2 = data
       let conData2 = this.assignForm

@@ -201,6 +201,7 @@ export default {
 
       if (this.callForm.phoneId.length >= 2) {
         this.singlePhoneList()
+        this.reload()
       } else {
         this.$message('请选择至少两个话单！')
       }
@@ -264,7 +265,6 @@ export default {
 
     // 获取话单列表
     singlePhoneList() {
-      let _this = this
       let obj = this.callForm.phoneId
       // let obj = id
       // let obj = { id: id }
@@ -275,7 +275,6 @@ export default {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
           localStorage.setItem('morePhone', JSON.stringify(data.result))
           localStorage.setItem('more', JSON.stringify(data.result.phone))
-          _this.reload()
         } else {
           this.$message({
             message: '获取话单失败!',
@@ -292,6 +291,7 @@ export default {
       if (this.callForm.phoneId.length >= 2) {
         localStorage.setItem('callForm', JSON.stringify(this.callForm))
         this.singlePhoneList()
+        this.reload()
       } else {
         this.$message('请选择至少两个话单！')
       }

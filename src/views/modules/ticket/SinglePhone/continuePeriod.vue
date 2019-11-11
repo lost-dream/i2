@@ -180,6 +180,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.continueData === null) return
       let data = this.continueData
       this.continueData2 = data
       let conData = this.callForm

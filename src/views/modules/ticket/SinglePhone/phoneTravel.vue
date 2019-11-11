@@ -92,6 +92,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.phoneInfo === null) return
       let data = this.phoneInfo
       this.phoneInfo2 = data
       let conData = this.callForm

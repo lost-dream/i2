@@ -306,6 +306,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.mapDataInfo === null) return
       let data = this.mapDataInfo
       this.mapDataInfo2 = data
       let conData = this.callForm
