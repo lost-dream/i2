@@ -171,7 +171,7 @@
           <el-input v-model="dataForm.kws" placeholder="输入身份证"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="searchRelation()">分析</el-button>
+          <el-button @click="searchRelation">分析</el-button>
         </el-form-item>
       </el-form>
     </fly-dialog>
@@ -288,6 +288,7 @@ import Vis from 'vis'
 import FileSaver from 'file-saver'
 import DetailsInfo from './DetailsInfo'
 import Analysis from './AnalysisWindow'
+
 export default {
   components: {
     FlyDialog,
@@ -297,6 +298,7 @@ export default {
   props: {},
   data() {
     return {
+      searchNo: 1, // 查询的次数（每执行一次加一）
       addSearchVisible: false,
       fillterVisible: false,
       tjsxVisible: false,
@@ -426,6 +428,7 @@ export default {
     queryData(data) {
       let params = {
         keyword: data.keyword,
+        no: this.searchNo,
         relationType: !(data.relationType instanceof Array)
           ? [data.relationType]
           : data.relationType,
@@ -1018,8 +1021,10 @@ export default {
     },
     // 添加模型
     searchRelation() {
+      this.searchNo++
       let query = {
         keyword: this.dataForm.kws,
+        no: this.searchNo,
         relationType: [this.dataForm.relationType],
       }
       this.queryData(query)
