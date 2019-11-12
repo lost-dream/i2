@@ -88,7 +88,7 @@ export default {
         case: '',
         depict: '',
         uploadPhone: '',
-        flag: '',
+        flag: false,
         id: '',
         recordId: '',
         time: '',
@@ -186,7 +186,6 @@ export default {
             caseName: this.ticketForm.case,
             desc: this.ticketForm.depict,
             flag: this.ticketForm.flag,
-            id: this.ticketForm.id,
             recordId: this.ticketForm.recordId,
             time: this.ticketForm.time,
             name: this.ticketForm.name,
@@ -272,24 +271,24 @@ export default {
       this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`)
     },
     uploadError() {
-      console.log('上传失败')
       this.$message({
         message: '文件上传失败!',
         type: 'error',
       })
     },
     uploadSuccess(response, file) {
-      console.log(22222)
       console.log(response)
       this.ticketForm.uploadPhone = response.result
       this.ticketForm.time = response.timestamp
       this.ticketForm.recordId = file.uid
       if (!response.success) {
+        this.ticketForm.flag = false
         this.$message({
           message: response.message,
           type: 'error',
         })
       } else {
+        this.ticketForm.flag = true
         this.$message({
           message: '文件上传成功!',
           type: 'success',

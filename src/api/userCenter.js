@@ -24,8 +24,11 @@ export function updateUserInfo(data) {
 // 用户密码修改
 export function updatePassword(data) {
   return http({
-    url: http.adornUrl('admin/userUpdatePassword'),
+    url: http.adornUrl(
+      `admin/userUpdatePassword?id=${data.id}&longPassword=${
+        data.longPassword
+      }&newPassword=${data.newPassword}&affirmPassword=${data.affirmPassword}`,
+    ),
     method: 'post',
-    data: http.adornData(data, false, 'qs'),
   })
 }

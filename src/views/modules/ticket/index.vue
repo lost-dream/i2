@@ -40,11 +40,11 @@
       </div>
     </nav>
     <div class="box">
-      <div class="menubar">
-        <sidebar>
-          <sidemenu-item></sidemenu-item>
-        </sidebar>
-      </div>
+      <!--<div class="menubar">-->
+        <!--<sidebar>-->
+          <!--<sidemenu-item></sidemenu-item>-->
+        <!--</sidebar>-->
+      <!--</div>-->
       <div class="content">
         <router-view></router-view>
       </div>

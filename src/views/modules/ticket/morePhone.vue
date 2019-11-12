@@ -284,12 +284,23 @@ a
   color #909399
 a:focus, a:hover
   color #e58627
+
+
+>>>.el-range-input
+  color: #fff
+  background: transparent
+>>>.el-range-separator
+  color: #fff
+
+.mainContent >>>.el-input__inner
+  background-color: transparent
+  color: #fff
 </style>
 <style lang="stylus">
 .select .el-input__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color #fff
+  //background-color rgba(44, 239, 255, 0.3) !important
+  //border 1px solid rgba(44, 239, 255, 0.4) !important
+  //color #fff
 .select .el-tabs__nav-next, .el-tabs__nav-prev
   color white !important
 .nav .el-tabs--card>.el-tabs__header .el-tabs__nav

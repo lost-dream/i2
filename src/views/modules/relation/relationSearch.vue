@@ -90,12 +90,9 @@ export default {
 <style lang="stylus" scoped>
 >>>.el-select .el-input
   width 160px
-  color #fff
 >>>.el-input-group__append, >>>.el-input-group__prepend
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.3)
->>>.el-input__inner
-  color #fff
 >>>.el-input-group__append
   color #04dafc
 .relation-mode.relation-bg
