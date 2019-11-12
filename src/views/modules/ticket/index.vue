@@ -6,44 +6,31 @@
           <h1>话单分析</h1>
         </div>
         <el-tabs v-model="activeName" type="border-card">
-          <el-tab-pane name="newPhone"
-            ><span slot="label"
-              ><i class="el-icon-date"></i>
-              <router-link to="/ticket/newPhone">新建话单</router-link>
-            </span>
+          <el-tab-pane
+            v-for="(item, index) in navList"
+            :key="index"
+            :name="item.itemName"
+          >
+            <router-link
+              slot="label"
+              tag="div"
+              class="tab-nav"
+              :to="{ name: item.routerName }"
+            >
+              <header>
+                <img :src="item.iconUrl" alt="" />
+              </header>
+              <span>{{ item.title }}</span>
+            </router-link>
           </el-tab-pane>
-          <el-tab-pane name="phoneSearch"
-            ><span slot="label"
-              ><i class="el-icon-date"></i>
-              <router-link to="/ticket/phoneSearch">话单查询</router-link>
-            </span></el-tab-pane
-          >
-          <el-tab-pane name="singlePhone"
-            ><span slot="label"
-              ><i class="el-icon-date"></i>
-              <router-link to="/ticket/singlePhone">单话单分析</router-link>
-            </span></el-tab-pane
-          >
-          <el-tab-pane name="morePhone"
-            ><span slot="label"
-              ><i class="el-icon-date"></i>
-              <router-link to="/ticket/morePhone">多话单分析</router-link>
-            </span></el-tab-pane
-          >
-          <el-tab-pane name="allNetwork"
-            ><span slot="label"
-              ><i class="el-icon-date"></i>
-              <router-link to="/ticket/allNetwork">全网通查询</router-link>
-            </span></el-tab-pane
-          >
         </el-tabs>
       </div>
     </nav>
     <div class="box">
       <!--<div class="menubar">-->
-        <!--<sidebar>-->
-          <!--<sidemenu-item></sidemenu-item>-->
-        <!--</sidebar>-->
+      <!--<sidebar>-->
+      <!--<sidemenu-item></sidemenu-item>-->
+      <!--</sidebar>-->
       <!--</div>-->
       <div class="content">
         <router-view></router-view>
@@ -53,17 +40,49 @@
 </template>
 
 <script>
-import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
+// import Sidebar from '@/views/common/Sidebar'
+// import SidemenuItem from '@/views/common/SidemenuItem'
 export default {
   components: {
-    Sidebar,
-    SidemenuItem,
+    // Sidebar,
+    // SidemenuItem,
   },
   props: {},
   data() {
     return {
       activeName: 'newPhone',
+      navList: [
+        {
+          itemName: 'newPhone',
+          routerName: 'newPhone',
+          iconUrl: require('./images/xinjian.png'),
+          title: '新建话单',
+        },
+        {
+          itemName: 'phoneSearch',
+          routerName: 'phoneSearch',
+          iconUrl: require('./images/chaxun.png'),
+          title: '话单查询',
+        },
+        {
+          itemName: 'singlePhone',
+          routerName: 'singlePhone',
+          iconUrl: require('./images/danhuadan.png'),
+          title: '单话单分析',
+        },
+        {
+          itemName: 'morePhone',
+          routerName: 'morePhone',
+          iconUrl: require('./images/duohuadan.png'),
+          title: '多话单分析',
+        },
+        {
+          itemName: 'allNetwork',
+          routerName: 'allNetwork',
+          iconUrl: require('./images/quanwangtong.png'),
+          title: '全网通查询',
+        },
+      ],
     }
   },
   computed: {},
@@ -81,7 +100,7 @@ export default {
   right 0
   bottom 0
   left 0
-  .is-active a
+  .is-active span
     color #b7730e
   &:before
     position fixed
@@ -111,6 +130,7 @@ export default {
   background rgba(44, 239, 255, 0) !important
 >>>.el-tabs__item
   border none !important
+  height 100%
 .title
   display flex
   justify-content center
@@ -134,8 +154,22 @@ export default {
   flex 0 1 auto
 .el-form-item__label
   color white
-a
+span
   color #909399
-a:focus, a:hover
+span:focus, span:hover
   color #e58627
+
+.tab-nav
+  height: 100%
+  display: flex
+  flex-direction column
+  justify-content center
+  header
+    margin 0 auto
+    img
+      display: block
+      width 30px
+  span
+    line-height 1
+    margin-top 10px
 </style>

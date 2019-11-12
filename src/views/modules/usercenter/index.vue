@@ -4,8 +4,12 @@
     <div class="dir">
       <router-link to="/personCenter">
         <div class="list" @click="isClick = 1">
-          <span style="font-size: 20px;" class="el-icon-user"></span
-          ><span>个人中心</span>
+          <span
+            style="font-size: 20px;"
+            class="iconfont icon-gerenzhongxin-zhong"
+          >
+          </span>
+          <span>个人中心</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 1 }"></div>
       </router-link>
@@ -16,8 +20,11 @@
       </span>
       <router-link to="/modifyInfo">
         <div class="list" @click="isClick = 2">
-          <span style="font-size: 20px;" class="el-icon-user"></span
-          ><span>修改信息</span>
+          <span
+            style="font-size: 20px;"
+            class="iconfont icon-xiugaixinxi"
+          ></span>
+          <span>修改信息</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 2 }"></div>
       </router-link>
@@ -28,8 +35,8 @@
       </span>
       <router-link to="/accountManage">
         <div class="list" @click="isClick = 3">
-          <span style="font-size: 20px;" class="el-icon-user"></span
-          ><span>账号管理</span>
+          <span style="font-size: 20px;" class="iconfont icon-xiugaimima"></span
+          ><span>修改密码</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 3 }"></div>
       </router-link>
