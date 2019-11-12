@@ -108,7 +108,7 @@ export default {
     },
     // 表单提交
     toshare() {
-      let member = this.chooseMember.toString()
+      let member = JSON.stringify(this.chooseMember)
       this.$api
         .shareAnalyticalRecords({
           analyticalRecordsId: this.info.id,
@@ -138,19 +138,28 @@ export default {
           if (value.list && value.list.length > 0) {
             recursion(value.list)
           } else {
-            $THIS.chooseMember.push(value.title)
+            $THIS.chooseMember.push(value.username)
           }
         })
       }
-      if ((!data.list || data.list.length === 0) && checked) {
+      if ((!data.list || data.list.length === 0) && checked && data.username) {
         // 不存在子节点（存在子节点的是列表）的节点被选中
-        this.chooseMember.push(data.title)
-      } else if (data.list && data.list.length > 0 && checked) {
+        this.chooseMember.push(data.username)
+      } else if (
+        data.list &&
+        data.list.length > 0 &&
+        checked &&
+        data.username
+      ) {
         // 存在子节点（列表本身被选中）时，递归获取列表中的节点
         recursion(data.list)
-      } else if ((!data.list || data.list.length === 0) && !checked) {
+      } else if (
+        (!data.list || data.list.length === 0) &&
+        !checked &&
+        data.username
+      ) {
         // 取消选择
-        removeArrValue(this.chooseMember, data.title)
+        removeArrValue(this.chooseMember, data.username)
       }
       this.chooseMember = [...new Set(this.chooseMember)]
     },
