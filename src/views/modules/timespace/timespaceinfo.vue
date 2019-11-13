@@ -1144,8 +1144,7 @@ export default {
         name: 'analyse',
         query: {
           keyword,
-          // FIXME: 为什么要有两个相同的relationType
-          relationType: [relationType, relationType],
+          relationType: [relationType],
         },
       })
     },
