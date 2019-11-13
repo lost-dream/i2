@@ -266,6 +266,12 @@ a
   color #909399
 a:focus, a:hover
   color #e58627
+
+>>>.el-range-input
+  color: #fff
+  background: transparent
+>>>.el-range-separator
+  color: #fff
 </style>
 <style lang="stylus">
 .select .el-input__inner

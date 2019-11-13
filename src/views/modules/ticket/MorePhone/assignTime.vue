@@ -397,9 +397,9 @@ export default {
 </style>
 <style lang="stylus">
 .el-input__inner
-  background-color rgba(44, 239, 255, 0.3) !important
-  border 1px solid rgba(44, 239, 255, 0.4) !important
-  color white
+  //background-color rgba(44, 239, 255, 0.3) !important
+  //border 1px solid rgba(44, 239, 255, 0.4) !important
+  //color white
 .el-form-item__label
   color white !important
 .el-table

@@ -39,6 +39,8 @@
 
 <script>
 import FlyDialog from '@/components/fly-dialog'
+import { relationAnalysisExpand } from '@/api/relation'
+
 export default {
   components: {
     FlyDialog,
@@ -46,7 +48,6 @@ export default {
   props: ['originNodes', 'originEdges'],
   data() {
     return {
-      level: 0,
       visible: false,
       curNode: [],
       nodes: [],
@@ -86,48 +87,46 @@ export default {
     },
     // 表单提交
     dataFormSubmit() {
-      this.level++
+      console.log(this.edges)
+      let oriNodes = this.nodes._data
+      let oriEdges = this.edges._data
+      let [reqNodes, reqEdges] = [[], []]
+      for (let key in oriNodes) {
+        reqNodes.push(oriNodes[key])
+      }
+      for (let key in oriEdges) {
+        reqEdges.push(oriEdges[key])
+      }
+
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          let params = {
+          const curId2Str = this.curNode.id.toString()
+          let symbol = curId2Str.length < 7 ? '0' + curId2Str : curId2Str
+          symbol = symbol.replace(/88/g, '-')
+          const no = symbol.split('-')[1]
+          let level = symbol.split('-')[2]
+          level++
+
+          relationAnalysisExpand({
             keyword: this.curNode.keyword,
             relationType: !(this.dataForm.checkList instanceof Array)
               ? [this.dataForm.checkList]
               : this.dataForm.checkList,
-          }
-          this.$api.aggregationAnalyse(params).then(({ data }) => {
+            nodes: reqNodes,
+            edges: reqEdges,
+            no,
+            level,
+            nodeId: this.curNode.id,
+          }).then(({ data }) => {
             if (data && data.code === 200) {
-              let nodes = data.result.nodes
-              let edges = data.result.edges
-              nodes.map((item, index) => {
-                if (item.label === this.curNode.label) {
-                  nodes.splice(index, 1)
-                } else {
-                  item.id = `${item.id}-level-${this.level}`
-                }
-
-                item.id = `${item.id}-level-${this.level}`
-              })
-
-              edges.map((item, index) => {
-                if (item.from === this.curNode.id) {
-                  item.id = `${item.id}-level-${this.level}`
-                  item.to = `${item.to}-level-${this.level}`
-                } else if (item.to !== this.curNode.id) {
-                  item.id = `${item.id}-level-${this.level}`
-                  item.from = `${item.from}-level-${this.level}`
-                }
-                // item.id = `${item.id}-level-${this.level}`
-                // item.from = `${item.from}-level-${this.level}`
-                // item.to = `${item.to}-level-${this.level}`
-              })
-              this.originNodes = [...this.originNodes, ...nodes]
-              this.originEdges = [...this.originEdges, ...edges]
+              this.visible = false
+              let { nodes, edges } = data.result
               this.nodes.clear()
-              // this.nodes.add(nodes)
-              // this.edges.add(edges)
-              this.nodes.add(this.originNodes)
-              this.edges.add(this.originEdges)
+              this.edges.clear()
+              this.nodes.add(nodes)
+              this.edges.add(edges)
+            } else {
+              this.$message.error(data.message)
             }
           })
         }
@@ -184,4 +183,7 @@ export default {
     cursor pointer
     &:hover
       opacity 0.8
+
+>>>.el-form-item__label
+  color #fff
 </style>

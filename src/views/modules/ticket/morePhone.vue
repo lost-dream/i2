@@ -222,7 +222,7 @@ export default {
             casesArr.push(a)
           })
           _this.cases = casesArr
-          console.log(_this.cases)
+          // console.log(_this.cases)
         } else {
           this.$message({
             message: '获取话单案件名称失败!',

@@ -36,7 +36,6 @@
         element-loading-text="拼命加载中"
         element-loading-background="rgba(0, 0, 0, 0)"
       >
-        >
         <el-table
           :data="phoneDataPage"
           height="321"
@@ -65,7 +64,7 @@
           <el-table-column
             prop="uploadTime"
             align="center"
-            width="100"
+            width="200"
             label="上传时间"
           >
             <template slot-scope="scope">
@@ -99,6 +98,7 @@
           </el-table-column>
         </el-table>
         <el-pagination
+          class="hd-pagation"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page.currentPage"
@@ -596,17 +596,18 @@ export default {
 
 .bg
   background-color rgba(44, 239, 255, 0.1)
-  padding 40px
+  padding 1px 40px 40px
 
 .container .title
-  position absolute
-  top -10px
   font-size 24px
   color white
 
 .container .title1
   font-size 24px
   color white
+
+.hd-pagation
+  margin-top: 10px
 </style>
 <style lang="stylus">
 .phoneSearch .el-form-item__label
