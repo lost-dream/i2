@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="bg">
-      <div class="title">
-        <h3>{{ oper }}</h3>
+      <div style="color: #ffffff;margin-bottom: 20px;font-size: 18px">
+        <span>{{ oper }}</span>
       </div>
       <el-form
         :model="ticketForm"
@@ -28,24 +28,13 @@
             class="upload-demo"
             ref="upload"
             :action="uploadURL"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-upload="beforeUpload"
-            :on-error="uploadError"
-            :on-success="uploadSuccess"
+            :on-change="uploadChange"
             :limit="1"
-            :on-exceed="handleExceed"
+            :auto-upload="false"
           >
             <el-button slot="trigger" size="small" type="primary"
               >选取文件
             </el-button>
-            <!--<el-button-->
-            <!--style="margin-left: 10px;"-->
-            <!--size="small"-->
-            <!--type="primary"-->
-            <!--@click="submitUpload"-->
-            <!--&gt;上传到服务器-->
-            <!--</el-button>-->
             <div slot="tip" class="el-upload__tip">只能上传Excel文件</div>
           </el-upload>
         </el-form-item>
@@ -78,7 +67,7 @@ export default {
     return {
       uploadURL:
         process.env.VUE_APP_UPLOAD_REQUEST_URL +
-        'ticket/statement/importEmp?accessToken=' +
+        'ticket/statement/newly?accessToken=' +
         Cookies.get('ac_token') +
         '&roleStr=' +
         Cookies.get('roleStr'),
@@ -88,10 +77,9 @@ export default {
         case: '',
         depict: '',
         uploadPhone: '',
-        flag: false,
+        flag: '',
         id: '',
         recordId: '',
-        time: '',
       },
       oper: '新建话单',
       rules: {
@@ -111,6 +99,7 @@ export default {
           max: 10,
           type: 'caseName',
         }),
+        // uploadPhone: [{ validator: uploadPhone, trigger: 'blur' }],
         uploadPhone:
           this.oper === '编辑话单'
             ? this.filter_rules({ required: false })
@@ -153,10 +142,13 @@ export default {
             flag: _this.ticketForm.flag,
             id: _this.ticketForm.id,
             recordId: _this.ticketForm.recordId,
-            time: _this.ticketForm.time,
             // accessToken: this.$Cookies.get('ac_token'),
           }
-          this.$api.newly(obj).then(({ data }) => {
+          let obj2 = {
+            statement: obj,
+            file: this.ticketForm.uploadPhone,
+          }
+          this.$api.newly(obj2).then(({ data }) => {
             if (data.success) {
               _this.reload()
               _this.$message({
@@ -182,16 +174,20 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            phone: this.ticketForm.phone,
-            caseName: this.ticketForm.case,
-            desc: this.ticketForm.depict,
-            flag: this.ticketForm.flag,
-            recordId: this.ticketForm.recordId,
-            time: this.ticketForm.time,
-            name: this.ticketForm.name,
-            accessToken: this.$Cookies.get('ac_token'),
+            name: _this.ticketForm.name,
+            phone: _this.ticketForm.phone,
+            caseName: _this.ticketForm.case,
+            desc: _this.ticketForm.depict,
+            flag: _this.ticketForm.flag,
+            id: _this.ticketForm.id,
+            recordId: _this.ticketForm.recordId,
+            // accessToken: this.$Cookies.get('ac_token'),
           }
-          this.$api.ticketAlter(obj).then(({ data }) => {
+          let obj2 = {
+            newlyStatementVo: obj,
+            file: this.ticketForm.uploadPhone,
+          }
+          _this.$api.ticketAlter(obj2).then(({ data }) => {
             if (data.success) {
               _this.reload()
               _this.$message({
@@ -199,7 +195,7 @@ export default {
                 type: 'success',
               })
             } else {
-              this.$message({
+              _this.$message({
                 message: '编辑话单失败!',
                 type: 'error',
               })
@@ -217,16 +213,20 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            phone: this.ticketForm.phone,
-            caseName: this.ticketForm.case,
-            desc: this.ticketForm.depict,
-            flag: this.ticketForm.flag,
-            id: this.ticketForm.id,
-            recordId: this.ticketForm.recordId,
-            time: this.ticketForm.time,
-            name: this.ticketForm.name,
+            name: _this.ticketForm.name,
+            phone: _this.ticketForm.phone,
+            caseName: _this.ticketForm.case,
+            desc: _this.ticketForm.depict,
+            flag: _this.ticketForm.flag,
+            id: _this.ticketForm.id,
+            recordId: _this.ticketForm.recordId,
+            // accessToken: this.$Cookies.get('ac_token'),
           }
-          this.$api.ticketAddTo(obj).then(({ data }) => {
+          let obj2 = {
+            newlyStatementVo: obj,
+            file: this.ticketForm.uploadPhone,
+          }
+          _this.$api.ticketAddTo(obj2).then(({ data }) => {
             if (data.success) {
               _this.reload()
               _this.$message({
@@ -234,7 +234,7 @@ export default {
                 type: 'success',
               })
             } else {
-              this.$message({
+              _this.$message({
                 message: '追加话单失败!',
                 type: 'error',
               })
@@ -251,49 +251,8 @@ export default {
       this.$refs[formName].resetFields()
     },
 
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
-    },
-    beforeUpload(file) {
-      const isText = file.type === 'application/vnd.ms-excel'
-      const isTextComputer =
-        file.type ===
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      return isText | isTextComputer
-    },
-    handleExceed() {
-      this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`)
-    },
-    uploadError() {
-      this.$message({
-        message: '文件上传失败!',
-        type: 'error',
-      })
-    },
-    uploadSuccess(response, file) {
-      console.log(response)
-      this.ticketForm.uploadPhone = response.result
-      this.ticketForm.time = response.timestamp
-      this.ticketForm.recordId = file.uid
-      if (!response.success) {
-        this.ticketForm.flag = false
-        this.$message({
-          message: response.message,
-          type: 'error',
-        })
-      } else {
-        this.ticketForm.flag = true
-        this.$message({
-          message: '文件上传成功!',
-          type: 'success',
-        })
-      }
+    uploadChange(file, fileList) {
+      this.ticketForm.uploadPhone = file.raw
     },
   },
 }
@@ -306,11 +265,7 @@ export default {
   background-color rgba(44, 239, 255, 0.1)
 .bg
   background-color rgba(44, 239, 255, 0.1)
-  padding 1px 40px 40px
-
-.title
-  color: #ffffff
-  font-size: 24px
+  padding 40px
 </style>
 <style lang="stylus">
 .ticket .el-form-item__label

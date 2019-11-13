@@ -50,7 +50,7 @@
         label="几个话单出现"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.phone.length }}</span>
+          <span v-if="flag">{{ scope.row.phone.length }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -105,6 +105,7 @@ export default {
   },
   data() {
     return {
+      flag: false,
       pickerOptions: {
         shortcuts: [
           {
@@ -159,6 +160,9 @@ export default {
   mounted() {
     // this.continueData = JSON.parse(sessionStorage.getItem('phoneInfo'))
     this.morePhone = JSON.parse(localStorage.getItem('morePhone'))
+    console.log(555555)
+    console.log(this.morePhone)
+    if (this.morePhone === null) return
     if (this.morePhone.length < 2) {
       this.$message('请选择至少两个话单！')
     } else {
@@ -168,6 +172,8 @@ export default {
 
   methods: {
     onSubmit() {
+      if (this.morePhone === null) return
+      this.flag = true
       let data = this.morePhone
       this.morePhone2 = data
       let conData = this.sameTimeForm
@@ -574,8 +580,6 @@ export default {
       }
       return true
     },
-
-    baseStation() {},
 
     timeChange(time) {
       var newTime = time.map(function(item) {

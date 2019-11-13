@@ -430,10 +430,40 @@ export default {
    * 新建话单
    */
   newly(data) {
+    var formData = new FormData()
+    formData.append('file', data.file)
+    formData.append('statement', http.adornData(data.statement, false, 'json'))
     return http({
       url: http.adornUrl('ticket/statement/newly'),
       method: 'post',
-      data: http.adornData(data),
+      data: formData,
+    })
+  },
+  /**
+   * 追加话单
+   */
+  ticketAddTo(data) {
+    var formData = new FormData()
+    formData.append('file', data.file)
+    formData.append('newlyStatementVo', http.adornData(data.newlyStatementVo, false, 'json'))
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAddTo'),
+      method: 'post',
+      data: formData,
+    })
+  },
+
+  /**
+   * 话单编辑
+   */
+  ticketAlter(data) {
+    var formData = new FormData()
+    formData.append('file', data.file)
+    formData.append('newlyStatementVo', http.adornData(data.newlyStatementVo, false, 'json'))
+    return http({
+      url: http.adornUrl('ticket/statement/ticketAlter'),
+      method: 'post',
+      data: formData,
     })
   },
   /**
@@ -483,6 +513,7 @@ export default {
     return http({
       url: http.adornUrl('ticket/statement/ticketOneAnalyze2'),
       method: 'post',
+      // params: http.adornParams(data, false),
       data: http.adornData(data, false),
     })
   },
@@ -515,17 +546,6 @@ export default {
       url: http.adornUrl('ticket/statement/ticketCallQuery'),
       method: 'post',
       data: http.adornData(data, false),
-    })
-  },
-
-  /**
-   * 话单编辑
-   */
-  ticketAlter(data) {
-    return http({
-      url: http.adornUrl('ticket/statement/ticketAlter'),
-      method: 'post',
-      data: http.adornData(data),
     })
   },
 

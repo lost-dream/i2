@@ -32,7 +32,7 @@
       <!--<sidemenu-item></sidemenu-item>-->
       <!--</sidebar>-->
       <!--</div>-->
-      <div class="content">
+      <div class="content ticketInfo">
         <router-view></router-view>
       </div>
     </div>
@@ -172,4 +172,18 @@ span:focus, span:hover
   span
     line-height 1
     margin-top 10px
+
+.ticketInfo >>>
+ .el-table
+ .el-table--border td,
+ .el-table--border th,
+ .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed
+  border: 1px solid rgba(0,0,0,0.3)
+
+ .el-table--border::after,
+ .el-table--group::after,
+ .el-table::before
+  background none
+ .el-date-editor .el-range-input
+  background-color rgba(44, 239, 255, 0)
 </style>

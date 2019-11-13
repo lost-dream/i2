@@ -948,9 +948,6 @@ export default {
     setSort(index) {
       let count = this.levelCount
       let sort = this.form.adjustSort
-      console.log(count)
-      console.log(sort)
-      console.log(88888888)
       if (index === 1) {
         if (sort <= 0) {
           this.$message.error('已在菜单最顶端')
@@ -1042,9 +1039,6 @@ export default {
 
     isModules(higherUp) {
       let isModuleList2 = []
-      console.log(higherUp)
-      console.log(this.leftMenu[higherUp - 1])
-      console.log(this.leftMenu)
       isModuleList2.push({
         value: this.leftMenu[higherUp - 1].info.id,
         label: this.leftMenu[higherUp - 1].info.name,

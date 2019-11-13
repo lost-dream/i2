@@ -72,6 +72,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.periodAllData === null) return
       let data = this.periodAllData
       this.periodAllData2 = data
       let conData = this.callForm

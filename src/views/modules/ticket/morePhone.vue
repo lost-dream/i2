@@ -4,7 +4,7 @@
       <div class="title">
         <h3>多话单分析</h3>
       </div>
-      <div class="select">
+      <!--<div class="select">
         <el-select
           v-model="select.caseName"
           filterable
@@ -35,6 +35,43 @@
           >
           </el-option>
         </el-select>
+      </div>-->
+      <div class="select">
+        <el-select
+          v-model="select.caseName"
+          filterable
+          @change="caseNameChange1"
+          placeholder="案件名称"
+        >
+          <el-option
+            v-for="item in cases"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+        <el-select
+          v-model="select.id"
+          value-key="phone"
+          filterable
+          @change="caseNameChange2"
+          placeholder="电话号码"
+        >
+          <el-option
+            v-for="(item, index) in phoneList"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+        <div class="inputTag">
+          <input-tag
+            v-on:remove="remove"
+            v-model="callForm.phoneList"
+          ></input-tag>
+        </div>
       </div>
       <div class="nav">
         <el-tabs v-model="activeName" type="card">
@@ -80,11 +117,19 @@
 </template>
 
 <script>
+import InputTag from './comments/inputTag'
 export default {
+  components: {
+    InputTag,
+  },
   inject: ['reload'],
   data() {
     return {
       activeName: '',
+      callForm: {
+        phoneId: [],
+        phoneList: [],
+      },
       cases: [
         /* {
           value: '双十一',
@@ -122,28 +167,44 @@ export default {
   mounted() {
     this.activeName = this.$route.name
     this.ticketOneName()
-    JSON.parse(localStorage.getItem('morPphoneArr')) !== null &&
+    /* JSON.parse(localStorage.getItem('morPphoneArr')) !== null &&
       (this.phoneList = JSON.parse(localStorage.getItem('morPphoneArr')))
     JSON.parse(localStorage.getItem('moreSelectInfo')) !== null &&
-      (this.select = JSON.parse(localStorage.getItem('moreSelectInfo')))
-    console.log(2323232)
-    console.log(this.select)
-    if (this.select.id.length === 0) {
+      (this.select = JSON.parse(localStorage.getItem('moreSelectInfo'))) */
+
+    JSON.parse(localStorage.getItem('callForm')) !== null &&
+      (this.callForm = JSON.parse(localStorage.getItem('callForm')))
+    if (this.callForm.phoneId.length === 0) {
       this.$message('请选择至少两个话单！')
-    } else if (this.select.id.length === 1) {
+    } else if (this.callForm.phoneId.length === 1) {
       this.$message('请选择至少再选择一个话单！')
+    } else {
+      this.singlePhoneList()
     }
   },
   methods: {
     caseNameChange1() {
-      localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
+      // localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
       this.ticketOnePhone()
-      this.singlePhoneList()
+      // this.singlePhoneList()
     },
 
     caseNameChange2() {
-      localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
-      this.singlePhoneList()
+      // localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
+      // this.singlePhoneList()
+      this.callForm.phoneId.push(this.select.id)
+      this.callForm.phoneList.push(
+        this.select.id.phone.concat('-', this.select.caseName),
+      )
+      localStorage.setItem('callForm', JSON.stringify(this.callForm))
+      this.select = { id: '', caseName: '' }
+
+      if (this.callForm.phoneId.length >= 2) {
+        this.singlePhoneList()
+        this.reload()
+      } else {
+        this.$message('请选择至少两个话单！')
+      }
     },
 
     // 获取话单案件名称
@@ -189,8 +250,9 @@ export default {
             phoneArr.push(a)
           })
           console.log(phoneArr)
-          _this.phoneList = phoneArr
-          localStorage.setItem('morPphoneArr', JSON.stringify(phoneArr))
+          // _this.phoneList = phoneArr
+          _this.phoneList = [...new Set([...phoneArr, ..._this.phoneList])]
+          // localStorage.setItem('morPphoneArr', JSON.stringify(_this.phoneList))
           console.log(_this.phoneList)
         } else {
           this.$message({
@@ -203,11 +265,9 @@ export default {
 
     // 获取话单列表
     singlePhoneList() {
-      let _this = this
-      let obj = this.select.id
-      // let obj = {
-      //   id: this.select.id,
-      // }
+      let obj = this.callForm.phoneId
+      // let obj = id
+      // let obj = { id: id }
 
       this.$api.ticketOneAnalyze2(obj).then(({ data }) => {
         console.log(data)
@@ -215,7 +275,6 @@ export default {
           // sessionStorage.setItem('phoneInfo', JSON.stringify(data.result))
           localStorage.setItem('morePhone', JSON.stringify(data.result))
           localStorage.setItem('more', JSON.stringify(data.result.phone))
-          _this.reload()
         } else {
           this.$message({
             message: '获取话单失败!',
@@ -224,38 +283,52 @@ export default {
         }
       })
     },
-  },
-
-  // 选择值变动后调接口获取数据
-  caseNameChange() {
-    // this.morePhoneList()
-    this.singlePhoneList()
-  },
-
-  // 获取话单接口
-  morePhoneList() {
-    var _this = this
-    let obj = {
-      caseName: this.select.caseName,
-      phone: this.select.phone,
-    }
-    this.$api.ticketOneAnalyze(obj).then(({ data }) => {
-      console.log(data)
-      if (data.success) {
-        _this.$message({
-          message: '获取话单成功！!',
-          type: 'success',
-        })
+    remove(innerTags, index) {
+      console.log(innerTags)
+      console.log(index)
+      this.callForm.phoneId.splice(index, 1)
+      this.callForm.phoneList = JSON.parse(JSON.stringify(innerTags))
+      if (this.callForm.phoneId.length >= 2) {
+        localStorage.setItem('callForm', JSON.stringify(this.callForm))
+        this.singlePhoneList()
+        this.reload()
       } else {
-        this.$message({
-          message: '获取话单失败!',
-          type: 'error',
-        })
+        this.$message('请选择至少两个话单！')
       }
-    })
-  },
-  handleClick(tab, event) {
-    console.log(tab, event)
+    },
+
+    // 选择值变动后调接口获取数据
+    caseNameChange() {
+      // this.morePhoneList()
+      this.singlePhoneList()
+    },
+
+    // 获取话单接口
+    morePhoneList() {
+      var _this = this
+      let obj = {
+        caseName: this.select.caseName,
+        phone: this.select.phone,
+      }
+      this.$api.ticketOneAnalyze(obj).then(({ data }) => {
+        console.log(data)
+        if (data.success) {
+          _this.$message({
+            message: '获取话单成功！!',
+            type: 'success',
+          })
+        } else {
+          this.$message({
+            message: '获取话单失败!',
+            type: 'error',
+          })
+        }
+      })
+    },
+
+    handleClick(tab, event) {
+      console.log(tab, event)
+    },
   },
 }
 </script>
@@ -278,29 +351,22 @@ export default {
 .select
   margin 10px 0
   margin-left 20px
->>>.select .el-select:nth-of-type(2)
-  width 501px
+/*>>>.select .el-select:nth-of-type(2)*/
+  /*width 501px*/
 a
   color #909399
 a:focus, a:hover
   color #e58627
-
-
->>>.el-range-input
-  color: #fff
-  background: transparent
->>>.el-range-separator
-  color: #fff
-
-.mainContent >>>.el-input__inner
-  background-color: transparent
-  color: #fff
+.inputTag
+  display inline-block
+  margin 0 5px
+  width 58%
 </style>
 <style lang="stylus">
 .select .el-input__inner
-  //background-color rgba(44, 239, 255, 0.3) !important
-  //border 1px solid rgba(44, 239, 255, 0.4) !important
-  //color #fff
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color #fff
 .select .el-tabs__nav-next, .el-tabs__nav-prev
   color white !important
 .nav .el-tabs--card>.el-tabs__header .el-tabs__nav

@@ -82,6 +82,7 @@ export default {
 
   methods: {
     onSubmit() {
+      if (this.callDetailData === null) return
       let data = this.callDetailData
       this.callDetailData2 = data
       let conData = this.callForm

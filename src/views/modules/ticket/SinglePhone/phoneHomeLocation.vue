@@ -19,26 +19,25 @@
     </el-form>
     <div class="tableMap">
       <el-table
-        :data="mapData"
-        style="width: 100%"
+        :data="mapTabaData"
         height="370"
         :default-sort="{ prop: 'value', order: 'descending' }"
       >
         <el-table-column
           prop="index"
           type="index"
-          label="top排行"
           width="60"
+          label="top10"
           align="center"
         >
         </el-table-column>
         <el-table-column label="全国通话频率排名" align="center">
-          <el-table-column prop="name" label="地区" width="50" align="center">
+          <el-table-column prop="name" label="地区" align="center">
           </el-table-column>
           <el-table-column
             prop="value"
             label="通话次数"
-            width="70"
+            width=""
             align="center"
           >
           </el-table-column>
@@ -144,6 +143,8 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-side-effects-in-computed-properties */
+
 import echarts from 'echarts'
 import flyDialog from '../../../../components/fly-dialog'
 import { formatDate } from '../../../../utils/dateFormat.js'
@@ -161,6 +162,9 @@ export default {
   },
   data() {
     return {
+      myChart: null,
+      option: {},
+
       pickerOptions: {
         shortcuts: [
           {
@@ -236,7 +240,7 @@ export default {
         { name: '香港', value: Math.round(Math.random() * 500) },
         { name: '澳门', value: Math.round(Math.random() * 500) },
       ], */
-      mapData: [
+      origMapData: [
         { name: '北京', value: 0 },
         { name: '天津', value: 0 },
         { name: '上海', value: 0 },
@@ -271,7 +275,10 @@ export default {
         { name: '台湾', value: 0 },
         { name: '香港', value: 0 },
         { name: '澳门', value: 0 },
+        { name: '南海诸岛', value: 0 },
       ],
+      mapTabaData: [],
+      mapData: [],
       clickTable: [],
       detailTable: [
         {
@@ -287,38 +294,76 @@ export default {
       mapDataInfo2: [],
     }
   },
+  computed: {
+    mapDataTop() {
+      let arr = this.mapData
+      return arr.filter(item => item.value > 0)
+    },
+  },
   mounted() {
     this.mapDataInfo = JSON.parse(localStorage.getItem('phoneInfo'))
     this.map()
   },
   methods: {
     onSubmit() {
+      if (this.mapDataInfo === null) return
       let data = this.mapDataInfo
       this.mapDataInfo2 = data
       let conData = this.callForm
       console.log('分析查询')
-      console.log(GP)
-      console.log(GT)
-      console.log(GC)
-      console.log(this.mapDataInfo2)
       conData.time != null && this.timeSizer()
+      this.mapTabaData = this.dataSort(this.mapDataInfo2)
       this.mapDataInfo2 = this.dataSort2(this.mapDataInfo2)
-      this.mapData2(this.mapDataInfo2)
-      this.map()
-      console.log(this.mapDataInfo2)
+      this.mapData = this.mapData2(this.mapDataInfo2)
+      this.mapData.sort((a, b) => b.value - a.value)
+      if (!(this.mapData[0].value === 0)) {
+        this.option.visualMap.max = Math.ceil(this.mapData[0].value / 5) * 5
+        this.option.visualMap.range[1] =
+          Math.ceil(this.mapData[0].value / 5) * 5
+        this.option.series[0].data = this.mapData
+        this.myChart.setOption(this.option)
+      }
     },
 
     // 显示地图数据
     mapData2(data) {
-      let arr = this.mapData
-      for (let i = 0; i <= arr.length - 1; i++) {
-        for (let j = 0; j <= data.length - 1; j++) {
-          if (arr[i].name === data[j].provinces) {
-            arr[i].value = data[j].count
-            arr[i].info = data[j].info
+      let arr = JSON.parse(JSON.stringify(this.origMapData)).map(item => {
+        data.map(item2 => {
+          if (item.name === item2.provinces) {
+            item.value = item2.count
+            item.info = item2.info
+          }
+        })
+        return item
+      })
+      return arr
+    },
+
+    // 数据重组
+    dataSort(data) {
+      let data1 = {}
+      let value1 = []
+      data.forEach(ai => {
+        let location = ai.location
+        if (!data1[location]) {
+          value1.push({
+            name: location,
+            value: 1,
+            info: [ai],
+          })
+          data1[location] = ai
+        } else {
+          for (let j = 0; j < value1.length; j++) {
+            let dj = value1[j]
+            if (dj.name === location) {
+              dj.info.push(ai)
+              dj.value++
+              break
+            }
           }
         }
-      }
+      })
+      return value1
     },
 
     // 数据重组
@@ -377,7 +422,7 @@ export default {
       data.forEach(item => {
         this.compareTime(item.beginTime, time[0], time[1]) && dataArr.push(item)
       })
-      this.differentData2 = dataArr
+      this.mapDataInfo2 = dataArr
     },
     /**
      * 判断是否在时间段内
@@ -424,10 +469,11 @@ export default {
       })
       return newTime
     },
+    // Math.ceil(_this.mapData[0].value / 5) * 5
     map() {
       let _this = this
-      let myChart = echarts.init(document.getElementById('myMap'))
-      let option = {
+      _this.myChart = echarts.init(document.getElementById('myMap'))
+      _this.option = {
         backgroundColor: 'transparent',
         tooltip: {
           trigger: 'item',
@@ -436,10 +482,19 @@ export default {
           type: 'continuous',
           min: 0,
           max: 200,
+          range: [1, 200],
           left: 'left',
           top: 'bottom',
           text: ['高', '低'],
           calculable: true,
+          inRange: {
+            color: ['#efbf58', 'red'],
+          },
+          outOfRange: {
+            color: ['#c2c2c2'],
+          },
+          dimension: 0,
+          // splitList: [{ start: 0, end: 0, color: 'red' }],
           textStyle: {
             color: 'white',
           },
@@ -459,20 +514,18 @@ export default {
           },
         ],
       }
-      myChart.setOption(option)
-      myChart.on('click', function(param) {
+      _this.myChart.setOption(_this.option)
+      _this.myChart.on('click', function(param) {
         console.log(param)
         _this.clickTable = []
         _this.clickTable.push(param.data)
         _this.show = true
       })
       window.addEventListener('resize', function() {
-        myChart.resize()
+        _this.myChart.resize()
       })
     },
     handleClick(row) {
-      console.log(7777777)
-      console.log(row)
       this.detailTable = row.info
       this.show = false
       this.show1 = true
@@ -514,4 +567,82 @@ export default {
   left 90%
 #order >>>.el-dialog
   left 50%
+
+.container ::-webkit-scrollbar {
+    width: 0px!important;
+    height: 0px!important;
+  }
+
+.container::-webkit-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-webkit-scrollbar-resizer {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container ::-webkit-scrollbar {
+    width: 0px!important;
+    height: 0px!important;
+  }
+
+  /*o内核*/
+.container .-o-scrollbar {
+    -moz-appearance: none !important;
+    background: rgba(0, 255, 0, 0) !important;
+  }
+
+.container::-o-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+.container::-o-scrollbar-resizer {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  /*IE10,IE11,IE12*/
+.container {
+    -ms-scroll-chaining: chained;
+    -ms-overflow-style: none;
+    -ms-content-zooming: zoom;
+    -ms-scroll-rails: none;
+    -ms-content-zoom-limit-min: 100%;
+    -ms-content-zoom-limit-max: 500%;
+    -ms-scroll-snap-type: proximity;
+    -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+    -ms-overflow-style: none;
+    overflow: initial;
+  }
 </style>

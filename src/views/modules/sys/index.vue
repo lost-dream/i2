@@ -4,7 +4,7 @@
     <div class="dir">
       <router-link to="/userManage">
         <div class="list" @click="isClick = 1">
-          <span style="font-size: 20px;" class="el-icon-user"></span
+          <span style="font-size: 20px;" class="icon-zdy-yonghuguanli"></span
           ><span>用户管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 1 }"></div>
@@ -16,7 +16,7 @@
       </span>
       <router-link to="/menuManage">
         <div class="list" @click="isClick = 2">
-          <span style="font-size: 20px;" class="el-icon-setting"></span
+          <span style="font-size: 20px;" class="icon-zdy-caidan"></span
           ><span>菜单管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 2 }"></div>
@@ -28,7 +28,7 @@
       </span>
       <router-link to="/roleManage">
         <div class="list" @click="isClick = 3">
-          <span style="font-size: 20px;" class="el-icon-user"></span
+          <span style="font-size: 20px;" class="icon-zdy-yonghu"></span
           ><span>角色管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 3 }"></div>
@@ -40,7 +40,7 @@
       </span>
       <router-link to="/organManage">
         <div class="list" @click="isClick = 4">
-          <span style="font-size: 20px;" class="el-icon-user"></span
+          <span style="font-size: 20px;" class="icon-zdy-jigouguanli"></span
           ><span>机构管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 4 }"></div>
