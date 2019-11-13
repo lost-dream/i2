@@ -411,8 +411,8 @@ export default {
   shareAnalyticalRecords(data) {
     return http({
       url: http.adornUrl('i2s/i2/nodeAndRelationCtlr/shareAnalyticalRecords'),
-      method: 'get',
-      params: http.adornParams(data),
+      method: 'post',
+      data: http.adornData(data),
     })
   },
   /**

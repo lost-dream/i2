@@ -443,6 +443,8 @@ export default {
             })
             return
           }
+        } else {
+          this.$message.error(data.message)
         }
         let resNodes = data.result.nodes
         let resEdges = data.result.edges

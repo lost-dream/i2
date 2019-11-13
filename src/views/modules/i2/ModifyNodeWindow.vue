@@ -80,5 +80,6 @@ export default {
 .mode-add-update
   padding 10px
   >>>.el-input__inner
-    color #fff !important
+    color #fff
+    background: transparent
 </style>
