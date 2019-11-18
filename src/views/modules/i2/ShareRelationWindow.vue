@@ -159,7 +159,8 @@ export default {
   >>>.el-form-item
     margin-bottom 0
   >>>.el-input__inner
-    color #fff !important
+    color #fff
+    background: transparent
     width 130px
     height 32px
     line-height 32px

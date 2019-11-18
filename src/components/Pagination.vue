@@ -9,7 +9,7 @@
       :page-size="size"
       :current-page="curPage"
       @current-change="handleCurrentChange"
-    />
+    ></el-pagination>
   </div>
 </template>
 
@@ -63,14 +63,11 @@ export default {
         li
           border-radius 2px
           border 1px solid #143d4b
-          background-color #fff
           font-weight 400
-          color #6a6a6a
-          color #ffffff
+          color #fff
+          background-color rgba(44,239,255,0.3)
           &:not(.disabled).active
-            background-color #fb9d1f
             border 1px solid rgba(218, 218, 218, 1)
-            color #fff
       .btn-prev, .btn-next
         border-radius 2px
         background-color rgba(44, 239, 255, 0.2)

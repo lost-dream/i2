@@ -593,10 +593,18 @@ export default {
       }
       this_.options = {
         nodes: {
-          shape: 'dot',
-          size: 18,
+          borderWidth: 10,
+          size: 30,
+          color: {
+            border: '#406897',
+            background: '#6AAFFF',
+            highlight: {
+              border: 'black',
+              background: 'blue',
+            },
+          },
           font: { color: '#ffffff' },
-          borderWidth: 2,
+          shapeProperties: { useBorderWithImage: true },
         },
         edges: {
           font: {
