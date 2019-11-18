@@ -155,7 +155,7 @@
         </div>
         <div class="dialog">
           <!--添加-->
-          <fly-dialog title="添加用户" :show.sync="addDialog">
+          <fly-dialog title="添加用户" width="560px" :show.sync="addDialog">
             <el-form
               ref="form"
               :model="form"
@@ -279,7 +279,7 @@
             </div>
           </fly-dialog>
           <!-- 编辑 -->
-          <fly-dialog title="编辑用户" :show.sync="editDialog">
+          <fly-dialog title="编辑用户" width="560px" :show.sync="editDialog">
             <el-form
               ref="form"
               :model="form"
@@ -390,7 +390,7 @@
             </div>
           </fly-dialog>
           <!--查看-->
-          <fly-dialog title="查看用户详情" :show.sync="lookDialog">
+          <fly-dialog title="查看用户详情" width="560px" :show.sync="lookDialog">
             <div id="uesrInfo">
               <div>
                 <span>登陆账号:</span>
@@ -1240,14 +1240,14 @@ export default {
       & div>span {
         margin: 1px;
         display: inline-block;
-        width: 65%;
+        width: 55%;
         height: 34px;
         line-height: 34px;
         padding: 0 15px;
       }
 
       & div>span:nth-child(1) {
-        width: 30%;
+        width: 43%;
         text-align: right;
         background-color: rgba(44, 239, 255, 0.4);
       }
@@ -1344,11 +1344,11 @@ export default {
 }
 
 .dialog {
-  .el-dialog {
-    /* background: rgba(44, 239, 255, 0.5)!important */
+/*  .el-dialog {
+    !* background: rgba(44, 239, 255, 0.5)!important *!
     background: #083438 !important;
     top: 30%;
-  }
+  }*/
 
   .butCoat {
     text-align: center;
@@ -1384,9 +1384,9 @@ export default {
     margin: 30px auto;
   }
 
-  .el-dialog .el-dialog__body .body-content {
+/*  .el-dialog .el-dialog__body .body-content {
     background-color: rgba(44, 239, 255, 0.2);
-  }
+  }*/
 
   .el-form-item__label {
     background-color: rgba(44, 239, 255, 0.4);
