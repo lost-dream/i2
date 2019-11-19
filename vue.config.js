@@ -2,7 +2,7 @@ const webpack = require('webpack')
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   outputDir: 'i2',
-  productionSourceMap: false,
+  productionSourceMap: true,
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
