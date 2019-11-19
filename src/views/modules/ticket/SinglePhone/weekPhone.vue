@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column prop="otherPartyPhone" label="对方号码" align="center">
       </el-table-column>
-      <el-table-column prop="sunD" label="星期天" align="center">
+      <el-table-column prop="sunD" label="星期日" align="center">
       </el-table-column>
       <el-table-column prop="monD" label="星期一" align="center">
       </el-table-column>
