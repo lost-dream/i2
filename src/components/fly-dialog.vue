@@ -8,7 +8,12 @@
     :modal-append-to-body="flag2"
     :modal="modal"
   >
-    <div class="body-content">
+    <div
+      class="body-content"
+      :style="{
+        paddingTop: title === '' ? '50px' : 0,
+      }"
+    >
       <div class="fly-dialog-title">
         <span>{{ title }}</span>
       </div>

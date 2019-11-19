@@ -10,7 +10,8 @@ export function clearLoginInfo() {
 // 删除数组中的值 removeArrValue(['a', 'b', 'c'], 'b') => ['a', 'c']
 export function removeArrValue(arr, val) {
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] == val) {
+    // 处理数字
+    if (arr[i].toString() === val.toString()) {
       arr.splice(i, 1)
       break
     }
