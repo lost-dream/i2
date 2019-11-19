@@ -443,6 +443,8 @@ export default {
             })
             return
           }
+        } else {
+          this.$message.error(data.message)
         }
         let resNodes = data.result.nodes
         let resEdges = data.result.edges
@@ -591,10 +593,18 @@ export default {
       }
       this_.options = {
         nodes: {
-          shape: 'dot',
-          size: 18,
+          borderWidth: 10,
+          size: 30,
+          color: {
+            border: '#406897',
+            background: '#6AAFFF',
+            highlight: {
+              border: 'black',
+              background: 'blue',
+            },
+          },
           font: { color: '#ffffff' },
-          borderWidth: 2,
+          shapeProperties: { useBorderWithImage: true },
         },
         edges: {
           font: {

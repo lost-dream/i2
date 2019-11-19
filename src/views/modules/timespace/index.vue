@@ -1,23 +1,23 @@
 <template>
   <div class="timespaceindex">
     <div class="title"><span class="title_a">时空分析</span></div>
-    <div class="menubar">
-      <sidebar>
-        <sidemenu-item></sidemenu-item>
-      </sidebar>
-    </div>
-    <router-view></router-view>
+    <!--<div class="menubar">-->
+    <!--<sidebar>-->
+    <!--<sidemenu-item></sidemenu-item>-->
+    <!--</sidebar>-->
+    <!--</div>-->
+    <router-view />
   </div>
 </template>
 
 <script>
-import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
+// import Sidebar from '@/views/common/Sidebar'
+// import SidemenuItem from '@/views/common/SidemenuItem'
 export default {
-  components: {
-    Sidebar,
-    SidemenuItem,
-  },
+  // components: {
+  //   Sidebar,
+  //   SidemenuItem,
+  // },
   props: {},
   data() {
     return {

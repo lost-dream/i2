@@ -83,6 +83,4 @@ export default {
 <style lang="stylus" scoped>
 .mode-add-update
   padding 10px
-  >>>.el-input__inner
-    color #fff !important
 </style>

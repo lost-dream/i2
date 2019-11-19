@@ -90,14 +90,17 @@ export default {
 </script>
 <style lang="stylus" scoped>
 >>>.el-textarea__inner
-  background-color rgba(44, 239, 255, 0.3) !important
+  background-color transparent
   border 1px solid rgba(44, 239, 255, 0.4) !important
-  color #fff !important
+  color #fff
 >>>.el-switch.is-checked .el-switch__core
   border-color rgba(44, 239, 255, 0.3) !important
   background-color rgba(44, 239, 255, 0.4) !important
 .mode-add-update
   padding 10px
+  >>>.el-form-item__label
+    color: #fff
   >>>.el-input__inner
-    color #fff !important
+    color #fff
+    background: transparent
 </style>

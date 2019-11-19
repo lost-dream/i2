@@ -141,6 +141,6 @@ export default {
   margin-right 30px
 .mode-add-update
   padding 10px
-  >>>.el-input__inner
-    color #fff !important
+>>>.el-form-item__label
+  color: #ffffff
 </style>

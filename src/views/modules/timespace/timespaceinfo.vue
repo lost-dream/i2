@@ -1140,22 +1140,22 @@ export default {
           break
       }
       const keyword = userData.idNnumber || userData.idNumber
-      this.$router.push({
+      let routerUrl = this.$router.resolve({
         name: 'analyse',
         query: {
           keyword,
-          // FIXME: 为什么要有两个相同的relationType
-          relationType: [relationType, relationType],
+          relationType,
         },
       })
+      window.open(routerUrl.href, '_blank')
     },
   },
   mounted() {
     // 点击空白地方隐藏乘客信息
-    document.addEventListener('click', e => {
+    document.addEventListener('click', event => {
       if (this.passengerInfoShow) {
         let $passengerInfo = document.getElementById('passengerInfo')
-        if (!$passengerInfo.contains(e.target)) {
+        if (!$passengerInfo.contains(event.target)) {
           this.passengerInfoShow = false
         }
       }

@@ -19,37 +19,35 @@
         <span>查询</span>
       </div>
     </div>
-    <div class="tsimp">
-      <el-form
-        ref="form"
-        :model="form"
-        status-icon
-        :rules="rules"
-        class="demo-ruleForm"
-      >
-        <el-form-item prop="idNumber">
-          <el-input v-model="form.idNumber" placeholder="身份证号"></el-input>
-        </el-form-item>
-        <el-form-item prop="startDate">
-          <el-date-picker
-            v-model="form.startDate"
-            popper-class="datePicker"
-            type="date"
-            placeholder="选择开始日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item prop="endDate">
-          <el-date-picker
-            popper-class="datePicker"
-            v-model="form.endDate"
-            type="date"
-            placeholder="选择结束日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-    </div>
+    <el-form
+      ref="form"
+      :model="form"
+      status-icon
+      :rules="rules"
+      class="demo-ruleForm"
+    >
+      <el-form-item prop="idNumber">
+        <el-input v-model="form.idNumber" placeholder="身份证号"></el-input>
+      </el-form-item>
+      <el-form-item prop="startDate">
+        <el-date-picker
+          v-model="form.startDate"
+          popper-class="datePicker"
+          type="date"
+          placeholder="选择开始日期"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item prop="endDate">
+        <el-date-picker
+          popper-class="datePicker"
+          v-model="form.endDate"
+          type="date"
+          placeholder="选择结束日期"
+        >
+        </el-date-picker>
+      </el-form-item>
+    </el-form>
     <div class="infoCoat1">
       <div class="infoCoat2">
         <div class="infoList">
@@ -449,117 +447,130 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+>>>.el-form-item__content
+  margin 10px
+  height 42px
+  border 1px solid rgba(44, 239, 255, 1)
+>>>.el-input__inner, >>>.el-input
+  width 180px
+  border-radius: 0;
+  background-color: rgba(44, 239, 255, 0.2);
+  border: 1px none #DCDFE6;
+  color: #ffffff;
+>>>.el-form-item__error
+  top 50px!important
+  left 0!important
+
 .timespacelist
-      width 100%
-      position absolute
-      top 50px
-      bottom 0
-      display flex
-      flex-direction column
-   .tsimp
-       width 606px
-       margin 0 auto
-       padding-top 23px
-     .el-form-item
-        margin 0 1px
-     >>>.el-form-item__error
-        top 50px!important
-        left 0!important
-   .infoCoat1
-       width 1200px
-       flex 1
-       margin 0 auto
-       margin-top 30px
-       margin-bottom 30px
-       overflow hidden
-   .infoCoat2
-       width 1220px
-       height 100%
-       margin 0 auto
-       overflow-y  scroll
-   .infoList
-       width 865px
-       max-height 860px
-       margin 0 auto
-       margin-top 55px
-     >>>.el-timeline-item__tail
-       border-left 1px solid rgba(44, 239, 255, 1)
-     >>>.el-timeline-item__node
-       background-color rgba(44, 239, 255, 1)
-     >>>.el-timeline-item
-       padding  0
-     >>>.el-timeline-item__timestamp
-         position relative
-         top 0.5px
-         left -110px
-         color #ffffff
-         font-size 14px
-     >>>.el-timeline-item__timestamp.is-top
-         margin 0
-         padding 0
-     >>>.el-timeline-item__content
-         position relative
-         top -65px
-         left -20px
-       .listCoat1
-         width 740px
-         height 110px
-         position relative
-         top 0
-         left 0
-         right 0
-         bottom 0
-         margin 0 auto
-         background-color rgba(44, 239, 255, 0.1)
-         padding 10px
-       .listCoat2
-             width 720px
-             height 90px
-             position relative
-             top 0
-             left 0
-             right 0
-             bottom 0
-             margin 0 auto
-             background-color rgba(44, 239, 255, 0.1)
-             border solid 1px rgba(44, 239, 255, 0.2)
-           .infoItem
-               float left
-               display inline-block
-               height 90px
-               padding 20px 0
-             span
-               display inline-block
-               width 100%
-               text-align center
-               color #ffffff
-               font-size 16px
-               line-height: 30px;
-               overflow hidden
-               text-overflow ellipsis
-               white-space nowrap
-           .infoItem:nth-child(2) span
-               text-align initial
-               line-height: 26px;
-           .infoItem:nth-child(3),
-           .infoItem:nth-child(4)
-             span
-               line-height: 113px;
-
-.dir
-  width: 100%;
-  height: 60px;
-  border-bottom:1px solid rgba(44, 239, 255, 0.4)
-  background rgba(44, 239, 255, 0.3)
-  text-align center
-  span
-    width: auto
-  .list
+  width 100%
+  position absolute
+  top 50px
+  bottom 0
+  display flex
+  flex-direction column
+  .demo-ruleForm
+    width 606px
+    margin 0 auto
+    padding-top 23px
+    .el-form-item
+      display inline-block
+      width 200px
+      height 60px
+      background-color: rgba(44, 239, 255, 0.1)
+      margin-bottom: 1px;
+      margin-right 1px
+  .infoCoat1
+    width 1200px
+    flex 1
+    margin 0 auto
+    margin-top 30px
+    margin-bottom 30px
     overflow hidden
-    padding 10px 20px 0 0
-
-    position relative
-    &:after
+    .infoCoat2
+      width 1220px
+      height 100%
+      margin 0 auto
+      overflow-y  scroll
+      .infoList
+        width 865px
+        max-height 860px
+        margin 0 auto
+        margin-top 55px
+      >>>.el-timeline-item__tail
+        border-left 1px solid rgba(44, 239, 255, 1)
+      >>>.el-timeline-item__node
+        background-color rgba(44, 239, 255, 1)
+      >>>.el-timeline-item
+        padding  0
+      >>>.el-timeline-item__timestamp
+        position relative
+        top 0.5px
+        left -110px
+        color #ffffff
+        font-size 14px
+      >>>.el-timeline-item__timestamp.is-top
+        margin 0
+        padding 0
+      >>>.el-timeline-item__content
+        position relative
+        top -65px
+        left -20px
+        .listCoat1
+          width 740px
+          height 110px
+          position relative
+          top 0
+          left 0
+          right 0
+          bottom 0
+          margin 0 auto
+          background-color rgba(44, 239, 255, 0.1)
+          padding 10px
+        .listCoat2
+          width 720px
+          height 90px
+          position relative
+          top 0
+          left 0
+          right 0
+          bottom 0
+          margin 0 auto
+          background-color rgba(44, 239, 255, 0.1)
+          border solid 1px rgba(44, 239, 255, 0.2)
+        .infoItem
+          float left
+          display inline-block
+          height 90px
+          padding 20px 0
+          span
+            display inline-block
+            width 100%
+            text-align center
+            color #ffffff
+            font-size 16px
+            line-height: 30px;
+            overflow hidden
+            text-overflow ellipsis
+            white-space nowrap
+            .infoItem:nth-child(2) span
+              text-align initial
+              line-height: 26px;
+            .infoItem:nth-child(3),
+            .infoItem:nth-child(4)
+              span
+                line-height: 113px;
+  .dir
+    height: 60px;
+    border-bottom:1px solid rgba(44, 239, 255, 0.4)
+    background rgba(44, 239, 255, 0.3)
+    text-align center
+    span
+      width: auto
+    .list
+      overflow hidden
+      padding 10px 20px 0 0
+      position relative
+      &:after
         content ''
         position absolute
         right 0
@@ -569,12 +580,12 @@ export default {
         height 100%
         border-radius 12px / 80px
         box-shadow 0 0 2px #2cefff
-  .list,
-  .list span
-    display inline-block
-    width 100px
-    text-align center
-    color #ffffff
-    font-size 14px
-    line-height: 20px
+    .list,
+    .list span
+      display inline-block
+      width 100px
+      text-align center
+      color #ffffff
+      font-size 14px
+      line-height: 20px
 </style>

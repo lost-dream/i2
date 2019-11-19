@@ -65,3 +65,20 @@ export default {
   },
 }
 </script>
+<style scoped lang="stylus">
+>>>.el-dialog
+  background: #083438
+.body-content
+  width 100%
+  min-height 130px
+  padding 0 25px 25px
+  border 1px solid #2cefff
+  background rgba(44, 239, 255, 0.2)
+  .fly-dialog-title
+    color #fff
+    font-size 16px
+    text-align center
+    line-height 50px
+  .fly-dialog-body
+    min-height 50px
+</style>

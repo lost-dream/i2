@@ -77,4 +77,8 @@ export default {
   mounted() {},
 }
 </script>
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+>>>.el-textarea__inner
+  background: transparent
+  color: #ffffff
+</style>

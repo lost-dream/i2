@@ -108,7 +108,8 @@ export default {
     },
     // 表单提交
     toshare() {
-      let member = JSON.stringify(this.chooseMember)
+      // let member = JSON.stringify(this.chooseMember)
+      let member = this.chooseMember
       this.$api
         .shareAnalyticalRecords({
           analyticalRecordsId: this.info.id,

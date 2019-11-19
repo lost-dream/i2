@@ -273,6 +273,9 @@ export default {
   color #dadee6
   cursor pointer
   margin-right 30px
+>>>.el-form-item__label
+  color: #eeeff2
 >>>.el-input__inner
   color #eeeff2
+  background: transparent
 </style>

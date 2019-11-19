@@ -71,10 +71,11 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button @click="searchDataList()">查询</el-button>
+            <el-button class="search" @click="searchDataList()">查询</el-button>
           </el-form-item>
         </el-form>
         <el-table
+          class="cache-data-table"
           :data="dataList"
           height="255"
           border
@@ -133,12 +134,14 @@
           >
             <template slot-scope="scope">
               <el-button
+                class="ctrl"
                 type="text"
                 size="small"
                 @click="addOrUpdateHandle(scope.row.id)"
                 >修改</el-button
               >
               <el-button
+                class="ctrl"
                 type="text"
                 size="small"
                 @click="deleteHandle(scope.row.id)"
@@ -356,7 +359,8 @@ export default {
 </script>
 <style lang="stylus" scoped>
 >>>.el-input__inner
-  color #fff !important
+  color #fff
+  background: transparent
 >>>.el-form--inline .el-form-item
   display inline-block
   margin-right 10px
@@ -369,4 +373,23 @@ export default {
 .el-table__body
   tr.hover-row>td
     background-color transparent !important
+
+.search
+  background: transparent
+  color: #ffffff
+
+>>>.el-table tr
+  background: transparent
+  color: #ffffff
+
+>>>.el-table th
+  color: #ffffff
+  background: rgba(44, 239, 255, 0.4)
+>>>.el-table tr.hover-row > td
+  background-color rgba(44, 239, 255, 0.4)
+
+.cache-data-table
+  background: transparent
+.ctrl
+  color: #fff
 </style>
