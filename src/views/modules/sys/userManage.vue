@@ -572,6 +572,9 @@ import { exportJsonToExcel } from '@/assets/js/Export2Excel'
 
 export default {
   name: 'userManage',
+  metaInfo: {
+    title: '用户管理'
+  },
   components: {
     FlyDialog,
     Pagination,

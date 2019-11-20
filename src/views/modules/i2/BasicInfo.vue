@@ -194,4 +194,11 @@ export default {
 .addTagForm
   margin-top 20px
   margin-right 20px
+
+>>>.el-form-item__label
+  color #fff
+
+>>>.el-input__inner
+  color #ffffff
+  background transparent
 </style>

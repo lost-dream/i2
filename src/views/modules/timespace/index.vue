@@ -18,6 +18,10 @@ export default {
   //   Sidebar,
   //   SidemenuItem,
   // },
+  name: 'timeSpaceIndex',
+    metaInfo: {
+    title: '时空分析'
+  },
   props: {},
   data() {
     return {

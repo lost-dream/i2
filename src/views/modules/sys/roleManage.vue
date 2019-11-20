@@ -141,6 +141,9 @@ import Cookies from 'js-cookie'
 import FlyDialog from '@/components/fly-dialog'
 export default {
   name: 'roleManage',
+  metaInfo: {
+    title: '角色管理'
+  },
   components: {
     FlyDialog,
   },

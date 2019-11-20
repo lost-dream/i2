@@ -19,10 +19,13 @@ import './assets/userCenterFont/iconfont.css'
 import 'jquery'
 import global from './utils/global'
 import 'default-passive-events'
+import Meta from 'vue-meta'
 
 Vue.use(Validate)
 Vue.use(ElementUI)
 Vue.use(VueCookie)
+Vue.use(Meta)
+
 Vue.config.productionTip = false
 
 // 全局挂载

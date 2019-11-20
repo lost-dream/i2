@@ -33,6 +33,10 @@
 
 <script>
 export default {
+  name: 'allNetworkIndex',
+  metaInfo: {
+    title: '全网通查询'
+  },
   mounted() {
     this.activeName = this.$route.name
   },

@@ -382,6 +382,10 @@ import Cookies from 'js-cookie'
 import { formatDate } from '../../../utils/dateFormat.js'
 
 export default {
+  name: 'unioncaseIndex',
+  metaInfo: {
+    title: '联案分析'
+  },
   components: {
     Sidebar,
     SidemenuItem,

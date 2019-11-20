@@ -87,4 +87,9 @@ export default {
 <style lang="stylus" scoped>
 .mode-add-update
   padding 10px
+>>>.el-input__inner
+  background transparent
+  color #fff
+>>>.el-form-item__label
+  color #fff
 </style>

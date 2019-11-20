@@ -250,6 +250,9 @@ import {
 import Cookies from 'js-cookie'
 export default {
   name: 'menuManage',
+  metaInfo: {
+    title: '菜单管理'
+  },
   components: {
     FlyDialog,
   },
