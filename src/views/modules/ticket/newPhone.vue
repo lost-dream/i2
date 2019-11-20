@@ -62,6 +62,10 @@
 <script>
 import Cookies from 'js-cookie'
 export default {
+  name: 'newTicket',
+  metaInfo: {
+    title: '新建话单'
+  },
   inject: ['reload'],
   data() {
     return {

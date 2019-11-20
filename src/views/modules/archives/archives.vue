@@ -371,13 +371,16 @@ import FlyDialog from '@/components/fly-dialog'
 import { archivesDetailApi } from '@/api/archives'
 
 export default {
+  name: 'archives',
+  metaInfo: {
+    title: '人员档案'
+  },
   components: {
     FlyDialog,
   },
   props: {},
   data() {
     return {
-      // TODO 节点分析传过来的数据是什么？
       keyword: this.$route.query.keyword,
       curPage: 1, // 当前分页
       totalPage: 1, // 总页数
@@ -409,7 +412,7 @@ export default {
     // 截取前8列
     showTableCN(val) {
       return val => {
-        return JSON.parse(JSON.stringify(val)).slice(0, 4)
+        return JSON.parse(JSON.stringify(val)).slice(0, 6)
       }
     },
   },
@@ -434,13 +437,13 @@ export default {
               tableCN: [
                 { label: '姓名', width: '', prop: 'name' },
                 { label: '身份证号', width: '', prop: 'id_number' },
+                { label: '旅店名称', width: '', prop: 'hotelName' },
+                { label: '旅店地址', width: '', prop: 'hotelAddress' },
+                { label: '入住时间', width: '', prop: 'check_in' },
+                { label: '退房时间', width: '', prop: 'check_out' },
                 { label: '消费金额', width: '', prop: 'amount' },
                 { label: '房价', width: '', prop: 'room_price' },
                 { label: '旅店ID', width: '', prop: 'hotel_id' },
-                { label: '入住时间', width: '', prop: 'check_in' },
-                { label: '退房时间', width: '', prop: 'check_out' },
-                { label: '旅店地址', width: '', prop: 'hotelAddress' },
-                { label: '旅店名称', width: '', prop: 'hotelName' },
                 { label: '房间号', width: '', prop: 'room_no' },
                 { label: '房间类型', width: '', prop: 'room_type' },
               ],
@@ -485,10 +488,10 @@ export default {
                 { label: '姓名', width: '', prop: 'name' },
                 { label: '身份证号', width: '', prop: 'idNumber' },
                 { label: '出行工具', width: '', prop: 'typeCode' },
-                { label: '航班/车次', width: '', prop: 'toolNumber' },
+                { label: '出发时间', width: '', prop: 'startTime' },
                 { label: '始发地', width: '', prop: 'startStation' },
                 { label: '目的地', width: '', prop: 'destination' },
-                { label: '出发时间', width: '', prop: 'startTime' },
+                { label: '航班/车次', width: '', prop: 'toolNumber' },
                 { label: '车牌号', width: '', prop: 'carNo' },
                 { label: '舱位', width: '', prop: 'class' },
                 { label: '车厢号', width: '', prop: 'carriageNumber' },
@@ -509,10 +512,12 @@ export default {
               tableCN: [
                 { label: '姓名', width: '', prop: 'name' },
                 { label: '身份证号', width: '', prop: 'id_number' },
-                { label: '网吧ID', width: '', prop: 'internet_cafe_id' },
+                { label: '网吧名称', width: '', prop: 'interName' },
+                { label: '网吧地址', width: '', prop: 'interAddr' },
                 { label: '开始时间', width: '', prop: 'check_in' },
                 { label: '结束时间', width: '', prop: 'check_out' },
                 { label: '消费金额', width: '', prop: 'amount' },
+                { label: '网吧ID', width: '', prop: 'internet_cafe_id' },
                 { label: '机号', width: '', prop: 'computer_no' },
               ],
               tabledata: this.interList.slice(4 * (page - 1), page * 4),
@@ -529,10 +534,12 @@ export default {
               name: mapList['caseList'],
               tableCN: [
                 { label: '姓名', width: '', prop: 'name' },
-                { label: '案件ID', width: '', prop: 'case_id' },
-                { label: '人员ID', width: '', prop: 'person_id' },
+                { label: '证件号码', width: '', prop: 'person_id' },
+                { label: '案件名称', width: '', prop: 'caseName' },
+                { label: '案发时间', width: '', prop: 'caseTime' },
                 { label: '案件角色', width: '', prop: 'role' },
                 { label: '案件经过', width: '', prop: 'detail' },
+                { label: '案件编号', width: '', prop: 'caseNo' },
               ],
               tabledata: this.caseList.slice(4 * (page - 1), page * 4),
               paging: {
@@ -655,12 +662,12 @@ export default {
       letter-spacing: 0;
       color: #ffffff;
   .archivesCoat1
-    width 1130px
-    max-height 785px
+    width 100%
+    max-height calc(100vh - 100px)
     overflow hidden
   .archivesCoat2
-    width 1150px
-    max-height 785px
+    width calc(100% + 20px)
+    max-height calc(100vh - 100px)
     overflow-y  scroll
     .IdentityInfo
       background-color rgba(44, 239, 255, 0.2)

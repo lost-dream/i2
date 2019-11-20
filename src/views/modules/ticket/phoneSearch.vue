@@ -205,6 +205,10 @@
 import { formatDate } from '../../../utils/dateFormat.js'
 
 export default {
+  name: 'phoneSearch',
+  metaInfo: {
+    title: '话单查询',
+  },
   filters: {
     formatDate(time) {
       var date = new Date(time)

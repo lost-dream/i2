@@ -101,12 +101,45 @@
           <el-form-item>
             <el-button
               type="primary"
-              @click="dataFormSubmit('rFlag')"
+              @click="resultSubmit()"
               :disabled="dataList.length <= 0"
               >结果集碰撞</el-button
             >
           </el-form-item>
         </el-form>
+          <el-table
+          :data="secondDataList"
+          height="255"
+          border
+          v-loading="dataListLoading"
+          v-if="secondDataList.length > 0"
+        >
+          <el-table-column
+            v-for="(item, index) of secondThList"
+            :key="index"
+            :prop="item.prop"
+            header-align="center"
+            align="center"
+            :label="item.label"
+          >
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            header-align="center"
+            align="center"
+            width="150"
+            label="操作"
+          >
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                size="small"
+                @click="lookInfo(scope.row.id)"
+                >详情</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </fly-dialog>
   </div>
@@ -239,6 +272,8 @@ export default {
         handle2: 'intersection',
       },
       dataRule: {},
+      secondDataList: [],
+      secondThList: []
     }
   },
   computed: {},
@@ -337,6 +372,87 @@ export default {
       }
     },
     lookInfo() {},
+    resultSubmit() {
+      var kws = []
+      kws = this.dataList.map(item => item.idNumber || '')
+      let params = {
+        idNumbersJson: this.dataForm.idNumber.concat(kws),
+        collisionSources: this.dataForm.collisionSources2,
+        flag: this.dataForm.handle2,
+      }
+      this.$api.collideAnalyse(params).then(({ data }) => {
+        if (data && data.code === 200) {
+          if (data.result.length > 0) {
+            this.$message({
+              message: '碰撞成功！',
+              type: 'success',
+              duration: 1500,
+            })
+          } else {
+            this.$message({
+              message: '没有查询到数据！',
+              type: 'error',
+              duration: 1500,
+            })
+          }
+          switch (this.dataForm.collisionSources2) {
+            case 'Fugitive':
+             this.secondThList = this.fugitiveTh
+               this.secondDataList = data.result.map(item => {
+                return {
+                  name: item.name,
+                  idNumber: item.idNumber,
+                  nativePlace: item.nativePlace,
+                }
+              })
+              break
+            case 'ImportantControl':
+                this.secondThList = this.ImportantControlTh
+              this.secondDataList = data.result.map(item => {
+                return {
+                  name: item.name,
+                  idNumber: item.idNumber,
+                  education: item.education,
+                  currentAddress: item.currentAddress,
+                }
+              })
+              break
+            case 'Car':
+                this.secondThList = this.CarTh
+              this.secondDataList = data.result.map(item => {
+                return {
+                  carNumber: item.carNumber,
+                  model: item.model,
+                  color: item.color,
+                }
+              })
+              break
+            case 'RailwayReal':
+               this.secondThList = this.RailwayRealTh
+              this.secondDataList = data.result.map(item => {
+                return {
+                  idNumber: item.idNumber,
+                  name: item.name,
+                  seatNumber: item.carriageNumber + item.seatNumber + '号',
+                  startStation: item.startStation,
+                  destination: item.destination,
+                }
+              })
+              break
+            case 'Case':
+               this.secondThList = this.CaseTh
+              this.secondDataList = data.result.map(item => {
+                return {
+                  caseNo: item.caseNo,
+                  caseHandlingAgencies: item.caseHandlingAgencies,
+                  detail: item.detail,
+                }
+              })
+              break
+          }
+        }
+      })
+    }
   },
   created() {},
   mounted() {},
@@ -345,6 +461,8 @@ export default {
 <style lang="stylus" scoped>
 >>>.el-form-item
   margin-bottom 10px
+>>>.el-form-item__label
+  color #ffffff
 >>>.el-checkbox
   color #fff
   font-weight 500
@@ -370,7 +488,15 @@ export default {
   padding 10px
 .filter-form
   padding-bottom 10px
-.el-table__body
-  tr.hover-row>td
-    background-color transparent !important
+
+>>>.el-table
+  background transparent
+  tr
+    background: transparent
+    color: #ffffff
+    &.hover-row > td
+      background-color rgba(44, 239, 255, 0.4)
+  th
+    color: #ffffff
+    background: rgba(44, 239, 255, 0.4)
 </style>

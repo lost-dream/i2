@@ -52,6 +52,10 @@
 
 <script>
 export default {
+  name: 'sysIndex',
+  metaInfo: {
+    title: '系统管理'
+  },
   components: {},
   props: {},
   data() {

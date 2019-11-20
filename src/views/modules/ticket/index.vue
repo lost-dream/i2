@@ -43,6 +43,10 @@
 // import Sidebar from '@/views/common/Sidebar'
 // import SidemenuItem from '@/views/common/SidemenuItem'
 export default {
+  name: 'ticketIndex',
+  metaInfo: {
+    title: '话单分析'
+  },
   components: {
     // Sidebar,
     // SidemenuItem,

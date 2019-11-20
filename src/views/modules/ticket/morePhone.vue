@@ -119,6 +119,10 @@
 <script>
 import InputTag from './comments/inputTag'
 export default {
+  name: 'morePhoneIndex',
+  metaInfo: {
+    title: '多话单分析'
+  },
   components: {
     InputTag,
   },

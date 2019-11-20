@@ -586,6 +586,10 @@ import { flatten } from '@/utils'
 // import {}
 
 export default {
+  name: 'i2',
+  metaInfo: {
+    title: 'i2'
+  },
   components: {
     FlyDialog,
     Sidebar,

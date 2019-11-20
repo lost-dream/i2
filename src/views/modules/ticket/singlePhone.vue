@@ -128,6 +128,10 @@
 
 <script>
 export default {
+  naem: 'singlePhoneIndex',
+  metaInfo: {
+    title: '单话单分析'
+  },
   inject: ['reload'],
   data() {
     return {
