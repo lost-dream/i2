@@ -45,7 +45,7 @@
 export default {
   name: 'ticketIndex',
   metaInfo: {
-    title: '话单分析'
+    title: '话单分析',
   },
   components: {
     // Sidebar,

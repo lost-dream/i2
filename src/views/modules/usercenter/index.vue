@@ -49,7 +49,7 @@
 export default {
   name: 'userCenter',
   metaInfo: {
-    title: '个人中心'
+    title: '个人中心',
   },
   components: {},
   props: {},

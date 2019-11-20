@@ -143,7 +143,7 @@ export default {
   inject: ['reload'],
   name: 'homePage',
   metaInfo: {
-    title: '情报智能分析系统'
+    title: '情报智能分析系统',
   },
   data() {
     return {

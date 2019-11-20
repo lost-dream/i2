@@ -131,7 +131,7 @@ import { login, setSecondaryPassword, verificat2ndPWD } from '@/api/login'
 export default {
   name: 'login',
   metaInfo: {
-    title: '登录/注册'
+    title: '登录/注册',
   },
   data() {
     return {

@@ -292,7 +292,7 @@ import Analysis from './AnalysisWindow'
 export default {
   name: 'analyse',
   metaInfo: {
-    title: '关系分析'
+    title: '关系分析',
   },
   components: {
     FlyDialog,

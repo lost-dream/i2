@@ -588,7 +588,7 @@ import { flatten } from '@/utils'
 export default {
   name: 'i2',
   metaInfo: {
-    title: 'i2'
+    title: 'i2',
   },
   components: {
     FlyDialog,

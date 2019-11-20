@@ -373,7 +373,7 @@ import { archivesDetailApi } from '@/api/archives'
 export default {
   name: 'archives',
   metaInfo: {
-    title: '人员档案'
+    title: '人员档案',
   },
   components: {
     FlyDialog,
