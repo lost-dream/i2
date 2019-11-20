@@ -445,7 +445,10 @@ export default {
   ticketAddTo(data) {
     var formData = new FormData()
     formData.append('file', data.file)
-    formData.append('newlyStatementVo', http.adornData(data.newlyStatementVo, false, 'json'))
+    formData.append(
+      'newlyStatementVo',
+      http.adornData(data.newlyStatementVo, false, 'json'),
+    )
     return http({
       url: http.adornUrl('ticket/statement/ticketAddTo'),
       method: 'post',
@@ -459,7 +462,10 @@ export default {
   ticketAlter(data) {
     var formData = new FormData()
     formData.append('file', data.file)
-    formData.append('newlyStatementVo', http.adornData(data.newlyStatementVo, false, 'json'))
+    formData.append(
+      'newlyStatementVo',
+      http.adornData(data.newlyStatementVo, false, 'json'),
+    )
     return http({
       url: http.adornUrl('ticket/statement/ticketAlter'),
       method: 'post',

@@ -1,420 +1,165 @@
 <template>
-  <div class="mod-i2 i2-bg">
-    <nav class="navbar-fixed-top">
-      <div class="header-container">
-        <div class="logo"></div>
-        <div class="tab-container">
-          <el-tabs>
-            <el-tab-pane label="开始">
-              <ul class="tab-list clearfix">
-                <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                    @click="addNodesHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch addnode"></dt>
-                    <dd class="operate-desc">添加节点</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnImportNode"
-                    class="tab-li"
-                    @click="importNodeHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch importNode"></dt>
-                    <dd class="operate-desc">导入节点</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnCacheData" class="tab-li" @click="cacheDataHandle">
-                    <dt class="operate-icon operate-addBatch dataCacher"></dt>
-                    <dd class="operate-desc">数据缓存器</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnAddEdge" class="tab-li" @click="addEdgeHandle">
-                    <dt class="operate-icon operate-addBatch addRelation"></dt>
-                    <dd class="operate-desc">添加关系</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnAddDatacache"
-                    class="tab-li"
-                    @click="addDataCacheHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch cacheData"></dt>
-                    <dd class="operate-desc">数据缓存</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnLock" class="tab-li" @click="lockNodeHandle">
-                    <dt class="operate-icon operate-addBatch lock"></dt>
-                    <dd class="operate-desc">锁定</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnUnlock" class="tab-li" @click="unLockNodeHandle">
-                    <dt class="operate-icon operate-addBatch unlock"></dt>
-                    <dd class="operate-desc">解锁</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <!-- <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">选择</dd>
-                  </dl>
-                </li> -->
-              </ul>
-            </el-tab-pane>
-            <el-tab-pane label="编辑">
-              <ul class="tab-list clearfix">
-                <li>
-                  <dl id="btnEidt" class="tab-li" @click="eidtNodeHandle">
-                    <dt class="operate-icon operate-addBatch edit"></dt>
-                    <dd class="operate-desc">编辑</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnDeleteNode"
-                    class="tab-li"
-                    @click="deleteNodeHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch del"></dt>
-                    <dd class="operate-desc">删除</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnTagging" class="tab-li" @click="taggingHandle">
-                    <dt class="operate-icon operate-addBatch mark"></dt>
-                    <dd class="operate-desc">一键标注</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnRemark" class="tab-li" @click="remarkHandle">
-                    <dt class="operate-icon operate-addBatch remarks"></dt>
-                    <dd class="operate-desc">备注</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <!-- <li>
-                  <dl
-                    id="btnBatchAddNode"
-                    class="tab-li"
-                  >
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">隐藏</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnBatchAddNode" class="tab-li">
-                    <dt class="operate-icon operate-addBatch"></dt>
-                    <dd class="operate-desc">显示</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li> -->
-              </ul>
-            </el-tab-pane>
-            <el-tab-pane label="布局">
-              <ul class="tab-list clearfix">
-                <li>
-                  <dl
-                    id="btnAutoLayout"
-                    class="tab-li"
-                    @click="autoLayoutHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch auto"></dt>
-                    <dd class="operate-desc">自动</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnRectangle" class="tab-li" @click="rectangleHandle">
-                    <dt class="operate-icon operate-addBatch rect"></dt>
-                    <dd class="operate-desc">矩形</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnCircle" class="tab-li" @click="circleHandle">
-                    <dt class="operate-icon operate-addBatch ring"></dt>
-                    <dd class="operate-desc">环形</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-              </ul>
-            </el-tab-pane>
-            <el-tab-pane label="分析">
-              <ul class="tab-list clearfix">
-                <li>
-                  <dl id="btnAnalysis" class="tab-li" @click="analysisHandle">
-                    <dt class="operate-icon operate-addBatch wajue"></dt>
-                    <dd class="operate-desc">关系挖掘</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnPairAnalyse"
-                    class="tab-li"
-                    @click="pairAnalyseHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch fenxi"></dt>
-                    <dd class="operate-desc">两两分析</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnOverallRelation"
-                    class="tab-li"
-                    @click="overallRelationHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch QJFX"></dt>
-                    <dd class="operate-desc">全局分析</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnRelatiaonScoreSetter"
-                    class="tab-li"
-                    @click="relationScoreSetter"
-                  >
-                    <dt class="operate-icon operate-addBatch qingmidu"></dt>
-                    <dd class="operate-desc">亲密度分析</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnDXAnalysis"
-                    class="tab-li"
-                    @click="dxAnalysisHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch DXFX"></dt>
-                    <dd class="operate-desc">定向分析</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnArchives" class="tab-li" @click="archivesHandle">
-                    <dt class="operate-icon operate-addBatch dangan"></dt>
-                    <dd class="operate-desc">档案</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnTrackball" class="tab-li" @click="trackballHandle">
-                    <dt class="operate-icon operate-addBatch guiji"></dt>
-                    <dd class="operate-desc">轨迹</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnUnionCase" class="tab-li" @click="unionCaseHandle">
-                    <dt class="operate-icon operate-addBatch QB"></dt>
-                    <dd class="operate-desc">案件串并</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnPZAnalysis"
-                    class="tab-li"
-                    @click="pzAnalysisHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch PZBD"></dt>
-                    <dd class="operate-desc">碰撞对比分析</dd>
-                  </dl>
-                </li>
-              </ul>
-            </el-tab-pane>
-            <el-tab-pane label="算法">
-              <ul class="tab-list clearfix">
-                <li>
-                  <dl
-                    id="btnCentrality"
-                    class="tab-li"
-                    @click="centralityHandle"
-                  >
-                    <dt class="operate-icon operate-addBatch center"></dt>
-                    <dd class="operate-desc">中心性</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnShortPath"
-                    class="tab-li"
-                    @click="shortPathHandle()"
-                  >
-                    <dt class="operate-icon operate-addBatch ZDLJ"></dt>
-                    <dd class="operate-desc">最短路径</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="isAllShortPath"
-                    class="tab-li"
-                    @click="shortPathHandle('isAllShortPath')"
-                  >
-                    <dt class="operate-icon operate-addBatch road"></dt>
-                    <dd class="operate-desc">全路径</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-              </ul>
-            </el-tab-pane>
-            <el-tab-pane label="协同工作">
-              <ul class="tab-list clearfix">
-                <li>
-                  <dl id="btnImport" class="tab-li" @click="jsonImportHandle">
-                    <dt class="operate-icon operate-addBatch importNode"></dt>
-                    <dd class="operate-desc">导入(JSON)</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl id="btnExport" class="tab-li">
-                    <dt class="operate-icon operate-addBatch exportNode"></dt>
-                    <dd class="operate-desc">
-                      <el-dropdown @command="handleCommand">
-                        <span class="el-dropdown-link">
-                          导出<i class="el-icon-arrow-down el-icon--right"></i>
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item command="exportJson"
-                            >JSON</el-dropdown-item
-                          >
-                          <!-- <el-dropdown-item command="exportExcel">EXCEL</el-dropdown-item> -->
-                        </el-dropdown-menu>
-                      </el-dropdown>
-                    </dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnSaveRelationData"
-                    class="tab-li"
-                    @click="saveRelatonData"
-                  >
-                    <dt class="operate-icon operate-addBatch baocun"></dt>
-                    <dd class="operate-desc">保存</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnShareRelationData"
-                    class="tab-li"
-                    @click="shareRelationData"
-                  >
-                    <dt class="operate-icon operate-addBatch gongxiang"></dt>
-                    <dd class="operate-desc">共享</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-                <li>
-                  <dl
-                    id="btnManagerRelationData"
-                    class="tab-li"
-                    @click="managerRelationData"
-                  >
-                    <dt class="operate-icon operate-addBatch guanli"></dt>
-                    <dd class="operate-desc">管理</dd>
-                  </dl>
-                  <div class="or-spacer-vertical">
-                    <div class="mask"></div>
-                  </div>
-                </li>
-              </ul>
-            </el-tab-pane>
-          </el-tabs>
-        </div>
-      </div>
-    </nav>
+  <div class="mod-i2">
+    <div class="logo"></div>
+    <el-tabs>
+      <el-tab-pane label="开始">
+        <ul class="tab-list">
+          <li @click="addNodesHandle">
+            <header class="addnode"></header>
+            <footer>添加节点</footer>
+          </li>
+          <li @click="importNodeHandle">
+            <header class="importNode"></header>
+            <footer>导入节点</footer>
+          </li>
+          <li @click="cacheDataHandle">
+            <header class="dataCacher"></header>
+            <footer>数据缓存器</footer>
+          </li>
+          <li @click="addEdgeHandle">
+            <header class="addRelation"></header>
+            <footer>添加关系</footer>
+          </li>
+          <li @click="addDataCacheHandle">
+            <header class="cacheData"></header>
+            <footer>数据缓存</footer>
+          </li>
+          <li @click="lockNodeHandle">
+            <header class="lock"></header>
+            <footer>锁定</footer>
+          </li>
+           <li @click="unLockNodeHandle">
+            <header class="unlock"></header>
+            <footer>解锁</footer>
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="编辑">
+        <ul class="tab-list">
+          <li @click="eidtNodeHandle">
+            <header class="edit"></header>
+            <footer>编辑</footer>
+          </li>
+          <li @click="deleteNodeHandle">
+            <header class="del"></header>
+            <footer>删除</footer>
+          </li>
+          <li @click="taggingHandle">
+            <header class="mark"></header>
+            <footer>一键标注</footer>
+          </li>
+          <li @click="remarkHandle">
+            <header class="remarks"></header>
+            <footer>备注</footer>
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="布局">
+        <ul class="tab-list">
+          <li @click="autoLayoutHandle">
+            <header class="auto"></header>
+            <footer>自动</footer>
+          </li>
+          <li @click="rectangleHandle">
+            <header class="rect"></header>
+            <footer>矩形</footer>
+          </li>
+          <li @click="circleHandle">
+            <header class="ring"></header>
+            <footer>环形</footer>
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="分析">
+        <ul class="tab-list">
+          <li @click="analysisHandle">
+            <header class="wajue"></header>
+            <footer>关系挖掘</footer>
+          </li>
+           <li @click="pairAnalyseHandle">
+            <header class="fenxi"></header>
+            <footer>两两分析</footer>
+          </li>
+          <li @click="overallRelationHandle">
+            <header class="QJFX"></header>
+            <footer>全局分析</footer>
+          </li>
+           <li @click="relationScoreSetter">
+            <header class="qingmidu"></header>
+            <footer>亲密度分析</footer>
+          </li>
+           <li @click="dxAnalysisHandle">
+            <header class="DXFX"></header>
+            <footer>定向分析</footer>
+          </li>
+            <li @click="archivesHandle">
+            <header class="dangan"></header>
+            <footer>档案</footer>
+          </li>
+          <li @click="trackballHandle">
+            <header class="guiji"></header>
+            <footer>轨迹</footer>
+          </li>
+          <li @click="unionCaseHandle">
+            <header class="QB"></header>
+            <footer>案件串并</footer>
+          </li>
+           <li @click="pzAnalysisHandle">
+            <header class="PZBD"></header>
+            <footer>碰撞对比分析</footer>
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="算法">
+        <ul class="tab-list">
+          <li @click="centralityHandle">
+            <header class="center"></header>
+            <footer>中心性</footer>
+          </li>
+          <li @click="shortPathHandle">
+            <header class="ZDLJ"></header>
+            <footer>最短路径</footer>
+          </li>
+          <li @click="shortPathHandle('isAllShortPath')">
+            <header class="road"></header>
+            <footer>全路径</footer>
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="协同工作">
+        <ul class="tab-list">
+          <li @click="jsonImportHandle">
+            <header class="importNode"></header>
+            <footer>导入(JSON)</footer>
+          </li>
+          <li>
+            <header class="exportNode"></header>
+            <footer>
+              <el-dropdown @command="handleCommand">
+                <span class="el-dropdown-link">
+                  导出<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="exportJson">JSON</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </footer>
+          </li>
+          <li @click="saveRelatonData">
+            <header class="baocun"></header>
+            <footer>保存</footer>
+          </li>
+          <li @click="shareRelationData">
+            <header class="gongxiang"></header>
+            <footer>共享</footer>
+          </li>
+          <li @click="managerRelationData">
+            <header class="guanli"></header>
+            <footer>管理</footer>
+          </li>
+        </ul>
+      </el-tab-pane>
+    </el-tabs>
     <div class="menubar">
       <!-- <sidebar>
         <sidemenu-item></sidemenu-item>
@@ -588,7 +333,7 @@ import { flatten } from '@/utils'
 export default {
   name: 'i2',
   metaInfo: {
-    title: 'i2'
+    title: 'i2',
   },
   components: {
     FlyDialog,
@@ -1364,40 +1109,14 @@ export default {
   position relative
   color #fff
   font-size 14px
-.mod-i2.i2-bg
-  position absolute
-  top 0
-  right 0
-  bottom 0
-  left 0
-  overflow hidden
-  &:before
-    position fixed
-    top 0
-    left 0
-    z-index -1
-    width 100%
-    height 100%
-    content ''
-    background url('~@/assets/img/i2bg.png') no-repeat center
-    background-size cover
-  .navbar-fixed-top
-    position static !important
-    z-index 10000
-    width 100%
-  .logo
-    background url('~@/assets/img/i2logo.png') no-repeat
-    height 40px
-    width 85px
-    outline 0 none
-    float left !important
-    margin 0 20px
-    margin-top 3px
 >>>.el-tabs__header
   background rgba(44, 239, 255, 0.5)
   margin-bottom 0
   .el-tabs__nav-wrap::after
     height 0
+  .el-tabs__nav
+    float none
+    text-align center
   .el-tabs__item
     color #fff
     height 50px
@@ -1415,47 +1134,96 @@ export default {
   height 72px
 >>>.el-tab-pane
   background rgba(44, 239, 255, 0.3)
-  padding-left 110px
   height 100%
-ul.tab-list>li
-  float left
+
+.mod-i2
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  overflow hidden
+  background url('~@/assets/img/i2bg.png') no-repeat center
+  background-size cover
+  .logo
+    background url('~@/assets/img/i2logo.png') no-repeat
+    height 40px
+    width 85px
+    position fixed
+    z-index 999
+    left 20px
+    top 5px
+
+.tab-list
+  display flex
   height 100%
-  cursor pointer
-  .tab-li
-    float left
-    width 80px
-    text-align center
-    overflow hidden
+  justify-content center
+  li
+    position relative
+    width 120px
     height 100%
-    display block
-    .operate-icon
+    padding 0 20px
+    cursor pointer
+    overflow hidden
+    display flex
+    flex-direction column
+    justify-content center
+    align-items center
+    &:after
+      content ''
+      position absolute
+      width 10px
+      height 100%
+      top: 4px
+      right: -10px
+      border-radius 12px / 80px
+      box-shadow 0 0 2px #2cefff
+    header
       width 31px
       height 27px
-      margin 12px auto 0
+      margin-bottom 10px
       $iconList = addnode importNode dataCacher addRelation cacheData lock unlock edit del mark remarks rect dangan exportNode baocun gongxiang guanli ring auto wajue fenxi QJFX qingmidu DXFX guiji QB PZBD center ZDLJ road
       for item, index in $iconList
         &.{item}
           background url('./icons/' + item + '.png') center / contain no-repeat
-    .operate-desc
+    footer
       color #fff
-      height 25px
-      line-height 25px
-      margin-top 5px
-  .or-spacer-vertical
-    float left
-    margin 15px 0 0 10px
-    .mask
+      line-height 1
+
+    .tab-li
+      width 80px
+      text-align center
       overflow hidden
-      width 10px
-      height 50px
-      &:after
-        content ''
-        display block
-        margin-left -10px
+      height 100%
+      display block
+      .operate-icon
+        width 31px
+        height 27px
+        margin 12px auto 0
+        $iconList = addnode importNode dataCacher addRelation cacheData lock unlock edit del mark remarks rect dangan exportNode baocun gongxiang guanli ring auto wajue fenxi QJFX qingmidu DXFX guiji QB PZBD center ZDLJ road
+        for item, index in $iconList
+          &.{item}
+            background url('./icons/' + item + '.png') center / contain no-repeat
+      .operate-desc
+        color #fff
+        height 25px
+        line-height 25px
+        margin-top 5px
+    .or-spacer-vertical
+      float left
+      margin 15px 0 0 10px
+      .mask
+        overflow hidden
         width 10px
-        height 100%
-        border-radius 12px / 80px
-        box-shadow 0 0 2px #2cefff
+        height 50px
+        &:after
+          content ''
+          display block
+          margin-left -10px
+          width 10px
+          height 100%
+          border-radius 12px / 80px
+          box-shadow 0 0 2px #2cefff
 .menubar>.sidebar
   left 0
 .fun-sidebar >.sidebar
@@ -1466,7 +1234,7 @@ ul.tab-list>li
 >>>.fun-sidebar .sidebar-inner
   width 330px
 #rightMenu
-  background #1e9eae94
+  background rgba(30,158,174,0.58)
   .menuList
     li
       position relative
@@ -1475,18 +1243,17 @@ ul.tab-list>li
         right -80px
         top 0
         width 80px
-        background #159bac8c
+        background rgba(21,155,172,0.6)
         display none
-        a
+      &:hover
+        >.subMenu
           display block
-          padding 5px
-          text-align center
-    li:hover >.subMenu
-      display block
-    li >a
-      display block
-      padding 5px
-      text-align center
+      a
+        display block
+        padding 5px
+        text-align center
+        font-size 14px
+
 #edgeContextMenu
   background rgba(2, 106, 118, 0.9)
   .menuList

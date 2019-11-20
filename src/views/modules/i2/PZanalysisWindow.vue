@@ -107,7 +107,7 @@
             >
           </el-form-item>
         </el-form>
-          <el-table
+        <el-table
           :data="secondDataList"
           height="255"
           border
@@ -273,7 +273,7 @@ export default {
       },
       dataRule: {},
       secondDataList: [],
-      secondThList: []
+      secondThList: [],
     }
   },
   computed: {},
@@ -397,8 +397,8 @@ export default {
           }
           switch (this.dataForm.collisionSources2) {
             case 'Fugitive':
-             this.secondThList = this.fugitiveTh
-               this.secondDataList = data.result.map(item => {
+              this.secondThList = this.fugitiveTh
+              this.secondDataList = data.result.map(item => {
                 return {
                   name: item.name,
                   idNumber: item.idNumber,
@@ -407,7 +407,7 @@ export default {
               })
               break
             case 'ImportantControl':
-                this.secondThList = this.ImportantControlTh
+              this.secondThList = this.ImportantControlTh
               this.secondDataList = data.result.map(item => {
                 return {
                   name: item.name,
@@ -418,7 +418,7 @@ export default {
               })
               break
             case 'Car':
-                this.secondThList = this.CarTh
+              this.secondThList = this.CarTh
               this.secondDataList = data.result.map(item => {
                 return {
                   carNumber: item.carNumber,
@@ -428,7 +428,7 @@ export default {
               })
               break
             case 'RailwayReal':
-               this.secondThList = this.RailwayRealTh
+              this.secondThList = this.RailwayRealTh
               this.secondDataList = data.result.map(item => {
                 return {
                   idNumber: item.idNumber,
@@ -440,7 +440,7 @@ export default {
               })
               break
             case 'Case':
-               this.secondThList = this.CaseTh
+              this.secondThList = this.CaseTh
               this.secondDataList = data.result.map(item => {
                 return {
                   caseNo: item.caseNo,
@@ -452,7 +452,7 @@ export default {
           }
         }
       })
-    }
+    },
   },
   created() {},
   mounted() {},

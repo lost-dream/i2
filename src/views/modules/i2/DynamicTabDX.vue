@@ -80,7 +80,7 @@
             :model="dataForm"
             :rules="dataRule"
             ref="dataForm"
-            label-width="60px"
+            label-width="80px"
           >
             <el-form-item label="证件号">
               <el-input
@@ -244,11 +244,7 @@ export default {
   padding 10px
   background #11646e
 >>>.el-collapse-item__header
-  display -webkit-box
-  display -ms-flexbox
   display flex
-  -webkit-box-align center
-  -ms-flex-align center
   align-items center
   height 48px
   line-height 48px
@@ -256,10 +252,9 @@ export default {
   color #ecedf0
   padding-left 10px
   cursor pointer
-  border-bottom 1px solid #EBEEF5
+  border-bottom 1px solid rgba(44,239,255,0.2)
   font-size 13px
   font-weight 500
-  -webkit-transition border-bottom-color 0.3s
   transition border-bottom-color 0.3s
   outline 0
 >>>.el-collapse-item__wrap
@@ -268,7 +263,7 @@ export default {
   overflow hidden
   -webkit-box-sizing border-box
   box-sizing border-box
-  border-bottom 1px solid none
+  border-bottom 1px solid rgba(44,239,255,0.2)
 >>>.el-radio
   color #dadee6
   cursor pointer

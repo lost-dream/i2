@@ -4,8 +4,8 @@
     <div class="dir">
       <router-link to="/userManage">
         <div class="list" @click="isClick = 1">
-          <span style="font-size: 20px;" class="icon-zdy-yonghuguanli"></span
-          ><span>用户管理</span>
+          <span class="icon-zdy-yonghuguanli"></span>
+          <span>用户管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 1 }"></div>
       </router-link>
@@ -16,8 +16,8 @@
       </span>
       <router-link to="/menuManage">
         <div class="list" @click="isClick = 2">
-          <span style="font-size: 20px;" class="icon-zdy-caidan"></span
-          ><span>菜单管理</span>
+          <span class="icon-zdy-caidan"></span>
+          <span>菜单管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 2 }"></div>
       </router-link>
@@ -28,8 +28,8 @@
       </span>
       <router-link to="/roleManage">
         <div class="list" @click="isClick = 3">
-          <span style="font-size: 20px;" class="icon-zdy-yonghu"></span
-          ><span>角色管理</span>
+          <span class="icon-zdy-yonghu"></span>
+          <span>角色管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 3 }"></div>
       </router-link>
@@ -40,8 +40,8 @@
       </span>
       <router-link to="/organManage">
         <div class="list" @click="isClick = 4">
-          <span style="font-size: 20px;" class="icon-zdy-jigouguanli"></span
-          ><span>机构管理</span>
+          <span class="icon-zdy-jigouguanli"></span>
+          <span>机构管理</span>
         </div>
         <div class="clickDef" :class="{ clickOk: isClick == 4 }"></div>
       </router-link>
@@ -54,7 +54,7 @@
 export default {
   name: 'sysIndex',
   metaInfo: {
-    title: '系统管理'
+    title: '系统管理',
   },
   components: {},
   props: {},
@@ -87,7 +87,6 @@ export default {
   right 0
   bottom 0
   left 0
-  /*overflow hidden*/
   z-index -1
   width 100%
   height 100%
@@ -112,41 +111,40 @@ export default {
   color: #ffffff;
 .dir
   width: 100%;
-  height: 60px;
+  height: 72px;
   border-bottom:1px solid rgba(44, 239, 255, 1)
-
   background rgba(44, 239, 255, 0.3)
-  text-align center
-/*margin-bottom 30px*/
-.dir a
-  position relative
-  top 0
-  left 0
-  right 0
-  bottom 0
-.dir .clickDef
-  display: none;
-  position: absolute;
-  top: 15px;
-  left: -4px;
-  z-index: 5;
-  width: 110px;
-  height: 1px;
-  background: #114d54;
-.dir .clickOk
-  display: inline-block;
-
-.dir .list
-  padding 10px 0 0 0
-  margin 0 20px
-
-.dir a span, .dir .list
-  display inline-block
-  width 60px
-  text-align center
-  color #ffffff
-  font-size 14px
-  line-height: 24px;
+  display flex
+  justify-content center
+  a
+    display block
+    width 120px
+    height 100%
+    padding 0 20px
+  .list
+    width 100%
+    height 100%
+    overflow hidden
+    position relative
+    color #ffffff
+    display flex
+    flex-direction column
+    justify-content center
+    align-items center
+    [class^="icon-zdy"]
+      font-size 30px
+  .clickDef
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: -4px;
+    z-index: 5;
+    width: 110px;
+    height: 1px;
+    background: #114d54;
+  .clickOk
+    display: inline-block;
+  
 
 .or-spacer-vertical
   float right

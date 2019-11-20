@@ -226,7 +226,7 @@ import {
 export default {
   name: 'organManage',
   metaInfo: {
-    title: '机构管理'
+    title: '机构管理',
   },
   components: {
     FlyDialog,

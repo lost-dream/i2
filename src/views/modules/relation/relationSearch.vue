@@ -33,7 +33,7 @@
 export default {
   name: 'relationSearch',
   metaInfo: {
-    title: '关系分析'
+    title: '关系分析',
   },
   components: {},
   props: {},
