@@ -468,12 +468,13 @@ h3
 .content li p
   font-size 40px
   margin 0
-  margin-top 55px
+  margin-top 88px
   color white
   font-weight bold
 #module .smallTitle
   font-weight bold
   color white
+  padding: 7px 0;
   font-size 24px
   text-indent 27px
 #lately
@@ -486,6 +487,7 @@ h3
   display flex
   width 644px
   height 228px
+  margin-top: 11px;
   justify-content space-around
   position relative
 #lately .content li
@@ -501,7 +503,7 @@ h3
 #lately .content li p
   font-size 22px
   margin 0
-  margin-top 36px
+  margin-top 38px
   color white
 #online
   background url('../../assets/img/moduleBg.png') no-repeat

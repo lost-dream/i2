@@ -107,6 +107,11 @@
               class="conditionItem"
               style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
             >
+              <div style="padding: 0 10px">
+                <span>经度：{{ item.pointLongitude }}</span
+                ><br />
+                <span>纬度：{{ item.pointLatitude }}</span>
+              </div>
               <p>活动时间段</p>
               <div class="inputStyle">
                 <p>起</p>
@@ -230,7 +235,7 @@ export default {
       boxs: [{ name: '旅馆', label: 1 }, { name: '网吧', label: 2 }],
       infoData: [],
       infoData2: [
-        {
+        /* {
           a: 'A1324679846546464654',
           b: '青羊工业园偷盗',
           c: '2019-07-07  14：30：00',
@@ -244,7 +249,7 @@ export default {
           a: 'A1324679846546464654',
           b: '青羊工业园偷盗',
           c: '2019-07-07  14：30：00',
-        },
+        }, */
       ],
     }
   },
@@ -261,6 +266,7 @@ export default {
       }
       this.$api.analyzeTaskResult(obj).then(({ data }) => {
         if (data.msg === '成功') {
+          console.log('成功')
           console.log(data)
           _this.infoData = data.data.pageInfo.list
           _this.pagination.total = data.data.pageInfo.total
@@ -276,8 +282,6 @@ export default {
               createId: item.createId,
               createName: item.createName,
               taskName: item.name,
-              pointLatitude: item.pointLatitude,
-              pointLongitude: item.pointLongitude,
               taskId: item.taskId,
               taskTarget: item.taskTarget,
               taskType: item.taskType,
@@ -288,6 +292,8 @@ export default {
             let obj2 = {
               date1: item.activeTimeBegin,
               date2: item.activeTimeEnd,
+              pointLatitude: item.pointLatitude,
+              pointLongitude: item.pointLongitude,
               range: item.radius,
             }
             data2.push(obj2)

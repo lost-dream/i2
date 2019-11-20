@@ -27,8 +27,8 @@
     </el-form>
     <el-table
       :data="continueTable"
-      border
       :cell-style="cellStyle"
+      border
       style="width: 100%"
     >
       <el-table-column
@@ -99,19 +99,7 @@ export default {
       callForm: {
         time: '',
       },
-      continueTable: [
-        {
-          // index: '',
-          otherPartyPhone: '13111111111',
-          sunD: '1',
-          monD: '2',
-          tuesD: '3',
-          wesD: '4',
-          thurD: '5',
-          friD: '0',
-          satD: '13',
-        },
-      ],
+      continueTable: [],
       phoneInfo: [],
       phoneInfo2: [],
     }
@@ -280,9 +268,29 @@ export default {
       return newTime
     },
     cellStyle(row) {
-      if (row.columnIndex >= 2) {
-        // console.log(row)
+      console.log('row')
+      console.log(row)
+      console.log(row.column)
+      if (
+        (row.column.property === 'sunD' && row.row.sunD > 0) ||
+        (row.column.property === 'monD' && row.row.monD > 0) ||
+        (row.column.property === 'tuesD' && row.row.tuesD > 0) ||
+        (row.column.property === 'wesD' && row.row.wesD > 0) ||
+        (row.column.property === 'thurD' && row.row.thurD > 0) ||
+        (row.column.property === 'friD' && row.row.friD > 0) ||
+        (row.column.property === 'satD' && row.row.satD > 0)
+      ) {
+        return {
+          color: '#e56864',
+        }
+      } else {
+        return {
+          background: '',
+        }
       }
+      // if (row.columnIndex >= 2) {
+      //   console.log(row)
+      // }
     },
   },
 }

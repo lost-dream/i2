@@ -257,10 +257,8 @@ export default {
     color #b7730e
 .bg
   background-color rgba(44, 239, 255, 0.1)
-  padding 40px
+  padding 1px 40px 40px
 .container .title
-  position absolute
-  top -10px
   color white
   font-size 24px
 .select
