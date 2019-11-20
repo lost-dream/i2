@@ -22,12 +22,12 @@ export default {
     },
     scaling: {
       min: 16,
-      max: 32, // 缩放效果比例
+      max: 16, // 缩放效果比例
     },
     // 此对象定义标签的详细信息
     font: {
       color: '#fff',
-      size: 12, // px
+      size: 20, // px
       face: 'Microsoft Yahei',
       background: 'none',
       strokeWidth: 0,

@@ -1,9 +1,9 @@
 <template>
   <div class="timespacelist">
     <div class="dir">
-      <div class="list" @click="search">
+      <div class="list" @click="search" style="padding-top: 10px">
         <span class="__icon el-icon-circle-check"></span>
-        <span>全部</span>
+        <p>全部</p>
       </div>
       <div
         v-for="(item, index) in navList"
@@ -12,11 +12,11 @@
         @click="filterList(item.title)"
       >
         <span :class="['__icon', item.icon]"></span>
-        <span>{{ item.title }}</span>
+        <p>{{ item.title }}</p>
       </div>
-      <div class="list" @click="search">
+      <div class="list" @click="search" style="padding-top: 10px">
         <span class="__icon el-icon-search"></span>
-        <span>查询</span>
+        <p>查询</p>
       </div>
     </div>
     <el-form
@@ -560,16 +560,22 @@ export default {
               span
                 line-height: 113px;
   .dir
-    height: 60px;
+    height: 72px
+    display flex
+    justify-content center
     border-bottom:1px solid rgba(44, 239, 255, 0.4)
     background rgba(44, 239, 255, 0.3)
-    text-align center
-    span
-      width: auto
     .list
+      width 120px
+      height 100%
+      padding 0 20px
       overflow hidden
-      padding 10px 20px 0 0
       position relative
+      color #ffffff
+      display flex
+      flex-direction column
+      justify-content center
+      align-items center
       &:after
         content ''
         position absolute
@@ -580,12 +586,10 @@ export default {
         height 100%
         border-radius 12px / 80px
         box-shadow 0 0 2px #2cefff
-    .list,
-    .list span
-      display inline-block
-      width 100px
-      text-align center
-      color #ffffff
-      font-size 14px
-      line-height: 20px
+      span
+        display block
+        font-size 24px
+      p
+        font-size 14px
+        margin 5px 0 0
 </style>
