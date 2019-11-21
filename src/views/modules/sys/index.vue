@@ -144,7 +144,7 @@ export default {
     background: #114d54;
   .clickOk
     display: inline-block;
-  
+
 
 .or-spacer-vertical
   float right

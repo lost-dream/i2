@@ -28,7 +28,7 @@
             <header class="lock"></header>
             <footer>锁定</footer>
           </li>
-           <li @click="unLockNodeHandle">
+          <li @click="unLockNodeHandle">
             <header class="unlock"></header>
             <footer>解锁</footer>
           </li>
@@ -76,7 +76,7 @@
             <header class="wajue"></header>
             <footer>关系挖掘</footer>
           </li>
-           <li @click="pairAnalyseHandle">
+          <li @click="pairAnalyseHandle">
             <header class="fenxi"></header>
             <footer>两两分析</footer>
           </li>
@@ -84,15 +84,15 @@
             <header class="QJFX"></header>
             <footer>全局分析</footer>
           </li>
-           <li @click="relationScoreSetter">
+          <li @click="relationScoreSetter">
             <header class="qingmidu"></header>
             <footer>亲密度分析</footer>
           </li>
-           <li @click="dxAnalysisHandle">
+          <li @click="dxAnalysisHandle">
             <header class="DXFX"></header>
             <footer>定向分析</footer>
           </li>
-            <li @click="archivesHandle">
+          <li @click="archivesHandle">
             <header class="dangan"></header>
             <footer>档案</footer>
           </li>
@@ -104,7 +104,7 @@
             <header class="QB"></header>
             <footer>案件串并</footer>
           </li>
-           <li @click="pzAnalysisHandle">
+          <li @click="pzAnalysisHandle">
             <header class="PZBD"></header>
             <footer>碰撞对比分析</footer>
           </li>

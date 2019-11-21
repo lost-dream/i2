@@ -13,9 +13,7 @@ export function getUserInfo(data) {
 export function updateUserInfo(data) {
   return http({
     url: http.adornUrl(
-      `admin/userUpdateOne?id=${data.id}&nickName=${data.nickName}&siren=${
-        data.siren
-      }&card=${data.card}&mobile=${data.mobile}&email=${data.email}`,
+      `admin/userUpdateOne?id=${data.id}&nickName=${data.nickName}&siren=${data.siren}&card=${data.card}&mobile=${data.mobile}&email=${data.email}`,
     ),
     method: 'post',
   })
@@ -25,9 +23,7 @@ export function updateUserInfo(data) {
 export function updatePassword(data) {
   return http({
     url: http.adornUrl(
-      `admin/userUpdatePassword?id=${data.id}&longPassword=${
-        data.longPassword
-      }&newPassword=${data.newPassword}&affirmPassword=${data.affirmPassword}`,
+      `admin/userUpdatePassword?id=${data.id}&longPassword=${data.longPassword}&newPassword=${data.newPassword}&affirmPassword=${data.affirmPassword}`,
     ),
     method: 'post',
   })
