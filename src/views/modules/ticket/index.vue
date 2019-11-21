@@ -159,7 +159,7 @@ export default {
 .el-form-item__label
   color white
 span
-  color #909399
+  color #ffffff
 span:focus, span:hover
   color #e58627
 

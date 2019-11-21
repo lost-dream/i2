@@ -196,6 +196,9 @@ export default {
     caseNameChange2() {
       // localStorage.setItem('moreSelectInfo', JSON.stringify(this.select))
       // this.singlePhoneList()
+
+      if (this.callForm.phoneId.some(item => item.id === this.select.id.id))
+        return this.$message.error('此话单已存在！')
       this.callForm.phoneId.push(this.select.id)
       this.callForm.phoneList.push(
         this.select.id.phone.concat('-', this.select.caseName),
@@ -254,8 +257,8 @@ export default {
             phoneArr.push(a)
           })
           console.log(phoneArr)
-          // _this.phoneList = phoneArr
-          _this.phoneList = [...new Set([...phoneArr, ..._this.phoneList])]
+          _this.phoneList = phoneArr
+          // _this.phoneList = [...new Set([...phoneArr, ..._this.phoneList])]
           // localStorage.setItem('morPphoneArr', JSON.stringify(_this.phoneList))
           console.log(_this.phoneList)
         } else {
@@ -346,10 +349,8 @@ export default {
     color #b7730e
 .bg
   background-color rgba(44, 239, 255, 0.1)
-  padding 40px
+  padding 1px 40px 40px
 .container .title
-  position absolute
-  top -10px
   color white
   font-size 24px
 .select
@@ -367,7 +368,7 @@ a:focus, a:hover
   width 58%
 </style>
 <style lang="stylus">
-.select .el-input__inner
+.container .el-input__inner
   background-color rgba(44, 239, 255, 0.3) !important
   border 1px solid rgba(44, 239, 255, 0.4) !important
   color #fff

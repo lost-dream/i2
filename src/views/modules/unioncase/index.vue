@@ -30,7 +30,13 @@
             </div>
           </el-tab-pane>
           <el-tab-pane>
-            <div @click="trackShow = true" slot="label">
+            <div
+              @click="
+                isInfo = false
+                trackShow = true
+              "
+              slot="label"
+            >
               <img src="../../../assets/img/casedizhi.png" alt="" />
               <p>轨迹点</p>
             </div>
@@ -90,12 +96,17 @@
                 <h4>条件参数</h4>
                 <div v-for="(item, index) in taskInfo.conditions" :key="index">
                   <div
-                    v-if="
-                      item.graphicId === taskInfoSshow || taskInfoSshow === 0
-                    "
+                    v-if="index === taskInfoSshow"
                     class="conditionItem"
                     style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
                   >
+                    <!--<div-->
+                    <!--v-if="-->
+                    <!--item.graphicId === taskInfoSshow || taskInfoSshow === 0-->
+                    <!--"-->
+                    <!--class="conditionItem"-->
+                    <!--style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"-->
+                    <!--&gt;-->
                     <div style="padding: 0 10px">
                       <span>经度：{{ item.pointLongitude }}</span
                       ><br />
@@ -842,9 +853,11 @@ export default {
               )
 
               on(dom.byId('circle'), 'click', function() {
+                _this.isInfo = false
                 drawTool.activate(Draw['CIRCLE'])
               })
               on(dom.byId('point'), 'click', function() {
+                _this.isInfo = false
                 _this.pointType = 1
                 drawTool.activate(Draw['POINT'])
               })
@@ -1263,6 +1276,7 @@ export default {
 
     // 添加条件
     setTerm() {
+      this.isInfo = false
       this.addCriteria = !this.addCriteria
       // let obj = {
       //   date1: '',
@@ -1325,8 +1339,13 @@ export default {
 
 >>> .el-tabs__item.is-active
   background rgba(44, 239, 255, 0) !important
+  color orange!important
+
+>>> .el-tabs__item:hover
+  color orange!important
 
 >>> .el-tabs__item
+  color #ffffff!important
   border none !important
 
 .title
@@ -1383,17 +1402,6 @@ a:focus, a:hover
   display flex
   justify-content center
 
-.mapTable .el-table
-  background-color #0d353f !important
-
-.mapTable >>>
-  .el-table__body tr.el-table__row--striped.current-row td,
-  .el-table__body tr.current-row>td,
-  .el-table__body tr.hover-row.current-row>td,
-  .el-table__body tr.hover-row.el-table__row--striped.current-row>td
-    background: rgba(44,239,255,0.5)
-
-
 .rightPanel
   padding 20px
   font-size 14px
@@ -1445,6 +1453,49 @@ a:focus, a:hover
   margin-right 20px
   width 30px
   flex 0 0 auto
+
+.mod-ticket >>>
+  .el-table .current-row
+    background-color rgba(44, 239, 255, 0.3) !important
+
+  .el-table--border
+    border 1px solid rgba(0, 0, 0, 0.3)
+
+  .el-table th, .el-table tr, .el-table--border td
+    background-color rgba(44, 239, 255, 0.4) !important
+    border 1px solid rgba(0, 0, 0, 0.3) !important
+
+  .el-table--border::after, .el-table--group::after
+    width 0px
+
+  .el-table::before
+    height 0px
+
+  .el-table thead
+    color white
+
+  .el-table td, .el-table th.is-leaf
+    border 1px solid #0d353f
+
+  .el-table tbody tr:hover > td
+    background-color rgba(44, 239, 255, 0.4)
+
+.mapTable .el-table
+  background-color #0d353f !important
+  color white
+
+.mapTable >>>
+  .el-table__body tr.el-table__row--striped.current-row td,
+  .el-table__body tr.current-row>td,
+  .el-table__body tr.hover-row.current-row>td,
+  .el-table__body tr.hover-row.el-table__row--striped.current-row>td
+    background: rgba(44,239,255,0.5)
+
+
+>>> .el-input__inner
+  background-color rgba(44, 239, 255, 0.3)!important
+  border: solid 1px #2cefff;
+  color white
 </style>
 <style lang="stylus">
 .mod-ticket .box

@@ -518,7 +518,8 @@ export default {
       _this.myChart.on('click', function(param) {
         console.log(param)
         _this.clickTable = []
-        _this.clickTable.push(param.data)
+        // _this.clickTable.push(param.data)
+        _this.clickTable = _this.dataSort(param.data.info)
         _this.show = true
       })
       window.addEventListener('resize', function() {
