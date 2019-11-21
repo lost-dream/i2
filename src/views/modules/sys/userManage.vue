@@ -390,7 +390,11 @@
             </div>
           </fly-dialog>
           <!--查看-->
-          <fly-dialog title="查看用户详情" width="560px" :show.sync="lookDialog">
+          <fly-dialog
+            title="查看用户详情"
+            width="560px"
+            :show.sync="lookDialog"
+          >
             <div id="uesrInfo">
               <div>
                 <span>登陆账号:</span>
