@@ -1,7 +1,6 @@
 import { Node } from './entity/Node'
 let _vm = null
-export function expandNode(vm, curNode, auto) {
-  _vm = vm
+export function expandNode(_vm, curNode) {
   if (curNode.childs && curNode.childs.length > 0) {
     // 前台聚合的数据直接展开
     // for (let i in curNode.childs) {
@@ -10,30 +9,51 @@ export function expandNode(vm, curNode, auto) {
   } else {
     // 后台聚合的需要先查询再展开
     // 从服务器端获取数据，并添加到画布
-    var params = {
-      nodesType: curNode.nodeType,
-      param: curNode.keyword,
-    }
-    _vm.$api.queryDataByCluster(params).then(({ data }) => {
-      let res = data
-      var results = res.result.nodes
-      var nods = []
-      for (var i in results) {
-        nods.push(new Node(results[i], _vm.global.network, _vm.global.nodes))
-      }
-      var nodesList = nods
-      var edgesList = res.result.edges
-      for (let i = 0; i < nodesList.length; i++) {
-        if (_vm.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
-          _vm.global.nodes.add(nodesList[i])
+    _vm.$api
+      .queryDataByCluster({
+        nodesType: curNode.nodeType,
+        param: curNode.keyword,
+      })
+      .then(({ data }) => {
+        let results = data.result.nodes
+        let nodes = []
+        for (let value of results) {
+          nodes.push(new Node(value, _vm.global.network, _vm.global.nodes))
         }
-      }
-      for (var j = 0; j < edgesList.length; j++) {
-        if (_vm.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
-          _vm.global.edges.add(edgesList[j])
+        let nodesList = nodes
+
+        let edges = data.result.edges
+        edges.map(value => {
+          value.step = Number(value.from.toString() + value.to.toString())
+        })
+
+        let edgeList = []
+
+        for (let item1 of edges) {
+          let flag = true
+          for (let item2 of edgeList) {
+            if (item1.step === item2.step) {
+              flag = false
+              item2.label = item2.label + '/' + item1.label
+            }
+          }
+          if (flag) {
+            edgeList.push(item1)
+          }
         }
-      }
-    })
+
+        for (let i = 0; i < nodesList.length; i++) {
+          if (_vm.global.nodes.getIds().indexOf(nodesList[i].id) < 0) {
+            _vm.global.nodes.add(nodesList[i])
+          }
+        }
+
+        for (let i = 0; i < edgeList.length; i++) {
+          if (_vm.global.edges.getIds().indexOf(edgeList[i].id) < 0) {
+            _vm.global.edges.add(edgeList[i])
+          }
+        }
+      })
     // queryDataByCluster(curNode, function(res) {
     //   var results = res.result.nodes
     //   var nods = []
@@ -72,7 +92,7 @@ export function expandNode(vm, curNode, auto) {
 /**
  * 是否展开子节点
  * @param {*} childs
- * @param {0: 不自动展开 1：自动展开 2：强制展开} mode
+ * @param {*} mode 0: 不自动展开 1：自动展开 2：强制展开
  */
 function expandChilds(childs, mode) {
   addNodeToCanvas(childs, childs.length)
@@ -80,7 +100,7 @@ function expandChilds(childs, mode) {
 /**
  * 添加数据到画布
  * @param {*} childs
- * @param {只显示多少条数据} count
+ * @param {number|string} count 只显示多少条数据
  */
 function addNodeToCanvas(childs, count) {
   let subnodes = []
@@ -110,8 +130,8 @@ function addNodeToCanvas(childs, count) {
 /**
  * 添加或者更新节点
  * @param {*} node
- * @param {true 时，如果画布上已经存在此id的节点，则合并现有数据} merge
- * @param {true 更新时是否保持现有位置不变} physics
+ * @param {boolean} merge true: 如果画布上已经存在此id的节点，则合并现有数据
+ * @param {boolean} physics true: 更新时是否保持现有位置不变
  */
 function addOrUpdateNode(node, merge, physics) {
   let data = {
