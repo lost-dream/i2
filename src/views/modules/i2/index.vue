@@ -341,7 +341,7 @@ export default {
     // SidemenuItem,
     Sidefun,
     AddNodes,
-          CacheData,
+      CacheData,
     EditEdge,
     ModifyNode,
     ModifyEdge,
