@@ -42,18 +42,14 @@ export default {
       const trainData = []
       for (let i = 0; i < res.length; i++) {
         trainData.push({
-          path: `${res[i].travelRecord1.startStation} - ${
-            res[i].travelRecord1.destination
-          }`,
+          path: `${res[i].travelRecord1.startStation} - ${res[i].travelRecord1.destination}`,
           seatNo: res[i].travelRecord1.seatNumber,
           name: res[i].travelRecord1.personName,
           toolNumber: res[i].travelRecord1.toolNumber,
           carriageNumber: res[i].travelRecord1.carriageNumber,
         })
         trainData.push({
-          path: `${res[i].travelRecord2.startStation} - ${
-            res[i].travelRecord2.destination
-          }`,
+          path: `${res[i].travelRecord2.startStation} - ${res[i].travelRecord2.destination}`,
           seatNo: res[i].travelRecord2.seatNumber,
           name: res[i].travelRecord2.personName,
           toolNumber: res[i].travelRecord2.toolNumber,

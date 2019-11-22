@@ -185,7 +185,7 @@ export default {
             } else {
               // Cookies.remove('userId')
               // Cookies.remove('ac_token')
-              this.$message.error(data.message)
+              this.$message.error(data.msg || data.message)
             }
           })
         }
@@ -209,7 +209,7 @@ export default {
         } else {
           // Cookies.remove('userId')
           // Cookies.remove('ac_token')
-          this.$message.error(data.message)
+          this.$message.error(data.msg || data.message)
         }
       })
     },
@@ -230,7 +230,7 @@ export default {
         } else {
           // Cookies.remove('userId')
           // Cookies.remove('ac_token')
-          this.$message.error(data.message)
+          this.$message.error(data.msg || data.message)
         }
       })
     },

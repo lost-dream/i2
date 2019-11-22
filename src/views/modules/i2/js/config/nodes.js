@@ -3,21 +3,20 @@
  */
 export default {
   nodes: {
-    borderWidth: 1,
-    borderWidthSelected: 2,
+    borderWidth: 0,
+    // borderWidthSelected: 2,
     brokenImage: undefined,
     chosen: true,
     widthConstraint: 80, // 设置节点的宽度，超出换行
     color: {
-      border: '#2B7CE9',
-      background: '#97C2FC',
-      highlight: {
-        border: '#2B7CE9',
-        background: '#D2E5FF',
-      },
+      background: 'rgba(0,0,0,0)',
+      // highlight: {
+      //   border: '#2B7CE9',
+      //   background: '#aaccee',
+      // },
       hover: {
-        border: '#2B7CE9',
-        background: '#D2E5FF',
+        // border: '#2B7CE9',
+        background: '#adc',
       },
     },
     scaling: {

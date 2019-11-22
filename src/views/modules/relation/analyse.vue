@@ -17,8 +17,9 @@
                 id="btnAddSearch"
                 class="tool-btn-add"
                 @click="addSearchVisible = !addSearchVisible"
-                >添加模型</a
               >
+                添加模型
+              </a>
             </li>
             <li>
               <a
@@ -597,20 +598,30 @@ export default {
       }
       this_.options = {
         nodes: {
-          borderWidth: 10,
-          size: 30,
+          borderWidth: 0,
+          size: 18,
           color: {
-            border: '#406897',
-            background: '#6AAFFF',
-            highlight: {
-              border: 'black',
-              background: 'blue',
+            // border: '#406897',
+            background: 'rgba(0,0,0,0)',
+            hover: {
+              // border: '#2B7CE9',
+              background: '#adc',
             },
+            // highlight: {
+            //   border: 'black',
+            //   background: 'blue',
+            // },
           },
           font: { color: '#ffffff' },
           shapeProperties: { useBorderWithImage: true },
         },
         edges: {
+          arrows: {
+            to: { enabled: true, scaleFactor: 0.5, type: 'arrow' },
+            middle: { enabled: false, scaleFactor: 1, type: 'arrow' },
+            from: { enabled: false, scaleFactor: 1, type: 'arrow' },
+          },
+          arrowStrikethrough: false,
           font: {
             color: '#ffffff',
             strokeWidth: 0,
@@ -1532,6 +1543,14 @@ export default {
   position absolute
   top 194px
   left 320px
+  .el-form-item
+    display: block
+    margin 0 0 20px
+    &:nth-last-child(1)
+      margin 0
+>>>.el-input__inner
+  color: #fff
+  background: transparent
 .dataForm
   padding 10px
 .btn
@@ -1541,17 +1560,8 @@ export default {
   position relative
   display inline-block
   color #fff
-  -webkit-box-shadow 0 1px 0 rgba(0, 0, 0, 0.05)
-  -moz-box-shadow 0 1px 0 rgba(0, 0, 0, 0.05)
   box-shadow 0 1px 0 rgba(0, 0, 0, 0.05)
-  -webkit-transition all 0.15s ease
-  -moz-transition all 0.15s ease
-  -o-transition all 0.15s ease
   transition all 0.15s ease
-  -webkit-border-radius 2px
-  -webkit-background-clip padding-box
-  -moz-border-radius 2px
-  -moz-background-clip padding
   border-radius 2px
   background-clip padding-box
   padding 6px 12px
@@ -1561,11 +1571,7 @@ export default {
   line-height 1.42857143
   text-align center
   white-space nowrap
-  -ms-touch-action manipulation
   touch-action manipulation
-  -webkit-user-select none
-  -moz-user-select none
-  -ms-user-select none
   user-select none
   background-image none
   border 1px solid transparent

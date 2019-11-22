@@ -337,11 +337,7 @@ export function queryDepartment(data) {
 export function addDepartment(data) {
   return http({
     url: http.adornUrl(
-      `admin/addDepartment?userId=${data.userId}&title=${data.title}&coding=${
-        data.coding
-      }&describe=${data.describe}&parentId=${data.parentId}&roleCount=${
-        data.roleCount
-      }`,
+      `admin/addDepartment?userId=${data.userId}&title=${data.title}&coding=${data.coding}&describe=${data.describe}&parentId=${data.parentId}&roleCount=${data.roleCount}`,
     ),
     method: 'post',
   })
@@ -351,11 +347,7 @@ export function addDepartment(data) {
 export function editDepartment(data) {
   return http({
     url: http.adornUrl(
-      `admin/compileDepartment?userId=${data.userId}&id=${data.id}&title=${
-        data.title
-      }&coding=${data.coding}&describe=${data.describe}&parentId=${
-        data.parentId
-      }&status=${data.status}&roleCount=${data.roleCount}`,
+      `admin/compileDepartment?userId=${data.userId}&id=${data.id}&title=${data.title}&coding=${data.coding}&describe=${data.describe}&parentId=${data.parentId}&status=${data.status}&roleCount=${data.roleCount}`,
     ),
     method: 'post',
   })

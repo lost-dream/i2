@@ -1,14 +1,10 @@
 <template>
   <div class="relation-mode relation-bg">
-    <div class="fly-header header">
-      <div class="">
-        <a href="/" class="logo">
-          <img src="@/assets/img/logo.png" alt="" />
-        </a>
-        <span>情报智能分析系统</span>
-      </div>
+    <div class="header">
+      <img src="@/assets/img/relation.png" alt="" />
+      <span>关系分析</span>
     </div>
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -90,6 +86,20 @@ export default {
   border-bottom 1px solid #404553
   background-color rgba(0, 136, 150, 0.5)
   margin-bottom 20px
+  display: flex
+  justify-content: center
+  align-items center
+  img
+    width auto
+    height 50px
+    margin-right: 15px
+  span
+    position: static;
+    font-weight bold
+    color: #fff;
+    font-size: 33px;
+
+
 .lg
   text-align center
   color #39ccdf

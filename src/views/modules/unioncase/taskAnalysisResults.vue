@@ -232,7 +232,10 @@ export default {
         taskTarget: '',
         checkedBox: [1],
       },
-      boxs: [{ name: '旅馆', label: 1 }, { name: '网吧', label: 2 }],
+      boxs: [
+        { name: '旅馆', label: 1 },
+        { name: '网吧', label: 2 },
+      ],
       infoData: [],
       infoData2: [
         /* {

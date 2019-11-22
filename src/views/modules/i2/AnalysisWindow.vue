@@ -90,7 +90,6 @@ export default {
                 })
                 return false
               }
-              let edgesList = data.result.edges
               let nodesList = data.result.nodes.map(item => {
                 return new Node(item, this.global.network, this.global.nodes)
               })
@@ -99,7 +98,27 @@ export default {
                   this.global.nodes.add(nodesList[i])
                 }
               }
-              for (var j = 0; j < edgesList.length; j++) {
+
+              let edges = data.result.edges
+              edges.map(value => {
+                value.step = Number(value.from.toString() + value.to.toString())
+              })
+
+              let edgesList = []
+
+              for (let item1 of edges) {
+                let flag = true
+                for (let item2 of edgesList) {
+                  if (item1.step === item2.step) {
+                    flag = false
+                    item2.label = item2.label + '/' + item1.label
+                  }
+                }
+                if (flag) {
+                  edgesList.push(item1)
+                }
+              }
+              for (let j = 0; j < edgesList.length; j++) {
                 if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
                   this.global.edges.add(edgesList[j])
                 }
