@@ -4,7 +4,7 @@
       <div class="header-container">
         <div class="title">
           <img
-            style="width: 40px;height: 40px;margin-top: 5px;margin-right:5px;"
+            style="width: 37px;height: 37px;margin-right:5px;"
             src="../../../assets/img/caseLogo.png"
             alt="logo"
           />
@@ -57,11 +57,11 @@
       </div>
     </nav>
     <div class="box">
-      <div class="menubar">
+      <!--<div class="menubar">
         <sidebar>
           <sidemenu-item></sidemenu-item>
         </sidebar>
-      </div>
+      </div>-->
       <div
         class="taskAnalysisResults"
         style="position: absolute;width: 100%;top: 121px;z-index: 100;"
@@ -258,7 +258,7 @@
         </div>
       </div>
       <div
-        style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
+        style="position:absolute;z-index:30;left:10px;bottom:20px;width:500px;"
         class="mapTable"
         v-show="!isInfo"
       >
@@ -442,7 +442,7 @@
 import taskAnalysisResults from './taskAnalysisResults.vue'
 import { loadModules } from 'esri-loader'
 import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
+/* import SidemenuItem from '@/views/common/SidemenuItem' */
 import flyDialog from '@/components/fly-dialog'
 import Cookies from 'js-cookie'
 import { formatDate } from '../../../utils/dateFormat.js'
@@ -454,7 +454,7 @@ export default {
   },
   components: {
     Sidebar,
-    SidemenuItem,
+    /*  SidemenuItem, */
     flyDialog,
     taskAnalysisResults,
   },
@@ -560,10 +560,7 @@ export default {
         taskTarget: '',
         checkedBox: [1, 2],
       },
-      boxs: [
-        { name: '旅馆', label: 1 },
-        { name: '网吧', label: 2 },
-      ],
+      boxs: [{ name: '旅馆', label: 1 }, { name: '网吧', label: 2 }],
 
       caseData: [],
       showInfo: this.$route.params.id,
@@ -641,14 +638,15 @@ export default {
       const options = {
         // css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
         // url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'
+
         // css: 'https://js.arcgis.com/3.29/esri/css/esri.css',
         // url: 'https://js.arcgis.com/3.29/init.js',
 
-        // css: 'https://js.arcgis.com/3.30/esri/css/esri.css',
-        // url: 'https://js.arcgis.com/3.30/',
+        css: 'https://js.arcgis.com/3.30/esri/css/esri.css',
+        url: 'https://js.arcgis.com/3.30/',
 
-        css: 'http://192.168.1.89/3.30/esri/css/esri.css',
-        url: 'http://192.168.1.89/3.30/',
+        // css: 'http://192.168.1.89/3.30/esri/css/esri.css',
+        // url: 'http://192.168.1.89/3.30/init.js',
       }
       loadModules(
         [
@@ -1414,10 +1412,12 @@ export default {
 .title
   display flex
   justify-content center
+  align-items center
+  height: 49px;
   & > h1
     margin 0
     color white
-    font-size 33px
+    font-size 24px
 
 .el-tabs p
   margin 0
@@ -1439,12 +1439,14 @@ export default {
 
 .box
   display flex
+  width 100%
   height 85%
 
 .content
   position relative
-  margin-left 160px
+  /*margin-left 160px*/
   flex 0 1 auto
+  width 100%
 
 .el-form-item__label
   color white
@@ -1456,7 +1458,7 @@ a:focus, a:hover
   color #e58627
 
 #map
-  width 1225px
+  width 80%
   height: 100%
 
 .caseMap .el-input-group

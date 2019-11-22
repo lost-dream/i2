@@ -31,9 +31,11 @@
               <el-input v-model="form.email"></el-input>
             </el-form-item>
           </el-form>
-          <el-button class="sureBut" type="primary" @click="onSubmit"
-            >确定</el-button
-          >
+          <div class="butCoat">
+            <el-button class="sureBut" type="primary" @click="onSubmit"
+              >确定</el-button
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -149,6 +151,9 @@ export default {
     top: 25%;
     left: 105%;
   }
+  .butCoat
+     text-align center
+     margin 20px 0
   .el-button {
     background-color: rgba(44, 239, 255, 0.3);
     border: 1px solid rgba(44, 239, 255, 0.3);

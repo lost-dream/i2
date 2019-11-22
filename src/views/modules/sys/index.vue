@@ -110,7 +110,7 @@ export default {
     margin-right: 5px
   h1
     margin 0
-    font-size: 33px;
+    font-size: 24px;
     font-weight: bold;
     color: #ffffff;
 .dir

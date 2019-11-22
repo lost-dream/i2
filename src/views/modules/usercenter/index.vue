@@ -93,11 +93,11 @@ export default {
   align-items center
   img
     width auto
-    height 40px
+    height 37px
     margin-right: 5px
   h1
     margin 0
-    font-size: 33px;
+    font-size: 24px;
     font-weight: bold;
     color: #ffffff;
 
@@ -159,4 +159,36 @@ export default {
       height 100%
       border-radius 12px / 80px
       box-shadow 0 0 2px #2cefff
+</style>
+
+<style lang="stylus">
+.coat1 {
+  width: 1200px;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  background-color: rgba(44, 239, 255, 0.1);
+  padding: 20px;
+}
+
+.coat2 {
+  width: 1160px;
+  margin-top: 18px;
+  margin-bottom: 20px;
+  padding: 20px 15px 20px 15px;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  background-color: rgba(44, 239, 255, 0.1);
+}
+#user .sureBut
+  display block!important
+  margin 20px auto 0 auto!important
+  text-align center!important
 </style>

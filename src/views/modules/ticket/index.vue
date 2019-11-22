@@ -3,6 +3,11 @@
     <nav class="navbar-fixed-top">
       <div class="header-container">
         <div class="title">
+          <img
+            style="width: 37px;height: 37px;margin-right:5px;"
+            src="../../../assets/img/huadan.png"
+            alt="logo"
+          />
           <h1>话单分析</h1>
         </div>
         <el-tabs v-model="activeName" type="border-card">
@@ -138,10 +143,12 @@ export default {
 .title
   display flex
   justify-content center
+  align-items center
+  height: 49px;
   &>h1
     margin 0
     color white
-    font-size 33px
+    font-size 24px
 .menubar>.sidebar
   left 0
 .fun-sidebar >.sidebar

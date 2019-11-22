@@ -20,14 +20,9 @@
       </el-table-column>
       <el-table-column prop="phoneNumber" align="center" label="机主电话号码">
       </el-table-column>
-      <el-table-column
-        prop="manCardNum"
-        align="center"
-        width="120"
-        label="机主证件号码"
-      >
+      <el-table-column prop="manCardNum" align="center" label="机主证件号码">
       </el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column width="150" align="center" label="操作">
         <template slot-scope="scope">
           <el-button type="primary" @click="detail(scope.row)"
             >查看详情

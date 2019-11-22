@@ -91,13 +91,13 @@ export default {
   align-items center
   img
     width auto
-    height 50px
+    height 37px
     margin-right: 15px
   span
     position: static;
     font-weight bold
     color: #fff;
-    font-size: 33px;
+    font-size: 24px;
 
 
 .lg
