@@ -1,13 +1,16 @@
 <template>
   <div id="sys">
-    <div class="title"><span class="title_a">系统管理</span></div>
+    <div class="title">
+      <img src="@/assets/img/shezhi.png" alt="" />
+      <h1>系统管理</h1>
+    </div>
     <div class="dir">
       <router-link to="/userManage">
         <div class="list" @click="isClick = 1">
           <span class="icon-zdy-yonghuguanli"></span>
-          <span>用户管理</span>
+          <p>用户管理</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 1 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 1 }"></div>
       </router-link>
       <span style="display: inline-block">
         <div class="or-spacer-vertical clearfix">
@@ -17,9 +20,9 @@
       <router-link to="/menuManage">
         <div class="list" @click="isClick = 2">
           <span class="icon-zdy-caidan"></span>
-          <span>菜单管理</span>
+          <p>菜单管理</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 2 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 2 }"></div>
       </router-link>
       <span style="display: inline-block">
         <div class="or-spacer-vertical clearfix">
@@ -29,9 +32,9 @@
       <router-link to="/roleManage">
         <div class="list" @click="isClick = 3">
           <span class="icon-zdy-yonghu"></span>
-          <span>角色管理</span>
+          <p>角色管理</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 3 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 3 }"></div>
       </router-link>
       <span style="display: inline-block">
         <div class="or-spacer-vertical clearfix">
@@ -41,9 +44,9 @@
       <router-link to="/organManage">
         <div class="list" @click="isClick = 4">
           <span class="icon-zdy-jigouguanli"></span>
-          <span>机构管理</span>
+          <p>机构管理</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 4 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 4 }"></div>
       </router-link>
     </div>
     <router-view></router-view>
@@ -93,22 +96,23 @@ export default {
   content ''
   background url('~@/assets/img/i2bg.png') no-repeat center
   background-size cover
+  background-attachment fixed
 .title
   width 100%
   height 50px
   background: rgba(44, 239, 255, 0.5)
-  text-align center
-
-.title_a
-  z-index 2
-  opacity 1
-  font-family: HYk2gj;
-  font-size: 24px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 55px;
-  letter-spacing: 0px;
-  color: #ffffff;
+  display: flex
+  justify-content center
+  align-items center
+  img
+    width auto
+    height 40px
+    margin-right: 5px
+  h1
+    margin 0
+    font-size: 33px;
+    font-weight: bold;
+    color: #ffffff;
 .dir
   width: 100%;
   height: 72px;
@@ -117,10 +121,16 @@ export default {
   display flex
   justify-content center
   a
+    position: relative;
     display block
     width 120px
     height 100%
     padding 0 20px
+    &.router-link-exact-active
+      .clickDef
+        display: block
+      p
+        color #e58628
   .list
     width 100%
     height 100%
@@ -133,18 +143,18 @@ export default {
     align-items center
     [class^="icon-zdy"]
       font-size 30px
+    p
+      margin 0
+      line-height 1
   .clickDef
     display: none;
     position: absolute;
-    top: 15px;
-    left: -4px;
+    bottom -1px
+    left: 0;
     z-index: 5;
     width: 110px;
     height: 1px;
     background: #114d54;
-  .clickOk
-    display: inline-block;
-
 
 .or-spacer-vertical
   float right
@@ -153,7 +163,6 @@ export default {
     overflow hidden
     width 6px
     height 50px
-
     &:after
       content ''
       display block

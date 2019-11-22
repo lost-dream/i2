@@ -1170,7 +1170,9 @@ export default {
     width 85px
     position fixed
     z-index 999
-    left 20px
+    left 50%
+    // 每个tab宽80px，共六个，图片本身85px
+    margin-left -(80 * 6 / 2px + 85px)
     top 5px
 
 .tab-list

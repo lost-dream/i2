@@ -1,17 +1,16 @@
 <template>
   <div id="user">
-    <div class="title"><span class="title_a">个人中心</span></div>
+    <div class="title">
+      <img src="@/assets/img/xiazai.png" alt="" />
+      <h1>个人中心</h1>
+    </div>
     <div class="dir">
       <router-link to="/personCenter">
         <div class="list" @click="isClick = 1">
-          <span
-            style="font-size: 20px;"
-            class="iconfont icon-gerenzhongxin-zhong"
-          >
-          </span>
-          <span>个人中心</span>
+          <span class="iconfont icon-gerenzhongxin-zhong"></span>
+          <p>个人中心</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 1 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 1 }"></div>
       </router-link>
       <span style="display: inline-block">
         <div class="or-spacer-vertical clearfix">
@@ -20,13 +19,10 @@
       </span>
       <router-link to="/modifyInfo">
         <div class="list" @click="isClick = 2">
-          <span
-            style="font-size: 20px;"
-            class="iconfont icon-xiugaixinxi"
-          ></span>
-          <span>修改信息</span>
+          <span class="iconfont icon-xiugaixinxi"></span>
+          <p>修改信息</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 2 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 2 }"></div>
       </router-link>
       <span style="display: inline-block">
         <div class="or-spacer-vertical clearfix">
@@ -35,10 +31,10 @@
       </span>
       <router-link to="/accountManage">
         <div class="list" @click="isClick = 3">
-          <span style="font-size: 20px;" class="iconfont icon-xiugaimima"></span
-          ><span>修改密码</span>
+          <span class="iconfont icon-xiugaimima"></span>
+          <p>修改密码</p>
         </div>
-        <div class="clickDef" :class="{ clickOk: isClick == 3 }"></div>
+        <div class="clickDef" :class="{ clickOk: isClick === 3 }"></div>
       </router-link>
     </div>
     <router-view></router-view>
@@ -92,55 +88,61 @@ export default {
   width 100%
   height 50px
   background: rgba(44, 239, 255, 0.5)
-  text-align center
+  display: flex
+  justify-content center
+  align-items center
+  img
+    width auto
+    height 40px
+    margin-right: 5px
+  h1
+    margin 0
+    font-size: 33px;
+    font-weight: bold;
+    color: #ffffff;
 
-.title_a
-  z-index 2
-  opacity 1
-  font-family: HYk2gj;
-  font-size: 24px;
-  font-weight: normal;
-  font-stretch: normal;
-  line-height: 55px;
-  letter-spacing: 0px;
-  color: #ffffff;
 .dir
   width: 100%;
-  height: 60px;
+  height: 72px;
   border-bottom:1px solid rgba(44, 239, 255, 1)
-
   background rgba(44, 239, 255, 0.3)
-  text-align center
-  /*margin-bottom 30px*/
-.dir a
-  position relative
-  top 0
-  left 0
-  right 0
-  bottom 0
-.dir .clickDef
-  display: none;
-  position: absolute;
-  top: 15px;
-  left: -4px;
-  z-index: 5;
-  width: 110px;
-  height: 1px;
-  background: #114d54;
-.dir .clickOk
-  display: inline-block;
-
-.dir .list
-  padding 10px 0 0 0
-  margin 0 20px
-
-.dir a span, .dir .list
-  display inline-block
-  width 60px
-  text-align center
-  color #ffffff
-  font-size 14px
-  line-height: 24px;
+  display flex
+  justify-content center
+  a
+    position: relative;
+    display block
+    width 120px
+    height 100%
+    padding 0 20px
+    &.router-link-exact-active
+      .clickDef
+        display: block
+      p
+        color #e58628
+  .clickDef
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom -1px
+    z-index: 5;
+    width: 110px;
+    height: 1px;
+    background: #114d54;
+  .list
+    width 100%
+    height 100%
+    overflow hidden
+    position relative
+    color #ffffff
+    display flex
+    flex-direction column
+    justify-content center
+    align-items center
+    .iconfont
+      font-size 30px
+    p
+      margin 0
+      line-height 1
 
 .or-spacer-vertical
   float right
@@ -149,7 +151,6 @@ export default {
     overflow hidden
     width 6px
     height 50px
-
     &:after
       content ''
       display block

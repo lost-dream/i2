@@ -77,7 +77,7 @@ http.interceptors.response.use(
           duration,
         })
         setTimeout(() => {
-          router.go(-1)
+          router.push({ name: 'login' })
         }, duration)
         break
     }
