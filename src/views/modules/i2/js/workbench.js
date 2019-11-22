@@ -12,6 +12,15 @@ export function Workbench(id, vm) {
     options,
   )
   this.init(vm)
+  this.network.on('dragStart', params => {
+    if (params.nodes && params.nodes.length > 0) {
+      const curNode = this.nodes.get(params.nodes[0])
+      curNode.x = undefined
+      curNode.y = undefined
+      curNode.physics = false
+      this.nodes.update(curNode)
+    }
+  })
 }
 Workbench.prototype.init = function(vm) {
   vm.global.nodes = this.nodes
