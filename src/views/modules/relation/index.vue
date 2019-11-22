@@ -2,7 +2,7 @@
   <div class="relation-mode relation-bg">
     <div class="header">
       <img src="@/assets/img/relation.png" alt="" />
-      <span>情报智能分析系统</span>
+      <span>关系分析</span>
     </div>
     <router-view />
   </div>
