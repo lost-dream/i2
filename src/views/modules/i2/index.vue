@@ -140,7 +140,12 @@
                   导出<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="exportJson">JSON</el-dropdown-item>
+                  <el-dropdown-item command="exportJson">
+                    JSON
+                  </el-dropdown-item>
+                  <el-dropdown-item command="exportExcel">
+                    Excel
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </footer>
@@ -326,6 +331,7 @@ import {
   buildExportData,
   exportJson,
 } from './js/common'
+import { exportJsonToExcel } from '@/assets/js/Export2Excel'
 import { Node } from './js/entity/Node'
 import { flatten } from '@/utils'
 // import {}
@@ -361,6 +367,7 @@ export default {
       modifyNodeVisible: false,
       modifyEdgeVisible: false,
       remarkVisible: false,
+      remarkNum: 0, // 点击一键标注的次数
       managerRelationVisible: false,
       saveRelationVisible: false,
       shareRelationVisible: false,
@@ -550,14 +557,35 @@ export default {
     },
     // 一键标注
     taggingHandle() {
-      let arr =
-        this.contextNodeId != ''
+      this.remarkNum++
+      const selectedId =
+        this.contextNodeId !== ''
           ? [this.contextNodeId]
           : this.network.getSelectedNodes()
-      for (let i in arr) {
-        let node = this.global.nodes.get(arr[i])
-        node.taggingState()
+      let node = this.network.body.nodes[selectedId]
+
+      if (this.remarkNum % 2 === 0) {
+        node.setOptions({
+          color: {
+            highlight: {
+              background: '#ffffff',
+            },
+          },
+        })
+      } else {
+        node.setOptions({
+          color: {
+            highlight: {
+              background: '#e58628',
+            },
+          },
+        })
       }
+      this.network.redraw()
+      // for (let i in arr) {
+      //   let node = this.global.nodes.get(arr[i])
+      //   node.taggingState()
+      // }
     },
     // 备注
     remarkHandle() {
@@ -913,6 +941,58 @@ export default {
         }
         exportJson()
       } else if (command === 'exportExcel') {
+        if (!hasData()) {
+          this.$message({
+            message: '没有可以导出的数据！',
+            type: 'error',
+            duration: 1500,
+          })
+          return false
+        }
+
+        const table = [
+          {
+            label: '证件号码',
+            width: '',
+            prop: 'keyword',
+          },
+          {
+            label: '节点类型',
+            width: '',
+            prop: 'nodeType',
+          },
+        ]
+        require.ensure([], () => {
+          let tHeader = []
+          let filterVal = []
+          table.forEach(val => {
+            tHeader.push(val.label)
+            filterVal.push(val.prop)
+          })
+          const list = buildExportData().nodes
+
+          list.map(value => {
+            switch (value.nodeType) {
+              case 'Car':
+                value.nodeType = '车'
+                break
+              case 'Case':
+                value.nodeType = '案'
+                break
+              case 'DrivingLicense':
+                value.nodeType = '驾照'
+                break
+              case 'Household':
+                value.nodeType = '户口'
+                break
+              default:
+                value.nodeType = '人'
+            }
+          })
+
+          const data = list.map(v => filterVal.map(j => v[j]))
+          exportJsonToExcel(tHeader, data, 'i2')
+        })
       }
     },
     // 协同工作 -- 保存
