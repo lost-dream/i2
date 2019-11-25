@@ -56,10 +56,17 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.edge.label = this.dataForm.relation
+          if (this.edge.label !== '') {
+            // 删除原本的连线，重新构建关系
+            const label = this.edge.label + '/' + this.dataForm.relation
+            this.global.edges.remove([this.edge.id])
+            this.edge.label = label
+          } else {
+            this.edge.label = this.dataForm.relation
+          }
           this.global.edges.add(this.edge)
           this.global.network.redraw()
-          // this.callback(this.edge)
+          this.callback(this.edge)
           this.visible = false
         }
       })
