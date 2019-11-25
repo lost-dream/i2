@@ -1,13 +1,15 @@
 <template>
   <div class="container">
-    <el-form :inline="true" :model="phoneSearchForm" class="demo-form-inline">
-      <el-form-item label="电话号码">
-        <el-input v-model="phoneSearchForm.phoneNum"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="search-box">
+      <el-form :inline="true" :model="phoneSearchForm" class="demo-form-inline">
+        <el-form-item label="电话号码">
+          <el-input v-model="phoneSearchForm.phoneNum"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <el-table :data="phoneSearch" border style="width: 100%">
       <el-table-column label="序号" type="index" align="center" width="50">
       </el-table-column>
@@ -203,7 +205,9 @@ export default {
 .container
   width 1000px
   margin 0 auto
-  padding 0px
+  padding 0
+.search-box
+  padding: 10px 0 10px 20px
 </style>
 <style lang="stylus">
 .el-input__inner

@@ -3,6 +3,7 @@
     <nav class="navbar-fixed-top">
       <div class="header-container">
         <div class="title">
+          <img src="@/assets/img/ticket.png" alt="" />
           <h1>话单分析</h1>
         </div>
         <el-tabs v-model="activeName" type="border-card">
@@ -118,6 +119,16 @@ export default {
     background-size cover
 .header-container .title
   background rgba(44, 239, 255, 0.5)
+  height 50px
+  display: flex
+  justify-content:center
+  align-items center
+  img
+    width auto
+    height 40px
+    margin-right: 10px
+  h1
+    font-size 24px
 .el-tabs--border-card
   display flex
   justify-content center

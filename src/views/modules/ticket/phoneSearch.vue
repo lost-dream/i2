@@ -109,7 +109,7 @@
         >
         </el-pagination>
       </div>
-      <div class="title1">
+      <div class="title">
         <h3>通话查询</h3>
       </div>
       <div class="converseSearch">
@@ -603,8 +603,14 @@ export default {
   padding 1px 40px 40px
 
 .container .title
-  font-size 24px
-  color white
+  h3
+    color: #2cefff;
+    font-size 18px
+    height: 18px
+    font-weight normal
+    line-height 1
+    padding-left 5px
+    border-left 4px solid #2cefff
 
 .container .title1
   font-size 24px

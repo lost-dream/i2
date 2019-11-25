@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="bg">
-      <div style="color: #ffffff;margin-bottom: 20px;font-size: 18px">
+      <div class="title">
         <span>{{ oper }}</span>
       </div>
       <el-form
@@ -270,6 +270,14 @@ export default {
 .bg
   background-color rgba(44, 239, 255, 0.1)
   padding 40px
+  .title
+    color: #2cefff;
+    height: 18px
+    font-size: 18px
+    line-height 1
+    margin-bottom: 20px;
+    padding-left 5px
+    border-left 4px solid #2cefff
 </style>
 <style lang="stylus">
 .ticket .el-form-item__label

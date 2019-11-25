@@ -4,7 +4,6 @@
       <div class="header-container">
         <div class="title">
           <img
-            style="width: 40px;height: 40px;margin-top: 5px;margin-right:5px;"
             src="../../../assets/img/caseLogo.png"
             alt="logo"
           />
@@ -1351,10 +1350,17 @@ export default {
 .title
   display flex
   justify-content center
+  align-items center
+  height 50px
+  img
+    height 40px
+    width auto
+    margin-right 10px
   & > h1
     margin 0
     color white
-    font-size 33px
+    font-size 24px
+    font-weight normal
 
 .el-tabs p
   margin 0

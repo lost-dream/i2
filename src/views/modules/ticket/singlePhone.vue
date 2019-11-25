@@ -259,8 +259,13 @@ export default {
   background-color rgba(44, 239, 255, 0.1)
   padding 1px 40px 40px
 .container .title
-  color white
-  font-size 24px
+  h3
+    color: #2cefff;
+    height: 18px
+    font-size: 18px
+    line-height 1
+    padding-left 5px
+    border-left 4px solid #2cefff
 .select
   margin 10px 0
   margin-left 20px

@@ -84,7 +84,6 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .container
-  width 1200px
   margin 0 auto
   padding 20px
   background-color rgba(44, 239, 255, 0.1)
@@ -94,13 +93,20 @@ export default {
   background-color rgba(44, 239, 255, 0.1)
   padding 1px 40px 40px
 .container .title
-  color white
-  font-size 24px
+  h3
+    color: #2cefff;
+    height: 18px
+    font-size: 18px
+    line-height 1
+    padding-left 5px
+    border-left 4px solid #2cefff
 .select
   margin 10px 0
   margin-left 20px
 >>>.select .el-select:nth-of-type(2)
   width 501px
+>>>.el-form-item
+  margin-bottom 0
 a
   color #909399
 a:focus, a:hover
