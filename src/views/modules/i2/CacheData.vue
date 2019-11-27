@@ -246,7 +246,7 @@ export default {
     searchDataList() {
       this.dataListLoading = true
       let params = {
-        username: JSON.parse(this.$Cookies.get('user_info')).username,
+        userName: JSON.parse(this.$Cookies.get('user_info')).username,
         ...this.dataForm,
       }
       this.$api.dataCacheSearch(params).then(({ data }) => {
