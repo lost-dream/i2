@@ -126,6 +126,10 @@ export default {
 <style lang="stylus" scoped>
 .mode-add-update
   padding 10px
-  >>>.el-input__inner
-    color #fff !important
+
+>>>.el-input__inner
+  color #fff !important
+  background: transparent
+>>>.el-form-item__label
+  color: #fff
 </style>
