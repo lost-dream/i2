@@ -111,7 +111,7 @@ export default {
   h1
     margin 0
     font-size: 24px;
-    font-weight: normal;
+    font-weight: bold;
     color: #ffffff;
 .dir
   width: 100%;

@@ -1,7 +1,11 @@
 <template>
   <div class="timespaceindex">
     <div class="title">
-      <img src="@/assets/img/timespaceindex.png" alt="" />
+      <img
+        style="width: 37px;height: 37px;margin-top: 5px;margin-right:5px;"
+        src="@/assets/img/timespaceindex.png"
+        alt=""
+      />
       <h1>时空分析</h1>
     </div>
     <!--<div class="menubar">-->

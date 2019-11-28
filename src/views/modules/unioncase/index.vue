@@ -4,6 +4,7 @@
       <div class="header-container">
         <div class="title">
           <img
+            style="width: 40px;height: 40px;margin-top: 5px;margin-right:5px;"
             src="../../../assets/img/caseLogo.png"
             alt="logo"
           />
@@ -56,11 +57,11 @@
       </div>
     </nav>
     <div class="box">
-      <div class="menubar">
+      <!--<div class="menubar">
         <sidebar>
           <sidemenu-item></sidemenu-item>
         </sidebar>
-      </div>
+      </div>-->
       <div
         class="taskAnalysisResults"
         style="position: absolute;width: 100%;top: 121px;z-index: 100;"
@@ -95,7 +96,6 @@
                 <h4>条件参数</h4>
                 <div v-for="(item, index) in taskInfo.conditions" :key="index">
                   <div
-                    v-if="index === taskInfoSshow"
                     class="conditionItem"
                     style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
                   >
@@ -141,13 +141,60 @@
                       ></el-input>
                     </div>
                   </div>
+                  <!--<div
+                    v-if="index === taskInfoSshow"
+                    class="conditionItem"
+                    style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"
+                  >
+                    &lt;!&ndash;<div&ndash;&gt;
+                    &lt;!&ndash;v-if="&ndash;&gt;
+                    &lt;!&ndash;item.graphicId === taskInfoSshow || taskInfoSshow === 0&ndash;&gt;
+                    &lt;!&ndash;"&ndash;&gt;
+                    &lt;!&ndash;class="conditionItem"&ndash;&gt;
+                    &lt;!&ndash;style="border:1px solid white;margin-top:30px;padding:30px 0 10px 0;border-radius:5px;padding-right: 10px;"&ndash;&gt;
+                    &lt;!&ndash;&gt;&ndash;&gt;
+                    <div style="padding: 0 10px">
+                      <span>经度：{{ item.pointLongitude }}</span
+                      ><br />
+                      <span>纬度：{{ item.pointLatitude }}</span>
+                    </div>
+                    <p>活动时间段</p>
+                    <div class="inputStyle">
+                      <p>起</p>
+                      <el-date-picker
+                        v-model="item.date1"
+                        type="date"
+                        placeholder="选择日期"
+                      >
+                      </el-date-picker>
+                    </div>
+                    <div class="inputStyle">
+                      <p>止</p>
+                      <el-date-picker
+                        v-model="item.date2"
+                        type="date"
+                        placeholder="选择日期"
+                      >
+                      </el-date-picker>
+                    </div>
+                    <div class="inputStyle">
+                      <p>范围</p>
+                      <el-input
+                        id="range"
+                        @change="rangeChange"
+                        :disabled="item.taskType !== 0"
+                        style="margin-left:10px;width:87%;"
+                        v-model="item.range"
+                      ></el-input>
+                    </div>
+                  </div>
                   <div
                     v-else
                     @click="isTaskInfoSshow(item)"
                     style="border:1px solid white;padding:5px 10px;border-radius:5px;margin-top: 10px"
                   >
                     条件参数{{ index + 1 }}
-                  </div>
+                  </div>-->
                 </div>
               </div>
               <div class="resource">
@@ -211,7 +258,7 @@
         </div>
       </div>
       <div
-        style="position:absolute;z-index:30;left:160px;bottom:20px;width:500px;"
+        style="position:absolute;z-index:30;left:10px;bottom:20px;width:500px;"
         class="mapTable"
         v-show="!isInfo"
       >
@@ -234,7 +281,10 @@
           </el-table-column>
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-              <button @click.stop="del(scope.row)"></button>
+              <!--<button @click.stop="del(scope.row)"></button>-->
+              <el-button type="text" class="delbut" @click.stop="del(scope.row)"
+                ><i class="delbut el-icon-delete"></i
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -245,13 +295,19 @@
             >添加案件编号
           </el-button>
           <div v-for="(item, index) in inputList" :key="index">
-            <el-input style="margin:10px;" v-model="item.caseNum">
+            <el-input
+              style="margin: 25px 10px 0px"
+              placeholder="请输入完整案件编号"
+              v-model="item.caseNum"
+            >
               <el-button
                 slot="append"
                 :disabled="inputList.length == 1 ? true : false"
                 @click="delectCase(index)"
-                icon="el-icon-close"
-              ></el-button>
+                class="delbut"
+              >
+                <i class="delbut el-icon-delete"></i>
+              </el-button>
             </el-input>
           </div>
           <div slot="ft">
@@ -370,7 +426,7 @@
           <div slot="ft">
             <div class="caseButton">
               <el-button id="affirmLabel" type="success">确认标注 </el-button>
-              <el-button @click="trackClear" type="warning">清空</el-button>
+              <!--<el-button @click="trackClear" type="warning">清空</el-button>-->
             </div>
           </div>
         </flyDialog>
@@ -386,7 +442,7 @@
 import taskAnalysisResults from './taskAnalysisResults.vue'
 import { loadModules } from 'esri-loader'
 import Sidebar from '@/views/common/Sidebar'
-import SidemenuItem from '@/views/common/SidemenuItem'
+/* import SidemenuItem from '@/views/common/SidemenuItem' */
 import flyDialog from '@/components/fly-dialog'
 import Cookies from 'js-cookie'
 import { formatDate } from '../../../utils/dateFormat.js'
@@ -398,7 +454,7 @@ export default {
   },
   components: {
     Sidebar,
-    SidemenuItem,
+    /*  SidemenuItem, */
     flyDialog,
     taskAnalysisResults,
   },
@@ -504,10 +560,7 @@ export default {
         taskTarget: '',
         checkedBox: [1, 2],
       },
-      boxs: [
-        { name: '旅馆', label: 1 },
-        { name: '网吧', label: 2 },
-      ],
+      boxs: [{ name: '旅馆', label: 1 }, { name: '网吧', label: 2 }],
 
       caseData: [],
       showInfo: this.$route.params.id,
@@ -585,11 +638,15 @@ export default {
       const options = {
         // css: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/esri/css/esri.css',
         // url: 'http://localhost:8080/arcgis_js_api/library/3.29/3.29/init.js'
+
         // css: 'https://js.arcgis.com/3.29/esri/css/esri.css',
         // url: 'https://js.arcgis.com/3.29/init.js',
 
         css: 'https://js.arcgis.com/3.30/esri/css/esri.css',
         url: 'https://js.arcgis.com/3.30/',
+
+        // css: 'http://192.168.1.89/3.30/esri/css/esri.css',
+        // url: 'http://192.168.1.89/3.30/init.js',
       }
       loadModules(
         [
@@ -1318,6 +1375,11 @@ export default {
     content ''
     background url('~@/assets/img/i2bg.png') no-repeat center
     background-size cover
+ .delbut
+   margin 0
+   padding 0
+   color #ffffff
+   font-size 20px
 
 .header-container .title
   background rgba(44, 239, 255, 0.5)
@@ -1382,11 +1444,14 @@ export default {
 
 .box
   display flex
+  width 100%
+  height 85%
 
 .content
   position relative
-  margin-left 160px
+  /*margin-left 160px*/
   flex 0 1 auto
+  width 100%
 
 .el-form-item__label
   color white
@@ -1398,8 +1463,8 @@ a:focus, a:hover
   color #e58627
 
 #map
-  width 1225px
-  height 850px
+  width 80%
+  height: 100%
 
 .caseMap .el-input-group
   width 90%
@@ -1485,6 +1550,17 @@ a:focus, a:hover
 
   .el-table tbody tr:hover > td
     background-color rgba(44, 239, 255, 0.4)
+  .el-table,
+  .el-table__expanded-cell
+    background-color rgba(44, 239, 255, 0)!important
+    color #ffffff
+
+  .el-input-group--prepend .el-input__inner, .el-input-group__append
+    background-color rgba(44, 239, 255, 0.3)!important
+    border: solid 1px #2cefff;
+    color white
+  .esriAnalysis .btn:disabled, .esriAnalysis .btn-disabled, button
+    opacity 1
 
 .mapTable .el-table
   background-color #0d353f !important
@@ -1496,7 +1572,6 @@ a:focus, a:hover
   .el-table__body tr.hover-row.current-row>td,
   .el-table__body tr.hover-row.el-table__row--striped.current-row>td
     background: rgba(44,239,255,0.5)
-
 
 >>> .el-input__inner
   background-color rgba(44, 239, 255, 0.3)!important

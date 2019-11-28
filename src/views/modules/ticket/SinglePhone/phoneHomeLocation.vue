@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div @click="show = false" class="container">
     <el-form :inline="true" :model="callForm" class="demo-form-inline">
       <el-form-item label="呼叫时间">
         <el-date-picker
@@ -46,26 +46,28 @@
     </div>
     <div class="clickCoat" v-show="show">
       <div class="clickTable">
-        <el-table
-          :data="clickTable"
-          style="width: 100%"
-          :default-sort="{ prop: 'value', order: 'descending' }"
-        >
-          <el-table-column prop="name" label="城市" align="center">
-          </el-table-column>
-          <el-table-column prop="value" label="通话次数" align="center">
-          </el-table-column>
-          <el-table-column label="操作" align="center">
-            <template slot-scope="scope">
-              <el-button
-                @click="handleClick(scope.row)"
-                type="text"
-                size="small"
-                >详情</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
+        <div class="overTable">
+          <el-table
+            :data="clickTable"
+            style="width: 100%;"
+            :default-sort="{ prop: 'value', order: 'descending' }"
+          >
+            <el-table-column prop="name" label="城市" align="center">
+            </el-table-column>
+            <el-table-column prop="value" label="通话次数" align="center">
+            </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template slot-scope="scope">
+                <el-button
+                  @click="handleClick(scope.row)"
+                  type="text"
+                  size="small"
+                  >详情</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
     </div>
 
@@ -89,7 +91,12 @@
         </el-table-column>
       </el-table>
     </flyDialog>-->
-    <div id="myMap" ref="myMap" style="width: 1100px; height: 600px;"></div>
+    <div
+      id="myMap"
+      @click.stop
+      ref="myMap"
+      style="width: 1100px; height: 600px;"
+    ></div>
     <div id="order">
       <flyDialog :show.sync="show1" :width="width1" :flag="true">
         <el-table :data="detailTable" border style="width: 100%">
@@ -313,8 +320,11 @@ export default {
       console.log('分析查询')
       conData.time != null && this.timeSizer()
       this.mapTabaData = this.dataSort(this.mapDataInfo2)
+      console.log(this.mapTabaData)
       this.mapDataInfo2 = this.dataSort2(this.mapDataInfo2)
+      console.log(this.mapDataInfo2)
       this.mapData = this.mapData2(this.mapDataInfo2)
+      console.log(this.mapData)
       this.mapData.sort((a, b) => b.value - a.value)
       if (!(this.mapData[0].value === 0)) {
         this.option.visualMap.max = Math.ceil(this.mapData[0].value / 5) * 5
@@ -345,6 +355,7 @@ export default {
       let value1 = []
       data.forEach(ai => {
         let location = ai.location
+        if (location == null) return
         if (!data1[location]) {
           value1.push({
             name: location,
@@ -371,6 +382,7 @@ export default {
       let data1 = {}
       let value1 = []
       data.forEach(ai => {
+        if (ai.location == null) return
         let location = this.isProvinces(ai.location)
         if (!data1[location]) {
           value1.push({
@@ -399,7 +411,14 @@ export default {
       let gt = GT
       let gc = GC
       let location = ''
+      if (data == null) {
+        console.log(data)
+      }
       for (let i = 0; i <= gt.length - 1; i++) {
+        if (gp[i].indexOf(data) > -1 || data.indexOf(gp[i]) > -1) {
+          location = gp[i]
+          break
+        }
         if (gt[i].indexOf(data) > -1) {
           location = gp[i]
           break
@@ -411,6 +430,7 @@ export default {
           }
         }
       }
+      location == '' && (location = data)
       return location
     },
 
@@ -549,7 +569,7 @@ export default {
     margin 0 auto
   .clickCoat
     position: absolute;
-    left: 101%;
+    left: 75%;
     top: 55%;
     width: 300px;
     padding 10px
@@ -557,6 +577,9 @@ export default {
   .clickTable
     border solid 1px #ffffff
     padding 10px
+  .overTable
+    max-height: 225px;
+    overflow-y: scroll;
   >>> .el-table td
     border none
 .tableMap
@@ -573,29 +596,29 @@ export default {
     width: 0px!important;
     height: 0px!important;
   }
-
 .container::-webkit-scrollbar-button {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
+  background-color: red;
   }
 
 .container::-webkit-scrollbar-track-piece {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);
+  background-color: pink;
+  border-radius: 50%;
   }
 
 .container::-webkit-scrollbar-corner {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container::-webkit-scrollbar-resizer {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container ::-webkit-scrollbar {
@@ -606,31 +629,31 @@ export default {
   /*o内核*/
 .container .-o-scrollbar {
     -moz-appearance: none !important;
-    background: rgba(0, 255, 0, 0) !important;
+    background: rgba(0, 255, 0, 1) !important;
   }
 
 .container::-o-scrollbar-button {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container::-o-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: red;
   }
 
 .container::-o-scrollbar-track-piece {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container::-o-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);
+  background-color: pink;
   }
 
 .container::-o-scrollbar-corner {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
 .container::-o-scrollbar-resizer {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
 
   /*IE10,IE11,IE12*/
@@ -646,4 +669,17 @@ export default {
     -ms-overflow-style: none;
     overflow: initial;
   }
+
+
+.overTable::-webkit-scrollbar {
+  width: 5px!important;
+}
+.overTable::-webkit-scrollbar-track {
+  width: 5px!important;
+  height 5px!important
+  background-color: #3591ff;
+}
+.overTable::-webkit-scrollbar-thumb {
+  background: #43ff30 !important;
+}
 </style>

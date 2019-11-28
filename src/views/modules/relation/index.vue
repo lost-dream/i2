@@ -91,7 +91,7 @@ export default {
   align-items center
   img
     width auto
-    height 50px
+    height 37px
     margin-right: 15px
   span
     position: static;

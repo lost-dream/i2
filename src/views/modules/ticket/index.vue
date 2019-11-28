@@ -1,9 +1,13 @@
 <template>
-  <div class="mod-ticket ticket-bg">
+  <div class="phoneIndex mod-ticket ticket-bg">
     <nav class="navbar-fixed-top">
       <div class="header-container">
         <div class="title">
-          <img src="@/assets/img/ticket.png" alt="" />
+          <img
+            style="width: 37px;height: 37px;margin-right:5px;"
+            src="../../../assets/img/huadan.png"
+            alt="logo"
+          />
           <h1>话单分析</h1>
         </div>
         <el-tabs v-model="activeName" type="border-card">
@@ -119,16 +123,6 @@ export default {
     background-size cover
 .header-container .title
   background rgba(44, 239, 255, 0.5)
-  height 50px
-  display: flex
-  justify-content:center
-  align-items center
-  img
-    width auto
-    height 40px
-    margin-right: 10px
-  h1
-    font-size 24px
 .el-tabs--border-card
   display flex
   justify-content center
@@ -149,10 +143,12 @@ export default {
 .title
   display flex
   justify-content center
+  align-items center
+  height: 49px;
   &>h1
     margin 0
     color white
-    font-size 33px
+    font-size 24px
 .menubar>.sidebar
   left 0
 .fun-sidebar >.sidebar
@@ -201,4 +197,35 @@ span:focus, span:hover
   background none
  .el-date-editor .el-range-input
   background-color rgba(44, 239, 255, 0)
+</style>
+<style lang="stylus">
+ .phoneIndex .el-table
+  background-color rgba(44, 239, 255, 0.3) !important
+  color white
+
+.phoneIndex .el-table .current-row
+  background-color rgba(44, 239, 255, 0.3) !important
+.phoneIndex .el-table--border
+  border 1px solid rgba(0, 0, 0, 0.3)
+
+.phoneIndex .el-table th, .el-table tr, .el-table--border td
+  background-color transparent !important
+  border 1px solid rgba(0, 0, 0, 0.3) !important
+
+.phoneIndex .el-table--border::after, .el-table--group::after
+  width 0px
+
+.phoneIndex .el-table::before
+   height 0px
+
+.phoneIndex .el-table thead
+   color white
+
+.phoneIndex .el-table tbody tr:hover > td
+   background-color rgba(44, 239, 255, 0.4)
+
+.phoneIndex .el-input__inner
+  background-color rgba(44, 239, 255, 0.3) !important
+  border 1px solid rgba(44, 239, 255, 0.4) !important
+  color #fff
 </style>
