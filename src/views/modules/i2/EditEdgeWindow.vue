@@ -56,10 +56,57 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.edge.label = this.dataForm.relation
+          if (this.edge.label !== '') {
+            // 删除原本的连线，重新构建关系
+            if (this.edge.label.includes(this.dataForm.relation)) {
+              let arr = this.edge.label.split('/')
+              let resArr = []
+              arr.forEach(value => {
+                if (value.includes(this.dataForm.relation)) {
+                  if (value.includes('(')) {
+                    const num = parseInt(value.split('(')[1])
+                    resArr.push({
+                      label: value.split('(')[0],
+                      count: num + 1,
+                    })
+                  } else {
+                    resArr.push({
+                      label: value.includes('(') ? value.split('(')[0] : value,
+                      count: value.includes('(')
+                        ? parseInt(value.split('(')[1])
+                        : 2,
+                    })
+                  }
+                } else {
+                  resArr.push({
+                    label: value.includes('(') ? value.split('(')[0] : value,
+                    count: value.includes('(')
+                      ? parseInt(value.split('(')[1])
+                      : 1,
+                  })
+                }
+              })
+
+              let label = ''
+              resArr.forEach(value => {
+                label += `${value.label}${
+                  value.count > 1 ? `(${value.count})/` : '/'
+                }`
+              })
+              label = label.slice(0, -1)
+              this.global.edges.remove([this.edge.id])
+              this.edge.label = label
+            } else {
+              const label = this.edge.label + '/' + this.dataForm.relation
+              this.global.edges.remove([this.edge.id])
+              this.edge.label = label
+            }
+          } else {
+            this.edge.label = this.dataForm.relation
+          }
           this.global.edges.add(this.edge)
           this.global.network.redraw()
-          // this.callback(this.edge)
+          this.callback(this.edge)
           this.visible = false
         }
       })

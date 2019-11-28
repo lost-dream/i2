@@ -72,11 +72,11 @@ export default {
     img
       width auto
       height 40px
-      margin-right: 5px
+      margin-right: 10px
     h1
       margin 0
       font-size: 24px;
-      font-weight: bold;
+      font-weight normal
       color: #ffffff;
   .dir
     width: 100%;

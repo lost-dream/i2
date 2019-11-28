@@ -95,7 +95,6 @@ export default {
     margin-right: 15px
   span
     position: static;
-    font-weight bold
     color: #fff;
     font-size: 24px;
 

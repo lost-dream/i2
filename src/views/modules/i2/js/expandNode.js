@@ -25,6 +25,8 @@ export function expandNode(_vm, curNode) {
         let edges = data.result.edges
         edges.map(value => {
           value.step = Number(value.from.toString() + value.to.toString())
+          value.str = value.label
+          value.label = ''
         })
 
         let edgeList = []
@@ -34,12 +36,34 @@ export function expandNode(_vm, curNode) {
           for (let item2 of edgeList) {
             if (item1.step === item2.step) {
               flag = false
-              item2.label = item2.label + '/' + item1.label
+              item2.str = item2.str + '/' + item1.str
             }
           }
           if (flag) {
             edgeList.push(item1)
           }
+        }
+
+        const getCount = (arr, value) =>
+          arr.reduce((a, v) => (v === value ? a + 1 : a + 0), 0)
+
+        for (let item of edgeList) {
+          const arr = item.str && item.str.split('/')
+          const arr2 = [...new Set(arr)]
+          const resArr = []
+
+          arr2.forEach(value => {
+            resArr.push({
+              value: value,
+              count: getCount(arr, value),
+            })
+          })
+          resArr.forEach(value => {
+            item.label += `${value.value}${
+              value.count > 1 ? `(${value.count})/` : '/'
+            }`
+          })
+          item.label = item.label.slice(0, -1)
         }
 
         for (let i = 0; i < nodesList.length; i++) {

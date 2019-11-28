@@ -26,7 +26,7 @@ export default {
     // 此对象定义标签的详细信息
     font: {
       color: '#fff',
-      size: 20, // px
+      size: 18, // px
       face: 'Microsoft Yahei',
       background: 'none',
       strokeWidth: 0,

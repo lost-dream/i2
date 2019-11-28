@@ -102,6 +102,8 @@ export default {
               let edges = data.result.edges
               edges.map(value => {
                 value.step = Number(value.from.toString() + value.to.toString())
+                value.str = value.label
+                value.label = ''
               })
 
               let edgesList = []
@@ -111,13 +113,36 @@ export default {
                 for (let item2 of edgesList) {
                   if (item1.step === item2.step) {
                     flag = false
-                    item2.label = item2.label + '/' + item1.label
+                    item2.str = item2.str + '/' + item1.str
                   }
                 }
                 if (flag) {
                   edgesList.push(item1)
                 }
               }
+
+              const getCount = (arr, value) =>
+                arr.reduce((a, v) => (v === value ? a + 1 : a + 0), 0)
+
+              for (let item of edgesList) {
+                const arr = item.str && item.str.split('/')
+                const arr2 = [...new Set(arr)]
+                const resArr = []
+
+                arr2.forEach(value => {
+                  resArr.push({
+                    value: value,
+                    count: getCount(arr, value),
+                  })
+                })
+                resArr.forEach(value => {
+                  item.label += `${value.value}${
+                    value.count > 1 ? `(${value.count})/` : '/'
+                  }`
+                })
+                item.label = item.label.slice(0, -1)
+              }
+
               for (let j = 0; j < edgesList.length; j++) {
                 if (this.global.edges.getIds().indexOf(edgesList[j].id) < 0) {
                   this.global.edges.add(edgesList[j])

@@ -150,7 +150,10 @@ export default {
             },
           ]
           this.$api
-            .dataCacheSaveOrUpdate(!this.dataForm.id ? 'save' : 'update', obj)
+            .dataCacheSaveOrUpdate(!this.dataForm.id ? 'save' : 'update', {
+              json: obj,
+              userName: JSON.parse(this.$Cookies.get('user_info')).username,
+            })
             .then(({ data }) => {
               if (data && data.code === 200) {
                 this.$message({
