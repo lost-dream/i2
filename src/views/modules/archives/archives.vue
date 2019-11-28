@@ -822,5 +822,23 @@ export default {
     .dialogInfo span:nth-child(1)
        margin-right 3px
        background-color rgba(44, 239, 255, 0.2)
+
+>>> .el-pagination
+  text-align center
+  .el-pager
+    li
+      border-radius 2px
+      border 1px solid #143d4b
+      font-weight 400
+      color #fff
+      background-color rgba(44,239,255,0.3)
+      &:not(.disabled).active
+        border 1px solid rgba(218, 218, 218, 1)
+  .btn-prev, .btn-next
+    border-radius 2px
+    background-color rgba(44, 239, 255, 0.2)
+    font-weight 400
+    color #fff
+    &:disabled
+      background-color rgba(44, 239, 255, 0.1) !important
 </style>
-<style lang="stylus"></style>

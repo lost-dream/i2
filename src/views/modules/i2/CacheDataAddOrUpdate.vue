@@ -147,6 +147,7 @@ export default {
               folderId: this.dataForm.foder,
               description: this.dataForm.description,
               keywords: this.dataForm.keywords,
+              id: this.dataForm.id,
             },
           ]
           this.$api
