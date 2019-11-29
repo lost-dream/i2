@@ -44,7 +44,11 @@
               class="menu-list hotel"
               v-if="hotelList && hotelList.length > 0"
             >
-              <label v-for="(item, index) in hotelShow" :key="index">
+              <label
+                v-for="(item, index) in hotelShow"
+                :key="index"
+                @click.stop="intercept($event)"
+              >
                 <el-submenu :index="index + ''">
                   <template slot="title">
                     <i class="el-icon-location"></i>
@@ -101,7 +105,11 @@
             </el-menu>
             <!-- 车辆记录 -->
             <el-menu class="menu-list car" v-if="carList && carList.length > 0">
-              <label v-for="(item, index) in carShow" :key="index">
+              <label
+                v-for="(item, index) in carShow"
+                :key="index"
+                @click.stop="intercept($event)"
+              >
                 <el-submenu :index="index + ''">
                   <template slot="title">
                     <i class="el-icon-location"></i>
@@ -161,7 +169,11 @@
               class="menu-list travelRecord"
               v-if="travelRecordList && travelRecordList.length > 0"
             >
-              <label v-for="(item, index) in travelRecordShow" :key="index">
+              <label
+                v-for="(item, index) in travelRecordShow"
+                :key="index"
+                @click.stop="intercept($event)"
+              >
                 <el-submenu :index="index + ''">
                   <template slot="title">
                     <i class="el-icon-location"></i>
@@ -223,7 +235,11 @@
               class="menu-list inter"
               v-if="interList && interList.length > 0"
             >
-              <label v-for="(item, index) in interShow" :key="index">
+              <label
+                v-for="(item, index) in interShow"
+                :key="index"
+                @click.stop="intercept($event)"
+              >
                 <el-submenu :index="index + ''">
                   <template slot="title">
                     <i class="el-icon-location"></i>
@@ -283,7 +299,11 @@
               class="menu-list case"
               v-if="caseList && caseList.length > 0"
             >
-              <label v-for="(item, index) in caseShow" :key="index">
+              <label
+                v-for="(item, index) in caseShow"
+                :key="index"
+                @click.stop="intercept($event)"
+              >
                 <el-submenu :index="index + ''">
                   <template slot="title">
                     <i class="el-icon-location"></i>
@@ -355,9 +375,9 @@
               </div>
             </div>
             <div class="butCoat">
-              <el-button class="canBut" @click="showDialog = false"
-                >取 消</el-button
-              >
+              <el-button class="canBut" @click="showDialog = false">
+                <span>取 消</span>
+              </el-button>
             </div>
           </fly-dialog>
         </div>
@@ -571,6 +591,16 @@ export default {
       this.dialogInfo.showList.tableCN = JSON.parse(JSON.stringify(tableCN))
       this.dialogInfo.showList.tableValue = JSON.parse(JSON.stringify(row))
       this.showDialog = true
+    },
+
+    intercept(e) {
+      if (e && e.stopPropagation) {
+        e.stopPropagation()
+        e.preventDefault()
+      } else {
+        window.event.cancelBubble = true
+        window.event.returnValue = false
+      }
     },
   },
   created() {
