@@ -62,18 +62,20 @@ router.afterEach(to => {
   }
 
   // 菜单权限管理
-  let roleStrLisr = JSON.parse(Cookies.get('roleStrLisr'))
-  let roleStrObj = roleStrLisr.find(item => {
-    return item.urlName === to.meta.rolePath
-  })
+  const cookieItem = Cookies.get('roleStrLisr')
+  let roleStrLisr = cookieItem ? JSON.parse(cookieItem) : null
   let roleStr = 'roleStr'
-  if (roleStrObj !== undefined) {
+
+  let roleStrObj = roleStrLisr
+    ? roleStrLisr.find(item => item.urlName === to.meta.rolePath)
+    : undefined
+
+  if (roleStrObj) {
     roleStr = roleStrObj.roleStr
   }
   Cookies.set('roleStr', roleStr)
 
   // 话单数据清理
-
   let isSinglePhone = to.matched.find(item => {
     return item.name === 'singlePhone'
   })
