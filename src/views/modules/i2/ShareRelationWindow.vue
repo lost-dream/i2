@@ -16,7 +16,10 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button @click="searchDataList(dataForm.keywords)" size="small" type="success"
+            <el-button
+              @click="searchDataList(dataForm.keywords)"
+              size="small"
+              type="success"
               >检索</el-button
             >
           </el-form-item>
@@ -163,7 +166,7 @@ export default {
       } else {
         this.init()
       }
-    }
+    },
   },
 }
 </script>
