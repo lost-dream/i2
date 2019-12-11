@@ -68,7 +68,7 @@ http.interceptors.response.use(
         router.push({ name: 'login' })
         break
       // TODO 这里的errCode是多少
-      case 500: // 没有权限
+      case 500:
         const duration = 1000
         Message({
           type: 'error',
@@ -76,9 +76,9 @@ http.interceptors.response.use(
           message: response.data.message || response.data.msg,
           duration,
         })
-        setTimeout(() => {
-          router.push({ name: 'login' })
-        }, duration)
+        // setTimeout(() => {
+        //   router.push({ name: 'login' })
+        // }, duration)
         break
     }
     return response

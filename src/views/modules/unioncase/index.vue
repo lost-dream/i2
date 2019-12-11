@@ -1498,6 +1498,7 @@ a:focus, a:hover
 
 .resourceBtn .activeType
   background: rgba(99, 206, 202, 0.6) !important
+  margin-bottom 10px
 
 .conditionItem p
   margin-left 10px
