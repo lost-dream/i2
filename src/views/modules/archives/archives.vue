@@ -570,7 +570,7 @@ export default {
           ]
           break
       }
-    },
+    }, 
     hotelPageChange(page) {
       this.renderData('hotel', page)
     },

@@ -11,12 +11,12 @@
           <el-form-item>
             <el-input
               v-model="dataForm.keywords"
-              placeholder="关键字"
+              placeholder="请输入关键字"
               clearable
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button @click="searchDataList()" size="small" type="success"
+            <el-button @click="searchDataList(dataForm.keywords)" size="small" type="success"
               >检索</el-button
             >
           </el-form-item>
@@ -71,11 +71,11 @@ export default {
     FlyDialog,
     Share,
   },
-  props: {},
   data() {
     return {
       visible: false,
       shareVisible: false,
+      resultDist: [], // 菜单列表，模糊查询时和这个列表查询
       resultList: [],
       activeInfo: {
         recordTitle: '',
@@ -104,6 +104,7 @@ export default {
         .listAllAnalyticalRecords(obj)
         .then(({ data }) => {
           this.resultList = data && data.code === 200 ? data.result : []
+          this.resultDist = data && data.code === 200 ? data.result : []
           if (this.resultList.length > 0) {
             this.activeInfo = this.resultList[0]
             this.currCacheNodes = this.resultList[0].json
@@ -148,9 +149,22 @@ export default {
     beforeClose() {
       this.visible = false
     },
+    searchDataList(str) {
+      const queryString = str ? str.trim() : undefined
+      if (queryString && queryString !== '') {
+        const searchList = []
+        this.resultDist.map(item => {
+          if (item.recordTitle.includes(queryString)) {
+            searchList.push(item)
+          }
+        })
+        console.log(searchList)
+        this.resultList = searchList
+      } else {
+        this.init()
+      }
+    }
   },
-  created() {},
-  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>

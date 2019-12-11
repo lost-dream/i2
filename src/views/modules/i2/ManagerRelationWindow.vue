@@ -10,12 +10,12 @@
         <el-form-item>
           <el-input
             v-model="dataForm.keywords"
-            placeholder="关键字"
+            placeholder="请输入关键字"
             clearable
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="searchDataList()" size="small" type="success"
+          <el-button @click="searchDataList(dataForm.keywords)" size="small" type="success"
             >检索</el-button
           >
         </el-form-item>
@@ -72,11 +72,11 @@ export default {
   components: {
     FlyDialog,
   },
-  props: {},
   data() {
     return {
       visible: false,
       resultList: [],
+      resultDist: [], // 菜单列表，模糊查询时和这个列表查询
       activeInfo: {
         recordTitle: '',
         description: '',
@@ -90,7 +90,6 @@ export default {
       dataRule: {},
     }
   },
-  computed: {},
   methods: {
     init() {
       let obj = {
@@ -104,6 +103,7 @@ export default {
         .listAllAnalyticalRecords(obj)
         .then(({ data }) => {
           this.resultList = data && data.code === 200 ? data.result : []
+          this.resultDist = data && data.code === 200 ? data.result : []
           if (this.resultList.length > 0) {
             this.activeInfo = this.resultList[0]
             this.currCacheNodes = this.resultList[0].json
@@ -166,7 +166,6 @@ export default {
       this.$api
         .loadAnalyticalRecords({ analyticalRecordsId: this.activeInfo.id })
         .then(({ data }) => {
-          console.log(data)
           let nodesList = JSON.parse(data.result).nodes
           let edgesList = JSON.parse(data.result).edges
           for (let i = 0; i < nodesList.length; i++) {
@@ -193,9 +192,22 @@ export default {
       this.$emit('refreshDataList')
       this.visible = false
     },
+    searchDataList(str) {
+      const queryString = str ? str.trim() : undefined
+      if (queryString && queryString !== '') {
+        const searchList = []
+        this.resultDist.map(item => {
+          if (item.recordTitle.includes(queryString)) {
+            searchList.push(item)
+          }
+        })
+        console.log(searchList)
+        this.resultList = searchList
+      } else {
+        this.init()
+      }
+    }
   },
-  created() {},
-  mounted() {},
 }
 </script>
 <style lang="stylus" scoped>
